@@ -88,12 +88,14 @@ dd {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.35rem 0.75rem;
   background: linear-gradient(90deg, #7b1313 0%, #971919 45%, #3f0f0f 100%);
   color: #f3f7fb;
   border: 0.1875rem solid #ff6262;
   box-shadow: 0 0 1rem rgba(255, 84, 84, 0.35);
   z-index: 9999;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .admin-bar .debug-bar {
@@ -111,6 +113,18 @@ dd {
 
 .debug-bar p + p {
   margin-top: 0.25rem;
+}
+
+.debug-bar p {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+}
+
+.debug-separator {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .debug-field-label {
