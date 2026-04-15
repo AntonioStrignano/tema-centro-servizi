@@ -12,3 +12,60 @@ License: GPL-2.0-or-later
 Text Domain: tema-centro-servizi
 */
 
+/*
+Bootstrap debug minimo.
+I fogli veri sono caricati via enqueue in inc/enqueue.php:
+- assets/css/site.css
+- assets/css/css-debug.css
+- assets/css/area-burocratica.css
+Questo blocco serve a rendere style.css immediatamente parlante e a dare
+un fallback visivo anche se i CSS secondari non vengono caricati.
+*/
+
+:root {
+	--debug-red: rgba(176, 0, 32, 0.75);
+	--debug-red-soft: rgba(176, 0, 32, 0.08);
+	--debug-yellow: #fff6a8;
+	--debug-bg: #f3f3f3;
+}
+
+html {
+	background: var(--debug-bg);
+}
+
+body {
+	margin: 0;
+	line-height: 1.5;
+	background: #fff;
+}
+
+body * {
+	outline: 1px dashed var(--debug-red);
+	outline-offset: -1px;
+	background-image: linear-gradient(var(--debug-red-soft), var(--debug-red-soft));
+}
+
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+	outline: 3px solid #000;
+	outline-offset: 2px;
+}
+
+.debug-bar {
+	background: #b00020;
+	color: #fff;
+}
+
+.debug-bar strong {
+	color: var(--debug-yellow);
+}
+
+.debug-field-label {
+	background: #c1121f;
+	color: #fff;
+}
+
