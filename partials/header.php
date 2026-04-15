@@ -4,6 +4,8 @@ declare(strict_types=1);
 if (! defined('ABSPATH')) {
     exit;
 }
+
+$debug_context = centro_servizi_get_debug_context();
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -14,6 +16,12 @@ if (! defined('ABSPATH')) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <?php get_template_part('partials/skip-links'); ?>
+<aside class="debug-bar debug-bar-top" aria-label="Informazioni debug">
+    <p><strong>Template:</strong> <?php echo esc_html($debug_context['template']); ?></p>
+    <p><strong>Tipo:</strong> <?php echo esc_html($debug_context['view_type']); ?></p>
+    <p><strong>Oggetto:</strong> <?php echo esc_html($debug_context['object']); ?></p>
+    <p><strong>Deploy:</strong> <?php echo esc_html($debug_context['deployed_at']); ?></p>
+</aside>
 <header class="site-header" id="top" role="banner">
     <div class="site-branding">
         <p><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></p>
