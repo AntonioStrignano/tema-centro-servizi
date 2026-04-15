@@ -9,6 +9,7 @@ body.tax-annoscolastico .site-main,
 body.page-template-page-amministrazione-trasparente .site-main,
 body.page-amministrazione-trasparente .site-main {
   max-width: 72rem;
+  background: rgba(8, 12, 18, 0.55);
 }
 
 body.post-type-archive-trasparenza .site-card,
@@ -21,7 +22,8 @@ body.tax-contenutiammtrasp .site-card,
 body.tax-annoscolastico .site-card,
 body.page-template-page-amministrazione-trasparente .site-card,
 body.page-amministrazione-trasparente .site-card {
-  background: #f7f7f7;
+  background: rgba(26, 32, 40, 0.92);
+  color: #f3f7fb;
 }
 
 body.post-type-archive-trasparenza .site-header,
@@ -44,5 +46,5 @@ body.tax-contenutiammtrasp .site-footer,
 body.tax-annoscolastico .site-footer,
 body.page-template-page-amministrazione-trasparente .site-footer,
 body.page-amministrazione-trasparente .site-footer {
-  background: #f0f0f0;
+  background: rgba(15, 20, 27, 0.94);
 }

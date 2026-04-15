@@ -9,6 +9,9 @@ if (! defined('ABSPATH')) {
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php foreach (centro_servizi_get_theme_stylesheets() as $stylesheet) : ?>
+        <link rel="stylesheet" id="<?php echo esc_attr(sanitize_title($stylesheet['label'])); ?>-css" href="<?php echo esc_url($stylesheet['href']); ?>" media="all">
+    <?php endforeach; ?>
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>

@@ -1,15 +1,16 @@
 html {
-  background: #f3f3f3;
+  background: #12161c;
 }
 
 body {
-  background: #fff;
+  background: linear-gradient(180deg, #171d26 0%, #0f1318 100%);
+  color: #f3f7fb;
 }
 
 body * {
-  border: 0.125rem solid rgba(255, 0, 0, 0.55);
+  border: 0.125rem solid rgba(83, 224, 255, 0.45);
   padding: 0.3125rem;
-  background-color: rgba(255, 0, 0, 0.025);
+  background-color: rgba(255, 255, 255, 0.025);
 }
 
 main,
@@ -34,7 +35,7 @@ figcaption,
 dl,
 dt,
 dd {
-  box-shadow: inset 0 0 0 0.0625rem rgba(0, 0, 255, 0.35);
+  box-shadow: inset 0 0 0 0.0625rem rgba(120, 255, 166, 0.35);
 }
 
 [id] {
@@ -47,8 +48,9 @@ dd {
   margin-bottom: 0.25rem;
   padding: 0.125rem 0.375rem;
   font: 700 0.6875rem/1.2 monospace;
-  color: #fff;
-  background: #b00020;
+  color: #081018;
+  background: #53e0ff;
+  border: 0.125rem solid #1e9db9;
 }
 
 [class]::after {
@@ -57,8 +59,9 @@ dd {
   margin-top: 0.25rem;
   padding: 0.125rem 0.375rem;
   font: 700 0.6875rem/1.2 monospace;
-  color: #7a0014;
-  background: #ffd9df;
+  color: #081018;
+  background: #ff7bf1;
+  border: 0.125rem solid #b84fad;
 }
 
 .debug-bar {
@@ -67,9 +70,10 @@ dd {
   left: 0;
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #b00020;
-  color: #fff;
-  border: 0.1875rem solid #5c000f;
+  background: linear-gradient(90deg, #7b1313 0%, #971919 45%, #3f0f0f 100%);
+  color: #f3f7fb;
+  border: 0.1875rem solid #ff6262;
+  box-shadow: 0 0 1rem rgba(255, 84, 84, 0.35);
   z-index: 9999;
 }
 
@@ -79,7 +83,7 @@ dd {
 }
 
 .debug-bar strong {
-  color: #fff6a8;
+  color: #ffe66d;
 }
 
 .debug-bar p + p {
@@ -91,12 +95,12 @@ dd {
   margin-right: 0.375rem;
   padding: 0.125rem 0.375rem;
   font: 700 0.75rem/1.2 monospace;
-  color: #fff;
-  background: #c1121f;
-  border: 0.125rem solid #7f0010;
+  color: #081018;
+  background: #ffe66d;
+  border: 0.125rem solid #b7a11a;
 }
 
 .skip-links a {
   background: #ffffff;
-  color: #000;
+  color: #081018;
 }

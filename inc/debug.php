@@ -139,30 +139,60 @@ function centro_servizi_read_css_file(string $absolute_path): string
 
 function centro_servizi_get_loaded_css_debug(): string
 {
-    $files = [
-        'style.css' => get_stylesheet_directory() . '/style.css',
-        'assets/css/site.css' => get_template_directory() . '/assets/css/site.css',
-        'assets/css/css-debug.css' => get_template_directory() . '/assets/css/css-debug.css',
+    $loaded = [];
+
+    foreach (centro_servizi_get_theme_stylesheets() as $stylesheet) {
+        $loaded[] = sprintf(
+            '%1$s@%2$s',
+            $stylesheet['label'],
+            $stylesheet['version']
+        );
+    }
+
+    return $loaded === [] ? 'nessuno rilevato' : implode(' | ', $loaded);
+}
+
+function centro_servizi_get_theme_stylesheets(): array
+{
+    $stylesheets = [
+        [
+            'label' => 'style.css',
+            'path' => get_stylesheet_directory() . '/style.css',
+            'url' => get_stylesheet_uri(),
+        ],
+        [
+            'label' => 'assets/css/site.css',
+            'path' => get_template_directory() . '/assets/css/site.css',
+            'url' => get_template_directory_uri() . '/assets/css/site.css',
+        ],
+        [
+            'label' => 'assets/css/css-debug.css',
+            'path' => get_template_directory() . '/assets/css/css-debug.css',
+            'url' => get_template_directory_uri() . '/assets/css/css-debug.css',
+        ],
     ];
 
     if (centro_servizi_is_bureaucratic_context()) {
-        $files['assets/css/area-burocratica.css'] = get_template_directory() . '/assets/css/area-burocratica.css';
+        $stylesheets[] = [
+            'label' => 'assets/css/area-burocratica.css',
+            'path' => get_template_directory() . '/assets/css/area-burocratica.css',
+            'url' => get_template_directory_uri() . '/assets/css/area-burocratica.css',
+        ];
     }
 
-    $loaded = [];
+    $resolved = [];
 
-    foreach ($files as $label => $path) {
-        $version = centro_servizi_get_asset_version($path);
-
-        if (centro_servizi_read_css_file($path) === '') {
-            $loaded[] = $label . '@MISSING';
+    foreach ($stylesheets as $stylesheet) {
+        if (centro_servizi_read_css_file($stylesheet['path']) === '') {
             continue;
         }
 
-        $loaded[] = $label . '@' . $version;
+        $stylesheet['version'] = centro_servizi_get_asset_version($stylesheet['path']);
+        $stylesheet['href'] = add_query_arg('ver', $stylesheet['version'], $stylesheet['url']);
+        $resolved[] = $stylesheet;
     }
 
-    return implode(' | ', $loaded);
+    return $resolved;
 }
 
 function centro_servizi_get_debug_view_type(): string

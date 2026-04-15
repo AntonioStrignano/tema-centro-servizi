@@ -23,20 +23,30 @@ un fallback visivo anche se i CSS secondari non vengono caricati.
 */
 
 :root {
-	--debug-red: rgba(176, 0, 32, 0.75);
-	--debug-red-soft: rgba(176, 0, 32, 0.08);
-	--debug-yellow: #fff6a8;
-	--debug-bg: #f3f3f3;
+	--debug-bg: #12161c;
+	--debug-panel: #1a2028;
+	--debug-panel-soft: rgba(255, 255, 255, 0.03);
+	--debug-text: #f3f7fb;
+	--debug-muted: #99a7b5;
+	--debug-red: rgba(255, 84, 84, 0.82);
+	--debug-red-soft: rgba(255, 84, 84, 0.08);
+	--debug-yellow: #ffe66d;
+	--debug-cyan: #53e0ff;
+	--debug-green: #78ffa6;
+	--debug-magenta: #ff7bf1;
 }
 
 html {
 	background: var(--debug-bg);
+	color: var(--debug-text);
 }
 
 body {
 	margin: 0;
 	line-height: 1.5;
-	background: #fff;
+	font-family: "Roboto Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+	background: var(--debug-bg);
+	color: var(--debug-text);
 }
 
 body * {
@@ -45,19 +55,27 @@ body * {
 	background-image: linear-gradient(var(--debug-red-soft), var(--debug-red-soft));
 }
 
+a {
+	color: var(--debug-cyan);
+}
+
+a:visited {
+	color: var(--debug-magenta);
+}
+
 a:focus,
 button:focus,
 input:focus,
 select:focus,
 textarea:focus,
 [tabindex]:focus {
-	outline: 3px solid #000;
+	outline: 3px solid var(--debug-yellow);
 	outline-offset: 2px;
 }
 
 .debug-bar {
-	background: #b00020;
-	color: #fff;
+	background: #6f1010;
+	color: var(--debug-text);
 }
 
 .debug-bar strong {
@@ -65,7 +83,7 @@ textarea:focus,
 }
 
 .debug-field-label {
-	background: #c1121f;
-	color: #fff;
+	background: #8d1616;
+	color: var(--debug-text);
 }
 
