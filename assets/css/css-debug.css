@@ -13,6 +13,18 @@ body * {
   background-color: rgba(255, 255, 255, 0.025);
 }
 
+#wpadminbar,
+#wpadminbar *,
+#wpadminbar *::before,
+#wpadminbar *::after {
+  border: 0;
+  padding: 0;
+  background: initial;
+  background-color: initial;
+  box-shadow: none;
+  content: none;
+}
+
 main,
 section,
 article,
@@ -64,6 +76,13 @@ dd {
   border: 0.125rem solid #b84fad;
 }
 
+#wpadminbar::before,
+#wpadminbar::after,
+#wpadminbar [id]::before,
+#wpadminbar [class]::after {
+  content: none;
+}
+
 .debug-bar {
   position: sticky;
   top: 0;
@@ -75,6 +94,10 @@ dd {
   border: 0.1875rem solid #ff6262;
   box-shadow: 0 0 1rem rgba(255, 84, 84, 0.35);
   z-index: 9999;
+}
+
+.admin-bar .debug-bar {
+  top: 2rem;
 }
 
 .debug-bar * {
@@ -103,4 +126,10 @@ dd {
 .skip-links a {
   background: #ffffff;
   color: #081018;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar .debug-bar {
+    top: 2.875rem;
+  }
 }

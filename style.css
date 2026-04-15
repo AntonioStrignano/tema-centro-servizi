@@ -55,6 +55,24 @@ body * {
 	background-image: linear-gradient(var(--debug-red-soft), var(--debug-red-soft));
 }
 
+#wpadminbar,
+#wpadminbar *,
+#wpadminbar *::before,
+#wpadminbar *::after {
+	outline: none;
+	background-image: none;
+}
+
+.admin-bar .debug-bar {
+	top: 2rem;
+}
+
+@media screen and (max-width: 782px) {
+	.admin-bar .debug-bar {
+		top: 2.875rem;
+	}
+}
+
 a {
 	color: var(--debug-cyan);
 }
