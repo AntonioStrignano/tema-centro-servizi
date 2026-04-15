@@ -20,6 +20,7 @@ $debug_context = centro_servizi_get_debug_context();
     <p><strong>Template:</strong> <?php echo esc_html($debug_context['template']); ?></p>
     <p><strong>Tipo:</strong> <?php echo esc_html($debug_context['view_type']); ?></p>
     <p><strong>Oggetto:</strong> <?php echo esc_html($debug_context['object']); ?></p>
+    <p><strong>CSS:</strong> <?php echo esc_html($debug_context['styles']); ?></p>
     <p><strong>Deploy:</strong> <?php echo esc_html($debug_context['deployed_at']); ?></p>
 </aside>
 <header class="site-header" id="top" role="banner">
