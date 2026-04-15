@@ -14,9 +14,32 @@ function centro_servizi_enqueue_assets(): void
     }
 
     wp_enqueue_style(
-        'centro-servizi-style',
+        'centro-servizi-theme',
         get_stylesheet_uri(),
         [],
         wp_get_theme()->get('Version')
     );
+
+    wp_enqueue_style(
+        'centro-servizi-site',
+        get_template_directory_uri() . '/assets/css/site.css',
+        ['centro-servizi-theme'],
+        wp_get_theme()->get('Version')
+    );
+
+    wp_enqueue_style(
+        'centro-servizi-css-debug',
+        get_template_directory_uri() . '/assets/css/css-debug.css',
+        ['centro-servizi-site'],
+        wp_get_theme()->get('Version')
+    );
+
+    if (centro_servizi_is_bureaucratic_context()) {
+        wp_enqueue_style(
+            'centro-servizi-burocratico',
+            get_template_directory_uri() . '/assets/css/area-burocratica.css',
+            ['centro-servizi-site'],
+            wp_get_theme()->get('Version')
+        );
+    }
 }

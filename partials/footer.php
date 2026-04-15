@@ -6,6 +6,7 @@ if (! defined('ABSPATH')) {
 }
 
 $accessibility_page = get_page_by_path('dichiarazione-accessibilita');
+$debug_context = centro_servizi_get_debug_context();
 ?>
 <footer class="site-footer" id="footer-sito" role="contentinfo">
     <nav aria-label="Menu footer">
@@ -33,6 +34,11 @@ $accessibility_page = get_page_by_path('dichiarazione-accessibilita');
     <p>Powered by Centro Servizi</p>
     <p>&copy; <?php echo esc_html(gmdate('Y')); ?> <?php bloginfo('name'); ?></p>
 </footer>
+<aside class="debug-bar" aria-label="Informazioni debug">
+    <p><strong>Template:</strong> <?php echo esc_html($debug_context['template']); ?></p>
+    <p><strong>Footer:</strong> <?php echo esc_html($debug_context['partial']); ?></p>
+    <p><strong>Deploy:</strong> <?php echo esc_html($debug_context['deployed_at']); ?></p>
+</aside>
 <?php wp_footer(); ?>
 </body>
 </html>

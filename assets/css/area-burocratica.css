@@ -1,0 +1,48 @@
+body.post-type-archive-trasparenza .site-main,
+body.post-type-archive-area-famiglie .site-main,
+body.post-type-archive-area-personale .site-main,
+body.single-trasparenza .site-main,
+body.single-area-famiglie .site-main,
+body.single-area-personale .site-main,
+body.tax-contenutiammtrasp .site-main,
+body.tax-annoscolastico .site-main,
+body.page-template-page-amministrazione-trasparente .site-main,
+body.page-amministrazione-trasparente .site-main {
+  max-width: 72rem;
+}
+
+body.post-type-archive-trasparenza .site-card,
+body.post-type-archive-area-famiglie .site-card,
+body.post-type-archive-area-personale .site-card,
+body.single-trasparenza .site-card,
+body.single-area-famiglie .site-card,
+body.single-area-personale .site-card,
+body.tax-contenutiammtrasp .site-card,
+body.tax-annoscolastico .site-card,
+body.page-template-page-amministrazione-trasparente .site-card,
+body.page-amministrazione-trasparente .site-card {
+  background: #f7f7f7;
+}
+
+body.post-type-archive-trasparenza .site-header,
+body.post-type-archive-area-famiglie .site-header,
+body.post-type-archive-area-personale .site-header,
+body.single-trasparenza .site-header,
+body.single-area-famiglie .site-header,
+body.single-area-personale .site-header,
+body.tax-contenutiammtrasp .site-header,
+body.tax-annoscolastico .site-header,
+body.page-template-page-amministrazione-trasparente .site-header,
+body.page-amministrazione-trasparente .site-header,
+body.post-type-archive-trasparenza .site-footer,
+body.post-type-archive-area-famiglie .site-footer,
+body.post-type-archive-area-personale .site-footer,
+body.single-trasparenza .site-footer,
+body.single-area-famiglie .site-footer,
+body.single-area-personale .site-footer,
+body.tax-contenutiammtrasp .site-footer,
+body.tax-annoscolastico .site-footer,
+body.page-template-page-amministrazione-trasparente .site-footer,
+body.page-amministrazione-trasparente .site-footer {
+  background: #f0f0f0;
+}

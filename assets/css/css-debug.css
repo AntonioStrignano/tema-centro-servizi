@@ -1,0 +1,19 @@
+body * {
+  border: 1px dashed currentColor;
+  padding: 0.3125rem;
+}
+
+.debug-bar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #fff7cc;
+  border-top: 0.1875rem solid #000;
+  z-index: 999;
+}
+
+.debug-bar p + p {
+  margin-top: 0.25rem;
+}
