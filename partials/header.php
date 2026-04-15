@@ -9,6 +9,12 @@ if (! defined('ABSPATH')) {
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php $inline_css_bundle = centro_servizi_get_theme_inline_css_bundle(); ?>
+    <?php if ($inline_css_bundle !== '') : ?>
+        <style id="centro-servizi-inline-css">
+<?php echo $inline_css_bundle; ?>
+        </style>
+    <?php endif; ?>
     <?php foreach (centro_servizi_get_theme_stylesheets() as $stylesheet) : ?>
         <link rel="stylesheet" id="<?php echo esc_attr(sanitize_title($stylesheet['label'])); ?>-css" href="<?php echo esc_url($stylesheet['href']); ?>" media="all">
     <?php endforeach; ?>
@@ -22,6 +28,7 @@ if (! defined('ABSPATH')) {
     <p><strong>Template:</strong> <?php echo esc_html($debug_context['template']); ?></p>
     <p><strong>Tipo:</strong> <?php echo esc_html($debug_context['view_type']); ?></p>
     <p><strong>Oggetto:</strong> <?php echo esc_html($debug_context['object']); ?></p>
+    <p><strong>Modo CSS:</strong> <?php echo esc_html($debug_context['css_mode']); ?></p>
     <p><strong>CSS:</strong> <?php echo esc_html($debug_context['styles']); ?></p>
     <p><strong>Deploy:</strong> <?php echo esc_html($debug_context['deployed_at']); ?></p>
 </aside>

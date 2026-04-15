@@ -25,6 +25,7 @@ function centro_servizi_get_debug_context(): array
         'template' => $template !== '' ? $template : 'template non rilevato',
         'view_type' => centro_servizi_get_debug_view_type(),
         'object' => centro_servizi_get_debug_object_label(),
+        'css_mode' => centro_servizi_get_css_loading_mode(),
         'styles' => centro_servizi_get_loaded_css_debug(),
         'deployed_at' => $deployed_at,
     ];
@@ -193,6 +194,35 @@ function centro_servizi_get_theme_stylesheets(): array
     }
 
     return $resolved;
+}
+
+function centro_servizi_get_theme_inline_css_bundle(): string
+{
+    $chunks = [];
+
+    foreach (centro_servizi_get_theme_stylesheets() as $stylesheet) {
+        $contents = centro_servizi_read_css_file($stylesheet['path']);
+
+        if ($contents === '') {
+            continue;
+        }
+
+        $chunks[] = sprintf(
+            '/* %1$s @ %2$s */' . "\n" . '%3$s',
+            $stylesheet['label'],
+            $stylesheet['version'],
+            $contents
+        );
+    }
+
+    return implode("\n\n", $chunks);
+}
+
+function centro_servizi_get_css_loading_mode(): string
+{
+    return centro_servizi_get_theme_inline_css_bundle() !== ''
+        ? 'inline+link'
+        : 'link-only';
 }
 
 function centro_servizi_get_debug_view_type(): string
