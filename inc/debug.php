@@ -89,7 +89,7 @@ function centro_servizi_get_theme_last_modified_timestamp(): int
 
 function centro_servizi_get_enqueued_styles_debug(): string
 {
-    global $wp_styles;
+    $wp_styles = wp_styles();
 
     if (! $wp_styles instanceof WP_Styles) {
         return 'nessuno rilevato';
@@ -97,7 +97,9 @@ function centro_servizi_get_enqueued_styles_debug(): string
 
     $handles = [];
 
-    foreach ($wp_styles->queue as $handle) {
+    $all_handles = array_unique(array_merge($wp_styles->queue, $wp_styles->done));
+
+    foreach ($all_handles as $handle) {
         if (! is_string($handle) || ! str_starts_with($handle, 'centro-servizi-')) {
             continue;
         }
