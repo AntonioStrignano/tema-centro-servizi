@@ -1,0 +1,16 @@
+# WordPress theme build
+*.log
+node_modules/
+
+# macOS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentazione interna (non va nel repo)
+docs/
