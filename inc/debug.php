@@ -25,7 +25,7 @@ function centro_servizi_get_debug_context(): array
         'template' => $template !== '' ? $template : 'template non rilevato',
         'view_type' => centro_servizi_get_debug_view_type(),
         'object' => centro_servizi_get_debug_object_label(),
-        'styles' => centro_servizi_get_enqueued_styles_debug(),
+        'styles' => centro_servizi_get_loaded_css_debug(),
         'deployed_at' => $deployed_at,
     ];
 }
@@ -120,6 +120,49 @@ function centro_servizi_get_enqueued_styles_debug(): string
     }
 
     return implode(' | ', $handles);
+}
+
+function centro_servizi_read_css_file(string $absolute_path): string
+{
+    if (! file_exists($absolute_path) || ! is_readable($absolute_path)) {
+        return '';
+    }
+
+    $contents = file_get_contents($absolute_path);
+
+    if (! is_string($contents)) {
+        return '';
+    }
+
+    return trim($contents);
+}
+
+function centro_servizi_get_loaded_css_debug(): string
+{
+    $files = [
+        'style.css' => get_stylesheet_directory() . '/style.css',
+        'assets/css/site.css' => get_template_directory() . '/assets/css/site.css',
+        'assets/css/css-debug.css' => get_template_directory() . '/assets/css/css-debug.css',
+    ];
+
+    if (centro_servizi_is_bureaucratic_context()) {
+        $files['assets/css/area-burocratica.css'] = get_template_directory() . '/assets/css/area-burocratica.css';
+    }
+
+    $loaded = [];
+
+    foreach ($files as $label => $path) {
+        $version = centro_servizi_get_asset_version($path);
+
+        if (centro_servizi_read_css_file($path) === '') {
+            $loaded[] = $label . '@MISSING';
+            continue;
+        }
+
+        $loaded[] = $label . '@' . $version;
+    }
+
+    return implode(' | ', $loaded);
 }
 
 function centro_servizi_get_debug_view_type(): string

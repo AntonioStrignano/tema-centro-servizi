@@ -25,26 +25,29 @@ function centro_servizi_enqueue_assets(): void
         $theme_version
     );
 
-    wp_enqueue_style(
-        'centro-servizi-site',
-        get_template_directory_uri() . '/assets/css/site.css',
-        ['centro-servizi-theme'],
-        $site_version
-    );
+    $css_bundle = [];
 
-    wp_enqueue_style(
-        'centro-servizi-css-debug',
-        get_template_directory_uri() . '/assets/css/css-debug.css',
-        ['centro-servizi-site'],
-        $debug_version
-    );
+    $site_css = centro_servizi_read_css_file(get_template_directory() . '/assets/css/site.css');
+
+    if ($site_css !== '') {
+        $css_bundle[] = $site_css;
+    }
+
+    $debug_css = centro_servizi_read_css_file(get_template_directory() . '/assets/css/css-debug.css');
+
+    if ($debug_css !== '') {
+        $css_bundle[] = $debug_css;
+    }
 
     if (centro_servizi_is_bureaucratic_context()) {
-        wp_enqueue_style(
-            'centro-servizi-burocratico',
-            get_template_directory_uri() . '/assets/css/area-burocratica.css',
-            ['centro-servizi-site'],
-            $bureaucratic_version
-        );
+        $bureaucratic_css = centro_servizi_read_css_file(get_template_directory() . '/assets/css/area-burocratica.css');
+
+        if ($bureaucratic_css !== '') {
+            $css_bundle[] = $bureaucratic_css;
+        }
+    }
+
+    if ($css_bundle !== []) {
+        wp_add_inline_style('centro-servizi-theme', implode("\n\n", $css_bundle));
     }
 }
