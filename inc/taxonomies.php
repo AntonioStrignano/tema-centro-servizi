@@ -1,0 +1,180 @@
+<?php
+declare(strict_types=1);
+
+if (! defined('ABSPATH')) {
+    exit;
+}
+
+add_action('init', 'centro_servizi_register_taxonomies');
+add_action('init', 'centro_servizi_seed_taxonomy_terms', 20);
+
+function centro_servizi_register_taxonomies(): void
+{
+    register_taxonomy('anno-scol-attivita', ['attivita'], [
+        'labels'            => [
+            'name'          => 'Anno scolastico attivita',
+            'singular_name' => 'Anno scolastico attivita',
+        ],
+        'public'            => true,
+        'hierarchical'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => ['slug' => 'anno-scol-attivita'],
+    ]);
+
+    register_taxonomy('sezioni', ['attivita'], [
+        'labels'            => [
+            'name'          => 'Sezioni',
+            'singular_name' => 'Sezione',
+        ],
+        'public'            => true,
+        'hierarchical'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => ['slug' => 'sezioni'],
+    ]);
+
+    register_taxonomy('contenutiammtrasp', ['trasparenza'], [
+        'labels'            => [
+            'name'          => 'Contenuti Amm. Trasparente',
+            'singular_name' => 'Contenuto Amm. Trasparente',
+        ],
+        'public'            => true,
+        'hierarchical'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => ['slug' => 'contenuti-amm-trasparente'],
+    ]);
+
+    register_taxonomy('annoscolastico', ['trasparenza'], [
+        'labels'            => [
+            'name'          => 'Anno scolastico',
+            'singular_name' => 'Anno scolastico',
+        ],
+        'public'            => true,
+        'hierarchical'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => ['slug' => 'anno-scolastico'],
+    ]);
+}
+
+function centro_servizi_seed_taxonomy_terms(): void
+{
+    if (! taxonomy_exists('contenutiammtrasp')) {
+        return;
+    }
+
+    $structure = [
+        '01 Documentazione Trasparente' => [
+            'slug' => '01-documentaz-trasp',
+            'children' => [
+                'Circolari MIM' => 'circolari-mim',
+                'Normativa' => 'normativa',
+            ],
+        ],
+        '02 Organizzazione' => [
+            'slug' => '02-organizzazione',
+            'children' => [
+                'Organi Collegiali' => 'organi-collegiali',
+                'Organigramma' => 'organigramma',
+                'Organizzazione' => 'organizzazione',
+            ],
+        ],
+        '03 Autorizzazioni' => [
+            'slug' => '03-autorizzazioni',
+            'children' => [
+                'Autorizzazioni' => 'autorizzazioni',
+                'Patto Corresponsabilita' => 'patto-corresp',
+            ],
+        ],
+        '04 Personale' => [
+            'slug' => '04-personale',
+            'children' => [
+                'CCNL' => 'ccnl',
+                'Costi Personale' => 'costi-pers',
+                'Organico' => 'organico',
+                'Regolamento Interno Lavoratori' => 'r-i-l',
+                'Tassi Assenza' => 'tassi-ass',
+            ],
+        ],
+        '05 Consulenti e Collaboratori' => [
+            'slug' => '05-consulenti-e-collaboratori',
+            'children' => [
+                'Consulenti e Collaboratori Esterni' => 'consul-e-collab',
+            ],
+        ],
+        '06 Bilanci' => [
+            'slug' => '06-bilanci',
+            'children' => [
+                'Bilancio Consuntivo' => 'consuntivo',
+                'Bilancio Preventivo' => 'preventivo',
+                'Bilancio Sociale' => 'sociale',
+            ],
+        ],
+        '07 Immobili' => [
+            'slug' => '07-immobili',
+            'children' => [
+                'Immobili' => 'immobili',
+            ],
+        ],
+        '08 Aiuti Economici' => [
+            'slug' => '08-aiuti-economici',
+            'children' => [
+                'Contributi Pubblici' => 'contributi-pubblici',
+                'Incentivi per Occupazione' => 'incentivi-per-occupaz',
+            ],
+        ],
+        '09 Orari e Calendario' => [
+            'slug' => '09-orari-e-calendario',
+            'children' => [
+                'Calendario Scolastico' => 'calendario',
+                'Giornata Tipo' => 'giornata-tipo',
+                'Orari Funzionamento' => 'orari-funz',
+            ],
+        ],
+        '10 Iscrizioni' => [
+            'slug' => '10-iscrizioni',
+            'children' => [
+                'Moduli Iscrizione' => 'iscrizioni',
+            ],
+        ],
+        '11 Servizi Erogati' => [
+            'slug' => '11-servizi-erogati',
+            'children' => [
+                'Carta Servizi' => 'carta-servizi',
+                'PTOF' => 'ptof',
+                'Regolamento Interno Scuola' => 'regolamento-interno-scuola',
+            ],
+        ],
+        '12 Controlli e Rilievi' => [
+            'slug' => '12-controlli-e-rilievi',
+            'children' => [
+                'Verifiche Periodiche' => 'verifiche-periodiche',
+            ],
+        ],
+    ];
+
+    foreach ($structure as $parent_name => $config) {
+        $parent_term = term_exists($config['slug'], 'contenutiammtrasp');
+
+        if (! $parent_term) {
+            $parent_term = wp_insert_term($parent_name, 'contenutiammtrasp', [
+                'slug' => $config['slug'],
+            ]);
+        }
+
+        if (is_wp_error($parent_term)) {
+            continue;
+        }
+
+        $parent_id = is_array($parent_term) ? (int) $parent_term['term_id'] : (int) $parent_term;
+
+        foreach ($config['children'] as $child_name => $child_slug) {
+            if (term_exists($child_slug, 'contenutiammtrasp')) {
+                continue;
+            }
+
+            wp_insert_term($child_name, 'contenutiammtrasp', [
+                'slug'   => $child_slug,
+                'parent' => $parent_id,
+            ]);
+        }
+    }
+}

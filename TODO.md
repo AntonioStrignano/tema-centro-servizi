@@ -26,26 +26,26 @@
 
 > Fondamenta del tema. Niente frontend ancora, solo registrazioni e scheletro.
 
-- [ ] `style.css` — header WP obbligatorio + CSS debug
-- [ ] `functions.php` — bootstrap, carica moduli da `/inc`
-- [ ] `index.php` — fallback obbligatorio
+- [x] `style.css` — header WP obbligatorio + CSS debug
+- [x] `functions.php` — bootstrap, carica moduli da `/inc`
+- [x] `index.php` — fallback obbligatorio
 - [ ] `screenshot.png`
-- [ ] `inc/setup.php` — theme supports, menu locations, image sizes, commenti disabilitati
-- [ ] `inc/enqueue.php` — registrazione style.css, deregistrazione jQuery
-- [ ] `inc/cpt-attivita.php`
-- [ ] `inc/cpt-trasparenza.php`
-- [ ] `inc/cpt-area-famiglie.php`
-- [ ] `inc/cpt-area-personale.php`
-- [ ] `inc/taxonomies.php` — `anno-scol-attivita`, `sezioni`, `contenutiammtrasp`, `annoscolastico`
-- [ ] `inc/acf-fields.php` — tutti i gruppi campi ACF via PHP
-- [ ] `partials/skip-links.php`
-- [ ] `partials/header.php` — logo/nome + nav + ricerca
-- [ ] `partials/footer.php` — dati legali hardcoded + link obbligatori
-- [ ] `partials/breadcrumb.php`
-- [ ] `templates/index.php`
-- [ ] `templates/page.php`
-- [ ] `templates/404.php`
-- [ ] Filtro `template_include` in functions.php (per sottocartella `templates/`)
+- [x] `inc/setup.php` — theme supports, menu locations, image sizes, commenti disabilitati
+- [x] `inc/enqueue.php` — registrazione style.css, deregistrazione jQuery
+- [x] `inc/cpt-attivita.php`
+- [x] `inc/cpt-trasparenza.php`
+- [x] `inc/cpt-area-famiglie.php`
+- [x] `inc/cpt-area-personale.php`
+- [x] `inc/taxonomies.php` — `anno-scol-attivita`, `sezioni`, `contenutiammtrasp`, `annoscolastico`
+- [x] `inc/acf-fields.php` — tutti i gruppi campi ACF via PHP
+- [x] `partials/skip-links.php`
+- [x] `partials/header.php` — logo/nome + nav + ricerca
+- [x] `partials/footer.php` — dati legali hardcoded + link obbligatori
+- [x] `partials/breadcrumb.php`
+- [x] `templates/index.php`
+- [x] `templates/page.php`
+- [x] `templates/404.php`
+- [x] Filtro `template_include` in functions.php (per sottocartella `templates/`)
 
 ---
 
