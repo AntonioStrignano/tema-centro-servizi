@@ -151,18 +151,28 @@ function centro_servizi_render_custom_fields_preview(?int $post_id = null): stri
     if ($post_type === 'trasparenza') {
         $titolo = centro_servizi_get_post_meta_string($post_id, 'titolo');
         $tag_anno = centro_servizi_get_post_meta_string($post_id, 'tag_anno');
+        $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
+        $allegato = centro_servizi_get_meta_file_link_data($post_id, 'allegato');
         $documento = centro_servizi_get_meta_file_link_data($post_id, 'documento');
 
         if ($titolo !== '') {
-            $rows[] = '<p><strong>Titolo custom:</strong> ' . esc_html($titolo) . '</p>';
+            $rows[] = '<p><strong>Titolo interno:</strong> ' . esc_html($titolo) . '</p>';
         }
 
         if ($tag_anno !== '') {
             $rows[] = '<p><strong>Tag anno:</strong> ' . esc_html($tag_anno) . '</p>';
         }
 
+        if ($testo !== '') {
+            $rows[] = '<p><strong>Sottotitolo:</strong> ' . esc_html($testo) . '</p>';
+        }
+
+        if ($allegato !== []) {
+            $rows[] = '<p><a href="' . esc_url((string) $allegato['url']) . '" target="_blank" rel="noopener">Scarica allegato: ' . esc_html((string) $allegato['label']) . '</a></p>';
+        }
+
         if ($documento !== []) {
-            $rows[] = '<p><a href="' . esc_url((string) $documento['url']) . '" target="_blank" rel="noopener">Scarica: ' . esc_html((string) $documento['label']) . '</a></p>';
+            $rows[] = '<p><a href="' . esc_url((string) $documento['url']) . '" target="_blank" rel="noopener">Documento iframe: ' . esc_html((string) $documento['label']) . '</a></p>';
         }
     }
 

@@ -74,6 +74,9 @@ function centro_servizi_render_trasparenza_meta_box(WP_Post $post): void
 
     $titolo = (string) get_post_meta($post->ID, 'titolo', true);
     $tag_anno = (string) get_post_meta($post->ID, 'tag_anno', true);
+    $testo = (string) get_post_meta($post->ID, 'testo', true);
+    $allegato = get_post_meta($post->ID, 'allegato', true);
+    $allegato_text = is_scalar($allegato) ? (string) $allegato : '';
     $documento = get_post_meta($post->ID, 'documento', true);
     $documento_text = is_scalar($documento) ? (string) $documento : '';
 
@@ -82,6 +85,16 @@ function centro_servizi_render_trasparenza_meta_box(WP_Post $post): void
 
     echo '<p><label for="centro_servizi_tag_anno"><strong>Tag anno</strong></label><br />';
     echo '<input type="text" class="widefat" id="centro_servizi_tag_anno" name="centro_servizi_tag_anno" value="' . esc_attr($tag_anno) . '" /></p>';
+
+    echo '<p><label for="centro_servizi_testo"><strong>Testo</strong></label><br />';
+    echo '<input type="text" class="widefat" id="centro_servizi_testo" name="centro_servizi_testo" value="' . esc_attr($testo) . '" /></p>';
+
+    centro_servizi_render_media_selector_field(
+        'centro_servizi_allegato',
+        'centro_servizi_allegato',
+        $allegato_text,
+        'Allegato'
+    );
 
     centro_servizi_render_media_selector_field(
         'centro_servizi_documento',
@@ -251,6 +264,8 @@ function centro_servizi_save_native_meta_boxes(int $post_id): void
     if ($post_type === 'trasparenza') {
         centro_servizi_update_meta_text($post_id, 'titolo', $_POST['centro_servizi_titolo'] ?? '');
         centro_servizi_update_meta_text($post_id, 'tag_anno', $_POST['centro_servizi_tag_anno'] ?? '');
+        centro_servizi_update_meta_text($post_id, 'testo', $_POST['centro_servizi_testo'] ?? '');
+        centro_servizi_update_meta_attachment($post_id, 'allegato', $_POST['centro_servizi_allegato'] ?? '');
         centro_servizi_update_meta_attachment($post_id, 'documento', $_POST['centro_servizi_documento'] ?? '');
 
         return;

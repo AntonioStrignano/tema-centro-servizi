@@ -30,6 +30,20 @@ function centro_servizi_register_acf_fields(): void
                 'type' => 'text',
             ],
             [
+                'key' => 'field_centro_servizi_testo',
+                'label' => 'Testo',
+                'name' => 'testo',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'field_centro_servizi_allegato',
+                'label' => 'Allegato',
+                'name' => 'allegato',
+                'type' => 'file',
+                'return_format' => 'array',
+                'library' => 'all',
+            ],
+            [
                 'key' => 'field_centro_servizi_documento',
                 'label' => 'Documento',
                 'name' => 'documento',
