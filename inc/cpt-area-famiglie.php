@@ -28,7 +28,7 @@ function centro_servizi_register_cpt_area_famiglie(): void
         'menu_icon'     => 'dashicons-groups',
         'rewrite'       => ['slug' => 'area-famiglie'],
         'show_in_rest'  => false,
-        'supports'      => ['title', 'editor', 'excerpt'],
+        'supports'      => ['title', 'editor'],
         'menu_position' => 22,
     ]);
 }

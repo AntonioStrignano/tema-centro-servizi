@@ -28,7 +28,7 @@ function centro_servizi_register_cpt_area_personale(): void
         'menu_icon'     => 'dashicons-businessperson',
         'rewrite'       => ['slug' => 'area-personale'],
         'show_in_rest'  => false,
-        'supports'      => ['title', 'editor', 'excerpt'],
+        'supports'      => ['title', 'editor'],
         'menu_position' => 23,
     ]);
 }

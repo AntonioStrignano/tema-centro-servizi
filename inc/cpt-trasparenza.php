@@ -29,7 +29,7 @@ function centro_servizi_register_cpt_trasparenza(): void
         'menu_icon'          => 'dashicons-media-document',
         'rewrite'            => ['slug' => 'amministrazione-trasparente'],
         'show_in_rest'       => false,
-        'supports'           => ['title', 'editor', 'excerpt'],
+        'supports'           => ['title', 'editor'],
         'menu_position'      => 21,
     ]);
 }

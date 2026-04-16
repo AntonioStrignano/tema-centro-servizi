@@ -28,7 +28,7 @@ function centro_servizi_register_cpt_attivita(): void
         'menu_icon'          => 'dashicons-calendar-alt',
         'rewrite'            => ['slug' => 'attivita'],
         'show_in_rest'       => false,
-        'supports'           => ['title', 'editor', 'thumbnail', 'excerpt'],
+        'supports'           => ['title', 'editor', 'thumbnail'],
         'menu_position'      => 20,
     ]);
 }

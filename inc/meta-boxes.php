@@ -288,7 +288,66 @@ function centro_servizi_update_meta_attachment(int $post_id, string $meta_key, m
         return;
     }
 
+    $resolved_attachment_id = centro_servizi_resolve_attachment_id_from_url($value);
+
+    if ($resolved_attachment_id > 0) {
+        update_post_meta($post_id, $meta_key, $resolved_attachment_id);
+        return;
+    }
+
     update_post_meta($post_id, $meta_key, esc_url_raw($value));
+}
+
+function centro_servizi_resolve_attachment_id_from_url(string $url): int
+{
+    $url = trim($url);
+
+    if ($url === '' || filter_var($url, FILTER_VALIDATE_URL) === false) {
+        return 0;
+    }
+
+    $url_without_query = (string) strtok($url, '?');
+    $attachment_id = attachment_url_to_postid($url_without_query);
+
+    if ($attachment_id > 0) {
+        return (int) $attachment_id;
+    }
+
+    $uploads = wp_get_upload_dir();
+
+    if (! is_array($uploads) || empty($uploads['baseurl'])) {
+        return 0;
+    }
+
+    $baseurl = (string) $uploads['baseurl'];
+
+    if (! str_starts_with($url_without_query, $baseurl . '/')) {
+        return 0;
+    }
+
+    $relative_path = ltrim(substr($url_without_query, strlen($baseurl)), '/');
+
+    if ($relative_path === '') {
+        return 0;
+    }
+
+    $relative_path = rawurldecode($relative_path);
+
+    $matches = get_posts([
+        'post_type' => 'attachment',
+        'post_status' => 'inherit',
+        'numberposts' => 1,
+        'fields' => 'ids',
+        'meta_key' => '_wp_attached_file',
+        'meta_value' => $relative_path,
+        'suppress_filters' => true,
+    ]);
+
+    if ($matches === []) {
+        return 0;
+    }
+
+    return (int) $matches[0];
 }
 
 function centro_servizi_print_native_meta_media_script(): void
