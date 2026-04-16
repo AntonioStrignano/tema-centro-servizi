@@ -32,6 +32,14 @@ add_filter('template_include', 'centro_servizi_map_template_from_subdirectory', 
 
 function centro_servizi_map_template_from_subdirectory(string $template): string
 {
+    if (is_post_type_archive('trasparenza')) {
+        $archive_template = get_template_directory() . '/templates/archive-trasparenza.php';
+
+        if (file_exists($archive_template)) {
+            return $archive_template;
+        }
+    }
+
     $custom = get_template_directory() . '/templates/' . basename($template);
 
     if (file_exists($custom)) {

@@ -6,7 +6,6 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('init', 'centro_servizi_register_cpt_trasparenza');
-add_action('wp_loaded', 'centro_servizi_flush_rewrite_rules');
 
 function centro_servizi_register_cpt_trasparenza(): void
 {
@@ -33,11 +32,4 @@ function centro_servizi_register_cpt_trasparenza(): void
         'supports'           => ['title', 'editor'],
         'menu_position'      => 21,
     ]);
-}
-
-function centro_servizi_flush_rewrite_rules(): void
-{
-    if (! defined('WP_INSTALLING') || ! WP_INSTALLING) {
-        flush_rewrite_rules(false);
-    }
 }
