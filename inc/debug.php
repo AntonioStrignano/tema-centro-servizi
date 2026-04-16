@@ -345,8 +345,8 @@ function centro_servizi_maybe_seed_preview_transparency_posts(): void
 
     $pdf_1 = isset($_GET['centro_seed_pdf_1']) ? absint((string) $_GET['centro_seed_pdf_1']) : 9;
     $pdf_2 = isset($_GET['centro_seed_pdf_2']) ? absint((string) $_GET['centro_seed_pdf_2']) : 10;
-    $table_1 = isset($_GET['centro_seed_table_1']) ? absint((string) $_GET['centro_seed_table_1']) : 0;
-    $table_2 = isset($_GET['centro_seed_table_2']) ? absint((string) $_GET['centro_seed_table_2']) : 0;
+    $table_1 = isset($_GET['centro_seed_table_1']) ? absint((string) $_GET['centro_seed_table_1']) : 1;
+    $table_2 = isset($_GET['centro_seed_table_2']) ? absint((string) $_GET['centro_seed_table_2']) : $table_1;
 
     $pdf_1_url = $pdf_1 > 0 ? (string) wp_get_attachment_url($pdf_1) : '';
     $pdf_2_url = $pdf_2 > 0 ? (string) wp_get_attachment_url($pdf_2) : '';

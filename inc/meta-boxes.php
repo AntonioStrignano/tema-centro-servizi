@@ -7,6 +7,8 @@ if (! defined('ABSPATH')) {
 
 add_action('add_meta_boxes', 'centro_servizi_register_native_meta_boxes');
 add_action('save_post', 'centro_servizi_save_native_meta_boxes');
+add_action('admin_enqueue_scripts', 'centro_servizi_enqueue_native_meta_media');
+add_action('admin_footer', 'centro_servizi_print_native_meta_media_script');
 
 function centro_servizi_register_native_meta_boxes(): void
 {
@@ -43,6 +45,29 @@ function centro_servizi_register_native_meta_boxes(): void
     );
 }
 
+function centro_servizi_enqueue_native_meta_media(string $hook): void
+{
+    if (function_exists('get_field')) {
+        return;
+    }
+
+    if ($hook !== 'post.php' && $hook !== 'post-new.php') {
+        return;
+    }
+
+    $screen = get_current_screen();
+
+    if (! $screen instanceof WP_Screen) {
+        return;
+    }
+
+    if (! in_array($screen->post_type, ['trasparenza', 'area-famiglie', 'area-personale'], true)) {
+        return;
+    }
+
+    wp_enqueue_media();
+}
+
 function centro_servizi_render_trasparenza_meta_box(WP_Post $post): void
 {
     wp_nonce_field('centro_servizi_native_meta_save', 'centro_servizi_native_meta_nonce');
@@ -58,8 +83,12 @@ function centro_servizi_render_trasparenza_meta_box(WP_Post $post): void
     echo '<p><label for="centro_servizi_tag_anno"><strong>Tag anno</strong></label><br />';
     echo '<input type="text" class="widefat" id="centro_servizi_tag_anno" name="centro_servizi_tag_anno" value="' . esc_attr($tag_anno) . '" /></p>';
 
-    echo '<p><label for="centro_servizi_documento"><strong>Documento</strong> (ID attachment o URL file)</label><br />';
-    echo '<input type="text" class="widefat" id="centro_servizi_documento" name="centro_servizi_documento" value="' . esc_attr($documento_text) . '" /></p>';
+    centro_servizi_render_media_selector_field(
+        'centro_servizi_documento',
+        'centro_servizi_documento',
+        $documento_text,
+        'Documento'
+    );
 }
 
 function centro_servizi_render_area_meta_box(WP_Post $post): void
@@ -73,8 +102,22 @@ function centro_servizi_render_area_meta_box(WP_Post $post): void
     echo '<p><label for="centro_servizi_testo"><strong>Testo</strong></label><br />';
     echo '<input type="text" class="widefat" id="centro_servizi_testo" name="centro_servizi_testo" value="' . esc_attr($testo) . '" /></p>';
 
-    echo '<p><label for="centro_servizi_allegato"><strong>Allegato</strong> (ID attachment o URL file)</label><br />';
-    echo '<input type="text" class="widefat" id="centro_servizi_allegato" name="centro_servizi_allegato" value="' . esc_attr($allegato_text) . '" /></p>';
+    centro_servizi_render_media_selector_field(
+        'centro_servizi_allegato',
+        'centro_servizi_allegato',
+        $allegato_text,
+        'Allegato'
+    );
+}
+
+function centro_servizi_render_media_selector_field(string $input_id, string $input_name, string $value, string $label): void
+{
+    echo '<p><label for="' . esc_attr($input_id) . '"><strong>' . esc_html($label) . '</strong> (ID attachment o URL file)</label><br />';
+    echo '<input type="text" class="widefat" id="' . esc_attr($input_id) . '" name="' . esc_attr($input_name) . '" value="' . esc_attr($value) . '" />';
+    echo '<span style="display:block; margin-top:8px;">';
+    echo '<button type="button" class="button centro-servizi-open-media" data-target="' . esc_attr($input_id) . '">Scegli da Libreria Media</button> ';
+    echo '<button type="button" class="button-link-delete centro-servizi-clear-media" data-target="' . esc_attr($input_id) . '" style="vertical-align:middle;">Svuota</button>';
+    echo '</span></p>';
 }
 
 function centro_servizi_save_native_meta_boxes(int $post_id): void
@@ -138,4 +181,82 @@ function centro_servizi_update_meta_attachment(int $post_id, string $meta_key, m
     }
 
     update_post_meta($post_id, $meta_key, esc_url_raw($value));
+}
+
+function centro_servizi_print_native_meta_media_script(): void
+{
+    if (function_exists('get_field')) {
+        return;
+    }
+
+    $screen = get_current_screen();
+
+    if (! $screen instanceof WP_Screen) {
+        return;
+    }
+
+    if ($screen->base !== 'post' || ! in_array($screen->post_type, ['trasparenza', 'area-famiglie', 'area-personale'], true)) {
+        return;
+    }
+    ?>
+    <script>
+        (function () {
+            function getInput(targetId) {
+                return document.getElementById(targetId);
+            }
+
+            document.addEventListener('click', function (event) {
+                var openButton = event.target.closest('.centro-servizi-open-media');
+
+                if (openButton) {
+                    event.preventDefault();
+
+                    var targetId = openButton.getAttribute('data-target');
+                    var input = getInput(targetId);
+
+                    if (!input || typeof wp === 'undefined' || !wp.media) {
+                        return;
+                    }
+
+                    var frame = wp.media({
+                        title: 'Seleziona un file',
+                        button: { text: 'Usa questo file' },
+                        library: { type: '' },
+                        multiple: false
+                    });
+
+                    frame.on('select', function () {
+                        var selection = frame.state().get('selection').first();
+
+                        if (!selection) {
+                            return;
+                        }
+
+                        var attachment = selection.toJSON();
+
+                        if (attachment && attachment.id) {
+                            input.value = String(attachment.id);
+                        }
+                    });
+
+                    frame.open();
+                    return;
+                }
+
+                var clearButton = event.target.closest('.centro-servizi-clear-media');
+
+                if (clearButton) {
+                    event.preventDefault();
+
+                    var clearTarget = clearButton.getAttribute('data-target');
+                    var clearInput = getInput(clearTarget);
+
+                    if (clearInput) {
+                        clearInput.value = '';
+                    }
+                }
+            });
+        })();
+    </script>
+    <?php
 }
