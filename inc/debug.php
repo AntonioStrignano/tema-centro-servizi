@@ -343,27 +343,251 @@ function centro_servizi_maybe_seed_preview_transparency_posts(): void
         return;
     }
 
-    $result = centro_servizi_seed_preview_transparency_posts([
+    $pdf_1 = isset($_GET['centro_seed_pdf_1']) ? absint((string) $_GET['centro_seed_pdf_1']) : 9;
+    $pdf_2 = isset($_GET['centro_seed_pdf_2']) ? absint((string) $_GET['centro_seed_pdf_2']) : 10;
+    $table_1 = isset($_GET['centro_seed_table_1']) ? absint((string) $_GET['centro_seed_table_1']) : 0;
+    $table_2 = isset($_GET['centro_seed_table_2']) ? absint((string) $_GET['centro_seed_table_2']) : 0;
+
+    $pdf_1_url = $pdf_1 > 0 ? (string) wp_get_attachment_url($pdf_1) : '';
+    $pdf_2_url = $pdf_2 > 0 ? (string) wp_get_attachment_url($pdf_2) : '';
+
+    $table_shortcode_1 = $table_1 > 0 ? sprintf('[table id=%d /]', $table_1) : '';
+    $table_shortcode_2 = $table_2 > 0 ? sprintf('[table id=%d /]', $table_2) : '';
+
+    $result_trasparenza = centro_servizi_seed_preview_transparency_posts([
         [
             'seed_key' => 'preview-trasparenza-1',
-            'attachment_id' => 9,
+            'attachment_id' => $pdf_1,
             'school_year_name' => '2025/2026',
             'school_year_slug' => '2025-2026',
             'label_year' => '2025',
             'category_slug' => 'consuntivo',
+            'post_title' => 'AT - Solo PDF',
+            'titolo' => 'Solo PDF',
+            'post_content' => '',
         ],
         [
             'seed_key' => 'preview-trasparenza-2',
-            'attachment_id' => 10,
+            'attachment_id' => $pdf_2,
             'school_year_name' => '2026/2027',
             'school_year_slug' => '2026-2027',
             'label_year' => '2026',
             'category_slug' => 'preventivo',
+            'post_title' => 'AT - PDF + testo',
+            'titolo' => 'PDF + testo',
+            'post_content' => 'Documento con allegato PDF e testo descrittivo.',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-3',
+            'school_year_name' => '2025/2026',
+            'school_year_slug' => '2025-2026',
+            'label_year' => '2025',
+            'category_slug' => 'organizzazione',
+            'post_title' => 'AT - Solo testo',
+            'titolo' => 'Solo testo',
+            'post_content' => 'Solo testo, senza allegato.',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-4',
+            'school_year_name' => '2026/2027',
+            'school_year_slug' => '2026-2027',
+            'label_year' => '2026',
+            'category_slug' => 'verifiche-periodiche',
+            'post_title' => 'AT - Tabella',
+            'titolo' => 'Tabella',
+            'post_content' => $table_shortcode_1 !== '' ? $table_shortcode_1 : 'Inserire tabella TablePress con parametro centro_seed_table_1.',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-5',
+            'school_year_name' => '2026/2027',
+            'school_year_slug' => '2026-2027',
+            'label_year' => '2026',
+            'category_slug' => 'autorizzazioni',
+            'post_title' => 'AT - Post vuoto/quasi vuoto',
+            'titolo' => 'Quasi vuoto',
+            'post_content' => '',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-6',
+            'attachment_id' => $pdf_1,
+            'school_year_name' => '2025/2026',
+            'school_year_slug' => '2025-2026',
+            'label_year' => '2025',
+            'category_slug' => 'moduli-iscrizione',
+            'post_title' => 'AT - Piu PDF nello stesso post',
+            'titolo' => 'Piu PDF',
+            'post_content' => $pdf_2_url !== '' ? sprintf('Secondo allegato nel testo: <a href="%s" target="_blank" rel="noopener">Scarica secondo PDF</a>.', esc_url($pdf_2_url)) : 'Secondo allegato assente: manca URL del PDF 2.',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-7',
+            'document_value' => home_url('/wp-content/uploads/preview-non-pdf.docx'),
+            'school_year_name' => '2025/2026',
+            'school_year_slug' => '2025-2026',
+            'label_year' => '2025',
+            'category_slug' => 'normativa',
+            'post_title' => 'AT - Allegato non PDF',
+            'titolo' => 'Allegato non PDF',
+            'post_content' => 'Caso errore redazionale: allegato non PDF.',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-8',
+            'school_year_name' => '2026/2027',
+            'school_year_slug' => '2026-2027',
+            'label_year' => '2026',
+            'category_slug' => 'contributi-pubblici',
+            'post_title' => 'AT - Tabella lunga/complessa',
+            'titolo' => 'Tabella lunga/complessa',
+            'post_content' => $table_shortcode_2 !== '' ? $table_shortcode_2 : 'Inserire tabella TablePress con parametro centro_seed_table_2.',
+        ],
+        [
+            'seed_key' => 'preview-trasparenza-9',
+            'school_year_name' => '2025/2026',
+            'school_year_slug' => '2025-2026',
+            'label_year' => '2025',
+            'category_slug' => 'circolari-mim',
+            'post_title' => 'AT - Testo con link esterni',
+            'titolo' => 'Link esterni',
+            'post_content' => 'Link esterno di prova: <a href="https://www.istruzione.it" target="_blank" rel="noopener">Ministero Istruzione</a>.',
         ],
     ]);
 
-    $status = $result['ok'] ? 'ok' : 'error';
-    $message = rawurlencode($result['message']);
+    $result_famiglie = centro_servizi_seed_preview_area_posts('area-famiglie', 'categoria-area-famiglia', [
+        [
+            'seed_key' => 'preview-famiglie-1',
+            'term_slug' => 'avvisi',
+            'post_title' => 'AF - Solo testo',
+            'testo' => 'Solo testo',
+            'post_content' => 'Comunicazione testuale senza allegato.',
+        ],
+        [
+            'seed_key' => 'preview-famiglie-2',
+            'term_slug' => 'moduli-iscrizione',
+            'post_title' => 'AF - Testo + PDF',
+            'testo' => 'Testo + PDF',
+            'allegato_attachment_id' => $pdf_1,
+            'post_content' => 'Testo introduttivo con allegato principale.',
+        ],
+        [
+            'seed_key' => 'preview-famiglie-3',
+            'term_slug' => 'carta-dei-servizi',
+            'post_title' => 'AF - Solo PDF',
+            'testo' => 'Solo PDF',
+            'allegato_attachment_id' => $pdf_2,
+            'post_content' => '',
+        ],
+        [
+            'seed_key' => 'preview-famiglie-4',
+            'term_slug' => 'privacy-e-informativa-genitori',
+            'post_title' => 'AF - Solo link esterno',
+            'testo' => 'Solo link esterno',
+            'post_content' => 'Consulta il portale esterno: <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">Garante Privacy</a>.',
+        ],
+        [
+            'seed_key' => 'preview-famiglie-5',
+            'term_slug' => 'modulistica-somministrazione-farmaci',
+            'post_title' => 'AF - Piu PDF + testo introduttivo',
+            'testo' => 'Piu PDF + testo',
+            'allegato_attachment_id' => $pdf_1,
+            'post_content' => $pdf_2_url !== '' ? sprintf('Secondo PDF nel contenuto: <a href="%s" target="_blank" rel="noopener">Scarica PDF aggiuntivo</a>.', esc_url($pdf_2_url)) : 'Secondo PDF non disponibile.',
+        ],
+        [
+            'seed_key' => 'preview-famiglie-6',
+            'term_slug' => 'avvisi',
+            'post_title' => 'AF - PDF mancante/non trovato',
+            'testo' => 'PDF mancante',
+            'allegato_attachment_id' => 999999,
+            'post_content' => 'Questo caso serve per test gestione errori allegato.',
+        ],
+        [
+            'seed_key' => 'preview-famiglie-7',
+            'term_slug' => 'calendario-scolastico',
+            'post_title' => 'AF - Contenuto molto lungo',
+            'testo' => 'Contenuto lungo',
+            'post_content' => centro_servizi_get_seed_long_text_block(),
+        ],
+        [
+            'seed_key' => 'preview-famiglie-8',
+            'term_slug' => 'privacy-e-informativa-genitori',
+            'post_title' => 'AF - Dati sensibili da verificare',
+            'testo' => 'Dati sensibili',
+            'post_content' => 'ATTENZIONE TEST: questo contenuto include dati fittizi da verificare e oscurare in revisione.',
+        ],
+    ]);
+
+    $result_personale = centro_servizi_seed_preview_area_posts('area-personale', 'categoria-area-personale', [
+        [
+            'seed_key' => 'preview-personale-1',
+            'term_slug' => 'avvisi',
+            'post_title' => 'AP - Solo testo',
+            'testo' => 'Solo testo',
+            'post_content' => 'Avviso interno in formato solo testo.',
+        ],
+        [
+            'seed_key' => 'preview-personale-2',
+            'term_slug' => 'modulistica',
+            'post_title' => 'AP - Testo + PDF',
+            'testo' => 'Testo + PDF',
+            'allegato_attachment_id' => $pdf_1,
+            'post_content' => 'Modulo interno con allegato PDF.',
+        ],
+        [
+            'seed_key' => 'preview-personale-3',
+            'term_slug' => 'regolamento-interno',
+            'post_title' => 'AP - Solo PDF',
+            'testo' => 'Solo PDF',
+            'allegato_attachment_id' => $pdf_2,
+            'post_content' => '',
+        ],
+        [
+            'seed_key' => 'preview-personale-4',
+            'term_slug' => 'formazione',
+            'post_title' => 'AP - Solo link esterno',
+            'testo' => 'Solo link esterno',
+            'post_content' => 'Piattaforma formazione: <a href="https://www.scuola.istruzione.it" target="_blank" rel="noopener">Accesso esterno</a>.',
+        ],
+        [
+            'seed_key' => 'preview-personale-5',
+            'term_slug' => 'modulistica',
+            'post_title' => 'AP - Piu PDF + testo introduttivo',
+            'testo' => 'Piu PDF + testo',
+            'allegato_attachment_id' => $pdf_2,
+            'post_content' => $pdf_1_url !== '' ? sprintf('Secondo PDF nel contenuto: <a href="%s" target="_blank" rel="noopener">Scarica allegato aggiuntivo</a>.', esc_url($pdf_1_url)) : 'Secondo PDF non disponibile.',
+        ],
+        [
+            'seed_key' => 'preview-personale-6',
+            'term_slug' => 'avvisi',
+            'post_title' => 'AP - PDF mancante/non trovato',
+            'testo' => 'PDF mancante',
+            'allegato_attachment_id' => 999999,
+            'post_content' => 'Caso test per gestione allegato non disponibile.',
+        ],
+        [
+            'seed_key' => 'preview-personale-7',
+            'term_slug' => 'formazione',
+            'post_title' => 'AP - Contenuto molto lungo',
+            'testo' => 'Contenuto lungo',
+            'post_content' => centro_servizi_get_seed_long_text_block(),
+        ],
+        [
+            'seed_key' => 'preview-personale-8',
+            'term_slug' => 'privacy-personale',
+            'post_title' => 'AP - Dati sensibili da verificare',
+            'testo' => 'Dati sensibili',
+            'post_content' => 'ATTENZIONE TEST: contenuto con riferimenti sensibili fittizi per verifica checklist privacy.',
+        ],
+    ]);
+
+    $summary = sprintf(
+        'Trasparenza: %1$s | Area Famiglie: %2$s | Area Personale: %3$s',
+        $result_trasparenza['message'],
+        $result_famiglie['message'],
+        $result_personale['message']
+    );
+
+    $ok = $result_trasparenza['ok'] || $result_famiglie['ok'] || $result_personale['ok'];
+
+    $status = $ok ? 'ok' : 'error';
+    $message = rawurlencode($summary);
     $redirect = add_query_arg([
         'centro_seed_preview_status' => $status,
         'centro_seed_preview_message' => $message,
@@ -389,6 +613,7 @@ function centro_servizi_seed_preview_transparency_posts(array $items): array
     foreach ($items as $index => $item) {
         $seed_key = isset($item['seed_key']) ? sanitize_key((string) $item['seed_key']) : '';
         $attachment_id = isset($item['attachment_id']) ? (int) $item['attachment_id'] : 0;
+        $document_value = isset($item['document_value']) && is_scalar($item['document_value']) ? trim((string) $item['document_value']) : '';
         $school_year_name = isset($item['school_year_name']) ? (string) $item['school_year_name'] : '';
         $school_year_slug = isset($item['school_year_slug']) ? (string) $item['school_year_slug'] : '';
         $label_year = isset($item['label_year']) ? (string) $item['label_year'] : '';
@@ -399,9 +624,13 @@ function centro_servizi_seed_preview_transparency_posts(array $items): array
             continue;
         }
 
-        if ($attachment_id <= 0 || get_post_type($attachment_id) !== 'attachment') {
-            $errors[] = sprintf('Item %d: attachment ID non valido (%d).', $index + 1, $attachment_id);
-            continue;
+        if ($attachment_id > 0) {
+            if (get_post_type($attachment_id) !== 'attachment') {
+                $errors[] = sprintf('Item %d: attachment ID non valido (%d).', $index + 1, $attachment_id);
+                continue;
+            }
+
+            $document_value = (string) $attachment_id;
         }
 
         if ($school_year_name === '' || $school_year_slug === '' || $category_slug === '') {
@@ -443,8 +672,12 @@ function centro_servizi_seed_preview_transparency_posts(array $items): array
         $post_payload = [
             'post_type' => 'trasparenza',
             'post_status' => 'publish',
-            'post_title' => sprintf('Preview documento %s (media %d)', $school_year_name, $attachment_id),
-            'post_content' => 'Contenuto demo generato dal tema per anteprima.',
+            'post_title' => isset($item['post_title']) && is_string($item['post_title'])
+                ? $item['post_title']
+                : sprintf('Preview documento %s', $school_year_name),
+            'post_content' => isset($item['post_content']) && is_string($item['post_content'])
+                ? $item['post_content']
+                : 'Contenuto demo generato dal tema per anteprima.',
         ];
 
         if ($existing !== []) {
@@ -471,9 +704,25 @@ function centro_servizi_seed_preview_transparency_posts(array $items): array
         wp_set_object_terms($post_id, [$category_term->term_id], 'contenutiammtrasp', false);
         wp_set_object_terms($post_id, [$year_term_id], 'annoscolastico', false);
 
-        update_post_meta($post_id, 'titolo', sprintf('Documento preview %s', $school_year_name));
+        update_post_meta(
+            $post_id,
+            'titolo',
+            isset($item['titolo']) && is_string($item['titolo']) && $item['titolo'] !== ''
+                ? sanitize_text_field($item['titolo'])
+                : sprintf('Documento preview %s', $school_year_name)
+        );
         update_post_meta($post_id, 'tag_anno', $label_year);
-        update_post_meta($post_id, 'documento', $attachment_id);
+
+        if ($document_value !== '') {
+            if (ctype_digit($document_value)) {
+                update_post_meta($post_id, 'documento', (int) $document_value);
+            } else {
+                update_post_meta($post_id, 'documento', esc_url_raw($document_value));
+            }
+        } else {
+            delete_post_meta($post_id, 'documento');
+        }
+
         update_post_meta($post_id, '_titolo', 'field_6450c519a3b72');
         update_post_meta($post_id, '_tag_anno', 'field_6618d8794456d');
         update_post_meta($post_id, '_documento', 'field_644aa97b98744');
@@ -491,6 +740,136 @@ function centro_servizi_seed_preview_transparency_posts(array $items): array
         'ok' => ($created + $updated) > 0,
         'message' => sprintf('Creati %1$d, aggiornati %2$d. Errori: %3$s', $created, $updated, implode(' | ', $errors)),
     ];
+}
+
+function centro_servizi_seed_preview_area_posts(string $post_type, string $taxonomy, array $items): array
+{
+    if (! post_type_exists($post_type) || ! taxonomy_exists($taxonomy)) {
+        return [
+            'ok' => false,
+            'message' => 'CPT o tassonomia non disponibili.',
+        ];
+    }
+
+    $created = 0;
+    $updated = 0;
+    $errors = [];
+
+    foreach ($items as $index => $item) {
+        $seed_key = isset($item['seed_key']) ? sanitize_key((string) $item['seed_key']) : '';
+        $term_slug = isset($item['term_slug']) ? sanitize_title((string) $item['term_slug']) : '';
+        $allegato_id = isset($item['allegato_attachment_id']) ? (int) $item['allegato_attachment_id'] : 0;
+        $allegato_value = isset($item['allegato_value']) && is_scalar($item['allegato_value']) ? trim((string) $item['allegato_value']) : '';
+
+        if ($seed_key === '' || $term_slug === '') {
+            $errors[] = sprintf('Item %d: seed_key o categoria mancanti.', $index + 1);
+            continue;
+        }
+
+        if ($allegato_id > 0) {
+            if (get_post_type($allegato_id) !== 'attachment') {
+                $errors[] = sprintf('Item %d: allegato ID non valido (%d).', $index + 1, $allegato_id);
+                continue;
+            }
+
+            $allegato_value = (string) $allegato_id;
+        }
+
+        $term = get_term_by('slug', $term_slug, $taxonomy);
+
+        if (! $term instanceof WP_Term) {
+            $errors[] = sprintf('Item %d: categoria %s non trovata.', $index + 1, $term_slug);
+            continue;
+        }
+
+        $existing = get_posts([
+            'post_type' => $post_type,
+            'post_status' => 'any',
+            'numberposts' => 1,
+            'fields' => 'ids',
+            'meta_key' => '_centro_seed_preview_key',
+            'meta_value' => $seed_key,
+            'suppress_filters' => true,
+        ]);
+
+        $post_payload = [
+            'post_type' => $post_type,
+            'post_status' => 'publish',
+            'post_title' => isset($item['post_title']) && is_string($item['post_title'])
+                ? $item['post_title']
+                : sprintf('Preview %s %d', $post_type, $index + 1),
+            'post_content' => isset($item['post_content']) && is_string($item['post_content'])
+                ? $item['post_content']
+                : '',
+        ];
+
+        if ($existing !== []) {
+            $post_payload['ID'] = (int) $existing[0];
+            $post_id = wp_update_post($post_payload, true);
+
+            if (is_wp_error($post_id) || ! is_int($post_id) || $post_id <= 0) {
+                $errors[] = sprintf('Item %d: errore aggiornamento post preview.', $index + 1);
+                continue;
+            }
+
+            $updated++;
+        } else {
+            $post_id = wp_insert_post($post_payload, true);
+
+            if (is_wp_error($post_id) || ! is_int($post_id) || $post_id <= 0) {
+                $errors[] = sprintf('Item %d: errore creazione post.', $index + 1);
+                continue;
+            }
+
+            $created++;
+        }
+
+        wp_set_object_terms($post_id, [$term->term_id], $taxonomy, false);
+
+        update_post_meta(
+            $post_id,
+            'testo',
+            isset($item['testo']) && is_string($item['testo'])
+                ? sanitize_text_field($item['testo'])
+                : ''
+        );
+
+        if ($allegato_value !== '') {
+            if (ctype_digit($allegato_value)) {
+                update_post_meta($post_id, 'allegato', (int) $allegato_value);
+            } else {
+                update_post_meta($post_id, 'allegato', esc_url_raw($allegato_value));
+            }
+        } else {
+            delete_post_meta($post_id, 'allegato');
+        }
+
+        update_post_meta($post_id, '_testo', 'field_6579d01b052ac');
+        update_post_meta($post_id, '_allegato', 'field_6579d07c052ad');
+        update_post_meta($post_id, '_centro_seed_preview_key', $seed_key);
+    }
+
+    if ($errors === []) {
+        return [
+            'ok' => true,
+            'message' => sprintf('Creati %1$d, aggiornati %2$d.', $created, $updated),
+        ];
+    }
+
+    return [
+        'ok' => ($created + $updated) > 0,
+        'message' => sprintf('Creati %1$d, aggiornati %2$d. Errori: %3$s', $created, $updated, implode(' | ', $errors)),
+    ];
+}
+
+function centro_servizi_get_seed_long_text_block(): string
+{
+    return 'Contenuto lungo di test per verificare leggibilita, spacing e navigazione su pagine dense. '
+        . 'Questo testo viene ripetuto volutamente per simulare casi reali con molte informazioni operative e normative. '
+        . 'Contenuto lungo di test per verificare leggibilita, spacing e navigazione su pagine dense. '
+        . 'Questo testo viene ripetuto volutamente per simulare casi reali con molte informazioni operative e normative. '
+        . 'Contenuto lungo di test per verificare leggibilita, spacing e navigazione su pagine dense. '
+        . 'Questo testo viene ripetuto volutamente per simulare casi reali con molte informazioni operative e normative.';
 }
 
 function centro_servizi_seed_preview_notice(): void

@@ -15,6 +15,7 @@ $centro_servizi_includes = [
     '/inc/cpt-area-personale.php',
     '/inc/taxonomies.php',
     '/inc/acf-fields.php',
+    '/inc/meta-boxes.php',
     '/inc/accessibility.php',
     '/inc/admin.php',
 ];
