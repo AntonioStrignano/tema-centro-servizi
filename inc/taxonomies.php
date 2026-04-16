@@ -53,6 +53,28 @@ function centro_servizi_register_taxonomies(): void
         'show_admin_column' => true,
         'rewrite'           => ['slug' => 'anno-scolastico'],
     ]);
+
+    register_taxonomy('categoria-area-famiglia', ['area-famiglie'], [
+        'labels'            => [
+            'name'          => 'Categorie Area Famiglia',
+            'singular_name' => 'Categoria Area Famiglia',
+        ],
+        'public'            => true,
+        'hierarchical'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => ['slug' => 'categoria-area-famiglia'],
+    ]);
+
+    register_taxonomy('categoria-area-personale', ['area-personale'], [
+        'labels'            => [
+            'name'          => 'Categorie Area Personale',
+            'singular_name' => 'Categoria Area Personale',
+        ],
+        'public'            => true,
+        'hierarchical'      => true,
+        'show_admin_column' => true,
+        'rewrite'           => ['slug' => 'categoria-area-personale'],
+    ]);
 }
 
 function centro_servizi_seed_taxonomy_terms(): void
@@ -176,5 +198,41 @@ function centro_servizi_seed_taxonomy_terms(): void
                 'parent' => $parent_id,
             ]);
         }
+    }
+
+    centro_servizi_seed_flat_terms('categoria-area-famiglia', [
+        'Avvisi' => 'avvisi',
+        'Calendario scolastico' => 'calendario-scolastico',
+        'Carta dei servizi' => 'carta-dei-servizi',
+        'Moduli iscrizione' => 'moduli-iscrizione',
+        'Modulistica somministrazione farmaci' => 'modulistica-somministrazione-farmaci',
+        'Organi collegiali' => 'organi-collegiali',
+        'Patto di corresponsabilita' => 'patto-di-corresponsabilita',
+        'Privacy e informativa genitori' => 'privacy-e-informativa-genitori',
+    ]);
+
+    centro_servizi_seed_flat_terms('categoria-area-personale', [
+        'Avvisi' => 'avvisi',
+        'Formazione' => 'formazione',
+        'Modulistica' => 'modulistica',
+        'Privacy personale' => 'privacy-personale',
+        'Regolamento interno' => 'regolamento-interno',
+    ]);
+}
+
+function centro_servizi_seed_flat_terms(string $taxonomy, array $terms): void
+{
+    if (! taxonomy_exists($taxonomy)) {
+        return;
+    }
+
+    foreach ($terms as $name => $slug) {
+        if (term_exists($slug, $taxonomy)) {
+            continue;
+        }
+
+        wp_insert_term($name, $taxonomy, [
+            'slug' => $slug,
+        ]);
     }
 }
