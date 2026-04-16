@@ -24,7 +24,7 @@ function centro_servizi_register_cpt_trasparenza(): void
             'menu_name'          => 'Amm. Trasparente',
         ],
         'public'             => true,
-        'publicly_queryable' => false,
+        'publicly_queryable' => true,
         'has_archive'        => true,
         'menu_icon'          => 'dashicons-media-document',
         'rewrite'            => ['slug' => 'amministrazione-trasparente'],
