@@ -112,12 +112,120 @@ function centro_servizi_render_area_meta_box(WP_Post $post): void
 
 function centro_servizi_render_media_selector_field(string $input_id, string $input_name, string $value, string $label): void
 {
+    $preview = centro_servizi_get_media_preview_data($value);
+
     echo '<p><label for="' . esc_attr($input_id) . '"><strong>' . esc_html($label) . '</strong> (ID attachment o URL file)</label><br />';
     echo '<input type="text" class="widefat" id="' . esc_attr($input_id) . '" name="' . esc_attr($input_name) . '" value="' . esc_attr($value) . '" />';
     echo '<span style="display:block; margin-top:8px;">';
     echo '<button type="button" class="button centro-servizi-open-media" data-target="' . esc_attr($input_id) . '">Scegli da Libreria Media</button> ';
     echo '<button type="button" class="button-link-delete centro-servizi-clear-media" data-target="' . esc_attr($input_id) . '" style="vertical-align:middle;">Svuota</button>';
+    echo '</span>';
+
+    echo '<span id="' . esc_attr($input_id) . '_preview" style="display:block; margin-top:10px; padding:10px; border:1px solid #dcdcde; border-radius:4px; background:#fff;">';
+
+    if ($preview === []) {
+        echo '<em>Nessun file selezionato.</em>';
+    } else {
+        if (! empty($preview['thumb_html'])) {
+            echo '<div style="margin-bottom:8px;">' . wp_kses_post((string) $preview['thumb_html']) . '</div>';
+        }
+
+        echo '<div><strong>ID:</strong> ' . esc_html((string) ($preview['id'] ?? '-')) . '</div>';
+        echo '<div><strong>Nome:</strong> ' . esc_html((string) ($preview['name'] ?? '-')) . '</div>';
+        echo '<div><strong>URL:</strong> <a href="' . esc_url((string) ($preview['url'] ?? '')) . '" target="_blank" rel="noopener">' . esc_html((string) ($preview['url'] ?? '')) . '</a></div>';
+        echo '<div><strong>Caricato il:</strong> ' . esc_html((string) ($preview['date'] ?? '-')) . '</div>';
+        echo '<div><strong>Dimensione:</strong> ' . esc_html((string) ($preview['size'] ?? '-')) . '</div>';
+    }
+
     echo '</span></p>';
+}
+
+function centro_servizi_get_media_preview_data(string $value): array
+{
+    $value = trim($value);
+
+    if ($value === '') {
+        return [];
+    }
+
+    if (ctype_digit($value)) {
+        $attachment_id = (int) $value;
+
+        if (get_post_type($attachment_id) !== 'attachment') {
+            return [];
+        }
+
+        $url = (string) wp_get_attachment_url($attachment_id);
+
+        if ($url === '') {
+            return [];
+        }
+
+        $filename = basename((string) get_attached_file($attachment_id));
+
+        if ($filename === '') {
+            $filename = basename((string) wp_parse_url($url, PHP_URL_PATH));
+        }
+
+        $date = get_the_date('d/m/Y H:i', $attachment_id);
+        $size = '';
+        $filepath = get_attached_file($attachment_id);
+
+        if (is_string($filepath) && $filepath !== '' && file_exists($filepath)) {
+            $bytes = filesize($filepath);
+
+            if (is_int($bytes) && $bytes > 0) {
+                $size = size_format($bytes);
+            }
+        }
+
+        $thumb_html = '';
+
+        if (wp_attachment_is_image($attachment_id)) {
+            $thumb_html = (string) wp_get_attachment_image(
+                $attachment_id,
+                'thumbnail',
+                false,
+                ['style' => 'max-width:120px;height:auto;border:1px solid #dcdcde;border-radius:4px;']
+            );
+        } else {
+            $icon = wp_mime_type_icon($attachment_id);
+
+            if (is_string($icon) && $icon !== '') {
+                $thumb_html = '<img src="' . esc_url($icon) . '" alt="" style="max-width:48px;height:auto;" />';
+            }
+        }
+
+        return [
+            'id' => (string) $attachment_id,
+            'name' => $filename !== '' ? $filename : '-',
+            'url' => $url,
+            'date' => $date !== '' ? (string) $date : '-',
+            'size' => $size !== '' ? $size : '-',
+            'thumb_html' => $thumb_html,
+        ];
+    }
+
+    if (filter_var($value, FILTER_VALIDATE_URL) === false) {
+        return [];
+    }
+
+    $filename = basename((string) wp_parse_url($value, PHP_URL_PATH));
+    $extension = strtoupper((string) pathinfo($filename, PATHINFO_EXTENSION));
+    $name = $filename !== '' ? $filename : 'Documento esterno';
+
+    if ($extension !== '') {
+        $name .= ' (' . $extension . ')';
+    }
+
+    return [
+        'id' => '-',
+        'name' => $name,
+        'url' => $value,
+        'date' => '-',
+        'size' => '-',
+        'thumb_html' => '',
+    ];
 }
 
 function centro_servizi_save_native_meta_boxes(int $post_id): void
@@ -201,8 +309,84 @@ function centro_servizi_print_native_meta_media_script(): void
     ?>
     <script>
         (function () {
+            function escapeHtml(value) {
+                return String(value)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            function formatBytes(bytes) {
+                if (!Number.isFinite(bytes) || bytes <= 0) {
+                    return '-';
+                }
+
+                var units = ['B', 'KB', 'MB', 'GB'];
+                var i = 0;
+                var value = bytes;
+
+                while (value >= 1024 && i < units.length - 1) {
+                    value /= 1024;
+                    i += 1;
+                }
+
+                return value.toFixed(i === 0 ? 0 : 1) + ' ' + units[i];
+            }
+
             function getInput(targetId) {
                 return document.getElementById(targetId);
+            }
+
+            function renderPreview(targetId, data) {
+                var box = document.getElementById(targetId + '_preview');
+
+                if (!box) {
+                    return;
+                }
+
+                if (!data) {
+                    box.innerHTML = '<em>Nessun file selezionato.</em>';
+                    return;
+                }
+
+                var id = data.id ? String(data.id) : '-';
+                var name = data.filename || data.title || '-';
+                var url = data.url || '';
+                var date = data.dateFormatted || data.date || '-';
+                var size = data.filesizeHumanReadable || formatBytes(Number(data.filesizeInBytes || 0));
+                var thumb = '';
+
+                if (data.type === 'image') {
+                    if (data.sizes && data.sizes.thumbnail && data.sizes.thumbnail.url) {
+                        thumb = '<img src="' + escapeHtml(data.sizes.thumbnail.url) + '" alt="" style="max-width:120px;height:auto;border:1px solid #dcdcde;border-radius:4px;" />';
+                    } else if (url) {
+                        thumb = '<img src="' + escapeHtml(url) + '" alt="" style="max-width:120px;height:auto;border:1px solid #dcdcde;border-radius:4px;" />';
+                    }
+                } else if (data.icon) {
+                    thumb = '<img src="' + escapeHtml(data.icon) + '" alt="" style="max-width:48px;height:auto;" />';
+                }
+
+                var html = '';
+
+                if (thumb) {
+                    html += '<div style="margin-bottom:8px;">' + thumb + '</div>';
+                }
+
+                html += '<div><strong>ID:</strong> ' + escapeHtml(id) + '</div>';
+                html += '<div><strong>Nome:</strong> ' + escapeHtml(name) + '</div>';
+
+                if (url) {
+                    html += '<div><strong>URL:</strong> <a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(url) + '</a></div>';
+                } else {
+                    html += '<div><strong>URL:</strong> -</div>';
+                }
+
+                html += '<div><strong>Caricato il:</strong> ' + escapeHtml(date || '-') + '</div>';
+                html += '<div><strong>Dimensione:</strong> ' + escapeHtml(size || '-') + '</div>';
+
+                box.innerHTML = html;
             }
 
             document.addEventListener('click', function (event) {
@@ -236,6 +420,7 @@ function centro_servizi_print_native_meta_media_script(): void
 
                         if (attachment && attachment.id) {
                             input.value = String(attachment.id);
+                            renderPreview(targetId, attachment);
                         }
                     });
 
@@ -253,6 +438,7 @@ function centro_servizi_print_native_meta_media_script(): void
 
                     if (clearInput) {
                         clearInput.value = '';
+                        renderPreview(clearTarget, null);
                     }
                 }
             });
