@@ -302,8 +302,10 @@ $archive_url = get_post_type_archive_link('trasparenza');
                     <div><?php echo apply_filters('the_content', $contenuto); ?></div>
                     <?php endif; ?>
 
-                    <p>Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                    <p>Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+                    <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
+                        <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
+                        <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+                    </div>
                 </article>
             </li>
             <?php endforeach; ?>
@@ -347,8 +349,10 @@ $archive_url = get_post_type_archive_link('trasparenza');
                         <div><?php echo apply_filters('the_content', $contenuto); ?></div>
                         <?php endif; ?>
 
-                        <p>Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                        <p>Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+                        <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
+                            <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
+                            <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+                        </div>
                     </article>
                 </li>
                 <?php endforeach; ?>
@@ -391,8 +395,10 @@ $archive_url = get_post_type_archive_link('trasparenza');
                 <div><?php echo apply_filters('the_content', $contenuto); ?></div>
                 <?php endif; ?>
 
-                <p>Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                <p>Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+                <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
+                    <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
+                    <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+                </div>
             </article>
         </li>
         <?php endforeach; ?>
