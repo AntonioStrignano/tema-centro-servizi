@@ -331,7 +331,84 @@ function centro_servizi_get_relative_theme_path(string $path): string
 }
 
 add_action('admin_init', 'centro_servizi_maybe_seed_preview_transparency_posts');
+add_action('admin_init', 'centro_servizi_maybe_seed_preview_attivita_posts');
 add_action('admin_notices', 'centro_servizi_seed_preview_notice');
+
+function centro_servizi_maybe_seed_preview_attivita_posts(): void
+{
+    if (! is_admin() || ! current_user_can('manage_options')) {
+        return;
+    }
+
+    if (! isset($_GET['centro_seed_attivita']) || $_GET['centro_seed_attivita'] !== '1') {
+        return;
+    }
+
+    $items = [
+        [
+            'seed_key' => 'preview-attivita-infanzia-2025-2026',
+            'post_title' => 'Infanzia 2025/2026 - Laboratorio creativo stagionale',
+            'school_year_name' => '2025/2026',
+            'school_year_slug' => '2025-2026',
+            'section_name' => 'Infanzia',
+            'section_slug' => 'infanzia',
+            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_1']) ? absint((string) $_GET['centro_seed_attivita_img_1']) : 44,
+            'image_url' => isset($_GET['centro_seed_attivita_url_1'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_1']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.38.webp',
+            'post_content' => '<p>Attivita laboratoriale dedicata alla sezione Infanzia per l\'anno scolastico 2025/2026. Il percorso valorizza manualita, osservazione e racconto dell\'esperienza condivisa.</p><p>Documentazione fotografica inserita come immagine in evidenza per il seed demo.</p>',
+        ],
+        [
+            'seed_key' => 'preview-attivita-infanzia-2026-2027',
+            'post_title' => 'Infanzia 2026/2027 - Letture animate e narrazione',
+            'school_year_name' => '2026/2027',
+            'school_year_slug' => '2026-2027',
+            'section_name' => 'Infanzia',
+            'section_slug' => 'infanzia',
+            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_2']) ? absint((string) $_GET['centro_seed_attivita_img_2']) : 45,
+            'image_url' => isset($_GET['centro_seed_attivita_url_2'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_2']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37.webp',
+            'post_content' => '<p>Percorso di ascolto, lettura ad alta voce e restituzione grafica pensato per la sezione Infanzia nell\'anno scolastico 2026/2027.</p><p>Il contenuto seed serve a popolare homepage, archivio e future card Attivita.</p>',
+        ],
+        [
+            'seed_key' => 'preview-attivita-nido-2025-2026',
+            'post_title' => 'Nido 2025/2026 - Esperienze sensoriali guidate',
+            'school_year_name' => '2025/2026',
+            'school_year_slug' => '2025-2026',
+            'section_name' => 'Nido',
+            'section_slug' => 'nido',
+            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_3']) ? absint((string) $_GET['centro_seed_attivita_img_3']) : 46,
+            'image_url' => isset($_GET['centro_seed_attivita_url_3'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_3']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp',
+            'post_content' => '<p>Attivita per il Nido nell\'anno scolastico 2025/2026 con materiali morbidi, naturali e sensoriali per favorire esplorazione e sicurezza.</p><p>Testo breve ma realistico per simulare un contenuto editoriale base.</p>',
+        ],
+        [
+            'seed_key' => 'preview-attivita-nido-2026-2027',
+            'post_title' => 'Nido 2026/2027 - Gioco euristico e scoperta',
+            'school_year_name' => '2026/2027',
+            'school_year_slug' => '2026-2027',
+            'section_name' => 'Nido',
+            'section_slug' => 'nido',
+            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_4']) ? absint((string) $_GET['centro_seed_attivita_img_4']) : 47,
+            'image_url' => isset($_GET['centro_seed_attivita_url_4'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_4']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-7.webp',
+            'post_content' => '<p>Proposta educativa per il Nido nell\'anno scolastico 2026/2027 centrata su esplorazione autonoma, riordino e osservazione dei materiali.</p><p>Il seed crea una base minima coerente per testare archivio e singolo Attivita.</p>',
+        ],
+    ];
+
+    $result = centro_servizi_seed_preview_attivita_posts($items);
+
+    $redirect = add_query_arg([
+        'centro_seed_preview_status' => $result['ok'] ? 'ok' : 'error',
+        'centro_seed_preview_message' => rawurlencode($result['message']),
+    ], admin_url('edit.php?post_type=attivita'));
+
+    wp_safe_redirect($redirect);
+    exit;
+}
 
 function centro_servizi_maybe_seed_preview_transparency_posts(): void
 {
@@ -870,6 +947,185 @@ function centro_servizi_seed_preview_area_posts(string $post_type, string $taxon
         'ok' => ($created + $updated) > 0,
         'message' => sprintf('Creati %1$d, aggiornati %2$d. Errori: %3$s', $created, $updated, implode(' | ', $errors)),
     ];
+}
+
+function centro_servizi_seed_preview_attivita_posts(array $items): array
+{
+    if (! post_type_exists('attivita') || ! taxonomy_exists('anno-scol-attivita') || ! taxonomy_exists('sezioni')) {
+        return [
+            'ok' => false,
+            'message' => 'CPT o tassonomie Attivita non disponibili.',
+        ];
+    }
+
+    $created = 0;
+    $updated = 0;
+    $errors = [];
+
+    foreach ($items as $index => $item) {
+        $seed_key = isset($item['seed_key']) ? sanitize_key((string) $item['seed_key']) : '';
+        $school_year_name = isset($item['school_year_name']) ? trim((string) $item['school_year_name']) : '';
+        $school_year_slug = isset($item['school_year_slug']) ? sanitize_title((string) $item['school_year_slug']) : '';
+        $section_name = isset($item['section_name']) ? trim((string) $item['section_name']) : '';
+        $section_slug = isset($item['section_slug']) ? sanitize_title((string) $item['section_slug']) : '';
+        $image_attachment_id = isset($item['image_attachment_id']) ? (int) $item['image_attachment_id'] : 0;
+        $image_url = isset($item['image_url']) && is_scalar($item['image_url']) ? trim((string) $item['image_url']) : '';
+
+        if ($seed_key === '' || $school_year_name === '' || $school_year_slug === '' || $section_name === '' || $section_slug === '') {
+            $errors[] = sprintf('Item %d: dati seed Attivita incompleti.', $index + 1);
+            continue;
+        }
+
+        $year_term = term_exists($school_year_slug, 'anno-scol-attivita');
+
+        if (! $year_term) {
+            $year_term = wp_insert_term($school_year_name, 'anno-scol-attivita', [
+                'slug' => $school_year_slug,
+            ]);
+        }
+
+        if (is_wp_error($year_term)) {
+            $errors[] = sprintf('Item %d: errore creazione anno scolastico Attivita %s.', $index + 1, $school_year_slug);
+            continue;
+        }
+
+        $section_term = term_exists($section_slug, 'sezioni');
+
+        if (! $section_term) {
+            $section_term = wp_insert_term($section_name, 'sezioni', [
+                'slug' => $section_slug,
+            ]);
+        }
+
+        if (is_wp_error($section_term)) {
+            $errors[] = sprintf('Item %d: errore creazione sezione %s.', $index + 1, $section_slug);
+            continue;
+        }
+
+        $year_term_id = is_array($year_term) ? (int) $year_term['term_id'] : (int) $year_term;
+        $section_term_id = is_array($section_term) ? (int) $section_term['term_id'] : (int) $section_term;
+
+        $existing = get_posts([
+            'post_type' => 'attivita',
+            'post_status' => 'any',
+            'numberposts' => 1,
+            'fields' => 'ids',
+            'meta_key' => '_centro_seed_preview_key',
+            'meta_value' => $seed_key,
+            'suppress_filters' => true,
+        ]);
+
+        $post_payload = [
+            'post_type' => 'attivita',
+            'post_status' => 'publish',
+            'post_title' => isset($item['post_title']) && is_string($item['post_title']) && $item['post_title'] !== ''
+                ? $item['post_title']
+                : sprintf('%s %s', $section_name, $school_year_name),
+            'post_content' => isset($item['post_content']) && is_string($item['post_content'])
+                ? $item['post_content']
+                : '',
+        ];
+
+        if ($existing !== []) {
+            $post_payload['ID'] = (int) $existing[0];
+            $post_id = wp_update_post($post_payload, true);
+
+            if (is_wp_error($post_id) || ! is_int($post_id) || $post_id <= 0) {
+                $errors[] = sprintf('Item %d: errore aggiornamento Attivita.', $index + 1);
+                continue;
+            }
+
+            $updated++;
+        } else {
+            $post_id = wp_insert_post($post_payload, true);
+
+            if (is_wp_error($post_id) || ! is_int($post_id) || $post_id <= 0) {
+                $errors[] = sprintf('Item %d: errore creazione Attivita.', $index + 1);
+                continue;
+            }
+
+            $created++;
+        }
+
+        wp_set_object_terms($post_id, [$year_term_id], 'anno-scol-attivita', false);
+        wp_set_object_terms($post_id, [$section_term_id], 'sezioni', false);
+        update_post_meta($post_id, '_centro_seed_preview_key', $seed_key);
+
+        $thumbnail_id = centro_servizi_resolve_seed_image_attachment($seed_key, $image_attachment_id, $image_url);
+
+        if ($thumbnail_id > 0) {
+            set_post_thumbnail($post_id, $thumbnail_id);
+        }
+    }
+
+    if ($errors === []) {
+        return [
+            'ok' => true,
+            'message' => sprintf('Seed Attivita completato: creati %1$d, aggiornati %2$d.', $created, $updated),
+        ];
+    }
+
+    return [
+        'ok' => ($created + $updated) > 0,
+        'message' => sprintf('Attivita create %1$d, aggiornate %2$d. Errori: %3$s', $created, $updated, implode(' | ', $errors)),
+    ];
+}
+
+function centro_servizi_resolve_seed_image_attachment(string $seed_key, int $attachment_id, string $image_url): int
+{
+    if ($attachment_id > 0 && get_post_type($attachment_id) === 'attachment') {
+        return $attachment_id;
+    }
+
+    if ($image_url === '' || filter_var($image_url, FILTER_VALIDATE_URL) === false) {
+        return 0;
+    }
+
+    $existing = get_posts([
+        'post_type' => 'attachment',
+        'post_status' => 'inherit',
+        'numberposts' => 1,
+        'fields' => 'ids',
+        'meta_key' => '_centro_seed_remote_image_key',
+        'meta_value' => sanitize_key($seed_key),
+        'suppress_filters' => true,
+    ]);
+
+    if ($existing !== []) {
+        return (int) $existing[0];
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    $temp_file = download_url($image_url);
+
+    if (is_wp_error($temp_file)) {
+        return 0;
+    }
+
+    $filename = basename((string) wp_parse_url($image_url, PHP_URL_PATH));
+
+    if ($filename === '') {
+        $filename = sanitize_key($seed_key) . '.jpg';
+    }
+
+    $file_array = [
+        'name' => $filename,
+        'tmp_name' => $temp_file,
+    ];
+
+    $attachment_id = media_handle_sideload($file_array, 0);
+
+    if (is_wp_error($attachment_id)) {
+        @unlink($temp_file);
+        return 0;
+    }
+
+    update_post_meta($attachment_id, '_centro_seed_remote_image_key', sanitize_key($seed_key));
+
+    return (int) $attachment_id;
 }
 
 function centro_servizi_get_seed_long_text_block(): string
