@@ -5,6 +5,20 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+add_filter('wp_get_attachment_link_attributes', 'centro_servizi_attivita_gallery_link_attributes', 10, 3);
+
+function centro_servizi_attivita_gallery_link_attributes(array $attributes, WP_Post $attachment, $size): array
+{
+    if (! is_singular('attivita')) {
+        return $attributes;
+    }
+
+    $attributes['target'] = '_blank';
+    $attributes['rel'] = 'noopener noreferrer';
+
+    return $attributes;
+}
+
 function centro_servizi_get_skip_links(): array
 {
     return [

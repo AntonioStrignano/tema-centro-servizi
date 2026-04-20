@@ -12,6 +12,11 @@
 - [ ] Restano mancanti i template legali prioritari: `page-amministrazione-trasparente.php` e `page-dichiarazione-accessibilita.php`
 - [ ] Resta mancante `screenshot.png` del tema
 
+## Ordine operativo attuale
+
+- [x] Prima chiudere tutti i template e partial frontend rimasti
+- [ ] Solo dopo: passaggio accessibilità, audit e rifiniture compliance finali
+
 ---
 
 ## 🚨 URGENTE — Da fare PRIMA del tema (siti già online)
