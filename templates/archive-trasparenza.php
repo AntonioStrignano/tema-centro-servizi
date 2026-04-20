@@ -249,6 +249,7 @@ $archive_url = get_post_type_archive_link('trasparenza');
         <?php
         setup_postdata($documento_post);
         $post_id = (int) $documento_post->ID;
+        $titolo_custom = centro_servizi_get_post_meta_string($post_id, 'titolo');
         $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
         $tag_anno = centro_servizi_get_post_meta_string($post_id, 'tag_anno');
         $allegato = centro_servizi_archive_trasparenza_file_data($post_id);
@@ -259,6 +260,10 @@ $archive_url = get_post_type_archive_link('trasparenza');
         <li>
             <article>
                 <h2><?php echo esc_html($titolo_card); ?></h2>
+
+                <?php if ($titolo_custom !== '') : ?>
+                <p><strong><?php echo esc_html($titolo_custom); ?></strong></p>
+                <?php endif; ?>
 
                 <?php if ($testo !== '') : ?>
                 <p><?php echo esc_html($testo); ?></p>
