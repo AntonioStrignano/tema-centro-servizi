@@ -74,9 +74,7 @@ $archive_url = get_post_type_archive_link('area-famiglie');
 $has_active_filters = ($selected_cat !== '');
 
 ?>
-<main id="main">
-
-    <?php get_template_part('partials/breadcrumb'); ?>
+<main class="site-main" id="contenuto-principale" role="main">
 
     <h1><?php post_type_archive_title(); ?></h1>
 
@@ -138,7 +136,7 @@ $has_active_filters = ($selected_cat !== '');
                 <?php if ($allegato !== []) : ?>
                 <p>
                     <a href="<?php echo esc_url((string) $allegato['url']); ?>" target="_blank" rel="noopener noreferrer">
-                        <?php echo esc_html((string) $allegato['label']); ?>
+                        <?php echo esc_html((string) $allegato['label']); ?> <span class="sr-only">(apre in nuova finestra)</span>
                     </a>
                 </p>
                 <?php endif; ?>

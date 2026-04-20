@@ -3,6 +3,15 @@
 > Lista completa di tutto quello che c'è da fare, divisa per categoria e priorità.
 > Aggiornare man mano che si procede.
 
+## Stato audit tecnico (20/04/2026)
+
+- [x] Allineati i template archivio al target skip link `#contenuto-principale`
+- [x] Aggiunto landmark principale coerente nei template archivio (`<main ... role="main">`)
+- [x] Rimossa duplicazione breadcrumb nei template archivio (evita doppio annuncio ai lettori di schermo)
+- [x] Aggiunto avviso accessibile "apre in nuova finestra" sui link allegati negli archivi
+- [ ] Restano mancanti i template legali prioritari: `page-amministrazione-trasparente.php` e `page-dichiarazione-accessibilita.php`
+- [ ] Resta mancante `screenshot.png` del tema
+
 ---
 
 ## 🚨 URGENTE — Da fare PRIMA del tema (siti già online)
@@ -55,7 +64,7 @@
 
 - [ ] `templates/page-amministrazione-trasparente.php` — indice navigabile 12 sezioni
 - [ ] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
-- [ ] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
+- [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
 - [ ] `templates/page-dichiarazione-accessibilita.php`
 - [ ] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
 - [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi
@@ -70,9 +79,9 @@
 - [ ] `templates/single-attivita.php`
 - [ ] `partials/card-attivita.php` — titolo, tassonomie, contenuto editor, date
 - [ ] `templates/archive-attivita.php`
-- [ ] `templates/archive-area-famiglie.php`
+- [x] `templates/archive-area-famiglie.php`
 - [ ] `partials/card-area-famiglie.php`
-- [ ] `templates/archive-area-personale.php`
+- [x] `templates/archive-area-personale.php`
 - [ ] `partials/card-area-personale.php`
 - [ ] `partials/pagination.php` — paginazione accessibile
 - [ ] `inc/admin.php` — colonne admin personalizzate per CPT
