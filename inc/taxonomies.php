@@ -84,102 +84,163 @@ function centro_servizi_seed_taxonomy_terms(): void
     }
 
     $structure = [
-        '01 Documentazione Trasparente' => [
+        [
+            'name' => '01 Documentazione Trasparente',
             'slug' => '01-documentaz-trasp',
             'children' => [
-                'Circolari MIM' => 'circolari-mim',
-                'Normativa' => 'normativa',
+                ['name' => 'Circolari MIM', 'slug' => 'circolari-mim'],
+                ['name' => 'Convenzione con Ambito', 'slug' => 'convenzione-con-ambito'],
+                ['name' => 'Normativa', 'slug' => 'normativa'],
+                ['name' => 'PTPCT', 'slug' => 'ptpct'],
             ],
         ],
-        '02 Organizzazione' => [
-            'slug' => '02-organizzazione',
+        [
+            'name' => '02 Organizzazione',
+            'slug' => '02-organizzaz',
+            'legacy_slugs' => ['02-organizzazione'],
             'children' => [
-                'Organi Collegiali' => 'organi-collegiali',
-                'Organigramma' => 'organigramma',
-                'Direzione e Segreteria' => 'organizzazione',
+                ['name' => 'Organi Collegiali', 'slug' => 'organi-collegiali'],
+                ['name' => 'Organigramma', 'slug' => 'organigramma'],
+                ['name' => 'Direzione e Segreteria', 'slug' => 'organizzazione'],
             ],
         ],
-        '03 Autorizzazioni' => [
+        [
+            'name' => '03 Autorizzazioni',
             'slug' => '03-autorizzazioni',
             'children' => [
-                'Permessi e Autorizzazioni' => 'autorizzazioni',
-                'Patto Corresponsabilita' => 'patto-corresp',
+                ['name' => 'Convenzioni', 'slug' => 'convenzioni'],
+                ['name' => 'Decreto Parita Scolastica', 'slug' => 'decreto-parita-scolastica'],
+                ['name' => 'Patto Corresponsabilita', 'slug' => 'patto-corresp'],
+                ['name' => 'Permessi e Autorizzazioni', 'slug' => 'autorizzazioni'],
             ],
         ],
-        '04 Personale' => [
+        [
+            'name' => '04 Personale',
             'slug' => '04-personale',
             'children' => [
-                'CCNL' => 'ccnl',
-                'Costi Personale' => 'costi-pers',
-                'Organico' => 'organico',
-                'Regolamento Interno Lavoratori' => 'r-i-l',
-                'Tassi Assenza' => 'tassi-ass',
+                ['name' => 'CCNL', 'slug' => 'ccnl'],
+                ['name' => 'Costi Personale', 'slug' => 'costi-pers'],
+                ['name' => 'Organico', 'slug' => 'organico'],
+                ['name' => 'Regolamento Interno Lavoratori', 'slug' => 'r-i-l'],
+                ['name' => 'Tassi Assenza', 'slug' => 'tassi-ass'],
             ],
         ],
-        '05 Consulenti e Collaboratori' => [
-            'slug' => '05-consulenti-e-collaboratori',
+        [
+            'name' => '05 Consulenti e Collaboratori',
+            'slug' => '05-consul-e-collab',
+            'legacy_slugs' => ['05-consulenti-e-collaboratori'],
             'children' => [
-                'Consulenti e Collaboratori Esterni' => 'consul-e-collab',
+                [
+                    'name' => 'Consulenti e Collaboratori Esterni',
+                    'slug' => 'consulenti-e-collaboratori-esterni',
+                    'legacy_slugs' => ['consul-e-collab'],
+                ],
+                ['name' => 'Convenzioni Universita', 'slug' => 'convenzioni-uni'],
             ],
         ],
-        '06 Bilanci' => [
+        [
+            'name' => '06 Bilanci',
             'slug' => '06-bilanci',
             'children' => [
-                'Bilancio Consuntivo' => 'consuntivo',
-                'Bilancio Preventivo' => 'preventivo',
-                'Bilancio Sociale' => 'sociale',
+                ['name' => 'Bilancio Consuntivo', 'slug' => 'consuntivo'],
+                ['name' => 'Bilancio Preventivo', 'slug' => 'preventivo'],
+                ['name' => 'Bilancio Sociale', 'slug' => 'sociale'],
             ],
         ],
-        '07 Immobili' => [
+        [
+            'name' => '07 Immobili',
             'slug' => '07-immobili',
             'children' => [
-                'Contratti fitto' => 'immobili',
+                [
+                    'name' => 'Contratti fitto',
+                    'slug' => 'immobile',
+                    'legacy_slugs' => ['immobili'],
+                ],
+                ['name' => 'Planimetria', 'slug' => 'planimetria'],
             ],
         ],
-        '08 Aiuti Economici' => [
+        [
+            'name' => '08 Aiuti Economici',
             'slug' => '08-aiuti-economici',
             'children' => [
-                'Contributi Pubblici' => 'contributi-pubblici',
-                'Incentivi per Occupazione' => 'incentivi-per-occupaz',
+                ['name' => 'Contributi Pubblici', 'slug' => 'contributi-pubblici'],
+                [
+                    'name' => 'Incentivi per Occupazione',
+                    'slug' => 'incentivi-per-occupazione',
+                    'legacy_slugs' => ['incentivi-per-occupaz'],
+                ],
             ],
         ],
-        '09 Orari e Calendario' => [
+        [
+            'name' => '09 Orari e Calendario',
             'slug' => '09-orari-e-calendario',
             'children' => [
-                'Calendario Scolastico' => 'calendario',
-                'Giornata Tipo' => 'giornata-tipo',
-                'Orari Funzionamento' => 'orari-funz',
+                ['name' => 'Calendario Scolastico', 'slug' => 'calendario'],
+                ['name' => 'Giornata Tipo', 'slug' => 'giornata-tipo'],
+                ['name' => 'Orari Funzionamento', 'slug' => 'orari-funz'],
             ],
         ],
-        '10 Iscrizioni' => [
+        [
+            'name' => '10 Iscrizioni',
             'slug' => '10-iscrizioni',
             'children' => [
-                'Moduli Iscrizione' => 'iscrizioni',
+                [
+                    'name' => 'Moduli Iscrizione',
+                    'slug' => 'moduli-iscriz',
+                    'legacy_slugs' => ['iscrizioni'],
+                ],
             ],
         ],
-        '11 Servizi Erogati' => [
+        [
+            'name' => '11 Servizi Erogati',
             'slug' => '11-servizi-erogati',
             'children' => [
-                'Carta Servizi' => 'carta-servizi',
-                'PTOF' => 'ptof',
-                'Regolamento Interno Scuola' => 'regolamento-interno-scuola',
-                'Rette Famiglie' => 'rette-famiglie',
+                [
+                    'name' => 'Carta Servizi',
+                    'slug' => 'carta-serv',
+                    'legacy_slugs' => ['carta-servizi'],
+                ],
+                ['name' => 'Mensa', 'slug' => 'mensa'],
+                ['name' => 'Offerta Formativa', 'slug' => 'offerta-formativa'],
+                ['name' => 'PAI', 'slug' => 'pai'],
+                ['name' => 'PTOF', 'slug' => 'ptof'],
+                ['name' => 'RAV', 'slug' => 'rav'],
+                ['name' => 'Regolamenti', 'slug' => 'regolamenti'],
+                [
+                    'name' => 'Rette Famiglie',
+                    'slug' => 'rette-fam',
+                    'legacy_slugs' => ['rette-famiglie'],
+                ],
+                [
+                    'name' => 'Regolamento Interno Scuola',
+                    'slug' => 'regolamento-interno-scuola',
+                ],
             ],
         ],
-        '12 Controlli e Rilievi' => [
+        [
+            'name' => '12 Controlli e Rilievi',
             'slug' => '12-controlli-e-rilievi',
             'children' => [
-                'Verifiche Periodiche' => 'verifiche-periodiche',
+                ['name' => 'Griglia ANAC', 'slug' => 'griglia-anac'],
+                ['name' => 'Nomina', 'slug' => 'nomina'],
+                ['name' => 'SNV', 'slug' => 'snv'],
+                ['name' => 'Verifiche Periodiche', 'slug' => 'verifiche-periodiche'],
             ],
         ],
     ];
 
-    foreach ($structure as $parent_name => $config) {
-        $parent_term = term_exists($config['slug'], 'contenutiammtrasp');
+    foreach ($structure as $parent_config) {
+        $parent_name = (string) $parent_config['name'];
+        $parent_slug = (string) $parent_config['slug'];
+        $parent_legacy_slugs = isset($parent_config['legacy_slugs']) && is_array($parent_config['legacy_slugs'])
+            ? $parent_config['legacy_slugs']
+            : [];
+
+        $parent_term = centro_servizi_find_term_by_slugs('contenutiammtrasp', array_merge([$parent_slug], $parent_legacy_slugs));
 
         if (! $parent_term) {
             $parent_term = wp_insert_term($parent_name, 'contenutiammtrasp', [
-                'slug' => $config['slug'],
+                'slug' => $parent_slug,
             ]);
         }
 
@@ -191,14 +252,39 @@ function centro_servizi_seed_taxonomy_terms(): void
 
         $parent_obj = get_term($parent_id, 'contenutiammtrasp');
 
-        if ($parent_obj instanceof WP_Term && $parent_obj->name !== $parent_name) {
+        if ($parent_obj instanceof WP_Term && (
+            $parent_obj->name !== $parent_name
+            || $parent_obj->slug !== $parent_slug
+            || (int) $parent_obj->parent !== 0
+        )) {
             wp_update_term($parent_id, 'contenutiammtrasp', [
-                'name' => $parent_name,
+                'name'   => $parent_name,
+                'slug'   => $parent_slug,
+                'parent' => 0,
             ]);
         }
 
-        foreach ($config['children'] as $child_name => $child_slug) {
-            $child_term = term_exists($child_slug, 'contenutiammtrasp');
+        $children = isset($parent_config['children']) && is_array($parent_config['children'])
+            ? $parent_config['children']
+            : [];
+
+        foreach ($children as $child_config) {
+            if (! is_array($child_config)) {
+                continue;
+            }
+
+            $child_name = isset($child_config['name']) ? (string) $child_config['name'] : '';
+            $child_slug = isset($child_config['slug']) ? (string) $child_config['slug'] : '';
+
+            if ($child_name === '' || $child_slug === '') {
+                continue;
+            }
+
+            $child_legacy_slugs = isset($child_config['legacy_slugs']) && is_array($child_config['legacy_slugs'])
+                ? $child_config['legacy_slugs']
+                : [];
+
+            $child_term = centro_servizi_find_term_by_slugs('contenutiammtrasp', array_merge([$child_slug], $child_legacy_slugs));
 
             if (! $child_term) {
                 wp_insert_term($child_name, 'contenutiammtrasp', [
@@ -215,9 +301,10 @@ function centro_servizi_seed_taxonomy_terms(): void
                 continue;
             }
 
-            if ($child_obj->name !== $child_name || (int) $child_obj->parent !== $parent_id) {
+            if ($child_obj->name !== $child_name || $child_obj->slug !== $child_slug || (int) $child_obj->parent !== $parent_id) {
                 wp_update_term($child_id, 'contenutiammtrasp', [
                     'name'   => $child_name,
+                    'slug'   => $child_slug,
                     'parent' => $parent_id,
                 ]);
             }
@@ -242,6 +329,23 @@ function centro_servizi_seed_taxonomy_terms(): void
         'Privacy personale' => 'privacy-personale',
         'Regolamento interno' => 'regolamento-interno',
     ]);
+}
+
+function centro_servizi_find_term_by_slugs(string $taxonomy, array $slugs)
+{
+    foreach ($slugs as $slug) {
+        if (! is_string($slug) || $slug === '') {
+            continue;
+        }
+
+        $term = term_exists($slug, $taxonomy);
+
+        if ($term) {
+            return $term;
+        }
+    }
+
+    return false;
 }
 
 function centro_servizi_seed_flat_terms(string $taxonomy, array $terms): void

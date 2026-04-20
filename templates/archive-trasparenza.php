@@ -38,6 +38,7 @@ function centro_servizi_archive_trasparenza_term_display_name(WP_Term $term): st
 {
     $aliases = [
         'immobili' => 'Contratti fitto',
+        'immobile' => 'Contratti fitto',
         'organizzazione' => 'Direzione e segreteria',
         'autorizzazioni' => 'Permessi e autorizzazioni',
     ];
