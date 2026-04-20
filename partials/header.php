@@ -25,7 +25,7 @@ if (! defined('ABSPATH')) {
 <?php $debug_context = centro_servizi_get_debug_context(); ?>
 <?php get_template_part('partials/skip-links'); ?>
 <aside class="debug-bar debug-bar-top" aria-label="Informazioni debug">
-    <p><strong>Template:</strong> <?php echo esc_html($debug_context['template']); ?> <span class="debug-separator">|</span> <strong>Deploy:</strong> <?php echo esc_html($debug_context['deployed_at']); ?></p>
+    <p><strong>Template:</strong> <?php echo esc_html($debug_context['template']); ?> <span class="debug-separator">|</span> <strong>Deploy:</strong> <?php echo esc_html($debug_context['deployed_at']); ?> <span class="debug-separator">|</span> <strong>Commit:</strong> <?php echo esc_html($debug_context['commit_title']); ?></p>
 </aside>
 <header class="site-header" id="top" role="banner">
     <div class="site-branding">

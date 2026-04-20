@@ -20,6 +20,7 @@ function centro_servizi_get_debug_context(): array
     $deployed_at = $theme_timestamp > 0
         ? wp_date('d/m/Y H:i:s', $theme_timestamp)
         : 'non disponibile';
+    $commit_title = centro_servizi_get_latest_commit_title();
 
     return [
         'template' => $template !== '' ? $template : 'template non rilevato',
@@ -28,7 +29,60 @@ function centro_servizi_get_debug_context(): array
         'css_mode' => centro_servizi_get_css_loading_mode(),
         'styles' => centro_servizi_get_loaded_css_debug(),
         'deployed_at' => $deployed_at,
+        'commit_title' => $commit_title !== '' ? $commit_title : 'non disponibile',
     ];
+}
+
+function centro_servizi_get_latest_commit_title(): string
+{
+    static $commit_title = null;
+
+    if (is_string($commit_title)) {
+        return $commit_title;
+    }
+
+    $commit_title = '';
+    $repository_root = centro_servizi_find_git_repository_root(get_template_directory());
+
+    if ($repository_root === '' || ! function_exists('shell_exec')) {
+        return $commit_title;
+    }
+
+    $command = sprintf(
+        'git -C %s log -1 --pretty=%%s 2>/dev/null',
+        escapeshellarg($repository_root)
+    );
+
+    $output = shell_exec($command);
+
+    if (! is_string($output)) {
+        return $commit_title;
+    }
+
+    $commit_title = trim($output);
+
+    return $commit_title;
+}
+
+function centro_servizi_find_git_repository_root(string $start_path): string
+{
+    $path = wp_normalize_path($start_path);
+
+    while ($path !== '' && $path !== '/' && $path !== '.') {
+        if (file_exists($path . '/.git')) {
+            return $path;
+        }
+
+        $parent = dirname($path);
+
+        if ($parent === $path) {
+            break;
+        }
+
+        $path = wp_normalize_path($parent);
+    }
+
+    return '';
 }
 
 function centro_servizi_get_asset_version(string $absolute_path): string
