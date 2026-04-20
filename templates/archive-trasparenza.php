@@ -165,27 +165,6 @@ if (! empty($tax_query)) {
 }
 
 $documenti = new WP_Query($query_args);
-$documenti_per_categoria = [];
-$documenti_senza_categoria = [];
-
-foreach ($documenti->posts as $documento_post) {
-    $post_id = (int) $documento_post->ID;
-    $termini = get_the_terms($post_id, 'contenutiammtrasp');
-
-    if (is_wp_error($termini) || empty($termini)) {
-        $documenti_senza_categoria[] = $documento_post;
-        continue;
-    }
-
-    $termine_display = centro_servizi_archive_trasparenza_display_term($termini);
-
-    if (! $termine_display instanceof WP_Term) {
-        $documenti_senza_categoria[] = $documento_post;
-        continue;
-    }
-
-    $documenti_per_categoria[$termine_display->term_id][] = $documento_post;
-}
 
 $archive_url = get_post_type_archive_link('trasparenza');
 
@@ -264,115 +243,17 @@ $archive_url = get_post_type_archive_link('trasparenza');
 
     </form>
 
-    <?php foreach ($cat_parents as $parent) : ?>
-    <?php $child_terms = centro_servizi_archive_trasparenza_child_terms((int) $parent->term_id); ?>
-    <section>
-        <h2><?php echo esc_html($parent->name); ?></h2>
-
-        <?php if (isset($documenti_per_categoria[$parent->term_id])) : ?>
-        <ul>
-            <?php foreach ($documenti_per_categoria[$parent->term_id] as $documento_post) : ?>
-            <?php
-            setup_postdata($documento_post);
-            $post_id = (int) $documento_post->ID;
-            $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
-            $tag_anno = centro_servizi_get_post_meta_string($post_id, 'tag_anno');
-            $allegato = centro_servizi_archive_trasparenza_file_data($post_id);
-            $termine_display = centro_servizi_archive_trasparenza_display_term(centro_servizi_archive_trasparenza_assigned_terms($post_id));
-            $titolo_card = centro_servizi_archive_trasparenza_title($termine_display, $tag_anno, get_the_title($post_id));
-            $contenuto = trim((string) get_post_field('post_content', $post_id));
-            ?>
-            <li>
-                <article>
-                    <h3><?php echo esc_html($titolo_card); ?></h3>
-
-                    <?php if ($testo !== '') : ?>
-                    <p><?php echo esc_html($testo); ?></p>
-                    <?php endif; ?>
-
-                    <?php if ($allegato !== []) : ?>
-                    <p>
-                        <a href="<?php echo esc_url((string) $allegato['url']); ?>" target="_blank" rel="noopener noreferrer">
-                            <?php echo esc_html((string) $allegato['label']); ?>
-                        </a>
-                    </p>
-                    <?php endif; ?>
-
-                    <?php if ($contenuto !== '') : ?>
-                    <div><?php echo apply_filters('the_content', $contenuto); ?></div>
-                    <?php endif; ?>
-
-                    <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
-                        <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                        <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
-                    </div>
-                </article>
-            </li>
-            <?php endforeach; ?>
-        </ul>
-        <?php endif; ?>
-
-        <?php foreach ($child_terms as $child) : ?>
-        <section style="padding-left: 1.5em;">
-            <h3><?php echo esc_html($child->name); ?></h3>
-
-            <?php if (isset($documenti_per_categoria[$child->term_id])) : ?>
-            <ul>
-                <?php foreach ($documenti_per_categoria[$child->term_id] as $documento_post) : ?>
-                <?php
-                setup_postdata($documento_post);
-                $post_id = (int) $documento_post->ID;
-                $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
-                $tag_anno = centro_servizi_get_post_meta_string($post_id, 'tag_anno');
-                $allegato = centro_servizi_archive_trasparenza_file_data($post_id);
-                $termine_display = centro_servizi_archive_trasparenza_display_term(centro_servizi_archive_trasparenza_assigned_terms($post_id));
-                $titolo_card = centro_servizi_archive_trasparenza_title($termine_display, $tag_anno, get_the_title($post_id));
-                $contenuto = trim((string) get_post_field('post_content', $post_id));
-                ?>
-                <li>
-                    <article>
-                        <h4><?php echo esc_html($titolo_card); ?></h4>
-
-                        <?php if ($testo !== '') : ?>
-                        <p><?php echo esc_html($testo); ?></p>
-                        <?php endif; ?>
-
-                        <?php if ($allegato !== []) : ?>
-                        <p>
-                            <a href="<?php echo esc_url((string) $allegato['url']); ?>" target="_blank" rel="noopener noreferrer">
-                                <?php echo esc_html((string) $allegato['label']); ?>
-                            </a>
-                        </p>
-                        <?php endif; ?>
-
-                        <?php if ($contenuto !== '') : ?>
-                        <div><?php echo apply_filters('the_content', $contenuto); ?></div>
-                        <?php endif; ?>
-
-                        <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
-                            <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                            <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
-                        </div>
-                    </article>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
-        </section>
-        <?php endforeach; ?>
-    </section>
-    <?php endforeach; ?>
-
-    <?php if ($cat_parents === [] && $documenti->post_count > 0) : ?>
+    <?php if ($documenti->post_count > 0) : ?>
     <ul>
-        <?php foreach ($documenti_senza_categoria as $documento_post) : ?>
+        <?php foreach ($documenti->posts as $documento_post) : ?>
         <?php
         setup_postdata($documento_post);
         $post_id = (int) $documento_post->ID;
         $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
         $tag_anno = centro_servizi_get_post_meta_string($post_id, 'tag_anno');
         $allegato = centro_servizi_archive_trasparenza_file_data($post_id);
-        $titolo_card = centro_servizi_archive_trasparenza_title(null, $tag_anno, get_the_title($post_id));
+        $termine_display = centro_servizi_archive_trasparenza_display_term(centro_servizi_archive_trasparenza_assigned_terms($post_id));
+        $titolo_card = centro_servizi_archive_trasparenza_title($termine_display, $tag_anno, get_the_title($post_id));
         $contenuto = trim((string) get_post_field('post_content', $post_id));
         ?>
         <li>
