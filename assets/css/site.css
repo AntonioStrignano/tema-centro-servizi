@@ -136,6 +136,88 @@ button {
   background: #1a2028;
 }
 
+.attivita-archive__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.attivita-archive__filters {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.attivita-archive__filters fieldset {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.attivita-archive__filters label {
+  display: block;
+}
+
+.attivita-card {
+  overflow: hidden;
+}
+
+.attivita-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.attivita-card__link:hover .attivita-card__title,
+.attivita-card__link:focus .attivita-card__title {
+  text-decoration: underline;
+}
+
+.attivita-card__media {
+  margin-bottom: 0.75rem;
+}
+
+.attivita-card__image,
+.attivita-singola__image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.attivita-card__title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.attivita-card__meta,
+.attivita-singola__meta {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.attivita-card__meta div,
+.attivita-singola__meta div {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.attivita-card__meta dt,
+.attivita-singola__meta dt {
+  font-weight: 700;
+}
+
+.attivita-card__meta dd,
+.attivita-singola__meta dd {
+  margin: 0;
+}
+
+.attivita-singola__header,
+.attivita-singola__media {
+  margin-bottom: 1rem;
+}
+
+.attivita-singola__content > *:first-child {
+  margin-top: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

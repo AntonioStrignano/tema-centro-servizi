@@ -77,9 +77,9 @@
 
 ## 📄 TEMA — Fase 3: Template contenuti
 
-- [ ] `templates/single-attivita.php`
-- [ ] `partials/card-attivita.php` — titolo, tassonomie, contenuto editor, date
-- [ ] `templates/archive-attivita.php`
+- [x] `templates/single-attivita.php`
+- [x] `partials/card-attivita.php` — titolo, tassonomie, contenuto editor, date
+- [x] `templates/archive-attivita.php`
 - [x] `templates/archive-area-famiglie.php`
 - [ ] `partials/card-area-famiglie.php`
 - [x] `templates/archive-area-personale.php`

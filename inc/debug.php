@@ -1004,6 +1004,7 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
 
         $year_term_id = is_array($year_term) ? (int) $year_term['term_id'] : (int) $year_term;
         $section_term_id = is_array($section_term) ? (int) $section_term['term_id'] : (int) $section_term;
+        $thumbnail_id = centro_servizi_resolve_seed_image_attachment($seed_key, $image_attachment_id, $image_url);
 
         $existing = get_posts([
             'post_type' => 'attivita',
@@ -1021,9 +1022,12 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
             'post_title' => isset($item['post_title']) && is_string($item['post_title']) && $item['post_title'] !== ''
                 ? $item['post_title']
                 : sprintf('%s %s', $section_name, $school_year_name),
-            'post_content' => isset($item['post_content']) && is_string($item['post_content'])
-                ? $item['post_content']
-                : '',
+            'post_content' => centro_servizi_build_seed_attivita_content(
+                $thumbnail_id,
+                isset($item['post_content']) && is_string($item['post_content'])
+                    ? $item['post_content']
+                    : ''
+            ),
         ];
 
         if ($existing !== []) {
@@ -1051,8 +1055,6 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
         wp_set_object_terms($post_id, [$section_term_id], 'sezioni', false);
         update_post_meta($post_id, '_centro_seed_preview_key', $seed_key);
 
-        $thumbnail_id = centro_servizi_resolve_seed_image_attachment($seed_key, $image_attachment_id, $image_url);
-
         if ($thumbnail_id > 0) {
             set_post_thumbnail($post_id, $thumbnail_id);
         }
@@ -1069,6 +1071,23 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
         'ok' => ($created + $updated) > 0,
         'message' => sprintf('Attivita create %1$d, aggiornate %2$d. Errori: %3$s', $created, $updated, implode(' | ', $errors)),
     ];
+}
+
+function centro_servizi_build_seed_attivita_content(int $attachment_id, string $content): string
+{
+    $content = trim($content);
+
+    if ($attachment_id <= 0) {
+        return $content;
+    }
+
+    $gallery_shortcode = sprintf('[gallery ids="%d" columns="1" size="large" link="file"]', $attachment_id);
+
+    if ($content === '') {
+        return $gallery_shortcode;
+    }
+
+    return $gallery_shortcode . "\n\n" . $content;
 }
 
 function centro_servizi_resolve_seed_image_attachment(string $seed_key, int $attachment_id, string $image_url): int
