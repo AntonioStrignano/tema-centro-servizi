@@ -96,13 +96,13 @@ function centro_servizi_seed_taxonomy_terms(): void
             'children' => [
                 'Organi Collegiali' => 'organi-collegiali',
                 'Organigramma' => 'organigramma',
-                'Organizzazione' => 'organizzazione',
+                'Direzione e Segreteria' => 'organizzazione',
             ],
         ],
         '03 Autorizzazioni' => [
             'slug' => '03-autorizzazioni',
             'children' => [
-                'Autorizzazioni' => 'autorizzazioni',
+                'Permessi e Autorizzazioni' => 'autorizzazioni',
                 'Patto Corresponsabilita' => 'patto-corresp',
             ],
         ],
@@ -133,7 +133,7 @@ function centro_servizi_seed_taxonomy_terms(): void
         '07 Immobili' => [
             'slug' => '07-immobili',
             'children' => [
-                'Immobili' => 'immobili',
+                'Contratti fitto' => 'immobili',
             ],
         ],
         '08 Aiuti Economici' => [
@@ -163,6 +163,7 @@ function centro_servizi_seed_taxonomy_terms(): void
                 'Carta Servizi' => 'carta-servizi',
                 'PTOF' => 'ptof',
                 'Regolamento Interno Scuola' => 'regolamento-interno-scuola',
+                'Rette Famiglie' => 'rette-famiglie',
             ],
         ],
         '12 Controlli e Rilievi' => [
@@ -188,15 +189,38 @@ function centro_servizi_seed_taxonomy_terms(): void
 
         $parent_id = is_array($parent_term) ? (int) $parent_term['term_id'] : (int) $parent_term;
 
+        $parent_obj = get_term($parent_id, 'contenutiammtrasp');
+
+        if ($parent_obj instanceof WP_Term && $parent_obj->name !== $parent_name) {
+            wp_update_term($parent_id, 'contenutiammtrasp', [
+                'name' => $parent_name,
+            ]);
+        }
+
         foreach ($config['children'] as $child_name => $child_slug) {
-            if (term_exists($child_slug, 'contenutiammtrasp')) {
+            $child_term = term_exists($child_slug, 'contenutiammtrasp');
+
+            if (! $child_term) {
+                wp_insert_term($child_name, 'contenutiammtrasp', [
+                    'slug'   => $child_slug,
+                    'parent' => $parent_id,
+                ]);
                 continue;
             }
 
-            wp_insert_term($child_name, 'contenutiammtrasp', [
-                'slug'   => $child_slug,
-                'parent' => $parent_id,
-            ]);
+            $child_id = is_array($child_term) ? (int) $child_term['term_id'] : (int) $child_term;
+            $child_obj = get_term($child_id, 'contenutiammtrasp');
+
+            if (! $child_obj instanceof WP_Term) {
+                continue;
+            }
+
+            if ($child_obj->name !== $child_name || (int) $child_obj->parent !== $parent_id) {
+                wp_update_term($child_id, 'contenutiammtrasp', [
+                    'name'   => $child_name,
+                    'parent' => $parent_id,
+                ]);
+            }
         }
     }
 

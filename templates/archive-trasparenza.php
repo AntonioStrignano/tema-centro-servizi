@@ -34,6 +34,21 @@ function centro_servizi_archive_trasparenza_assigned_terms(int $post_id): array
     return $terms;
 }
 
+function centro_servizi_archive_trasparenza_term_display_name(WP_Term $term): string
+{
+    $aliases = [
+        'immobili' => 'Contratti fitto',
+        'organizzazione' => 'Direzione e segreteria',
+        'autorizzazioni' => 'Permessi e autorizzazioni',
+    ];
+
+    if (isset($aliases[$term->slug])) {
+        return $aliases[$term->slug];
+    }
+
+    return centro_servizi_archive_trasparenza_clean_term_name($term->name);
+}
+
 function centro_servizi_archive_trasparenza_display_term(array $terms): ?WP_Term
 {
     if ($terms === []) {
@@ -71,11 +86,11 @@ function centro_servizi_archive_trasparenza_term_label(?WP_Term $term): string
         $parent_term = get_term($parent_id, 'contenutiammtrasp');
 
         if ($parent_term instanceof WP_Term) {
-            $labels[] = centro_servizi_archive_trasparenza_clean_term_name($parent_term->name);
+            $labels[] = centro_servizi_archive_trasparenza_term_display_name($parent_term);
         }
     }
 
-    $labels[] = centro_servizi_archive_trasparenza_clean_term_name($term->name);
+    $labels[] = centro_servizi_archive_trasparenza_term_display_name($term);
 
     return implode(' / ', $labels);
 }
@@ -230,7 +245,7 @@ $archive_url = get_post_type_archive_link('trasparenza');
                 <input type="radio" name="cat" value="<?php echo esc_attr($parent->slug); ?>"
                     <?php checked($selected_cat, $parent->slug); ?>
                     onchange="this.form.submit()">
-                <?php echo esc_html(centro_servizi_archive_trasparenza_clean_term_name($parent->name)); ?>
+                <?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($parent)); ?>
             </label>
 
             <?php foreach ($cat_children as $child) : ?>
@@ -238,7 +253,7 @@ $archive_url = get_post_type_archive_link('trasparenza');
                 <input type="radio" name="cat" value="<?php echo esc_attr($child->slug); ?>"
                     <?php checked($selected_cat, $child->slug); ?>
                     onchange="this.form.submit()">
-                <?php echo esc_html(centro_servizi_archive_trasparenza_clean_term_name($child->name)); ?>
+                <?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($child)); ?>
             </label>
             <?php endforeach; ?>
             <?php endforeach; ?>
