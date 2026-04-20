@@ -51,12 +51,6 @@ get_template_part('partials/header');
                 </dl>
             </header>
 
-            <?php if (has_post_thumbnail()) : ?>
-                <figure class="attivita-singola__media">
-                    <?php the_post_thumbnail('hero-banner', ['class' => 'attivita-singola__image']); ?>
-                </figure>
-            <?php endif; ?>
-
             <div class="attivita-singola__content">
                 <?php the_content(); ?>
             </div>
