@@ -61,11 +61,12 @@
 ## ⚖️ TEMA — Fase 2: Pagine legali e compliance
 
 > Priorità compliance. Queste pagine devono esistere per legge.
+> Nota operativa: l'archivio `trasparenza` copre gia la pubblicazione documenti; la landing dedicata serve soprattutto come indice istituzionale stabile delle 12 sezioni.
 
 - [ ] `templates/page-amministrazione-trasparente.php` — indice navigabile 12 sezioni
 - [ ] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
-- [ ] `templates/page-dichiarazione-accessibilita.php`
+- [ ] `templates/page-dichiarazione-accessibilita.php` — da fare a tema quasi chiuso / in fase finale di audit
 - [ ] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
 - [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi
 - [ ] Link whistleblowing nel footer/Amm. Trasparente (a GlobaLeaks esterno)
@@ -98,6 +99,7 @@
 - [ ] Navigazione completa da tastiera (tab, enter, escape)
 - [ ] Verifica HTML valido (W3C validator)
 - [ ] Test screen reader (VoiceOver su macOS)
+- [ ] Preparare e pubblicare dichiarazione di accessibilità finale quando struttura, contenuti e feedback channel sono stabili
 - [ ] Verifica tutti i link obbligatori nel footer
 - [ ] Verifica date pub/modifica su tutte le card
 - [ ] Verifica `alt` su tutte le immagini
