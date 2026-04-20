@@ -163,6 +163,7 @@ function centro_servizi_seed_taxonomy_terms(): void
             'name' => '08 Aiuti Economici',
             'slug' => '08-aiuti-economici',
             'children' => [
+                ['name' => 'Agenzia delle Entrate', 'slug' => 'agenzia-delle-entrate'],
                 ['name' => 'Contributi Pubblici', 'slug' => 'contributi-pubblici'],
                 [
                     'name' => 'Incentivi per Occupazione',
