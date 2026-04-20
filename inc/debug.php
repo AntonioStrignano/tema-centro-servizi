@@ -1161,7 +1161,7 @@ function centro_servizi_build_seed_attivita_content(array $attachment_ids, strin
     }
 
     $gallery_shortcode = sprintf(
-        '[gallery ids="%s" columns="3" size="large" link="file"]',
+        '[gallery ids="%s" link="file"]',
         implode(',', $attachment_ids)
     );
 
