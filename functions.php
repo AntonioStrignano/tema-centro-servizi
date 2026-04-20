@@ -40,6 +40,22 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
         }
     }
 
+    if (is_post_type_archive('area-famiglie')) {
+        $archive_template = get_template_directory() . '/templates/archive-area-famiglie.php';
+
+        if (file_exists($archive_template)) {
+            return $archive_template;
+        }
+    }
+
+    if (is_post_type_archive('area-personale')) {
+        $archive_template = get_template_directory() . '/templates/archive-area-personale.php';
+
+        if (file_exists($archive_template)) {
+            return $archive_template;
+        }
+    }
+
     $custom = get_template_directory() . '/templates/' . basename($template);
 
     if (file_exists($custom)) {
