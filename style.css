@@ -23,17 +23,17 @@ un fallback visivo anche se i CSS secondari non vengono caricati.
 */
 
 :root {
-	--debug-bg: #12161c;
-	--debug-panel: #1a2028;
-	--debug-panel-soft: rgba(255, 255, 255, 0.03);
-	--debug-text: #f3f7fb;
-	--debug-muted: #99a7b5;
+	--debug-bg: #08130f;
+	--debug-panel: #0f1f18;
+	--debug-panel-soft: rgba(120, 255, 166, 0.08);
+	--debug-text: #e9fff4;
+	--debug-muted: #8fc2ad;
 	--debug-red: rgba(255, 84, 84, 0.82);
-	--debug-red-soft: rgba(255, 84, 84, 0.08);
+	--debug-red-soft: rgba(255, 84, 84, 0.12);
 	--debug-yellow: #ffe66d;
-	--debug-cyan: #53e0ff;
-	--debug-green: #78ffa6;
-	--debug-magenta: #ff7bf1;
+	--debug-cyan: #48d4ff;
+	--debug-green: #6dffad;
+	--debug-blue: #8ab4ff;
 }
 
 html {
@@ -45,14 +45,14 @@ body {
 	margin: 0;
 	line-height: 1.5;
 	font-family: "Roboto Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-	background: var(--debug-bg);
+	background: radial-gradient(circle at top, #113627 0%, #08130f 55%, #040a08 100%);
 	color: var(--debug-text);
 }
 
 body * {
-	outline: 1px dashed var(--debug-red);
+	outline: 1px dashed rgba(109, 255, 173, 0.72);
 	outline-offset: -1px;
-	background-image: linear-gradient(var(--debug-red-soft), var(--debug-red-soft));
+	background-image: linear-gradient(rgba(109, 255, 173, 0.06), rgba(72, 212, 255, 0.03));
 }
 
 #wpadminbar,
@@ -78,7 +78,7 @@ a {
 }
 
 a:visited {
-	color: var(--debug-magenta);
+	color: var(--debug-blue);
 }
 
 a:focus,
@@ -101,7 +101,7 @@ textarea:focus,
 }
 
 .debug-field-label {
-	background: #8d1616;
-	color: var(--debug-text);
+	background: #134637;
+	color: #e9fff4;
 }
 
