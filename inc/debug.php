@@ -398,6 +398,37 @@ function centro_servizi_maybe_seed_preview_attivita_posts(): void
         return;
     }
 
+    $image_sources = [
+        [
+            'seed_key' => 'attivita-image-1',
+            'attachment_id' => isset($_GET['centro_seed_attivita_img_1']) ? absint((string) $_GET['centro_seed_attivita_img_1']) : 44,
+            'image_url' => isset($_GET['centro_seed_attivita_url_1'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_1']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.38.webp',
+        ],
+        [
+            'seed_key' => 'attivita-image-2',
+            'attachment_id' => isset($_GET['centro_seed_attivita_img_2']) ? absint((string) $_GET['centro_seed_attivita_img_2']) : 45,
+            'image_url' => isset($_GET['centro_seed_attivita_url_2'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_2']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37.webp',
+        ],
+        [
+            'seed_key' => 'attivita-image-3',
+            'attachment_id' => isset($_GET['centro_seed_attivita_img_3']) ? absint((string) $_GET['centro_seed_attivita_img_3']) : 46,
+            'image_url' => isset($_GET['centro_seed_attivita_url_3'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_3']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp',
+        ],
+        [
+            'seed_key' => 'attivita-image-4',
+            'attachment_id' => isset($_GET['centro_seed_attivita_img_4']) ? absint((string) $_GET['centro_seed_attivita_img_4']) : 47,
+            'image_url' => isset($_GET['centro_seed_attivita_url_4'])
+                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_4']))
+                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-7.webp',
+        ],
+    ];
+
     $items = [
         [
             'seed_key' => 'preview-attivita-infanzia-2025-2026',
@@ -406,11 +437,9 @@ function centro_servizi_maybe_seed_preview_attivita_posts(): void
             'school_year_slug' => '2025-2026',
             'section_name' => 'Infanzia',
             'section_slug' => 'infanzia',
-            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_1']) ? absint((string) $_GET['centro_seed_attivita_img_1']) : 44,
-            'image_url' => isset($_GET['centro_seed_attivita_url_1'])
-                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_1']))
-                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.38.webp',
-            'post_content' => '<p>Attivita laboratoriale dedicata alla sezione Infanzia per l\'anno scolastico 2025/2026. Il percorso valorizza manualita, osservazione e racconto dell\'esperienza condivisa.</p><p>Documentazione fotografica inserita come immagine in evidenza per il seed demo.</p>',
+            'featured_image' => $image_sources[0],
+            'gallery_images' => [$image_sources[0], $image_sources[1], $image_sources[2]],
+            'post_content' => '<p>Attivita laboratoriale dedicata alla sezione Infanzia per l\'anno scolastico 2025/2026. Il percorso valorizza manualita, osservazione e racconto dell\'esperienza condivisa.</p><p>La documentazione fotografica nel contenuto usa la gallery base di WordPress.</p>',
         ],
         [
             'seed_key' => 'preview-attivita-infanzia-2026-2027',
@@ -419,10 +448,8 @@ function centro_servizi_maybe_seed_preview_attivita_posts(): void
             'school_year_slug' => '2026-2027',
             'section_name' => 'Infanzia',
             'section_slug' => 'infanzia',
-            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_2']) ? absint((string) $_GET['centro_seed_attivita_img_2']) : 45,
-            'image_url' => isset($_GET['centro_seed_attivita_url_2'])
-                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_2']))
-                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37.webp',
+            'featured_image' => $image_sources[1],
+            'gallery_images' => [$image_sources[1], $image_sources[0], $image_sources[3]],
             'post_content' => '<p>Percorso di ascolto, lettura ad alta voce e restituzione grafica pensato per la sezione Infanzia nell\'anno scolastico 2026/2027.</p><p>Il contenuto seed serve a popolare homepage, archivio e future card Attivita.</p>',
         ],
         [
@@ -432,10 +459,8 @@ function centro_servizi_maybe_seed_preview_attivita_posts(): void
             'school_year_slug' => '2025-2026',
             'section_name' => 'Nido',
             'section_slug' => 'nido',
-            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_3']) ? absint((string) $_GET['centro_seed_attivita_img_3']) : 46,
-            'image_url' => isset($_GET['centro_seed_attivita_url_3'])
-                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_3']))
-                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp',
+            'featured_image' => $image_sources[2],
+            'gallery_images' => [$image_sources[2], $image_sources[3], $image_sources[0]],
             'post_content' => '<p>Attivita per il Nido nell\'anno scolastico 2025/2026 con materiali morbidi, naturali e sensoriali per favorire esplorazione e sicurezza.</p><p>Testo breve ma realistico per simulare un contenuto editoriale base.</p>',
         ],
         [
@@ -445,10 +470,8 @@ function centro_servizi_maybe_seed_preview_attivita_posts(): void
             'school_year_slug' => '2026-2027',
             'section_name' => 'Nido',
             'section_slug' => 'nido',
-            'image_attachment_id' => isset($_GET['centro_seed_attivita_img_4']) ? absint((string) $_GET['centro_seed_attivita_img_4']) : 47,
-            'image_url' => isset($_GET['centro_seed_attivita_url_4'])
-                ? esc_url_raw(wp_unslash((string) $_GET['centro_seed_attivita_url_4']))
-                : 'https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-7.webp',
+            'featured_image' => $image_sources[3],
+            'gallery_images' => [$image_sources[3], $image_sources[2], $image_sources[1]],
             'post_content' => '<p>Proposta educativa per il Nido nell\'anno scolastico 2026/2027 centrata su esplorazione autonoma, riordino e osservazione dei materiali.</p><p>Il seed crea una base minima coerente per testare archivio e singolo Attivita.</p>',
         ],
     ];
@@ -1022,8 +1045,8 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
         $school_year_slug = isset($item['school_year_slug']) ? sanitize_title((string) $item['school_year_slug']) : '';
         $section_name = isset($item['section_name']) ? trim((string) $item['section_name']) : '';
         $section_slug = isset($item['section_slug']) ? sanitize_title((string) $item['section_slug']) : '';
-        $image_attachment_id = isset($item['image_attachment_id']) ? (int) $item['image_attachment_id'] : 0;
-        $image_url = isset($item['image_url']) && is_scalar($item['image_url']) ? trim((string) $item['image_url']) : '';
+        $featured_image = isset($item['featured_image']) && is_array($item['featured_image']) ? $item['featured_image'] : [];
+        $gallery_images = isset($item['gallery_images']) && is_array($item['gallery_images']) ? $item['gallery_images'] : [];
 
         if ($seed_key === '' || $school_year_name === '' || $school_year_slug === '' || $section_name === '' || $section_slug === '') {
             $errors[] = sprintf('Item %d: dati seed Attivita incompleti.', $index + 1);
@@ -1058,7 +1081,8 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
 
         $year_term_id = is_array($year_term) ? (int) $year_term['term_id'] : (int) $year_term;
         $section_term_id = is_array($section_term) ? (int) $section_term['term_id'] : (int) $section_term;
-        $thumbnail_id = centro_servizi_resolve_seed_image_attachment($seed_key, $image_attachment_id, $image_url);
+        $thumbnail_id = centro_servizi_resolve_seed_image_from_item($featured_image, $seed_key . '-featured');
+        $gallery_attachment_ids = centro_servizi_resolve_seed_gallery_image_ids($gallery_images, $seed_key);
 
         $existing = get_posts([
             'post_type' => 'attivita',
@@ -1077,7 +1101,7 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
                 ? $item['post_title']
                 : sprintf('%s %s', $section_name, $school_year_name),
             'post_content' => centro_servizi_build_seed_attivita_content(
-                $thumbnail_id,
+                $gallery_attachment_ids,
                 isset($item['post_content']) && is_string($item['post_content'])
                     ? $item['post_content']
                     : ''
@@ -1127,21 +1151,55 @@ function centro_servizi_seed_preview_attivita_posts(array $items): array
     ];
 }
 
-function centro_servizi_build_seed_attivita_content(int $attachment_id, string $content): string
+function centro_servizi_build_seed_attivita_content(array $attachment_ids, string $content): string
 {
     $content = trim($content);
+    $attachment_ids = array_values(array_filter(array_map('intval', $attachment_ids)));
 
-    if ($attachment_id <= 0) {
+    if ($attachment_ids === []) {
         return $content;
     }
 
-    $gallery_shortcode = sprintf('[gallery ids="%d" columns="1" size="large" link="file"]', $attachment_id);
+    $gallery_shortcode = sprintf(
+        '[gallery ids="%s" columns="3" size="large" link="file"]',
+        implode(',', $attachment_ids)
+    );
 
     if ($content === '') {
         return $gallery_shortcode;
     }
 
     return $gallery_shortcode . "\n\n" . $content;
+}
+
+function centro_servizi_resolve_seed_image_from_item(array $image, string $fallback_seed_key): int
+{
+    $seed_key = isset($image['seed_key']) && is_string($image['seed_key']) && $image['seed_key'] !== ''
+        ? $image['seed_key']
+        : $fallback_seed_key;
+    $attachment_id = isset($image['attachment_id']) ? (int) $image['attachment_id'] : 0;
+    $image_url = isset($image['image_url']) && is_scalar($image['image_url']) ? trim((string) $image['image_url']) : '';
+
+    return centro_servizi_resolve_seed_image_attachment($seed_key, $attachment_id, $image_url);
+}
+
+function centro_servizi_resolve_seed_gallery_image_ids(array $gallery_images, string $post_seed_key): array
+{
+    $attachment_ids = [];
+
+    foreach ($gallery_images as $index => $gallery_image) {
+        if (! is_array($gallery_image)) {
+            continue;
+        }
+
+        $attachment_id = centro_servizi_resolve_seed_image_from_item($gallery_image, $post_seed_key . '-gallery-' . ($index + 1));
+
+        if ($attachment_id > 0) {
+            $attachment_ids[] = $attachment_id;
+        }
+    }
+
+    return array_values(array_unique($attachment_ids));
 }
 
 function centro_servizi_resolve_seed_image_attachment(string $seed_key, int $attachment_id, string $image_url): int

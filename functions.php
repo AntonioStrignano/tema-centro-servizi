@@ -32,6 +32,14 @@ add_filter('template_include', 'centro_servizi_map_template_from_subdirectory', 
 
 function centro_servizi_map_template_from_subdirectory(string $template): string
 {
+    if (is_post_type_archive('attivita')) {
+        $archive_template = get_template_directory() . '/templates/archive-attivita.php';
+
+        if (file_exists($archive_template)) {
+            return $archive_template;
+        }
+    }
+
     if (is_post_type_archive('trasparenza')) {
         $archive_template = get_template_directory() . '/templates/archive-trasparenza.php';
 
@@ -53,6 +61,14 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
 
         if (file_exists($archive_template)) {
             return $archive_template;
+        }
+    }
+
+    if (is_singular('attivita')) {
+        $single_template = get_template_directory() . '/templates/single-attivita.php';
+
+        if (file_exists($single_template)) {
+            return $single_template;
         }
     }
 
