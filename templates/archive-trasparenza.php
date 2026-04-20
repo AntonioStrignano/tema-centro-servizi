@@ -195,6 +195,7 @@ if (! empty($tax_query)) {
 $documenti = new WP_Query($query_args);
 
 $archive_url = get_post_type_archive_link('trasparenza');
+$has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
 
 ?>
 <main id="main">
@@ -321,6 +322,9 @@ $archive_url = get_post_type_archive_link('trasparenza');
 
     <?php if ($documenti->post_count === 0) : ?>
     <p>Nessun documento trovato con i filtri correnti.</p>
+    <?php if ($has_active_filters) : ?>
+    <p><a href="<?php echo esc_url($archive_url); ?>">Reset filtri</a></p>
+    <?php endif; ?>
     <?php endif; ?>
 
     <?php wp_reset_postdata(); ?>
