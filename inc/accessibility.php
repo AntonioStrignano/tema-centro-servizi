@@ -7,9 +7,13 @@ if (! defined('ABSPATH')) {
 
 add_filter('post_gallery', 'centro_servizi_render_attivita_gallery', 10, 3);
 
-function centro_servizi_render_attivita_gallery($output, array $attr, int $instance): string
+function centro_servizi_render_attivita_gallery($output, $attr, $instance): string
 {
     if (! is_singular('attivita')) {
+        return is_string($output) ? $output : '';
+    }
+
+    if (! is_array($attr)) {
         return is_string($output) ? $output : '';
     }
 
