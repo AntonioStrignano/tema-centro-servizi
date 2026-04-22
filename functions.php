@@ -32,6 +32,14 @@ add_filter('template_include', 'centro_servizi_map_template_from_subdirectory', 
 
 function centro_servizi_map_template_from_subdirectory(string $template): string
 {
+    if (is_404()) {
+        $error_template = get_template_directory() . '/templates/404.php';
+
+        if (file_exists($error_template)) {
+            return $error_template;
+        }
+    }
+
     if (is_post_type_archive('attivita')) {
         $archive_template = get_template_directory() . '/templates/archive-attivita.php';
 
