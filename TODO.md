@@ -23,11 +23,11 @@
 ## 🚨 URGENTE — Da fare PRIMA del tema (siti già online)
 
 ### Whistleblowing (obbligatorio dal 17/12/2023 — siamo in ritardo)
-- [ ] Ordinare VPS (Hetzner/Contabo, ~4€/mese, Ubuntu 22.04+)
-- [ ] Installare GlobaLeaks sul VPS
+- [ ] Attivare VM dedicata per GlobaLeaks (Oracle Cloud / VPS Linux, Ubuntu 22.04+)
+- [ ] Installare GlobaLeaks sulla VM dedicata
 - [ ] Configurare HTTPS (Let's Encrypt integrato)
 - [ ] Per ogni scuola:
-  - [ ] Puntare DNS `segnalazioni.nomescuola.it` → VPS
+  - [ ] Puntare DNS `segnalazioni.nomescuola.it` → VM dedicata GlobaLeaks
   - [ ] Creare contesto + utente ricevente in GlobaLeaks
   - [ ] Aggiungere link nel sito attuale (footer o Amm. Trasparente)
 

@@ -543,7 +543,7 @@ Queste pagine/sezioni **devono esistere** sul sito per evitare sanzioni:
 
 > **DPO**: Obbligatorio per tutte le scuole paritarie (trattamento dati minori su larga scala, art. 37 GDPR). Presumibilmente sarà Centro Servizi in qualità di DPO esterno. Da formalizzare con ogni cliente. Sul sito serve solo l'email di contatto.
 
-> **Whistleblowing**: Obbligatorio per enti con 50+ dipendenti e/o che ricevono contributi pubblici. Un form semplice (CF7, Google Form) **NON è compliant** — serve crittografia, anonimato, codice tracciamento. Soluzione raccomandata: **GlobaLeaks** (open source, self-hosted su VPS ~5€/mese, usato da ANAC stessa). Sul sito serve link + pagina esplicativa. Vedi `docs/OBBLIGHI-LEGALI.md` §5 per confronto piattaforme.
+> **Whistleblowing**: Obbligatorio per enti con 50+ dipendenti e/o che ricevono contributi pubblici. Un form semplice (CF7, Google Form) **NON è compliant** — serve crittografia, anonimato, codice tracciamento. Soluzione raccomandata: **GlobaLeaks** (open source, self-hosted su VM Linux dedicata, anche su Oracle Cloud, usato da ANAC stessa). Sul sito serve link + pagina esplicativa. Vedi `docs/OBBLIGHI-LEGALI.md` e `docs/WHISTLEBLOWING-ORACLE-CLOUD.md`.
 
 ### Fase 1 — Struttura base e CPT (priorità: fondamenta)
 1. `style.css` (header WP + CSS debug) + `functions.php` + `index.php`
