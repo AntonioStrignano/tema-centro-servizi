@@ -202,6 +202,12 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
 
     <h1><?php post_type_archive_title(); ?></h1>
 
+    <p>
+        <a href="<?php echo esc_url(home_url('/wp-sitemap.xml')); ?>" target="_blank" rel="noopener noreferrer">
+            Sitemap del sito <span class="sr-only">(apre in nuova finestra)</span>
+        </a>
+    </p>
+
     <form method="get" action="<?php echo esc_url($archive_url); ?>" id="filtri-ammtrasp">
         <fieldset>
             <legend>Anno scolastico</legend>

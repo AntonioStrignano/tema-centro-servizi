@@ -10,7 +10,7 @@
 - [x] Rimossa duplicazione breadcrumb nei template archivio (evita doppio annuncio ai lettori di schermo)
 - [x] Aggiunto avviso accessibile "apre in nuova finestra" sui link allegati negli archivi
 - [ ] Restano mancanti i template legali prioritari: `page-amministrazione-trasparente.php` e `page-dichiarazione-accessibilita.php`
-- [ ] Resta mancante `screenshot.png` del tema
+- [ ] `screenshot.png` rinviato (non bloccante in questa fase)
 - [x] Blocco Attivita completato (seed + archive + single + card + filtri)
 
 ## Ordine operativo attuale
@@ -44,7 +44,7 @@
 - [x] `style.css` — header WP obbligatorio + CSS debug
 - [x] `functions.php` — bootstrap, carica moduli da `/inc`
 - [x] `index.php` — fallback obbligatorio
-- [ ] `screenshot.png`
+- [ ] `screenshot.png` (opzionale per ora)
 - [x] `inc/setup.php` — theme supports, menu locations, image sizes, commenti disabilitati
 - [x] `inc/enqueue.php` — registrazione style.css, deregistrazione jQuery
 - [x] `inc/cpt-attivita.php`
@@ -66,10 +66,7 @@
 
 ## ⚖️ TEMA — Fase 2: Pagine legali e compliance
 
-> Priorità compliance. Queste pagine devono esistere per legge.
-> Nota operativa: l'archivio `trasparenza` copre gia la pubblicazione documenti; la landing dedicata serve soprattutto come indice istituzionale stabile delle 12 sezioni.
-
-- [ ] `templates/page-amministrazione-trasparente.php` — indice navigabile 12 sezioni
+> Priorità compliance. Per Amministrazione Trasparente si usa l'archivio `trasparenza` come soluzione principale.
 - [x] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
 - [ ] `templates/page-dichiarazione-accessibilita.php` — da fare a tema quasi chiuso / in fase finale di audit
