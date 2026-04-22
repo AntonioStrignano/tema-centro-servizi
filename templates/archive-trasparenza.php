@@ -281,38 +281,20 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
         $tag_anno = centro_servizi_get_post_meta_string($post_id, 'tag_anno');
         $allegato = centro_servizi_archive_trasparenza_file_data($post_id);
         $termine_display = centro_servizi_archive_trasparenza_display_term(centro_servizi_archive_trasparenza_assigned_terms($post_id));
-        $titolo_card = centro_servizi_archive_trasparenza_title($termine_display, $tag_anno, get_the_title($post_id));
         $contenuto = trim((string) get_post_field('post_content', $post_id));
         ?>
         <li>
-            <article>
-                <h2><?php echo esc_html($titolo_card); ?></h2>
-
-                <?php if ($titolo_custom !== '') : ?>
-                <p><strong><?php echo esc_html($titolo_custom); ?></strong></p>
-                <?php endif; ?>
-
-                <?php if ($testo !== '') : ?>
-                <p><?php echo esc_html($testo); ?></p>
-                <?php endif; ?>
-
-                <?php if ($allegato !== []) : ?>
-                <p>
-                    <a href="<?php echo esc_url((string) $allegato['url']); ?>" target="_blank" rel="noopener noreferrer">
-                        <?php echo esc_html((string) $allegato['label']); ?> <span class="sr-only">(apre in nuova finestra)</span>
-                    </a>
-                </p>
-                <?php endif; ?>
-
-                <?php if ($contenuto !== '') : ?>
-                <div><?php echo apply_filters('the_content', $contenuto); ?></div>
-                <?php endif; ?>
-
-                <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
-                    <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                    <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
-                </div>
-            </article>
+            <?php
+            get_template_part('partials/card-trasparenza', null, [
+                'post_id' => $post_id,
+                'termine_display' => $termine_display,
+                'tag_anno' => $tag_anno,
+                'titolo_custom' => $titolo_custom,
+                'testo' => $testo,
+                'allegato' => $allegato,
+                'contenuto' => $contenuto,
+            ]);
+            ?>
         </li>
         <?php endforeach; ?>
     </ul>

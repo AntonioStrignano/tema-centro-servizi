@@ -10,35 +10,6 @@ function centro_servizi_archive_area_famiglie_selected_slug(string $key): string
     return sanitize_text_field(wp_unslash((string) $_GET[$key])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 }
 
-function centro_servizi_archive_area_famiglie_assigned_terms(int $post_id): array
-{
-    $terms = get_the_terms($post_id, 'categoria-area-famiglia');
-
-    if (is_wp_error($terms) || empty($terms)) {
-        return [];
-    }
-
-    return $terms;
-}
-
-function centro_servizi_archive_area_famiglie_display_term(array $terms): ?WP_Term
-{
-    if ($terms === []) {
-        return null;
-    }
-
-    usort($terms, static function (WP_Term $left, WP_Term $right): int {
-        return strcmp($left->slug, $right->slug);
-    });
-
-    return $terms[0] instanceof WP_Term ? $terms[0] : null;
-}
-
-function centro_servizi_archive_area_famiglie_file_data(int $post_id): array
-{
-    return centro_servizi_get_meta_file_link_data($post_id, 'allegato');
-}
-
 get_template_part('partials/header');
 
 $selected_cat = centro_servizi_archive_area_famiglie_selected_slug('cat');
@@ -116,40 +87,9 @@ $has_active_filters = ($selected_cat !== '');
         <?php
         setup_postdata($contenuto_post);
         $post_id = (int) $contenuto_post->ID;
-        $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
-        $allegato = centro_servizi_archive_area_famiglie_file_data($post_id);
-        $termine_display = centro_servizi_archive_area_famiglie_display_term(centro_servizi_archive_area_famiglie_assigned_terms($post_id));
-        $contenuto = trim((string) get_post_field('post_content', $post_id));
         ?>
         <li>
-            <article>
-                <h2><?php echo esc_html(get_the_title($post_id)); ?></h2>
-
-                <?php if ($termine_display instanceof WP_Term) : ?>
-                <p><strong><?php echo esc_html($termine_display->name); ?></strong></p>
-                <?php endif; ?>
-
-                <?php if ($testo !== '') : ?>
-                <p><?php echo esc_html($testo); ?></p>
-                <?php endif; ?>
-
-                <?php if ($allegato !== []) : ?>
-                <p>
-                    <a href="<?php echo esc_url((string) $allegato['url']); ?>" target="_blank" rel="noopener noreferrer">
-                        <?php echo esc_html((string) $allegato['label']); ?> <span class="sr-only">(apre in nuova finestra)</span>
-                    </a>
-                </p>
-                <?php endif; ?>
-
-                <?php if ($contenuto !== '') : ?>
-                <div><?php echo apply_filters('the_content', $contenuto); ?></div>
-                <?php endif; ?>
-
-                <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
-                    <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-                    <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
-                </div>
-            </article>
+            <?php get_template_part('partials/card-area-famiglie', null, ['post_id' => $post_id]); ?>
         </li>
         <?php endforeach; ?>
     </ul>

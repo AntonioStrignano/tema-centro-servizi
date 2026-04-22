@@ -11,6 +11,7 @@
 - [x] Aggiunto avviso accessibile "apre in nuova finestra" sui link allegati negli archivi
 - [ ] Restano mancanti i template legali prioritari: `page-amministrazione-trasparente.php` e `page-dichiarazione-accessibilita.php`
 - [ ] Resta mancante `screenshot.png` del tema
+- [x] Blocco Attivita completato (seed + archive + single + card + filtri)
 
 ## Ordine operativo attuale
 
@@ -69,7 +70,7 @@
 > Nota operativa: l'archivio `trasparenza` copre gia la pubblicazione documenti; la landing dedicata serve soprattutto come indice istituzionale stabile delle 12 sezioni.
 
 - [ ] `templates/page-amministrazione-trasparente.php` — indice navigabile 12 sezioni
-- [ ] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
+- [x] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
 - [ ] `templates/page-dichiarazione-accessibilita.php` — da fare a tema quasi chiuso / in fase finale di audit
 - [ ] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
@@ -86,9 +87,9 @@
 - [x] `partials/card-attivita.php` — titolo, tassonomie, contenuto editor, date
 - [x] `templates/archive-attivita.php`
 - [x] `templates/archive-area-famiglie.php`
-- [ ] `partials/card-area-famiglie.php`
+- [x] `partials/card-area-famiglie.php`
 - [x] `templates/archive-area-personale.php`
-- [ ] `partials/card-area-personale.php`
+- [x] `partials/card-area-personale.php`
 - [ ] `partials/pagination.php` — paginazione accessibile
 - [ ] `inc/admin.php` — colonne admin personalizzate per CPT
 - [ ] `inc/search.php` — filtri ricerca per tipo contenuto
