@@ -5,62 +5,6 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-add_filter('post_gallery', 'centro_servizi_render_attivita_gallery', 10, 3);
-
-function centro_servizi_render_attivita_gallery($output, $attr, $instance): string
-{
-    if (! is_singular('attivita')) {
-        return is_string($output) ? $output : '';
-    }
-
-    if (! is_array($attr)) {
-        return is_string($output) ? $output : '';
-    }
-
-    $ids = [];
-
-    if (isset($attr['ids']) && is_string($attr['ids']) && $attr['ids'] !== '') {
-        $ids = array_values(array_filter(array_map('absint', explode(',', $attr['ids']))));
-    }
-
-    if ($ids === []) {
-        return is_string($output) ? $output : '';
-    }
-
-    $html = '<div class="gallery gallery-columns-3">';
-
-    foreach ($ids as $attachment_id) {
-        $image_html = wp_get_attachment_image($attachment_id, 'large');
-
-        if (! is_string($image_html) || $image_html === '') {
-            continue;
-        }
-
-        $full_url = wp_get_attachment_url($attachment_id);
-
-        if (! is_string($full_url) || $full_url === '') {
-            continue;
-        }
-
-        $caption = wp_get_attachment_caption($attachment_id);
-
-        $html .= '<figure class="gallery-item">';
-        $html .= '<div class="gallery-icon">';
-        $html .= '<a href="' . esc_url($full_url) . '" target="_blank" rel="noopener noreferrer">' . $image_html . '</a>';
-        $html .= '</div>';
-
-        if (is_string($caption) && $caption !== '') {
-            $html .= '<figcaption class="wp-caption-text gallery-caption">' . esc_html($caption) . '</figcaption>';
-        }
-
-        $html .= '</figure>';
-    }
-
-    $html .= '</div>';
-
-    return $html;
-}
-
 function centro_servizi_get_skip_links(): array
 {
     return [
