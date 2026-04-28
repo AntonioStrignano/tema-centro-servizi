@@ -42,24 +42,34 @@ function centro_servizi_get_latest_commit_title(): string
     }
 
     $commit_title = '';
+
+    // Prova prima via git direttamente (funziona in locale con .git presente)
     $repository_root = centro_servizi_find_git_repository_root(get_template_directory());
 
-    if ($repository_root === '' || ! function_exists('shell_exec')) {
-        return $commit_title;
+    if ($repository_root !== '' && function_exists('shell_exec')) {
+        $command = sprintf(
+            'git -C %s log -1 --pretty=%%s 2>/dev/null',
+            escapeshellarg($repository_root)
+        );
+
+        $output = shell_exec($command);
+
+        if (is_string($output) && trim($output) !== '') {
+            $commit_title = trim($output);
+            return $commit_title;
+        }
     }
 
-    $command = sprintf(
-        'git -C %s log -1 --pretty=%%s 2>/dev/null',
-        escapeshellarg($repository_root)
-    );
+    // Fallback: legge da deploy-meta.php (presente sul server dopo il push)
+    $meta_file = get_template_directory() . '/assets/deploy-meta.php';
 
-    $output = shell_exec($command);
+    if (file_exists($meta_file)) {
+        $meta = require $meta_file;
 
-    if (! is_string($output)) {
-        return $commit_title;
+        if (is_array($meta) && ! empty($meta['commit_title'])) {
+            $commit_title = sanitize_text_field($meta['commit_title']);
+        }
     }
-
-    $commit_title = trim($output);
 
     return $commit_title;
 }
