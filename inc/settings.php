@@ -139,6 +139,98 @@ function centro_servizi_sanitize_google_fonts_url(string $url): string
     return $clean_url;
 }
 
+function centro_servizi_get_typography_profiles(): array
+{
+    return ['body', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'links', 'buttons'];
+}
+
+function centro_servizi_get_typography_defaults(): array
+{
+    return [
+        'body' => ['font_source' => 'catalog', 'font' => 'arial', 'custom_font' => '', 'size' => 16, 'size_unit' => 'px', 'weight' => 400, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'h1' => ['font_source' => 'catalog', 'font' => 'georgia', 'custom_font' => '', 'size' => 42, 'size_unit' => 'px', 'weight' => 700, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'h2' => ['font_source' => 'catalog', 'font' => 'georgia', 'custom_font' => '', 'size' => 36, 'size_unit' => 'px', 'weight' => 700, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'h3' => ['font_source' => 'catalog', 'font' => 'georgia', 'custom_font' => '', 'size' => 28, 'size_unit' => 'px', 'weight' => 700, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'h4' => ['font_source' => 'catalog', 'font' => 'georgia', 'custom_font' => '', 'size' => 22, 'size_unit' => 'px', 'weight' => 700, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'h5' => ['font_source' => 'catalog', 'font' => 'georgia', 'custom_font' => '', 'size' => 20, 'size_unit' => 'px', 'weight' => 700, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'h6' => ['font_source' => 'catalog', 'font' => 'georgia', 'custom_font' => '', 'size' => 18, 'size_unit' => 'px', 'weight' => 700, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'custom', 'color' => '#1f1f1f', 'color_palette' => 'body'],
+        'links' => ['font_source' => 'catalog', 'font' => 'arial', 'custom_font' => '', 'size' => 16, 'size_unit' => 'px', 'weight' => 500, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'palette', 'color' => '#007acc', 'color_palette' => 'main'],
+        'buttons' => ['font_source' => 'catalog', 'font' => 'arial', 'custom_font' => '', 'size' => 16, 'size_unit' => 'px', 'weight' => 600, 'style' => 'normal', 'transform' => 'none', 'color_mode' => 'palette', 'color' => '#ff6b6b', 'color_palette' => 'accent'],
+    ];
+}
+
+function centro_servizi_get_typography_size_units(): array
+{
+    return ['px' => 'px', 'rem' => 'rem', 'em' => 'em', '%' => '%'];
+}
+
+function centro_servizi_get_color_palette_choices(): array
+{
+    return [
+        'main' => 'Main',
+        'main-light' => 'Main chiaro',
+        'main-dark' => 'Main scuro',
+        'secondary' => 'Secondary',
+        'secondary-light' => 'Secondary chiaro',
+        'secondary-dark' => 'Secondary scuro',
+        'body' => 'Body',
+        'body-light' => 'Body chiaro',
+        'body-dark' => 'Body scuro',
+        'accent' => 'Accent',
+        'accent-light' => 'Accent chiaro',
+        'accent-dark' => 'Accent scuro',
+    ];
+}
+
+function centro_servizi_get_typography_value(array $profile_config, string $key, $default)
+{
+    return array_key_exists($key, $profile_config) ? $profile_config[$key] : $default;
+}
+
+function centro_servizi_normalize_typography(array $typography): array
+{
+    $defaults = centro_servizi_get_typography_defaults();
+    $normalized = [];
+
+    foreach ($defaults as $profile => $default_config) {
+        $raw = is_array($typography[$profile] ?? null) ? $typography[$profile] : [];
+        $normalized[$profile] = array_merge($default_config, $raw);
+    }
+
+    return $normalized;
+}
+
+function centro_servizi_get_profile_font_stack(array $config, array $font_catalog): string
+{
+    $source = (string) centro_servizi_get_typography_value($config, 'font_source', 'catalog');
+    if ($source === 'custom-google') {
+        $custom_font = trim((string) centro_servizi_get_typography_value($config, 'custom_font', ''));
+        if ($custom_font !== '') {
+            return '"' . $custom_font . '", Arial, sans-serif';
+        }
+    }
+
+    $font_key = (string) centro_servizi_get_typography_value($config, 'font', 'arial');
+    $safe_key = centro_servizi_sanitize_font_key($font_key, 'arial');
+    return (string) ($font_catalog[$safe_key]['stack'] ?? 'Arial, sans-serif');
+}
+
+function centro_servizi_get_profile_color_css(array $config): string
+{
+    $palette_choices = centro_servizi_get_color_palette_choices();
+    $color_mode = (string) centro_servizi_get_typography_value($config, 'color_mode', 'custom');
+    if ($color_mode === 'palette') {
+        $token = (string) centro_servizi_get_typography_value($config, 'color_palette', 'body');
+        if (isset($palette_choices[$token])) {
+            return 'var(--color-' . $token . ')';
+        }
+    }
+
+    $fallback = '#1f1f1f';
+    $hex = sanitize_hex_color((string) centro_servizi_get_typography_value($config, 'color', $fallback));
+    return $hex ?: $fallback;
+}
+
 // ============================================================================
 // RENDERING PAGINA IMPOSTAZIONI
 // ============================================================================
@@ -165,24 +257,65 @@ function centro_servizi_render_settings_page(): void
         update_option('centro_servizi_color_body', $color_body);
         update_option('centro_servizi_color_accent', $color_accent);
 
-        // FONT PROFILES (corpo + H1-H4)
-        $profiles = ['body', 'h1', 'h2', 'h3', 'h4'];
+        // FONT PROFILES
+        $profiles = centro_servizi_get_typography_profiles();
+        $size_units = centro_servizi_get_typography_size_units();
+        $palette_choices = centro_servizi_get_color_palette_choices();
         $typography = [];
 
         foreach ($profiles as $profile) {
+            $font_source = sanitize_text_field($_POST["font_source_${profile}"] ?? 'catalog');
             $font_key = sanitize_text_field($_POST["font_${profile}"] ?? 'arial');
-            $font_size = (int) ($_POST["size_${profile}"] ?? 16);
+            $custom_font = sanitize_text_field($_POST["custom_font_${profile}"] ?? '');
+            $font_size = (float) ($_POST["size_${profile}"] ?? 16);
+            $font_unit = sanitize_text_field($_POST["size_unit_${profile}"] ?? 'px');
             $font_weight = (int) ($_POST["weight_${profile}"] ?? 400);
+            $font_style = sanitize_text_field($_POST["style_${profile}"] ?? 'normal');
+            $font_transform = sanitize_text_field($_POST["transform_${profile}"] ?? 'none');
+            $font_color_mode = sanitize_text_field($_POST["color_mode_${profile}"] ?? 'custom');
             $font_color = sanitize_hex_color($_POST["color_${profile}"] ?? '#1f1f1f');
+            $font_color_palette = sanitize_text_field($_POST["color_palette_${profile}"] ?? 'body');
 
-            $font_size = max(10, min(72, $font_size));
+            if (! isset($size_units[$font_unit])) {
+                $font_unit = 'px';
+            }
+            if ($font_unit === 'px') {
+                $font_size = max(10, min(72, $font_size));
+            } elseif ($font_unit === '%') {
+                $font_size = max(50, min(400, $font_size));
+            } else {
+                $font_size = max(0.5, min(8, $font_size));
+            }
+
             $font_weight = max(100, min(900, $font_weight));
+            if (! in_array($font_source, ['catalog', 'custom-google'], true)) {
+                $font_source = 'catalog';
+            }
+            if (! in_array($font_style, ['normal', 'italic', 'oblique'], true)) {
+                $font_style = 'normal';
+            }
+            if (! in_array($font_transform, ['none', 'uppercase', 'lowercase', 'capitalize'], true)) {
+                $font_transform = 'none';
+            }
+            if (! in_array($font_color_mode, ['custom', 'palette'], true)) {
+                $font_color_mode = 'custom';
+            }
+            if (! isset($palette_choices[$font_color_palette])) {
+                $font_color_palette = 'body';
+            }
 
             $typography[$profile] = [
+                'font_source' => $font_source,
                 'font' => centro_servizi_sanitize_font_key($font_key, 'arial'),
+                'custom_font' => $custom_font,
                 'size' => $font_size,
+                'size_unit' => $font_unit,
                 'weight' => $font_weight,
-                'color' => $font_color,
+                'style' => $font_style,
+                'transform' => $font_transform,
+                'color_mode' => $font_color_mode,
+                'color' => $font_color ?: '#1f1f1f',
+                'color_palette' => $font_color_palette,
             ];
         }
 
@@ -239,8 +372,11 @@ function centro_servizi_render_settings_page(): void
     $color_body = get_option('centro_servizi_color_body', '#1f1f1f');
     $color_accent = get_option('centro_servizi_color_accent', '#ff6b6b');
 
-    $typography_json = get_option('centro_servizi_typography', '{"body":{"font":"arial","size":16,"weight":400,"color":"#1f1f1f"},"h1":{"font":"georgia","size":42,"weight":700,"color":"#1f1f1f"},"h2":{"font":"georgia","size":36,"weight":700,"color":"#1f1f1f"},"h3":{"font":"georgia","size":28,"weight":700,"color":"#1f1f1f"},"h4":{"font":"georgia","size":22,"weight":700,"color":"#1f1f1f"}}');
-    $typography = json_decode($typography_json, true) ?: [];
+    $typography_json = get_option('centro_servizi_typography', wp_json_encode(centro_servizi_get_typography_defaults()));
+    $typography = centro_servizi_normalize_typography(json_decode($typography_json, true) ?: []);
+    $profiles = centro_servizi_get_typography_profiles();
+    $size_units = centro_servizi_get_typography_size_units();
+    $palette_choices = centro_servizi_get_color_palette_choices();
 
     $google_fonts_url = get_option('centro_servizi_google_fonts_url', '');
     $homepage_title = get_option('centro_servizi_homepage_title', 'Centro Servizi');
@@ -266,6 +402,25 @@ function centro_servizi_render_settings_page(): void
         'h2' => 'Titolo H2',
         'h3' => 'Titolo H3',
         'h4' => 'Titolo H4',
+        'h5' => 'Titolo H5',
+        'h6' => 'Titolo H6',
+        'links' => 'Link',
+        'buttons' => 'Pulsanti',
+    ];
+
+    $palette_preview_map = [
+        'main' => $color_main,
+        'main-light' => centro_servizi_lighten_color($color_main, 20),
+        'main-dark' => centro_servizi_darken_color($color_main, 20),
+        'secondary' => $color_secondary,
+        'secondary-light' => centro_servizi_lighten_color($color_secondary, 20),
+        'secondary-dark' => centro_servizi_darken_color($color_secondary, 20),
+        'body' => $color_body,
+        'body-light' => centro_servizi_lighten_color($color_body, 20),
+        'body-dark' => centro_servizi_darken_color($color_body, 20),
+        'accent' => $color_accent,
+        'accent-light' => centro_servizi_lighten_color($color_accent, 20),
+        'accent-dark' => centro_servizi_darken_color($color_accent, 20),
     ];
     ?>
 
@@ -306,36 +461,58 @@ function centro_servizi_render_settings_page(): void
             <!-- TYPOGRAPHY -->
             <div class="settings-section">
                 <h2>🔤 Tipografia</h2>
-                <p class="description">Configura font, size, weight e colore per ogni elemento.</p>
+                <p class="description">Configura font, dimensione (px/rem/em/%), peso, stile e colore per ogni elemento. I font Google custom possono essere assegnati a profili specifici.</p>
 
                 <div class="typography-grid">
-                    <?php foreach (['body', 'h1', 'h2', 'h3', 'h4'] as $profile): ?>
+                    <?php foreach ($profiles as $profile): ?>
                         <div class="typography-card">
                             <h3><?php echo esc_html($heading_labels[$profile]); ?></h3>
 
                             <div class="form-group">
+                                <label for="font_source_<?php echo $profile; ?>">Sorgente font</label>
+                                <select id="font_source_<?php echo $profile; ?>" name="font_source_<?php echo $profile; ?>" class="font-source-select" data-profile="<?php echo $profile; ?>">
+                                    <option value="catalog" <?php selected($typography[$profile]['font_source'] ?? 'catalog', 'catalog'); ?>>Catalogo interno</option>
+                                    <option value="custom-google" <?php selected($typography[$profile]['font_source'] ?? 'catalog', 'custom-google'); ?>>Google custom (nome famiglia)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="font_<?php echo $profile; ?>">Font</label>
-                                <div class="font-picker-wrapper">
-                                    <input type="hidden" id="font_<?php echo $profile; ?>" name="font_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['font'] ?? 'arial'); ?>" />
-                                    <div class="font-picker-display" data-profile="<?php echo $profile; ?>">
-                                        <?php echo esc_html($fonts[$typography[$profile]['font'] ?? 'arial']['label'] ?? 'Arial'); ?>
-                                    </div>
-                                    <div class="font-picker-dropdown" id="dropdown_<?php echo $profile; ?>" style="display: none;">
-                                        <input type="text" class="font-search" placeholder="Cerca font..." data-profile="<?php echo $profile; ?>" />
-                                        <div class="font-list">
-                                            <?php foreach ($fonts as $key => $font): ?>
-                                                <div class="font-item" data-value="<?php echo esc_attr($key); ?>" data-profile="<?php echo $profile; ?>" style="font-family: <?php echo esc_attr($font['stack']); ?>">
-                                                    <?php echo esc_html($font['label']); ?>
-                                                </div>
-                                            <?php endforeach; ?>
+                                <div class="font-mode-block font-mode-catalog" data-profile="<?php echo $profile; ?>">
+                                    <div class="font-picker-wrapper">
+                                        <input type="hidden" id="font_<?php echo $profile; ?>" name="font_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['font'] ?? 'arial'); ?>" />
+                                        <div class="font-picker-display" data-profile="<?php echo $profile; ?>">
+                                            <?php echo esc_html($fonts[$typography[$profile]['font'] ?? 'arial']['label'] ?? 'Arial'); ?>
+                                        </div>
+                                        <div class="font-picker-dropdown" id="dropdown_<?php echo $profile; ?>" style="display: none;">
+                                            <input type="text" class="font-search" placeholder="Cerca font..." data-profile="<?php echo $profile; ?>" />
+                                            <div class="font-list">
+                                                <?php foreach ($fonts as $key => $font): ?>
+                                                    <div class="font-item" data-value="<?php echo esc_attr($key); ?>" data-profile="<?php echo $profile; ?>" style="font-family: <?php echo esc_attr($font['stack']); ?>">
+                                                        <?php echo esc_html($font['label']); ?>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="font-mode-block font-mode-custom" data-profile="<?php echo $profile; ?>">
+                                    <input type="text" id="custom_font_<?php echo $profile; ?>" name="custom_font_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['custom_font'] ?? ''); ?>" placeholder="Es: DM Sans" />
+                                    <p class="description">Inserisci il nome famiglia Google Fonts da applicare solo a questo profilo.</p>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="size_<?php echo $profile; ?>">Dimensione (px)</label>
-                                <input type="number" id="size_<?php echo $profile; ?>" name="size_<?php echo $profile; ?>" value="<?php echo intval($typography[$profile]['size'] ?? 16); ?>" min="10" max="72" />
+                                <label for="size_<?php echo $profile; ?>">Dimensione</label>
+                                <div class="inline-controls">
+                                    <input type="number" id="size_<?php echo $profile; ?>" name="size_<?php echo $profile; ?>" value="<?php echo esc_attr((string) ($typography[$profile]['size'] ?? 16)); ?>" step="0.1" min="0.5" max="400" />
+                                    <select id="size_unit_<?php echo $profile; ?>" name="size_unit_<?php echo $profile; ?>">
+                                        <?php foreach ($size_units as $unit_key => $unit_label): ?>
+                                            <option value="<?php echo esc_attr($unit_key); ?>" <?php selected($typography[$profile]['size_unit'] ?? 'px', $unit_key); ?>><?php echo esc_html($unit_label); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -351,18 +528,62 @@ function centro_servizi_render_settings_page(): void
                             </div>
 
                             <div class="form-group">
-                                <label for="color_<?php echo $profile; ?>">Colore</label>
+                                <label for="style_<?php echo $profile; ?>">Stile font</label>
+                                <select id="style_<?php echo $profile; ?>" name="style_<?php echo $profile; ?>">
+                                    <option value="normal" <?php selected($typography[$profile]['style'] ?? 'normal', 'normal'); ?>>Normale</option>
+                                    <option value="italic" <?php selected($typography[$profile]['style'] ?? 'normal', 'italic'); ?>>Italic</option>
+                                    <option value="oblique" <?php selected($typography[$profile]['style'] ?? 'normal', 'oblique'); ?>>Oblique</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="transform_<?php echo $profile; ?>">Formato testo</label>
+                                <select id="transform_<?php echo $profile; ?>" name="transform_<?php echo $profile; ?>">
+                                    <option value="none" <?php selected($typography[$profile]['transform'] ?? 'none', 'none'); ?>>Nessuna trasformazione</option>
+                                    <option value="uppercase" <?php selected($typography[$profile]['transform'] ?? 'none', 'uppercase'); ?>>MAIUSCOLO</option>
+                                    <option value="lowercase" <?php selected($typography[$profile]['transform'] ?? 'none', 'lowercase'); ?>>minuscolo</option>
+                                    <option value="capitalize" <?php selected($typography[$profile]['transform'] ?? 'none', 'capitalize'); ?>>Capitalized</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="color_mode_<?php echo $profile; ?>">Origine colore</label>
+                                <select id="color_mode_<?php echo $profile; ?>" name="color_mode_<?php echo $profile; ?>" class="color-mode-select" data-profile="<?php echo $profile; ?>">
+                                    <option value="custom" <?php selected($typography[$profile]['color_mode'] ?? 'custom', 'custom'); ?>>Colore custom</option>
+                                    <option value="palette" <?php selected($typography[$profile]['color_mode'] ?? 'custom', 'palette'); ?>>Palette principale</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group color-mode-block color-mode-custom" data-profile="<?php echo $profile; ?>">
+                                <label for="color_<?php echo $profile; ?>">Colore custom</label>
                                 <input type="color" id="color_<?php echo $profile; ?>" name="color_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['color'] ?? '#1f1f1f'); ?>" />
+                            </div>
+
+                            <div class="form-group color-mode-block color-mode-palette" data-profile="<?php echo $profile; ?>">
+                                <label for="color_palette_<?php echo $profile; ?>">Colore da palette</label>
+                                <select id="color_palette_<?php echo $profile; ?>" name="color_palette_<?php echo $profile; ?>">
+                                    <?php foreach ($palette_choices as $palette_key => $palette_label): ?>
+                                        <option value="<?php echo esc_attr($palette_key); ?>" <?php selected($typography[$profile]['color_palette'] ?? 'body', $palette_key); ?>><?php echo esc_html($palette_label); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
 
                             <div class="preview-box" id="preview_<?php echo $profile; ?>">
                                 <?php 
-                                $font_stack = centro_servizi_get_font_stack_by_key($typography[$profile]['font'] ?? 'arial', 'arial');
-                                $font_size = intval($typography[$profile]['size'] ?? 16);
+                                $font_stack = centro_servizi_get_profile_font_stack($typography[$profile], $fonts);
+                                $font_size = (float) ($typography[$profile]['size'] ?? 16);
+                                $font_size_unit = (string) ($typography[$profile]['size_unit'] ?? 'px');
                                 $font_weight = intval($typography[$profile]['weight'] ?? 400);
+                                $font_style = esc_attr($typography[$profile]['style'] ?? 'normal');
+                                $font_transform = esc_attr($typography[$profile]['transform'] ?? 'none');
+                                $font_color_mode = $typography[$profile]['color_mode'] ?? 'custom';
                                 $font_color = esc_attr($typography[$profile]['color'] ?? '#1f1f1f');
+                                if ($font_color_mode === 'palette') {
+                                    $token = (string) ($typography[$profile]['color_palette'] ?? 'body');
+                                    $font_color = esc_attr($palette_preview_map[$token] ?? '#1f1f1f');
+                                }
                                 ?>
-                                <div style="font-family: <?php echo esc_attr($font_stack); ?>; font-size: <?php echo intval($font_size); ?>px; font-weight: <?php echo intval($font_weight); ?>; color: <?php echo esc_attr($font_color); ?>;">
+                                <div style="font-family: <?php echo esc_attr($font_stack); ?>; font-size: <?php echo esc_attr($font_size . $font_size_unit); ?>; font-weight: <?php echo intval($font_weight); ?>; font-style: <?php echo $font_style; ?>; text-transform: <?php echo $font_transform; ?>; color: <?php echo esc_attr($font_color); ?>;">
                                     <?php echo $profile === 'body' ? 'Anteprima testo corpo' : 'Titolo Anteprima'; ?>
                                 </div>
                             </div>
@@ -373,7 +594,7 @@ function centro_servizi_render_settings_page(): void
                 <div class="form-group">
                     <label for="google_fonts_url">URL Google Fonts (opzionale)</label>
                     <input type="url" id="google_fonts_url" name="google_fonts_url" value="<?php echo esc_attr($google_fonts_url); ?>" class="regular-text code" placeholder="https://fonts.googleapis.com/css2?family=..." />
-                    <p class="description">Se compilato, il tema carica questo URL al posto del caricamento automatico.</p>
+                    <p class="description">Puoi usare un URL custom per includere famiglie extra; l'assegnazione del font rimane per singolo profilo.</p>
                 </div>
             </div>
 
@@ -572,6 +793,23 @@ function centro_servizi_render_settings_page(): void
             padding: 2px;
         }
 
+        .inline-controls {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 8px;
+        }
+
+        .font-mode-block,
+        .color-mode-block {
+            margin-top: 8px;
+        }
+
+        .font-mode-block .description,
+        .color-mode-block .description {
+            margin: 6px 0 0;
+            font-style: normal;
+        }
+
         /* FONT PICKER */
         .font-picker-wrapper {
             position: relative;
@@ -684,32 +922,66 @@ function centro_servizi_render_settings_page(): void
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const fontCatalog = <?php echo wp_json_encode($fonts); ?>;
-            const profiles = ['body', 'h1', 'h2', 'h3', 'h4'];
+            const profiles = <?php echo wp_json_encode($profiles); ?>;
+            const paletteKeys = <?php echo wp_json_encode(array_keys($palette_choices)); ?>;
 
             // ===== FONT PICKER LOGIC =====
             profiles.forEach((profile) => {
                 const display = document.querySelector(`.font-picker-display[data-profile="${profile}"]`);
                 const dropdown = document.getElementById(`dropdown_${profile}`);
                 const input = document.getElementById(`font_${profile}`);
-                const search = dropdown.querySelector('.font-search');
-                const items = dropdown.querySelectorAll('.font-item');
+                const search = dropdown ? dropdown.querySelector('.font-search') : null;
+                const items = dropdown ? dropdown.querySelectorAll('.font-item') : [];
+
+                const fontSourceSelect = document.getElementById(`font_source_${profile}`);
+                const customFontInput = document.getElementById(`custom_font_${profile}`);
+                const colorModeSelect = document.getElementById(`color_mode_${profile}`);
+
+                const catalogBlock = document.querySelector(`.font-mode-catalog[data-profile="${profile}"]`);
+                const customBlock = document.querySelector(`.font-mode-custom[data-profile="${profile}"]`);
+                const colorCustomBlock = document.querySelector(`.color-mode-custom[data-profile="${profile}"]`);
+                const colorPaletteBlock = document.querySelector(`.color-mode-palette[data-profile="${profile}"]`);
+
+                function toggleFontSourceBlocks() {
+                    const source = fontSourceSelect ? fontSourceSelect.value : 'catalog';
+                    if (catalogBlock) {
+                        catalogBlock.style.display = source === 'catalog' ? 'block' : 'none';
+                    }
+                    if (customBlock) {
+                        customBlock.style.display = source === 'custom-google' ? 'block' : 'none';
+                    }
+                }
+
+                function toggleColorModeBlocks() {
+                    const mode = colorModeSelect ? colorModeSelect.value : 'custom';
+                    if (colorCustomBlock) {
+                        colorCustomBlock.style.display = mode === 'custom' ? 'block' : 'none';
+                    }
+                    if (colorPaletteBlock) {
+                        colorPaletteBlock.style.display = mode === 'palette' ? 'block' : 'none';
+                    }
+                }
 
                 // Mostra/nascondi dropdown
-                display.addEventListener('click', () => {
-                    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-                    if (dropdown.style.display === 'block') {
-                        search.focus();
-                    }
-                });
+                if (display && dropdown && search) {
+                    display.addEventListener('click', () => {
+                        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+                        if (dropdown.style.display === 'block') {
+                            search.focus();
+                        }
+                    });
+                }
 
                 // Cerca font
-                search.addEventListener('input', (e) => {
-                    const query = e.target.value.toLowerCase();
-                    items.forEach((item) => {
-                        const text = item.textContent.toLowerCase();
-                        item.style.display = text.includes(query) ? 'block' : 'none';
+                if (search) {
+                    search.addEventListener('input', (e) => {
+                        const query = e.target.value.toLowerCase();
+                        items.forEach((item) => {
+                            const text = item.textContent.toLowerCase();
+                            item.style.display = text.includes(query) ? 'block' : 'none';
+                        });
                     });
-                });
+                }
 
                 // Seleziona font
                 items.forEach((item) => {
@@ -724,46 +996,148 @@ function centro_servizi_render_settings_page(): void
                 });
 
                 // Marca elemento attivo
-                const currentValue = input.value;
+                const currentValue = input ? input.value : '';
                 items.forEach((item) => {
                     if (item.dataset.value === currentValue) {
                         item.classList.add('active');
                     }
                 });
 
-                // Aggiorna anteprima se cambiano size/weight/color
-                ['size_', 'weight_', 'color_'].forEach((prefix) => {
+                ['size_', 'size_unit_', 'weight_', 'style_', 'transform_', 'color_', 'color_palette_'].forEach((prefix) => {
                     const el = document.getElementById(`${prefix}${profile}`);
                     if (el) {
                         el.addEventListener('change', () => updatePreview(profile));
                         el.addEventListener('input', () => updatePreview(profile));
                     }
                 });
+
+                if (fontSourceSelect) {
+                    fontSourceSelect.addEventListener('change', () => {
+                        toggleFontSourceBlocks();
+                        updatePreview(profile);
+                    });
+                }
+                if (customFontInput) {
+                    customFontInput.addEventListener('change', () => updatePreview(profile));
+                    customFontInput.addEventListener('input', () => updatePreview(profile));
+                }
+                if (colorModeSelect) {
+                    colorModeSelect.addEventListener('change', () => {
+                        toggleColorModeBlocks();
+                        updatePreview(profile);
+                    });
+                }
+
+                toggleFontSourceBlocks();
+                toggleColorModeBlocks();
+                updatePreview(profile);
             });
+
+            function hexToRgb(hex) {
+                if (!hex || typeof hex !== 'string') return null;
+                const normalized = hex.replace('#', '');
+                if (normalized.length !== 6) return null;
+                const value = parseInt(normalized, 16);
+                if (Number.isNaN(value)) return null;
+                return {
+                    r: (value >> 16) & 255,
+                    g: (value >> 8) & 255,
+                    b: value & 255
+                };
+            }
+
+            function rgbToHex(rgb) {
+                const clamp = (n) => Math.max(0, Math.min(255, Math.round(n)));
+                const toHex = (n) => clamp(n).toString(16).padStart(2, '0');
+                return '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
+            }
+
+            function applyLightness(hex, percent, mode) {
+                const rgb = hexToRgb(hex);
+                if (!rgb) return '#1f1f1f';
+                const factor = mode === 'lighten' ? (1 + (percent / 100)) : (1 - (percent / 100));
+                return rgbToHex({
+                    r: rgb.r * factor,
+                    g: rgb.g * factor,
+                    b: rgb.b * factor
+                });
+            }
+
+            function getPaletteColors() {
+                const main = document.getElementById('color_main')?.value || '#007acc';
+                const secondary = document.getElementById('color_secondary')?.value || '#f0f0f0';
+                const body = document.getElementById('color_body')?.value || '#1f1f1f';
+                const accent = document.getElementById('color_accent')?.value || '#ff6b6b';
+
+                return {
+                    'main': main,
+                    'main-light': applyLightness(main, 20, 'lighten'),
+                    'main-dark': applyLightness(main, 20, 'darken'),
+                    'secondary': secondary,
+                    'secondary-light': applyLightness(secondary, 20, 'lighten'),
+                    'secondary-dark': applyLightness(secondary, 20, 'darken'),
+                    'body': body,
+                    'body-light': applyLightness(body, 20, 'lighten'),
+                    'body-dark': applyLightness(body, 20, 'darken'),
+                    'accent': accent,
+                    'accent-light': applyLightness(accent, 20, 'lighten'),
+                    'accent-dark': applyLightness(accent, 20, 'darken')
+                };
+            }
 
             function updatePreview(profile) {
                 const preview = document.getElementById(`preview_${profile}`);
                 const fontInput = document.getElementById(`font_${profile}`);
+                const fontSourceInput = document.getElementById(`font_source_${profile}`);
+                const customFontInput = document.getElementById(`custom_font_${profile}`);
                 const sizeInput = document.getElementById(`size_${profile}`);
+                const sizeUnitInput = document.getElementById(`size_unit_${profile}`);
                 const weightInput = document.getElementById(`weight_${profile}`);
+                const styleInput = document.getElementById(`style_${profile}`);
+                const transformInput = document.getElementById(`transform_${profile}`);
+                const colorModeInput = document.getElementById(`color_mode_${profile}`);
+                const colorPaletteInput = document.getElementById(`color_palette_${profile}`);
                 const colorInput = document.getElementById(`color_${profile}`);
 
                 if (!preview) return;
 
-                const fontKey = fontInput.value;
-                const fontStack = fontCatalog[fontKey] ? fontCatalog[fontKey].stack : 'Arial, sans-serif';
-                const fontSize = sizeInput.value;
-                const fontWeight = weightInput.value;
-                const fontColor = colorInput.value;
+                const fontSource = fontSourceInput ? fontSourceInput.value : 'catalog';
+                const customFont = customFontInput ? customFontInput.value.trim() : '';
+                const fontKey = fontInput ? fontInput.value : 'arial';
+                const fontStack = (fontSource === 'custom-google' && customFont)
+                    ? `"${customFont}", Arial, sans-serif`
+                    : (fontCatalog[fontKey] ? fontCatalog[fontKey].stack : 'Arial, sans-serif');
+                const fontSize = sizeInput ? sizeInput.value : '16';
+                const fontSizeUnit = sizeUnitInput ? sizeUnitInput.value : 'px';
+                const fontWeight = weightInput ? weightInput.value : '400';
+                const fontStyle = styleInput ? styleInput.value : 'normal';
+                const fontTransform = transformInput ? transformInput.value : 'none';
+
+                const paletteColors = getPaletteColors();
+                const colorMode = colorModeInput ? colorModeInput.value : 'custom';
+                const selectedPalette = colorPaletteInput ? colorPaletteInput.value : 'body';
+                const fallbackColor = colorInput ? colorInput.value : '#1f1f1f';
+                const fontColor = colorMode === 'palette' && paletteKeys.includes(selectedPalette)
+                    ? (paletteColors[selectedPalette] || '#1f1f1f')
+                    : fallbackColor;
 
                 const div = preview.querySelector('div');
                 if (div) {
                     div.style.fontFamily = fontStack;
-                    div.style.fontSize = fontSize + 'px';
+                    div.style.fontSize = fontSize + fontSizeUnit;
                     div.style.fontWeight = fontWeight;
+                    div.style.fontStyle = fontStyle;
+                    div.style.textTransform = fontTransform;
                     div.style.color = fontColor;
                 }
             }
+
+            ['color_main', 'color_secondary', 'color_body', 'color_accent'].forEach((id) => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                input.addEventListener('input', () => profiles.forEach((profile) => updatePreview(profile)));
+                input.addEventListener('change', () => profiles.forEach((profile) => updatePreview(profile)));
+            });
 
             // ===== CONTATTI LOGIC =====
             const contactsContainer = document.getElementById('contacts-container');
@@ -870,28 +1244,52 @@ function centro_servizi_enqueue_google_fonts(): void
     $custom_url = centro_servizi_sanitize_google_fonts_url((string) get_option('centro_servizi_google_fonts_url', ''));
     if ($custom_url !== '') {
         wp_enqueue_style('centro-servizi-google-fonts-custom', $custom_url, [], null);
-        return;
     }
 
     // Auto-build URL from selected fonts
     $typography_json = get_option('centro_servizi_typography', '{}');
-    $typography = json_decode($typography_json, true) ?: [];
+    $typography = centro_servizi_normalize_typography(json_decode($typography_json, true) ?: []);
     $font_catalog = centro_servizi_get_font_catalog();
-    $families = [];
+    $family_weights = [];
 
-    foreach ($typography as $profile) {
-        $font_key = (string) ($profile['font'] ?? 'arial');
-        $family = (string) ($font_catalog[$font_key]['google_family'] ?? '');
-        if ($family !== '' && ! in_array($family, $families)) {
-            $families[] = $family;
+    foreach ($typography as $profile_config) {
+        $source = (string) centro_servizi_get_typography_value($profile_config, 'font_source', 'catalog');
+        $weight = (int) centro_servizi_get_typography_value($profile_config, 'weight', 400);
+        $family = '';
+
+        if ($source === 'custom-google') {
+            $family = trim((string) centro_servizi_get_typography_value($profile_config, 'custom_font', ''));
+        } else {
+            $font_key = (string) centro_servizi_get_typography_value($profile_config, 'font', 'arial');
+            $safe_key = centro_servizi_sanitize_font_key($font_key, 'arial');
+            $family = (string) ($font_catalog[$safe_key]['google_family'] ?? '');
         }
+
+        if ($family === '') {
+            continue;
+        }
+
+        if (! isset($family_weights[$family])) {
+            $family_weights[$family] = [];
+        }
+        $family_weights[$family][(string) max(100, min(900, $weight))] = true;
     }
 
-    if (empty($families)) {
+    if (empty($family_weights)) {
         return;
     }
 
-    $params = array_map(fn ($f) => 'family=' . str_replace(' ', '+', $f), $families);
+    $params = [];
+    foreach ($family_weights as $family => $weights) {
+        $encoded_family = str_replace('%20', '+', rawurlencode($family));
+        $weight_values = array_keys($weights);
+        sort($weight_values, SORT_NUMERIC);
+        if (! empty($weight_values)) {
+            $params[] = 'family=' . $encoded_family . ':wght@' . implode(';', $weight_values);
+        } else {
+            $params[] = 'family=' . $encoded_family;
+        }
+    }
     $params[] = 'display=swap';
     $url = 'https://fonts.googleapis.com/css2?' . implode('&', $params);
 
@@ -911,7 +1309,7 @@ function centro_servizi_print_dynamic_css(): void
     $color_accent = (string) get_option('centro_servizi_color_accent', '#ff6b6b');
 
     $typography_json = get_option('centro_servizi_typography', '{}');
-    $typography = json_decode($typography_json, true) ?: [];
+    $typography = centro_servizi_normalize_typography(json_decode($typography_json, true) ?: []);
     $font_catalog = centro_servizi_get_font_catalog();
 
     echo "\n<style id=\"centro-servizi-dynamic-css\">\n";
@@ -930,16 +1328,46 @@ function centro_servizi_print_dynamic_css(): void
     echo "  --color-accent-dark: " . esc_html(centro_servizi_darken_color($color_accent, 20)) . ";\n";
     echo "}\n\n";
 
-    // Body
-    $body = $typography['body'] ?? ['font' => 'arial', 'size' => 16, 'weight' => 400, 'color' => '#1f1f1f'];
-    $body_stack = $font_catalog[$body['font']]['stack'] ?? 'Arial, sans-serif';
-    echo 'body { font-family: ' . esc_html($body_stack) . '; font-size: ' . intval($body['size']) . 'px; font-weight: ' . intval($body['weight']) . '; color: ' . esc_html($body['color']) . "; }\n";
+    $selector_map = [
+        'body' => 'body',
+        'h1' => 'h1',
+        'h2' => 'h2',
+        'h3' => 'h3',
+        'h4' => 'h4',
+        'h5' => 'h5',
+        'h6' => 'h6',
+        'links' => 'a',
+        'buttons' => 'button, .button, input[type="button"], input[type="submit"], .wp-element-button, .wp-block-button__link',
+    ];
 
-    // Headings
-    foreach (['h1', 'h2', 'h3', 'h4'] as $tag) {
-        $config = $typography[$tag] ?? ['font' => 'georgia', 'size' => 28, 'weight' => 700, 'color' => '#1f1f1f'];
-        $stack = $font_catalog[$config['font']]['stack'] ?? 'Georgia, serif';
-        echo $tag . ' { font-family: ' . esc_html($stack) . '; font-size: ' . intval($config['size']) . 'px; font-weight: ' . intval($config['weight']) . '; color: ' . esc_html($config['color']) . "; }\n";
+    foreach ($selector_map as $profile => $selector) {
+        $config = is_array($typography[$profile] ?? null) ? $typography[$profile] : [];
+        $font_stack = centro_servizi_get_profile_font_stack($config, $font_catalog);
+        $font_size = (float) centro_servizi_get_typography_value($config, 'size', 16);
+        $size_unit = (string) centro_servizi_get_typography_value($config, 'size_unit', 'px');
+        $font_weight = (int) centro_servizi_get_typography_value($config, 'weight', 400);
+        $font_style = (string) centro_servizi_get_typography_value($config, 'style', 'normal');
+        $font_transform = (string) centro_servizi_get_typography_value($config, 'transform', 'none');
+        $font_color = centro_servizi_get_profile_color_css($config);
+
+        if (! in_array($size_unit, ['px', 'rem', 'em', '%'], true)) {
+            $size_unit = 'px';
+        }
+        if (! in_array($font_style, ['normal', 'italic', 'oblique'], true)) {
+            $font_style = 'normal';
+        }
+        if (! in_array($font_transform, ['none', 'uppercase', 'lowercase', 'capitalize'], true)) {
+            $font_transform = 'none';
+        }
+
+        echo $selector . ' { '
+            . 'font-family: ' . esc_html($font_stack) . '; '
+            . 'font-size: ' . esc_html((string) $font_size . $size_unit) . '; '
+            . 'font-weight: ' . intval($font_weight) . '; '
+            . 'font-style: ' . esc_html($font_style) . '; '
+            . 'text-transform: ' . esc_html($font_transform) . '; '
+            . 'color: ' . esc_html($font_color) . '; '
+            . "}\n";
     }
 
     echo "</style>\n";
