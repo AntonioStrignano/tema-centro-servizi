@@ -134,7 +134,6 @@ function centro_servizi_sanitize_google_fonts_url(string $url): string
     $host = strtolower((string) ($parts['host'] ?? ''));
     $path = (string) ($parts['path'] ?? '');
     if ($scheme !== 'https' || $host !== 'fonts.googleapis.com' || strpos($path, '/css') !== 0) {
-    if ($scheme !== 'https' || $host !== 'fonts.googleapis.com' || strpos($path, '/css') !== 0) {
         return '';
     }
     return $clean_url;
