@@ -234,8 +234,20 @@ function centro_servizi_get_profile_color_css(array $config): string
 // ============================================================================
 // SEED PAGINE OBBLIGATORIE
 // ============================================================================
-add_action('admin_post_centro_servizi_seed_pages', 'centro_servizi_handle_seed_pages');
+add_action('admin_post_centro_servizi_seed_pages',   'centro_servizi_handle_seed_pages');
+add_action('admin_post_centro_servizi_update_pages', 'centro_servizi_handle_update_pages');
+
 function centro_servizi_handle_seed_pages(): void
+{
+    centro_servizi_do_seed_pages(false);
+}
+
+function centro_servizi_handle_update_pages(): void
+{
+    centro_servizi_do_seed_pages(true);
+}
+
+function centro_servizi_do_seed_pages(bool $overwrite): void
 {
     if (! current_user_can('manage_options')) {
         wp_die('Accesso negato.');
@@ -254,15 +266,40 @@ function centro_servizi_handle_seed_pages(): void
 
     foreach (centro_servizi_get_seed_pages($site_name, $site_url) as $page) {
         $existing = get_page_by_path($page['slug']);
-        if ($existing) {
+
+        if ($existing && ! $overwrite) {
             $results[] = sprintf(
-                '⚠️ Già esistente: <strong>%s</strong> (slug: %s)',
-                esc_html($page['title']),
-                esc_html($page['slug'])
+                '⚠️ Già esistente (non modificata): <strong>%s</strong>',
+                esc_html($page['title'])
             );
             continue;
         }
 
+        if ($existing && $overwrite) {
+            $id = wp_update_post([
+                'ID'           => $existing->ID,
+                'post_title'   => $page['title'],
+                'post_content' => $page['content'],
+            ], true);
+
+            if (is_wp_error($id)) {
+                $results[] = sprintf(
+                    '❌ Errore aggiornando <strong>%s</strong>: %s',
+                    esc_html($page['title']),
+                    esc_html($id->get_error_message())
+                );
+            } else {
+                $edit_url = get_edit_post_link($id, 'raw');
+                $results[] = sprintf(
+                    '🔄 Aggiornata: <a href="%s"><strong>%s</strong></a>',
+                    esc_url((string) $edit_url),
+                    esc_html($page['title'])
+                );
+            }
+            continue;
+        }
+
+        // nuova pagina
         $id = wp_insert_post([
             'post_title'   => $page['title'],
             'post_name'    => $page['slug'],
@@ -1055,10 +1092,15 @@ function centro_servizi_render_settings_page(): void
                 <li><strong>Segnalazioni Whistleblowing</strong> — D.Lgs. 24/2023</li>
                 <li><strong>Obiettivi di Accessibilità</strong> — CAD art. 9-ter</li>
             </ul>
-            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block; margin-right: 8px;">
                 <?php wp_nonce_field('centro_servizi_seed_pages', 'centro_servizi_seed_nonce'); ?>
                 <input type="hidden" name="action" value="centro_servizi_seed_pages" />
-                <?php submit_button('Crea pagine obbligatorie', 'secondary', 'seed_pages', false); ?>
+                <?php submit_button('Crea pagine mancanti', 'secondary', 'seed_pages', false); ?>
+            </form>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;" onsubmit="return confirm('Questa operazione sovrascriverà il contenuto delle pagine esistenti. Continuare?');">
+                <?php wp_nonce_field('centro_servizi_seed_pages', 'centro_servizi_seed_nonce'); ?>
+                <input type="hidden" name="action" value="centro_servizi_update_pages" />
+                <?php submit_button('Aggiorna tutte (sovrascrive)', 'delete', 'update_pages', false); ?>
             </form>
         </div>
     </div>

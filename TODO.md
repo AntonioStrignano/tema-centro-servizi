@@ -104,6 +104,7 @@
 
 ## ✅ TEMA — Fase 4: Verifica
 
+- [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, DPA Google, shortcode CookieYes, link AGID)
 - [ ] Audit accessibilità con axe-core
 - [ ] Audit Lighthouse (performance + accessibility)
 - [ ] Navigazione completa da tastiera (tab, enter, escape)
