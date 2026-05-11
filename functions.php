@@ -81,6 +81,16 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
         }
     }
 
+    // Pagine con template slug-specifico in templates/page-{slug}.php
+    if (is_page()) {
+        $slug          = get_post_field('post_name', get_queried_object_id());
+        $slug_template = get_template_directory() . '/templates/page-' . $slug . '.php';
+
+        if (file_exists($slug_template)) {
+            return $slug_template;
+        }
+    }
+
     $custom = get_template_directory() . '/templates/' . basename($template);
 
     if (file_exists($custom)) {
