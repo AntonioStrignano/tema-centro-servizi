@@ -16,7 +16,6 @@ body.page-whistleblowing *,
 body.page-obiettivi-accessibilita *,
 body.page-amministrazione-trasparente * {
   background-image: none;
-  outline: 0;
 }
 
 body.page-privacy-policy a,
