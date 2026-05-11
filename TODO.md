@@ -18,16 +18,23 @@
 - [x] Prima chiudere tutti i template e partial frontend rimasti
 - [ ] Solo dopo: passaggio accessibilità, audit e rifiniture compliance finali
 
+## Note operative rapide
+
+- [x] Cartella `samples/` disponibile per HTML/CSS di riferimento (esclusa da git)
+
 ---
 
 ## 🚨 URGENTE — Da fare PRIMA del tema (siti già online)
 
 ### Whistleblowing (obbligatorio dal 17/12/2023 — siamo in ritardo)
-- [ ] Attivare VM dedicata per GlobaLeaks (Oracle Cloud / VPS Linux, Ubuntu 22.04+)
+- [x] Definito piano infrastruttura minimo: Hetzner CX11 (~29,90 €/anno + IVA), HTTPS Let's Encrypt
+- [ ] Attivare VM dedicata per GlobaLeaks (Hetzner Cloud / VPS Linux, Ubuntu 22.04+)
 - [ ] Installare GlobaLeaks sulla VM dedicata
 - [ ] Configurare HTTPS (Let's Encrypt integrato)
+- [ ] Stato operativo: messo in pausa temporaneamente (riprendere appena possibile)
 - [ ] Per ogni scuola:
-  - [ ] Puntare DNS `segnalazioni.nomescuola.it` → VM dedicata GlobaLeaks
+  - [ ] Se approccio centralizzato: puntare DNS `segnalazioni.centroservizi.it` → VM dedicata GlobaLeaks
+  - [ ] Se richiesto dal cliente: DNS dedicato `segnalazioni.nomescuola.it` → stessa VM
   - [ ] Creare contesto + utente ricevente in GlobaLeaks
   - [ ] Aggiungere link nel sito attuale (footer o Amm. Trasparente)
 
@@ -119,7 +126,7 @@
 - [ ] Pubblicate bilancio sociale? → Verificare visibilità in tassonomia "06 Bilanci"
 - [ ] Tabelle contributi MIM complete? → 5 campi: denominazione, CF erogante, importo, data, causale
 - [ ] Creare contesto GlobaLeaks per la scuola
-- [ ] Configurare DNS `segnalazioni.nomescuola.it`
+- [ ] Configurare DNS whistleblowing (default `segnalazioni.centroservizi.it`, oppure dedicato scuola su richiesta)
 - [ ] Compilare dichiarazione accessibilità su form.agid.gov.it
 - [ ] Hardcodare dati footer nel tema (ragione sociale, P.IVA, CF, PEC, cod. mecc.)
 

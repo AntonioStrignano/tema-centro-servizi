@@ -15,3 +15,6 @@ Thumbs.db
 # Documentazione interna (non va nel repo)
 docs/
 *.md
+
+# Sample locali per analisi/layout (non vanno nel repo)
+samples/

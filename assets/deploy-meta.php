@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiungi funzionalità di tipografia: profili, impostazioni predefinite e gestione colori',
-    'commit_hash'  => '8ad07a53',
-    'deployed_at'  => '2026-04-29 12:12:33',
+    'commit_title' => 'seeding pags',
+    'commit_hash'  => 'c61112ea',
+    'deployed_at'  => '2026-05-11 09:15:58',
 ];

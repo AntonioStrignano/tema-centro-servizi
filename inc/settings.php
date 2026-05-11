@@ -232,6 +232,326 @@ function centro_servizi_get_profile_color_css(array $config): string
 }
 
 // ============================================================================
+// SEED PAGINE OBBLIGATORIE
+// ============================================================================
+add_action('admin_post_centro_servizi_seed_pages', 'centro_servizi_handle_seed_pages');
+function centro_servizi_handle_seed_pages(): void
+{
+    if (! current_user_can('manage_options')) {
+        wp_die('Accesso negato.');
+    }
+
+    if (
+        ! isset($_POST['centro_servizi_seed_nonce']) ||
+        ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['centro_servizi_seed_nonce'])), 'centro_servizi_seed_pages')
+    ) {
+        wp_die('Verifica di sicurezza fallita.');
+    }
+
+    $site_name = get_bloginfo('name');
+    $site_url  = get_site_url();
+    $results   = [];
+
+    foreach (centro_servizi_get_seed_pages($site_name, $site_url) as $page) {
+        $existing = get_page_by_path($page['slug']);
+        if ($existing) {
+            $results[] = sprintf(
+                '⚠️ Già esistente: <strong>%s</strong> (slug: %s)',
+                esc_html($page['title']),
+                esc_html($page['slug'])
+            );
+            continue;
+        }
+
+        $id = wp_insert_post([
+            'post_title'   => $page['title'],
+            'post_name'    => $page['slug'],
+            'post_content' => $page['content'],
+            'post_status'  => 'draft',
+            'post_type'    => 'page',
+            'post_author'  => get_current_user_id(),
+        ]);
+
+        if (is_wp_error($id)) {
+            $results[] = sprintf(
+                '❌ Errore creando <strong>%s</strong>: %s',
+                esc_html($page['title']),
+                esc_html($id->get_error_message())
+            );
+        } else {
+            $edit_url = get_edit_post_link($id, 'raw');
+            $results[] = sprintf(
+                '✅ Creata in bozza: <a href="%s"><strong>%s</strong></a>',
+                esc_url((string) $edit_url),
+                esc_html($page['title'])
+            );
+        }
+    }
+
+    set_transient('centro_servizi_seed_results_' . get_current_user_id(), $results, 120);
+    wp_safe_redirect(admin_url('admin.php?page=centro-servizi-settings'));
+    exit;
+}
+
+/**
+ * Legge i contatti salvati nelle impostazioni e li indicizza per tipo.
+ * Restituisce array [ 'email' => 'info@...', 'phone' => '...', 'pec' => '...', 'address' => '...' ].
+ * Se un tipo ha più voci, usa la prima.
+ */
+function centro_servizi_seed_load_contacts(): array
+{
+    $json = get_option('centro_servizi_contacts', '[]');
+    $raw  = json_decode($json, true);
+    if (! is_array($raw)) {
+        return [];
+    }
+    $indexed = [];
+    foreach ($raw as $contact) {
+        $type  = (string) ($contact['type']  ?? '');
+        $value = (string) ($contact['value'] ?? '');
+        if ($type !== '' && $value !== '' && ! isset($indexed[$type])) {
+            $indexed[$type] = $value;
+        }
+    }
+    return $indexed;
+}
+
+function centro_servizi_get_seed_pages(string $site_name, string $site_url): array
+{
+    $contacts           = centro_servizi_seed_load_contacts();
+    $email_dpo          = (string) get_option('centro_servizi_email_dpo', '');
+    $url_whistleblowing = (string) get_option('centro_servizi_url_whistleblowing', '');
+
+    return [
+        [
+            'title'   => 'Privacy Policy',
+            'slug'    => 'privacy-policy',
+            'content' => centro_servizi_seed_content_privacy($site_name, $site_url, $contacts, $email_dpo),
+        ],
+        [
+            'title'   => 'Cookie Policy',
+            'slug'    => 'cookie-policy',
+            'content' => centro_servizi_seed_content_cookie($site_name),
+        ],
+        [
+            'title'   => 'Contatti',
+            'slug'    => 'contatti',
+            'content' => centro_servizi_seed_content_contatti($site_name, $contacts),
+        ],
+        [
+            'title'   => 'Dichiarazione di Accessibilità',
+            'slug'    => 'dichiarazione-accessibilita',
+            'content' => centro_servizi_seed_content_accessibilita($site_name, $site_url, $contacts, $email_dpo),
+        ],
+        [
+            'title'   => 'Segnalazioni Whistleblowing',
+            'slug'    => 'whistleblowing',
+            'content' => centro_servizi_seed_content_whistleblowing($site_name, $url_whistleblowing),
+        ],
+        [
+            'title'   => 'Obiettivi di Accessibilità',
+            'slug'    => 'obiettivi-accessibilita',
+            'content' => centro_servizi_seed_content_obiettivi($site_name),
+        ],
+    ];
+}
+
+function centro_servizi_seed_content_privacy(string $site_name, string $site_url, array $contacts = [], string $email_dpo = ''): string
+{
+    $year    = (string) (int) date('Y');
+    $address = isset($contacts['address']) ? esc_html($contacts['address']) : '[indirizzo sede legale]';
+    $email   = isset($contacts['email'])   ? $contacts['email']             : '';
+
+    $dpo_li = $email_dpo
+        ? '<li><strong>Responsabile della Protezione dei Dati (DPO):</strong> <a href="mailto:' . esc_attr($email_dpo) . '">' . esc_html($email_dpo) . '</a></li>'
+        : '<li><strong>Referente privacy:</strong> [da completare]</li>';
+
+    $email_display = $email ? esc_html($email) : '[email contatto]';
+    $email_href    = $email ? 'mailto:' . esc_attr($email) : '#';
+    $dpo_revoca    = $email_dpo ? ' oppure al DPO: <a href="mailto:' . esc_attr($email_dpo) . '">' . esc_html($email_dpo) . '</a>' : '';
+
+    return '<p><em>Informativa ai sensi dell\'art. 13 del Regolamento UE 2016/679 (GDPR) — ' . esc_html($site_name) . ' — aggiornata al ' . esc_html($year) . '</em></p>
+
+<h2>Titolare del trattamento</h2>
+<p>' . esc_html($site_name) . '<br />
+' . $address . '<br />
+Email: <a href="' . $email_href . '">' . $email_display . '</a></p>
+
+<h2>Responsabile della Protezione dei Dati</h2>
+<ul>
+' . $dpo_li . '
+</ul>
+
+<h2>Quali dati raccogliamo e perché</h2>
+
+<h3>Dati di navigazione (log del server)</h3>
+<p>I sistemi informatici acquisiscono automaticamente alcuni dati la cui trasmissione è implicita nell\'uso di Internet (indirizzo IP, tipo di browser, pagine visitate, ora e data). Sono usati al solo fine di garantire il corretto funzionamento del sito e ricavare statistiche anonime aggregate. Non vengono associati a utenti identificati. <strong>Base giuridica:</strong> interesse legittimo (art. 6 par. 1 lett. f GDPR). <strong>Conservazione:</strong> massimo 30 giorni.</p>
+
+<h3>Cookie analitici (Google Analytics 4)</h3>
+<p>Utilizziamo Google Analytics 4 per raccogliere statistiche aggregate e anonimizzate sull\'utilizzo del sito (pagine visitate, durata, provenienza geografica approssimativa). I dati sono trasmessi a Google Ireland Ltd. (UE) e, per l\'elaborazione tecnica, a Google LLC (USA) nel rispetto delle Clausole Contrattuali Standard approvate dalla Commissione Europea. <strong>Base giuridica:</strong> consenso (art. 6 par. 1 lett. a GDPR), espresso tramite il banner cookie. Puoi revocare il consenso in qualsiasi momento dalla <a href="' . esc_url($site_url) . '/cookie-policy">Cookie Policy</a>. <strong>Conservazione:</strong> 14 mesi.</p>
+
+<h3>Immagini pubblicate</h3>
+<p>Il sito pubblica fotografie fornite dalla struttura scolastica. Le immagini in cui compaiono minori sono trattate nel rispetto delle indicazioni del Garante per la protezione dei dati personali. Il consenso al trattamento delle immagini è raccolto direttamente dalla scuola dai genitori o tutori legali, al di fuori di questo sito. Il sito non raccoglie direttamente dati personali tramite moduli online.</p>
+
+<h2>A chi comunichiamo i dati</h2>
+<ul>
+<li><strong>Provider di hosting</strong> — server ubicato nell\'Unione Europea, per il funzionamento tecnico del sito.</li>
+<li><strong>Google Ireland Ltd. / Google LLC</strong> — per Google Analytics 4, in base a DPA e Clausole Contrattuali Standard.</li>
+</ul>
+<p>I dati non vengono ceduti a terzi né utilizzati per finalità di profilazione o marketing.</p>
+
+<h2>Trasferimenti extra-UE</h2>
+<p>I dati analitici raccolti tramite Google Analytics 4 sono soggetti a trasferimento verso gli USA da parte di Google LLC. Il trasferimento avviene nel rispetto delle Clausole Contrattuali Standard (Decisione CE 2021/914) e dell\'EU-US Data Privacy Framework.</p>
+
+<h2>I tuoi diritti</h2>
+<p>Hai il diritto di: accedere ai tuoi dati personali; chiederne la rettifica o la cancellazione; opporti al trattamento; richiedere la limitazione; revocare il consenso in qualsiasi momento (senza pregiudicare la liceità del trattamento precedente); presentare reclamo al <a href="https://www.garanteprivacy.it" rel="noopener noreferrer">Garante per la protezione dei dati personali</a>.</p>
+<p>Per esercitare i tuoi diritti: <a href="' . $email_href . '">' . $email_display . '</a>' . $dpo_revoca . '.</p>
+
+<h2>Modifiche all\'informativa</h2>
+<p>Il titolare si riserva di aggiornare questa informativa. La versione vigente è sempre disponibile a questa pagina con la data di ultima modifica indicata in apertura.</p>';
+}
+
+function centro_servizi_seed_content_cookie(string $site_name): string
+{
+    $year = (string) (int) date('Y');
+    return '<p><em>Informativa sull\'uso dei cookie — ' . esc_html($site_name) . ' — aggiornata al ' . esc_html($year) . '</em></p>
+
+<h2>Cosa sono i cookie</h2>
+<p>I cookie sono piccoli file di testo salvati nel browser quando si visita un sito web. Permettono al sito di ricordare preferenze e di raccogliere informazioni sull\'utilizzo in forma anonima o aggregata.</p>
+
+<h2>Cookie utilizzati da questo sito</h2>
+<p>La tabella seguente elenca i cookie rilevati dal nostro sistema di gestione del consenso. I cookie analitici vengono attivati solo dopo consenso esplicito dell\'utente.</p>
+
+[cookie_declaration]
+
+<h2>Cookie tecnici (necessari)</h2>
+<p>I cookie tecnici sono strettamente necessari al funzionamento del sito e non richiedono consenso. Includono il cookie del pannello di gestione del consenso (CookieYes) che memorizza le tue scelte.</p>
+
+<h2>Cookie analitici — Google Analytics 4</h2>
+<p>Utilizziamo Google Analytics 4 per raccogliere dati statistici in forma anonimizzata (pagine visitate, durata della visita, provenienza geografica approssimativa). Questi cookie vengono installati solo previo consenso esplicito.</p>
+<p>Puoi revocare il consenso in qualsiasi momento tramite il pulsante qui sotto o la voce "Gestisci preferenze" nel footer:</p>
+
+[cky-preference-link link_text="Modifica preferenze cookie"]
+
+<h2>Cookie di terze parti</h2>
+<p>Google Analytics 4 è gestito da Google Ireland Ltd. Per approfondire: <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Privacy Policy di Google</a> · <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer">Strumento di opt-out da Google Analytics</a>.</p>
+
+<h2>Come disabilitare i cookie dal browser</h2>
+<p>Puoi anche impostare il browser per rifiutare tutti i cookie o per avvisarti quando viene inviato un cookie. Consulta le istruzioni specifiche del tuo browser (Chrome, Firefox, Safari, Edge).</p>';
+}
+
+function centro_servizi_seed_content_contatti(string $site_name, array $contacts = []): string
+{
+    $address = isset($contacts['address']) ? esc_html($contacts['address']) : '[da completare: indirizzo]';
+    $phone   = isset($contacts['phone'])   ? esc_html($contacts['phone'])   : '[da completare: telefono]';
+    $email   = $contacts['email'] ?? '';
+    $pec     = $contacts['pec']   ?? '';
+
+    $email_li = $email
+        ? '<li><strong>Email:</strong> <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></li>'
+        : '<li><strong>Email:</strong> [da completare]</li>';
+    $pec_li = $pec
+        ? '<li><strong>PEC:</strong> <a href="mailto:' . esc_attr($pec) . '">' . esc_html($pec) . '</a></li>'
+        : '<li><strong>PEC:</strong> [da completare]</li>';
+
+    return '<h2>Come contattarci</h2>
+<p>Per informazioni, iscrizioni e comunicazioni con ' . esc_html($site_name) . ' puoi utilizzare i recapiti riportati di seguito.</p>
+
+<h3>Sede</h3>
+<p>' . $address . '</p>
+
+<h3>Recapiti</h3>
+<ul>
+<li><strong>Telefono:</strong> ' . $phone . '</li>
+' . $email_li . '
+' . $pec_li . '
+</ul>
+
+<h3>Orari di segreteria</h3>
+<p>[da completare]</p>
+
+<h3>Come raggiungerci</h3>
+<p>[da completare: indicazioni stradali o mappa embed]</p>';
+}
+
+function centro_servizi_seed_content_accessibilita(string $site_name, string $site_url, array $contacts = [], string $email_dpo = ''): string
+{
+    $email       = $contacts['email'] ?? '';
+    $contact_ref = $email_dpo ?: $email;
+    $contact_li  = $contact_ref
+        ? '<li>Email: <a href="mailto:' . esc_attr($contact_ref) . '">' . esc_html($contact_ref) . '</a></li>'
+        : '<li>Email: [da completare]</li>';
+
+    return '<p>Questa pagina descrive lo stato di conformità di <strong>' . esc_html($site_name) . '</strong> (' . esc_html($site_url) . ') rispetto ai requisiti di accessibilità previsti dalla Direttiva UE 2016/2102 e dal D.Lgs. 10 agosto 2018, n. 111.</p>
+
+<h2>Dichiarazione ufficiale su AGID</h2>
+<p>La dichiarazione di accessibilità ufficiale è compilata e pubblicata sul portale dell\'Agenzia per l\'Italia Digitale (AGID):</p>
+<p><strong><a href="[da completare: incollare qui il link ottenuto da form.agid.gov.it]" rel="noopener noreferrer">Vai alla dichiarazione di accessibilità pubblicata su AGID →</a></strong></p>
+<p><small>Per compilare o aggiornare la dichiarazione accedere a <a href="https://form.agid.gov.it" rel="noopener noreferrer">form.agid.gov.it</a> con SPID o CIE.</small></p>
+
+<h2>Stato di conformità</h2>
+<p>Il sito è <strong>parzialmente conforme</strong> alla norma EN 301 549 V3.2.1 (WCAG 2.1 livello AA), in ragione delle non conformità e deroghe elencate nella dichiarazione pubblicata su AGID.</p>
+
+<h2>Feedback e contatti</h2>
+<p>Hai riscontrato un problema di accessibilità o hai bisogno di un contenuto in formato alternativo?</p>
+<ul>
+<li>Soggetto responsabile: <strong>' . esc_html($site_name) . '</strong></li>
+' . $contact_li . '
+</ul>
+
+<h2>Procedura di attuazione</h2>
+<p>In caso di risposta insoddisfacente entro 30 giorni è possibile rivolgersi al <a href="https://www.agid.gov.it/it/design-servizi/accessibilita/difensore-civico-digitale" rel="noopener noreferrer">Difensore Civico per il Digitale</a>.</p>';
+}
+
+function centro_servizi_seed_content_whistleblowing(string $site_name, string $url_whistleblowing = ''): string
+{
+    $portal_link = $url_whistleblowing
+        ? '<a href="' . esc_url($url_whistleblowing) . '" rel="noopener noreferrer" target="_blank">Accedi al portale di segnalazione →</a>'
+        : '<strong>[da completare: inserire URL piattaforma GlobaLeaks nelle impostazioni sito]</strong>';
+
+    return '<p>' . esc_html($site_name) . ' garantisce canali sicuri e riservati per la segnalazione di condotte illecite, in conformità al D.Lgs. 10 marzo 2023, n. 24, che ha recepito la Direttiva UE 2019/1937.</p>
+
+<h2>Come effettuare una segnalazione</h2>
+<p>Le segnalazioni possono essere effettuate in forma <strong>riservata o anonima</strong> tramite la piattaforma sicura dedicata:</p>
+<p>' . $portal_link . '</p>
+<p>La piattaforma utilizza cifratura end-to-end e non registra dati identificativi del segnalante salvo quelli che sceglie volontariamente di fornire.</p>
+
+<h2>Chi può segnalare</h2>
+<p>Possono effettuare segnalazioni le persone che lavorano o hanno lavorato per ' . esc_html($site_name) . ': dipendenti, collaboratori, fornitori, tirocinanti, volontari e chiunque venga a conoscenza di possibili illeciti nell\'ambito della propria attività lavorativa.</p>
+
+<h2>Cosa si può segnalare</h2>
+<p>Violazioni di disposizioni normative nazionali o dell\'Unione Europea che ledono l\'interesse pubblico o l\'integrità dell\'organizzazione, di cui il segnalante sia venuto a conoscenza nel contesto lavorativo.</p>
+
+<h2>Tutele garantite</h2>
+<p>Il segnalante in buona fede è protetto da qualsiasi forma di ritorsione (licenziamento, demansionamento, sanzioni disciplinari, discriminazioni). L\'identità è tutelata e non può essere rivelata senza consenso. Le segnalazioni in mala fede, calunniose o diffamatorie non beneficiano di tali tutele.</p>
+
+<h2>Trattamento dei dati personali</h2>
+<p>I dati personali eventualmente presenti nella segnalazione sono trattati nel rispetto del GDPR (Reg. UE 2016/679). Base giuridica: obbligo legale (art. 6 par. 1 lett. c GDPR). Conservazione: non oltre 5 anni dalla comunicazione dell\'esito della segnalazione.</p>
+
+<h2>Responsabile del canale interno</h2>
+<p>[da completare: nome o ufficio del responsabile del canale di segnalazione interna]</p>';
+}
+
+function centro_servizi_seed_content_obiettivi(string $site_name): string
+{
+    $year = (string) (int) date('Y');
+    return '<p>In conformità all\'art. 9-ter del D.Lgs. 82/2005 (Codice dell\'Amministrazione Digitale), ' . esc_html($site_name) . ' pubblica gli obiettivi annuali di accessibilità del proprio sito istituzionale.</p>
+
+<h2>Obiettivi ' . esc_html($year) . '</h2>
+<ul>
+<li>[Inserire obiettivo 1 — es. completamento audit WCAG 2.1 AA]</li>
+<li>[Inserire obiettivo 2 — es. formazione del personale sull\'accessibilità digitale]</li>
+<li>[Inserire obiettivo 3 — es. revisione del contrasto cromatico della palette]</li>
+</ul>
+
+<h2>Stato di avanzamento</h2>
+<p>[Descrivere lo stato attuale di raggiungimento degli obiettivi]</p>
+
+<h2>Pubblicazione</h2>
+<p>Data di pubblicazione: ' . esc_html($year) . '</p>';
+}
+
+// ============================================================================
 // RENDERING PAGINA IMPOSTAZIONI
 // ============================================================================
 function centro_servizi_render_settings_page(): void
@@ -363,6 +683,11 @@ function centro_servizi_render_settings_page(): void
         // FOOTER
         update_option('centro_servizi_footer_text', sanitize_textarea_field($_POST['footer_text'] ?? ''));
 
+        // PRIVACY & GDPR
+        update_option('centro_servizi_email_dpo', sanitize_email($_POST['email_dpo'] ?? ''));
+        $url_wb = esc_url_raw(sanitize_text_field($_POST['url_whistleblowing'] ?? ''));
+        update_option('centro_servizi_url_whistleblowing', $url_wb);
+
         echo '<div class="notice notice-success"><p>Impostazioni salvate con successo!</p></div>';
     }
 
@@ -384,6 +709,8 @@ function centro_servizi_render_settings_page(): void
     $contacts_json = get_option('centro_servizi_contacts', '[]');
     $contacts = json_decode($contacts_json, true) ?: [];
     $footer_text = get_option('centro_servizi_footer_text', '');
+    $email_dpo = get_option('centro_servizi_email_dpo', '');
+    $url_whistleblowing = get_option('centro_servizi_url_whistleblowing', '');
 
     $fonts = centro_servizi_get_font_catalog();
     $contact_types = [
@@ -666,6 +993,28 @@ function centro_servizi_render_settings_page(): void
                 <button type="button" id="add-contact-btn" class="button button-primary">+ Aggiungi contatto</button>
             </div>
 
+            <!-- PRIVACY & GDPR -->
+            <div class="settings-section">
+                <h2>🔒 Privacy &amp; GDPR</h2>
+                <p class="description">Dati usati per generare le pagine obbligatorie (Privacy Policy, Whistleblowing).</p>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="email_dpo">Email DPO / Referente privacy:</label></th>
+                        <td>
+                            <input type="email" id="email_dpo" name="email_dpo" value="<?php echo esc_attr($email_dpo); ?>" class="regular-text" />
+                            <p class="description">Contatto del Responsabile della Protezione dei Dati. Appare nella Privacy Policy e nella Dichiarazione di Accessibilità.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="url_whistleblowing">URL piattaforma Whistleblowing:</label></th>
+                        <td>
+                            <input type="url" id="url_whistleblowing" name="url_whistleblowing" value="<?php echo esc_attr($url_whistleblowing); ?>" class="regular-text" placeholder="https://segnalazioni.nomescuola.it" />
+                            <p class="description">URL della piattaforma GlobaLeaks per le segnalazioni riservate.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
             <!-- FOOTER -->
             <div class="settings-section">
                 <h2>Footer</h2>
@@ -682,6 +1031,36 @@ function centro_servizi_render_settings_page(): void
 
             <?php submit_button('Salva impostazioni'); ?>
         </form>
+
+        <!-- SEZIONE PAGINE OBBLIGATORIE -->
+        <?php
+        $seed_results = get_transient('centro_servizi_seed_results_' . get_current_user_id());
+        if ($seed_results) {
+            delete_transient('centro_servizi_seed_results_' . get_current_user_id());
+            echo '<div class="notice notice-info is-dismissible"><p><strong>Risultati creazione pagine:</strong></p><ul style="margin:4px 0 4px 20px;list-style:disc">';
+            foreach ($seed_results as $result) {
+                echo '<li>' . wp_kses($result, ['strong' => [], 'a' => ['href' => []]]) . '</li>';
+            }
+            echo '</ul></div>';
+        }
+        ?>
+        <div class="settings-section">
+            <h2>📄 Pagine obbligatorie</h2>
+            <p class="description">Crea in <strong>bozza</strong> le pagine previste dalla normativa. Le pagine già esistenti non vengono sovrascritte né modificate.</p>
+            <ul style="margin: 8px 0 16px 20px; list-style: disc;">
+                <li><strong>Privacy Policy</strong> — GDPR art. 13</li>
+                <li><strong>Cookie Policy</strong> — Provvedimento Garante 2021 + tabella CookieYes automatica</li>
+                <li><strong>Contatti</strong></li>
+                <li><strong>Dichiarazione di Accessibilità</strong> — D.Lgs. 111/2018 (link a form.agid.gov.it)</li>
+                <li><strong>Segnalazioni Whistleblowing</strong> — D.Lgs. 24/2023</li>
+                <li><strong>Obiettivi di Accessibilità</strong> — CAD art. 9-ter</li>
+            </ul>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                <?php wp_nonce_field('centro_servizi_seed_pages', 'centro_servizi_seed_nonce'); ?>
+                <input type="hidden" name="action" value="centro_servizi_seed_pages" />
+                <?php submit_button('Crea pagine obbligatorie', 'secondary', 'seed_pages', false); ?>
+            </form>
+        </div>
     </div>
 
     <style>
