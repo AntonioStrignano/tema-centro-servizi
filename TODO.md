@@ -11,11 +11,11 @@
 - [x] Aggiunto avviso accessibile "apre in nuova finestra" sui link allegati negli archivi
 - [ ] Restano mancanti i template legali prioritari: `page-amministrazione-trasparente.php` e `page-dichiarazione-accessibilita.php`
 - [ ] `screenshot.png` rinviato (non bloccante in questa fase)
-- [x] Blocco Attivita completato (seed + archive + single + card + filtri)
+- [x] Blocco Attivita completato lato template (archive + single + card + filtri)
 
 ## Ordine operativo attuale
 
-- [x] Prima chiudere tutti i template e partial frontend rimasti
+- [ ] Prima chiudere tutti i template e partial frontend rimasti
 - [ ] Solo dopo: passaggio accessibilità, audit e rifiniture compliance finali
 
 ## Note operative rapide
@@ -31,7 +31,7 @@
 - [ ] Attivare VM dedicata per GlobaLeaks (Hetzner Cloud / VPS Linux, Ubuntu 22.04+)
 - [ ] Installare GlobaLeaks sulla VM dedicata
 - [ ] Configurare HTTPS (Let's Encrypt integrato)
-- [ ] Stato operativo: messo in pausa temporaneamente (riprendere appena possibile)
+- [x] Stato operativo: in pausa forzata finché la titolare completa validazione documenti/account provider
 - [ ] Per ogni scuola:
   - [ ] Se approccio centralizzato: puntare DNS `segnalazioni.centroservizi.it` → VM dedicata GlobaLeaks
   - [ ] Se richiesto dal cliente: DNS dedicato `segnalazioni.nomescuola.it` → stessa VM
@@ -53,7 +53,7 @@
 - [x] `index.php` — fallback obbligatorio
 - [ ] `screenshot.png` (opzionale per ora)
 - [x] `inc/setup.php` — theme supports, menu locations, image sizes, commenti disabilitati
-- [x] `inc/enqueue.php` — registrazione style.css, deregistrazione jQuery
+- [x] `inc/enqueue.php` — deregistrazione jQuery (CSS gestito da header/debug)
 - [x] `inc/cpt-attivita.php`
 - [x] `inc/cpt-trasparenza.php`
 - [x] `inc/cpt-area-famiglie.php`
@@ -76,11 +76,12 @@
 > Priorità compliance. Per Amministrazione Trasparente si usa l'archivio `trasparenza` come soluzione principale.
 - [x] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
+- [ ] `templates/page-amministrazione-trasparente.php` — valutare solo se serve landing dedicata oltre all'archivio `trasparenza`
 - [ ] `templates/page-dichiarazione-accessibilita.php` — da fare a tema quasi chiuso / in fase finale di audit
 - [ ] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
 - [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi
-- [ ] Link whistleblowing nel footer/Amm. Trasparente (a GlobaLeaks esterno)
-- [ ] Pagina WP `whistleblowing` con spiegazione + link piattaforma
+- [x] Link whistleblowing nel footer/Amm. Trasparente (gestito da opzione `url_whistleblowing` con fallback pagina seed)
+- [x] Pagina WP `whistleblowing` con spiegazione + link piattaforma (generata via seed pagine obbligatorie)
 - [ ] Verificare contributi L. 124/2017: tabelle TablePress con tutti i 5 campi obbligatori
 
 ---
@@ -88,14 +89,14 @@
 ## 📄 TEMA — Fase 3: Template contenuti
 
 - [x] `templates/single-attivita.php`
-- [x] `partials/card-attivita.php` — titolo, tassonomie, contenuto editor, date
+- [x] `partials/card-attivita.php` — titolo, tassonomie, data pubblicazione
 - [x] `templates/archive-attivita.php`
 - [x] `templates/archive-area-famiglie.php`
 - [x] `partials/card-area-famiglie.php`
 - [x] `templates/archive-area-personale.php`
 - [x] `partials/card-area-personale.php`
 - [ ] `partials/pagination.php` — paginazione accessibile
-- [ ] `inc/admin.php` — colonne admin personalizzate per CPT
+- [ ] `inc/admin.php` — colonne admin personalizzate per CPT (attuale: solo notice ACF)
 - [ ] `inc/search.php` — filtri ricerca per tipo contenuto
 - [ ] `partials/search-form.php` — form con checkboxes tipo contenuto
 - [ ] `templates/search.php` — risultati raggruppati per tipo

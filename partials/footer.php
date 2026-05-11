@@ -6,6 +6,8 @@ if (! defined('ABSPATH')) {
 }
 
 $accessibility_page = get_page_by_path('dichiarazione-accessibilita');
+$whistleblowing_url = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
+$whistleblowing_page = get_page_by_path('whistleblowing');
 ?>
 <footer class="site-footer" id="footer-sito" role="contentinfo">
     <nav aria-label="Menu footer">
@@ -25,6 +27,15 @@ $accessibility_page = get_page_by_path('dichiarazione-accessibilita');
         <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy</a></li>
         <li><a href="<?php echo esc_url(home_url('/cookie-policy/')); ?>">Cookie</a></li>
         <li><a href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/amministrazione-trasparente/')); ?>">Amministrazione Trasparente</a></li>
+        <?php if ($whistleblowing_url !== '') : ?>
+            <li>
+                <a href="<?php echo esc_url($whistleblowing_url); ?>" target="_blank" rel="noopener noreferrer">
+                    Whistleblowing <span class="sr-only">(apre in nuova finestra)</span>
+                </a>
+            </li>
+        <?php elseif ($whistleblowing_page instanceof WP_Post) : ?>
+            <li><a href="<?php echo esc_url(get_permalink($whistleblowing_page)); ?>">Whistleblowing</a></li>
+        <?php endif; ?>
         <?php if ($accessibility_page instanceof WP_Post) : ?>
             <li><a href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di Accessibilita</a></li>
         <?php endif; ?>
