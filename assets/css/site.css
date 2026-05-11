@@ -241,3 +241,125 @@ button {
     scroll-behavior: auto;
   }
 }
+
+body.page-privacy-policy,
+body.page-cookie-policy,
+body.page-dichiarazione-accessibilita,
+body.page-whistleblowing,
+body.page-obiettivi-accessibilita,
+body.page-amministrazione-trasparente {
+  background: #ffffff;
+  color: #3c3c3c;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+body.page-privacy-policy *,
+body.page-cookie-policy *,
+body.page-dichiarazione-accessibilita *,
+body.page-whistleblowing *,
+body.page-obiettivi-accessibilita *,
+body.page-amministrazione-trasparente * {
+  background-image: none;
+  outline: none;
+}
+
+body.page-privacy-policy .site-header,
+body.page-cookie-policy .site-header,
+body.page-dichiarazione-accessibilita .site-header,
+body.page-whistleblowing .site-header,
+body.page-obiettivi-accessibilita .site-header,
+body.page-amministrazione-trasparente .site-header,
+body.page-privacy-policy .site-footer,
+body.page-cookie-policy .site-footer,
+body.page-dichiarazione-accessibilita .site-footer,
+body.page-whistleblowing .site-footer,
+body.page-obiettivi-accessibilita .site-footer,
+body.page-amministrazione-trasparente .site-footer {
+  background: #ffffff;
+  color: #3c3c3c;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+body.page-privacy-policy a,
+body.page-cookie-policy a,
+body.page-dichiarazione-accessibilita a,
+body.page-whistleblowing a,
+body.page-obiettivi-accessibilita a,
+body.page-amministrazione-trasparente a {
+  color: #1f4f8c;
+}
+
+.pagina-legale-sober {
+  max-width: 54rem;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  background: #ffffff;
+  color: #3c3c3c;
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.pagina-legale-sober__article {
+  background: #ffffff;
+  border: 1px solid #e9e9e9;
+  border-radius: 0.375rem;
+  padding: 1.5rem;
+}
+
+.pagina-legale-sober__title {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  line-height: 1.2;
+  font-weight: 700;
+  color: #2f2f2f;
+}
+
+.pagina-legale-sober__content {
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
+  color: #3c3c3c;
+}
+
+.pagina-legale-sober__content h2,
+.pagina-legale-sober__content h3,
+.pagina-legale-sober__content h4,
+.pagina-legale-sober__content h5,
+.pagina-legale-sober__content h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+  line-height: 1.3;
+  color: #2f2f2f;
+}
+
+.pagina-legale-sober__content h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  font-weight: 700;
+}
+
+.pagina-legale-sober__content h3 {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-weight: 600;
+}
+
+.pagina-legale-sober__content p,
+.pagina-legale-sober__content li,
+.pagina-legale-sober__content dd {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.pagina-legale-sober__content small {
+  font-size: 0.9rem;
+  color: #5b5b5b;
+}
+
+@media (max-width: 48rem) {
+  .pagina-legale-sober {
+    padding: 0 0.75rem;
+  }
+
+  .pagina-legale-sober__article {
+    padding: 1rem;
+  }
+}
