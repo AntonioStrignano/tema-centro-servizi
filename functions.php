@@ -93,17 +93,6 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
         }
     }
 
-    // Pagine legali: template unico sobrio e consistente
-    if (is_page()) {
-        $slug            = (string) get_post_field('post_name', get_queried_object_id());
-        $legal_template  = get_template_directory() . '/templates/page-legale.php';
-        $legal_page_slug = in_array($slug, centro_servizi_get_legal_page_slugs(), true);
-
-        if ($legal_page_slug && file_exists($legal_template)) {
-            return $legal_template;
-        }
-    }
-
     // Pagine con template slug-specifico in templates/page-{slug}.php
     if (is_page()) {
         $slug          = (string) get_post_field('post_name', get_queried_object_id());
