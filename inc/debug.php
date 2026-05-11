@@ -13,6 +13,27 @@ function centro_servizi_is_bureaucratic_context(): bool
         || is_page('amministrazione-trasparente');
 }
 
+function centro_servizi_is_legal_page_context(): bool
+{
+    if (! is_page()) {
+        return false;
+    }
+
+    if (function_exists('centro_servizi_get_legal_page_slugs')) {
+        $slug = (string) get_post_field('post_name', get_queried_object_id());
+        return in_array($slug, centro_servizi_get_legal_page_slugs(), true);
+    }
+
+    return is_page([
+        'privacy-policy',
+        'cookie-policy',
+        'dichiarazione-accessibilita',
+        'whistleblowing',
+        'obiettivi-accessibilita',
+        'amministrazione-trasparente',
+    ]);
+}
+
 function centro_servizi_get_debug_context(): array
 {
     $template = centro_servizi_get_relative_theme_path(centro_servizi_get_current_template_path());
@@ -242,6 +263,14 @@ function centro_servizi_get_theme_stylesheets(): array
             'label' => 'assets/css/area-burocratica.css',
             'path' => get_template_directory() . '/assets/css/area-burocratica.css',
             'url' => get_template_directory_uri() . '/assets/css/area-burocratica.css',
+        ];
+    }
+
+    if (centro_servizi_is_legal_page_context()) {
+        $stylesheets[] = [
+            'label' => 'assets/css/legal-pages.css',
+            'path' => get_template_directory() . '/assets/css/legal-pages.css',
+            'url' => get_template_directory_uri() . '/assets/css/legal-pages.css',
         ];
     }
 
