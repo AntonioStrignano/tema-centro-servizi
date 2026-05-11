@@ -76,10 +76,9 @@
 > Priorità compliance. Per Amministrazione Trasparente si usa l'archivio `trasparenza` come soluzione principale.
 - [x] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
-- [ ] `templates/page-amministrazione-trasparente.php` — valutare solo se serve landing dedicata oltre all'archivio `trasparenza`
-- [ ] `templates/page-dichiarazione-accessibilita.php` — da fare a tema quasi chiuso / in fase finale di audit
-- [ ] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
-- [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi
+- [x] Template pagine legali condiviso (`templates/page-legale.php`) per: `amministrazione-trasparente`, `dichiarazione-accessibilita`, `privacy-policy`, `cookie-policy`, `whistleblowing`, `obiettivi-accessibilita`
+- [x] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
+- [x] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi
 - [x] Link whistleblowing nel footer/Amm. Trasparente (gestito da opzione `url_whistleblowing` con fallback pagina seed)
 - [x] Pagina WP `whistleblowing` con spiegazione + link piattaforma (generata via seed pagine obbligatorie)
 - [ ] Verificare contributi L. 124/2017: tabelle TablePress con tutti i 5 campi obbligatori
