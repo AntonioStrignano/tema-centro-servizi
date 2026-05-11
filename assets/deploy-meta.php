@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'fix footer +todo list',
-    'commit_hash'  => '570bade4',
-    'deployed_at'  => '2026-05-11 10:10:33',
+    'commit_title' => 'pag contatti',
+    'commit_hash'  => 'ca1f8f30',
+    'deployed_at'  => '2026-05-11 10:24:48',
 ];

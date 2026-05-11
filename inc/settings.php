@@ -720,6 +720,10 @@ function centro_servizi_render_settings_page(): void
         // FOOTER
         update_option('centro_servizi_footer_text', sanitize_textarea_field($_POST['footer_text'] ?? ''));
 
+        // MAPPA
+        $maps_embed_url = esc_url_raw(sanitize_text_field($_POST['maps_embed_url'] ?? ''));
+        update_option('centro_servizi_maps_embed_url', $maps_embed_url);
+
         // PRIVACY & GDPR
         update_option('centro_servizi_email_dpo', sanitize_email($_POST['email_dpo'] ?? ''));
         $url_wb = esc_url_raw(sanitize_text_field($_POST['url_whistleblowing'] ?? ''));
@@ -748,6 +752,7 @@ function centro_servizi_render_settings_page(): void
     $footer_text = get_option('centro_servizi_footer_text', '');
     $email_dpo = get_option('centro_servizi_email_dpo', '');
     $url_whistleblowing = get_option('centro_servizi_url_whistleblowing', '');
+    $maps_embed_url = get_option('centro_servizi_maps_embed_url', '');
 
     $fonts = centro_servizi_get_font_catalog();
     $contact_types = [
@@ -1028,6 +1033,21 @@ function centro_servizi_render_settings_page(): void
                 </div>
 
                 <button type="button" id="add-contact-btn" class="button button-primary">+ Aggiungi contatto</button>
+            </div>
+
+            <!-- MAPPA -->
+            <div class="settings-section">
+                <h2>🗺️ Mappa sede</h2>
+                <p class="description">Incolla l'URL src dell'embed ottenuto da <strong>Google Maps → Condividi → Incorpora una mappa → copia solo il valore src</strong>. Se lasci vuoto, la mappa viene costruita automaticamente dall'indirizzo.</p>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="maps_embed_url">URL embed mappa:</label></th>
+                        <td>
+                            <input type="url" id="maps_embed_url" name="maps_embed_url" value="<?php echo esc_attr($maps_embed_url); ?>" class="large-text" placeholder="https://www.google.com/maps/embed?pb=..." />
+                            <p class="description">Solo il valore dell'attributo <code>src</code>, non l'intero tag <code>&lt;iframe&gt;</code>.</p>
+                        </td>
+                    </tr>
+                </table>
             </div>
 
             <!-- PRIVACY & GDPR -->
