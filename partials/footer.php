@@ -5,8 +5,9 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-$accessibility_page = get_page_by_path('dichiarazione-accessibilita');
-$whistleblowing_url = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
+$accessibility_page  = get_page_by_path('dichiarazione-accessibilita');
+$obiettivi_page      = get_page_by_path('obiettivi-accessibilita');
+$whistleblowing_url  = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
 $whistleblowing_page = get_page_by_path('whistleblowing');
 ?>
 <footer class="site-footer" id="footer-sito" role="contentinfo">
@@ -38,6 +39,9 @@ $whistleblowing_page = get_page_by_path('whistleblowing');
         <?php endif; ?>
         <?php if ($accessibility_page instanceof WP_Post) : ?>
             <li><a href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di Accessibilita</a></li>
+        <?php endif; ?>
+        <?php if ($obiettivi_page instanceof WP_Post) : ?>
+            <li><a href="<?php echo esc_url(get_permalink($obiettivi_page)); ?>">Obiettivi di Accessibilita</a></li>
         <?php endif; ?>
     </ul>
     <p><a href="https://example.com/google-form-accessibilita" rel="noopener noreferrer" target="_blank">Segnala un problema di accessibilita <span class="sr-only">(apre in nuova finestra)</span></a></p>
