@@ -14,10 +14,173 @@ function centro_servizi_add_settings_page(): void
         'Impostazioni Sito',
         'manage_options',
         'centro-servizi-settings',
-        'centro_servizi_render_settings_page',
+        'centro_servizi_render_settings_hub_page',
         'dashicons-admin-tools',
         99
     );
+
+    add_submenu_page(
+        'centro-servizi-settings',
+        'Panoramica',
+        'Panoramica',
+        'manage_options',
+        'centro-servizi-settings',
+        'centro_servizi_render_settings_hub_page'
+    );
+
+    add_submenu_page(
+        'centro-servizi-settings',
+        'Stile Tema',
+        'Stile Tema',
+        'manage_options',
+        'centro-servizi-settings-style',
+        'centro_servizi_render_settings_style_page'
+    );
+
+    add_submenu_page(
+        'centro-servizi-settings',
+        'Contatti',
+        'Contatti',
+        'manage_options',
+        'centro-servizi-settings-contatti',
+        'centro_servizi_render_settings_contatti_page'
+    );
+
+    add_submenu_page(
+        'centro-servizi-settings',
+        'Normative e Privacy',
+        'Normative e Privacy',
+        'manage_options',
+        'centro-servizi-settings-normative',
+        'centro_servizi_render_settings_normative_page'
+    );
+
+    add_submenu_page(
+        'centro-servizi-settings',
+        'Area Legale',
+        'Area Legale',
+        'manage_options',
+        'centro-servizi-settings-legale',
+        'centro_servizi_render_settings_legale_page'
+    );
+}
+
+function centro_servizi_get_settings_sections(): array
+{
+    return [
+        'style' => [
+            'title' => 'Stile Tema',
+            'slug' => 'centro-servizi-settings-style',
+            'description' => 'Colori, font, tipografia e contenuti hero della homepage.',
+        ],
+        'contatti' => [
+            'title' => 'Contatti',
+            'slug' => 'centro-servizi-settings-contatti',
+            'description' => 'Recapiti pubblici, indirizzi e mappa della sede.',
+        ],
+        'normative' => [
+            'title' => 'Normative e Privacy',
+            'slug' => 'centro-servizi-settings-normative',
+            'description' => 'Contatti privacy/DPO, whistleblowing e gestione pagine legali obbligatorie.',
+        ],
+        'legale' => [
+            'title' => 'Area Legale',
+            'slug' => 'centro-servizi-settings-legale',
+            'description' => 'Dati societari e contenuti legali mostrati nel footer.',
+        ],
+    ];
+}
+
+function centro_servizi_get_settings_section_url(string $section): string
+{
+    $sections = centro_servizi_get_settings_sections();
+    if (! isset($sections[$section])) {
+        return admin_url('admin.php?page=centro-servizi-settings');
+    }
+
+    return admin_url('admin.php?page=' . $sections[$section]['slug']);
+}
+
+function centro_servizi_render_settings_hub_page(): void
+{
+    if (! current_user_can('manage_options')) {
+        wp_die('Accesso negato.');
+    }
+
+    $sections = centro_servizi_get_settings_sections();
+    ?>
+    <div class="wrap">
+        <h1>Impostazioni Sito</h1>
+        <p>Area principale: usa le sotto-pagine per gestire ogni blocco in modo ordinato.</p>
+
+        <div class="centro-servizi-settings-hub-grid">
+            <?php foreach ($sections as $section): ?>
+                <a class="centro-servizi-settings-hub-card" href="<?php echo esc_url(admin_url('admin.php?page=' . $section['slug'])); ?>">
+                    <h2><?php echo esc_html($section['title']); ?></h2>
+                    <p><?php echo esc_html($section['description']); ?></p>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <style>
+        .centro-servizi-settings-hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+            max-width: 1100px;
+        }
+
+        .centro-servizi-settings-hub-card {
+            display: block;
+            background: #fff;
+            border: 1px solid #dcdcde;
+            border-radius: 8px;
+            padding: 18px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .centro-servizi-settings-hub-card:hover,
+        .centro-servizi-settings-hub-card:focus {
+            border-color: #2271b1;
+            box-shadow: 0 0 0 1px #2271b1;
+            outline: none;
+        }
+
+        .centro-servizi-settings-hub-card h2 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .centro-servizi-settings-hub-card p {
+            margin: 0;
+            color: #50575e;
+        }
+    </style>
+    <?php
+}
+
+function centro_servizi_render_settings_style_page(): void
+{
+    centro_servizi_render_settings_page('style');
+}
+
+function centro_servizi_render_settings_contatti_page(): void
+{
+    centro_servizi_render_settings_page('contatti');
+}
+
+function centro_servizi_render_settings_normative_page(): void
+{
+    centro_servizi_render_settings_page('normative');
+}
+
+function centro_servizi_render_settings_legale_page(): void
+{
+    centro_servizi_render_settings_page('legale');
 }
 
 // ============================================================================
@@ -326,7 +489,7 @@ function centro_servizi_do_seed_pages(bool $overwrite): void
     }
 
     set_transient('centro_servizi_seed_results_' . get_current_user_id(), $results, 120);
-    wp_safe_redirect(admin_url('admin.php?page=centro-servizi-settings'));
+    wp_safe_redirect(admin_url('admin.php?page=centro-servizi-settings-normative'));
     exit;
 }
 
@@ -591,10 +754,15 @@ function centro_servizi_seed_content_obiettivi(string $site_name): string
 // ============================================================================
 // RENDERING PAGINA IMPOSTAZIONI
 // ============================================================================
-function centro_servizi_render_settings_page(): void
+function centro_servizi_render_settings_page(string $active_section = 'style'): void
 {
     if (! current_user_can('manage_options')) {
         wp_die('Accesso negato.');
+    }
+
+    $sections = centro_servizi_get_settings_sections();
+    if (! isset($sections[$active_section])) {
+        $active_section = 'style';
     }
 
     // Salvare i dati se il form è stato inviato
@@ -720,12 +888,23 @@ function centro_servizi_render_settings_page(): void
         // FOOTER
         update_option('centro_servizi_footer_text', sanitize_textarea_field($_POST['footer_text'] ?? ''));
 
+        // DATI LEGALI FOOTER
+        update_option('centro_servizi_legal_company_name', sanitize_text_field($_POST['legal_company_name'] ?? ''));
+        update_option('centro_servizi_legal_vat', sanitize_text_field($_POST['legal_vat'] ?? ''));
+        update_option('centro_servizi_legal_fiscal_code', sanitize_text_field($_POST['legal_fiscal_code'] ?? ''));
+        update_option('centro_servizi_legal_mecc', sanitize_text_field($_POST['legal_mecc'] ?? ''));
+        update_option('centro_servizi_legal_address', sanitize_textarea_field($_POST['legal_address'] ?? ''));
+        update_option('centro_servizi_accessibility_feedback_url', esc_url_raw(sanitize_text_field($_POST['accessibility_feedback_url'] ?? '')));
+
         // MAPPA
         $maps_embed_url = esc_url_raw(sanitize_text_field($_POST['maps_embed_url'] ?? ''));
         update_option('centro_servizi_maps_embed_url', $maps_embed_url);
 
         // PRIVACY & GDPR
         update_option('centro_servizi_email_dpo', sanitize_email($_POST['email_dpo'] ?? ''));
+        update_option('centro_servizi_email_privacy', sanitize_email($_POST['email_privacy'] ?? ''));
+        update_option('centro_servizi_pec_privacy', sanitize_email($_POST['pec_privacy'] ?? ''));
+        update_option('centro_servizi_referente_privacy', sanitize_text_field($_POST['referente_privacy'] ?? ''));
         $url_wb = esc_url_raw(sanitize_text_field($_POST['url_whistleblowing'] ?? ''));
         update_option('centro_servizi_url_whistleblowing', $url_wb);
 
@@ -751,8 +930,17 @@ function centro_servizi_render_settings_page(): void
     $contacts = json_decode($contacts_json, true) ?: [];
     $footer_text = get_option('centro_servizi_footer_text', '');
     $email_dpo = get_option('centro_servizi_email_dpo', '');
+    $email_privacy = get_option('centro_servizi_email_privacy', '');
+    $pec_privacy = get_option('centro_servizi_pec_privacy', '');
+    $referente_privacy = get_option('centro_servizi_referente_privacy', '');
     $url_whistleblowing = get_option('centro_servizi_url_whistleblowing', '');
     $maps_embed_url = get_option('centro_servizi_maps_embed_url', '');
+    $legal_company_name = get_option('centro_servizi_legal_company_name', '');
+    $legal_vat = get_option('centro_servizi_legal_vat', '');
+    $legal_fiscal_code = get_option('centro_servizi_legal_fiscal_code', '');
+    $legal_mecc = get_option('centro_servizi_legal_mecc', '');
+    $legal_address = get_option('centro_servizi_legal_address', '');
+    $accessibility_feedback_url = get_option('centro_servizi_accessibility_feedback_url', '');
 
     $fonts = centro_servizi_get_font_catalog();
     $contact_types = [
@@ -794,13 +982,25 @@ function centro_servizi_render_settings_page(): void
     ?>
 
     <div class="wrap">
-        <h1>Impostazioni Sito</h1>
+        <h1>Impostazioni Sito - <?php echo esc_html($sections[$active_section]['title']); ?></h1>
+
+        <nav class="centro-servizi-settings-nav" aria-label="Sezioni impostazioni">
+            <?php foreach ($sections as $section_key => $section): ?>
+                <a
+                    class="centro-servizi-settings-nav__link <?php echo $section_key === $active_section ? 'is-active' : ''; ?>"
+                    href="<?php echo esc_url(admin_url('admin.php?page=' . $section['slug'])); ?>"
+                >
+                    <?php echo esc_html($section['title']); ?>
+                </a>
+            <?php endforeach; ?>
+        </nav>
+        <p class="description" style="margin: 8px 0 16px;"><?php echo esc_html($sections[$active_section]['description']); ?></p>
 
         <form method="post" class="centro-servizi-settings-form">
             <?php wp_nonce_field('centro_servizi_settings', 'centro_servizi_nonce'); ?>
 
             <!-- COLORI -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="style">
                 <h2>🎨 Colori</h2>
                 <p class="description">Imposta 4 colori base. Il tema genererà automaticamente sfumature chiare e scure.</p>
                 <div class="color-grid">
@@ -828,7 +1028,7 @@ function centro_servizi_render_settings_page(): void
             </div>
 
             <!-- TYPOGRAPHY -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="style">
                 <h2>🔤 Tipografia</h2>
                 <p class="description">Configura font, dimensione (px/rem/em/%), peso, stile e colore per ogni elemento. I font Google custom possono essere assegnati a profili specifici.</p>
 
@@ -968,7 +1168,7 @@ function centro_servizi_render_settings_page(): void
             </div>
 
             <!-- HOMEPAGE -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="style">
                 <h2>Homepage</h2>
                 <table class="form-table">
                     <tr>
@@ -987,7 +1187,7 @@ function centro_servizi_render_settings_page(): void
             </div>
 
             <!-- CONTATTI (DINAMICI) -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="contatti">
                 <h2>Contatti</h2>
                 <p class="description">Aggiungi più contatti (email, telefoni, indirizzi, PEC, ecc.)</p>
 
@@ -1036,7 +1236,7 @@ function centro_servizi_render_settings_page(): void
             </div>
 
             <!-- MAPPA -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="contatti">
                 <h2>🗺️ Mappa sede</h2>
                 <p class="description">Incolla l'URL src dell'embed ottenuto da <strong>Google Maps → Condividi → Incorpora una mappa → copia solo il valore src</strong>. Se lasci vuoto, la mappa viene costruita automaticamente dall'indirizzo.</p>
                 <table class="form-table">
@@ -1051,12 +1251,30 @@ function centro_servizi_render_settings_page(): void
             </div>
 
             <!-- PRIVACY & GDPR -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="normative">
                 <h2>🔒 Privacy &amp; GDPR</h2>
                 <p class="description">Dati usati per generare le pagine obbligatorie (Privacy Policy, Whistleblowing).</p>
                 <table class="form-table">
                     <tr>
-                        <th scope="row"><label for="email_dpo">Email DPO / Referente privacy:</label></th>
+                        <th scope="row"><label for="referente_privacy">Referente privacy:</label></th>
+                        <td>
+                            <input type="text" id="referente_privacy" name="referente_privacy" value="<?php echo esc_attr($referente_privacy); ?>" class="regular-text" placeholder="Nome e ruolo" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="email_privacy">Email privacy:</label></th>
+                        <td>
+                            <input type="email" id="email_privacy" name="email_privacy" value="<?php echo esc_attr($email_privacy); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="pec_privacy">PEC privacy:</label></th>
+                        <td>
+                            <input type="email" id="pec_privacy" name="pec_privacy" value="<?php echo esc_attr($pec_privacy); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="email_dpo">Email DPO:</label></th>
                         <td>
                             <input type="email" id="email_dpo" name="email_dpo" value="<?php echo esc_attr($email_dpo); ?>" class="regular-text" />
                             <p class="description">Contatto del Responsabile della Protezione dei Dati. Appare nella Privacy Policy e nella Dichiarazione di Accessibilità.</p>
@@ -1072,8 +1290,52 @@ function centro_servizi_render_settings_page(): void
                 </table>
             </div>
 
+            <div class="settings-section" data-settings-group="legale">
+                <h2>Dati legali e aziendali</h2>
+                <p class="description">Dati mostrati nel footer per anagrafica, codici e recapiti ufficiali.</p>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="legal_company_name">Ragione sociale:</label></th>
+                        <td>
+                            <input type="text" id="legal_company_name" name="legal_company_name" value="<?php echo esc_attr($legal_company_name); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="legal_address">Sede legale (footer):</label></th>
+                        <td>
+                            <textarea id="legal_address" name="legal_address" class="large-text" rows="2"><?php echo esc_textarea($legal_address); ?></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="legal_vat">P.IVA:</label></th>
+                        <td>
+                            <input type="text" id="legal_vat" name="legal_vat" value="<?php echo esc_attr($legal_vat); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="legal_fiscal_code">Codice fiscale:</label></th>
+                        <td>
+                            <input type="text" id="legal_fiscal_code" name="legal_fiscal_code" value="<?php echo esc_attr($legal_fiscal_code); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="legal_mecc">Codice meccanografico:</label></th>
+                        <td>
+                            <input type="text" id="legal_mecc" name="legal_mecc" value="<?php echo esc_attr($legal_mecc); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="accessibility_feedback_url">URL segnalazione accessibilità:</label></th>
+                        <td>
+                            <input type="url" id="accessibility_feedback_url" name="accessibility_feedback_url" value="<?php echo esc_attr($accessibility_feedback_url); ?>" class="regular-text" placeholder="https://..." />
+                            <p class="description">Link del pulsante "Segnala un problema di accessibilità" nel footer.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
             <!-- FOOTER -->
-            <div class="settings-section">
+            <div class="settings-section" data-settings-group="legale">
                 <h2>Footer</h2>
                 <table class="form-table">
                     <tr>
@@ -1101,7 +1363,7 @@ function centro_servizi_render_settings_page(): void
             echo '</ul></div>';
         }
         ?>
-        <div class="settings-section">
+        <div class="settings-section" data-settings-group="normative">
             <h2>📄 Pagine obbligatorie</h2>
             <p class="description">Crea in <strong>bozza</strong> le pagine previste dalla normativa. Le pagine già esistenti non vengono sovrascritte né modificate.</p>
             <ul style="margin: 8px 0 16px 20px; list-style: disc;">
@@ -1126,10 +1388,50 @@ function centro_servizi_render_settings_page(): void
     </div>
 
     <style>
+        .centro-servizi-settings-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 8px 0 12px;
+        }
+
+        .centro-servizi-settings-nav__link {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            background: #fff;
+            border: 1px solid #dcdcde;
+            border-radius: 999px;
+            color: #1d2327;
+            text-decoration: none;
+        }
+
+        .centro-servizi-settings-nav__link:hover,
+        .centro-servizi-settings-nav__link:focus {
+            border-color: #2271b1;
+            color: #2271b1;
+            outline: none;
+        }
+
+        .centro-servizi-settings-nav__link.is-active {
+            border-color: #2271b1;
+            background: #edf5ff;
+            color: #0a4b78;
+            font-weight: 600;
+        }
+
         .centro-servizi-settings-form {
             background: white;
             padding: 20px;
             border-radius: 5px;
+        }
+
+        .settings-section[data-settings-group] {
+            display: none;
+        }
+
+        .settings-section[data-settings-group="<?php echo esc_attr($active_section); ?>"] {
+            display: block;
         }
 
         .settings-section {
