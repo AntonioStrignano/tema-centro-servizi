@@ -146,6 +146,7 @@ function centro_servizi_get_latest_commit_title(): string
 }
 
 add_action('wp_dashboard_setup', 'centro_servizi_register_dashboard_debug_widget');
+add_action('admin_notices', 'centro_servizi_render_dashboard_debug_notice');
 
 function centro_servizi_register_dashboard_debug_widget(): void
 {
@@ -176,6 +177,48 @@ function centro_servizi_render_dashboard_debug_widget(): void
         <?php if ($commit_hash !== '') : ?>
             <p><strong>Hash:</strong> <code><?php echo esc_html($commit_hash); ?></code></p>
         <?php endif; ?>
+    </div>
+    <?php
+}
+
+function centro_servizi_render_dashboard_debug_notice(): void
+{
+    if (! is_admin() || ! current_user_can('manage_options')) {
+        return;
+    }
+
+    global $pagenow;
+
+    if ($pagenow !== 'index.php') {
+        return;
+    }
+
+    $theme = wp_get_theme();
+    $commit_title = centro_servizi_get_latest_commit_title();
+    $commit_hash = centro_servizi_get_latest_commit_hash();
+    $deployed_at = centro_servizi_get_deploy_datetime_label();
+    $theme_name = (string) $theme->get('Name');
+    $theme_version = (string) $theme->get('Version');
+    ?>
+    <div class="notice notice-info">
+        <p>
+            <strong>Tema in uso:</strong>
+            <?php echo esc_html($theme_name !== '' ? $theme_name : 'non disponibile'); ?>
+            <?php if ($theme_version !== '') : ?>
+                <span style="color:#50575e;">v<?php echo esc_html($theme_version); ?></span>
+            <?php endif; ?>
+            <span style="color:#8c8f94;">|</span>
+            <strong>Deploy:</strong>
+            <?php echo esc_html($deployed_at); ?>
+            <span style="color:#8c8f94;">|</span>
+            <strong>Commit:</strong>
+            <?php echo esc_html($commit_title !== '' ? $commit_title : 'non disponibile'); ?>
+            <?php if ($commit_hash !== '') : ?>
+                <span style="color:#8c8f94;">|</span>
+                <strong>Hash:</strong>
+                <code><?php echo esc_html($commit_hash); ?></code>
+            <?php endif; ?>
+        </p>
     </div>
     <?php
 }
