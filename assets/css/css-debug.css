@@ -137,6 +137,44 @@ dd {
   border: 0.125rem solid #b7a11a;
 }
 
+#wpadminbar #wp-admin-bar-centro-servizi-debug > .ab-item {
+  display: flex;
+  align-items: center;
+  max-width: none;
+  padding: 0 0.75rem;
+  background: linear-gradient(90deg, #7b1313 0%, #971919 45%, #3f0f0f 100%);
+  color: #f3f7fb;
+}
+
+#wpadminbar #wp-admin-bar-centro-servizi-debug:hover > .ab-item,
+#wpadminbar #wp-admin-bar-centro-servizi-debug > .ab-item:focus {
+  background: linear-gradient(90deg, #8f1818 0%, #aa2222 45%, #531313 100%);
+  color: #ffffff;
+}
+
+#wpadminbar .centro-servizi-admin-debug {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#wpadminbar .centro-servizi-admin-debug strong {
+  color: #ffe66d;
+}
+
+#wpadminbar .centro-servizi-admin-debug__sep {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media screen and (max-width: 1200px) {
+  #wpadminbar #wp-admin-bar-centro-servizi-debug {
+    display: none;
+  }
+}
+
 .skip-links a {
   background: #ffffff;
   color: #081018;

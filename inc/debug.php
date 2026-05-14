@@ -37,10 +37,7 @@ function centro_servizi_is_legal_page_context(): bool
 function centro_servizi_get_debug_context(): array
 {
     $template = centro_servizi_get_relative_theme_path(centro_servizi_get_current_template_path());
-    $theme_timestamp = centro_servizi_get_theme_last_modified_timestamp();
-    $deployed_at = $theme_timestamp > 0
-        ? wp_date('d/m/Y H:i:s', $theme_timestamp)
-        : 'non disponibile';
+    $deployed_at = centro_servizi_get_deploy_datetime_label();
     $commit_title = centro_servizi_get_latest_commit_title();
 
     return [
@@ -147,6 +144,7 @@ function centro_servizi_get_latest_commit_title(): string
 
 add_action('wp_dashboard_setup', 'centro_servizi_register_dashboard_debug_widget');
 add_action('admin_notices', 'centro_servizi_render_dashboard_debug_notice');
+add_action('admin_bar_menu', 'centro_servizi_add_frontend_debug_to_admin_bar', 999);
 
 function centro_servizi_register_dashboard_debug_widget(): void
 {
@@ -221,6 +219,32 @@ function centro_servizi_render_dashboard_debug_notice(): void
         </p>
     </div>
     <?php
+}
+
+function centro_servizi_add_frontend_debug_to_admin_bar(WP_Admin_Bar $wp_admin_bar): void
+{
+    if (is_admin() || ! is_admin_bar_showing()) {
+        return;
+    }
+
+    $debug_context = centro_servizi_get_debug_context();
+    $title = sprintf(
+        '<span class="centro-servizi-admin-debug"><span class="centro-servizi-admin-debug__chunk"><strong>Template:</strong> %1$s</span><span class="centro-servizi-admin-debug__sep">|</span><span class="centro-servizi-admin-debug__chunk"><strong>Deploy:</strong> %2$s</span><span class="centro-servizi-admin-debug__sep">|</span><span class="centro-servizi-admin-debug__chunk"><strong>Commit:</strong> %3$s</span></span>',
+        esc_html($debug_context['template']),
+        esc_html($debug_context['deployed_at']),
+        esc_html($debug_context['commit_title'])
+    );
+
+    $wp_admin_bar->add_node([
+        'id' => 'centro-servizi-debug',
+        'parent' => 'top-secondary',
+        'title' => $title,
+        'href' => false,
+        'meta' => [
+            'class' => 'centro-servizi-debug-admin-bar-node',
+            'title' => 'Informazioni debug tema',
+        ],
+    ]);
 }
 
 function centro_servizi_find_git_repository_root(string $start_path): string
