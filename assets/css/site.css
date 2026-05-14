@@ -294,11 +294,32 @@ button {
   background-color: var(--home-bg-accent);
 }
 
+/* Azzera margin e background ereditati da .site-section */
+.home-hero,
+.home-intro,
+.home-services,
+.home-attivita,
+.home-trasparenza,
+.home-contacts {
+  margin: 0;
+  background: none;
+}
+
 .home-hero,
 .home-services,
 .home-trasparenza {
   position: relative;
   overflow: hidden;
+}
+
+/* Contenuto interno centrato con padding */
+.home-services,
+.home-trasparenza,
+.home-attivita,
+.home-contacts,
+.home-intro {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .home-hero {
