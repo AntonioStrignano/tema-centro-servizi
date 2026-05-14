@@ -267,32 +267,7 @@ function centro_servizi_render_debug_chunks_html(string $context = 'frontend'): 
         . '</span>';
 }
 
-add_action('admin_notices', 'centro_servizi_render_dashboard_debug_notice');
 add_action('admin_bar_menu', 'centro_servizi_add_frontend_debug_to_admin_bar', 999);
-
-function centro_servizi_render_dashboard_debug_notice(): void
-{
-    if (! is_admin() || ! current_user_can('manage_options')) {
-        return;
-    }
-
-    global $pagenow;
-
-    if ($pagenow !== 'index.php') {
-        return;
-    }
-
-    $content = centro_servizi_render_debug_chunks_html('admin');
-
-    if ($content === '') {
-        return;
-    }
-    ?>
-    <div class="notice notice-info">
-        <p><?php echo wp_kses($content, ['span' => ['class' => []], 'strong' => []]); ?></p>
-    </div>
-    <?php
-}
 
 function centro_servizi_add_frontend_debug_to_admin_bar(WP_Admin_Bar $wp_admin_bar): void
 {
@@ -300,7 +275,8 @@ function centro_servizi_add_frontend_debug_to_admin_bar(WP_Admin_Bar $wp_admin_b
         return;
     }
 
-    $title = centro_servizi_render_debug_chunks_html('admin');
+    $context = is_admin() ? 'admin' : 'frontend';
+    $title = centro_servizi_render_debug_chunks_html($context);
 
     if ($title === '') {
         return;
