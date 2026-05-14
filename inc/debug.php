@@ -54,6 +54,60 @@ function centro_servizi_get_debug_context(): array
     ];
 }
 
+function centro_servizi_get_deploy_meta(): array
+{
+    static $meta = null;
+
+    if (is_array($meta)) {
+        return $meta;
+    }
+
+    $meta = [];
+    $meta_file = get_template_directory() . '/assets/deploy-meta.php';
+
+    if (! file_exists($meta_file)) {
+        return $meta;
+    }
+
+    $raw_meta = require $meta_file;
+
+    if (is_array($raw_meta)) {
+        $meta = $raw_meta;
+    }
+
+    return $meta;
+}
+
+function centro_servizi_get_deploy_datetime_label(): string
+{
+    $meta = centro_servizi_get_deploy_meta();
+    $raw_deployed_at = isset($meta['deployed_at']) ? (string) $meta['deployed_at'] : '';
+
+    if ($raw_deployed_at !== '') {
+        $timestamp = strtotime($raw_deployed_at);
+
+        if (is_int($timestamp) && $timestamp > 0) {
+            return wp_date('d/m/Y H:i:s', $timestamp);
+        }
+
+        return sanitize_text_field($raw_deployed_at);
+    }
+
+    $theme_timestamp = centro_servizi_get_theme_last_modified_timestamp();
+
+    return $theme_timestamp > 0
+        ? wp_date('d/m/Y H:i:s', $theme_timestamp)
+        : 'non disponibile';
+}
+
+function centro_servizi_get_latest_commit_hash(): string
+{
+    $meta = centro_servizi_get_deploy_meta();
+    $hash = isset($meta['commit_hash']) ? sanitize_text_field((string) $meta['commit_hash']) : '';
+
+    return $hash;
+}
+
 function centro_servizi_get_latest_commit_title(): string
 {
     static $commit_title = null;
@@ -82,17 +136,48 @@ function centro_servizi_get_latest_commit_title(): string
     }
 
     // Fallback: legge da deploy-meta.php (presente sul server dopo il push)
-    $meta_file = get_template_directory() . '/assets/deploy-meta.php';
+    $meta = centro_servizi_get_deploy_meta();
 
-    if (file_exists($meta_file)) {
-        $meta = require $meta_file;
-
-        if (is_array($meta) && ! empty($meta['commit_title'])) {
-            $commit_title = sanitize_text_field($meta['commit_title']);
-        }
+    if (! empty($meta['commit_title'])) {
+        $commit_title = sanitize_text_field((string) $meta['commit_title']);
     }
 
     return $commit_title;
+}
+
+add_action('wp_dashboard_setup', 'centro_servizi_register_dashboard_debug_widget');
+
+function centro_servizi_register_dashboard_debug_widget(): void
+{
+    if (! current_user_can('manage_options')) {
+        return;
+    }
+
+    wp_add_dashboard_widget(
+        'centro_servizi_dashboard_debug',
+        'Centro Servizi - Info tema',
+        'centro_servizi_render_dashboard_debug_widget'
+    );
+}
+
+function centro_servizi_render_dashboard_debug_widget(): void
+{
+    $theme = wp_get_theme();
+    $commit_title = centro_servizi_get_latest_commit_title();
+    $commit_hash = centro_servizi_get_latest_commit_hash();
+    $deployed_at = centro_servizi_get_deploy_datetime_label();
+    $theme_name = (string) $theme->get('Name');
+    $theme_version = (string) $theme->get('Version');
+    ?>
+    <div class="centro-servizi-dashboard-debug">
+        <p><strong>Tema in uso:</strong> <?php echo esc_html($theme_name !== '' ? $theme_name : 'non disponibile'); ?><?php echo $theme_version !== '' ? ' <span style="color:#50575e;">v' . esc_html($theme_version) . '</span>' : ''; ?></p>
+        <p><strong>Deploy:</strong> <?php echo esc_html($deployed_at); ?></p>
+        <p><strong>Commit:</strong> <?php echo esc_html($commit_title !== '' ? $commit_title : 'non disponibile'); ?></p>
+        <?php if ($commit_hash !== '') : ?>
+            <p><strong>Hash:</strong> <code><?php echo esc_html($commit_hash); ?></code></p>
+        <?php endif; ?>
+    </div>
+    <?php
 }
 
 function centro_servizi_find_git_repository_root(string $start_path): string
