@@ -52,16 +52,18 @@ $documenti_recenti = new WP_Query([
 ?>
 <main class="site-main home-main" id="contenuto-principale" role="main">
     <section class="site-section home-hero" aria-labelledby="home-hero-title">
-        <p class="home-hero__kicker">Scuola paritaria d'infanzia</p>
-        <h1 id="home-hero-title" class="home-hero__title"><?php echo esc_html($title); ?></h1>
+        <div class="home-hero__inner">
+            <p class="home-hero__kicker">Scuola paritaria d'infanzia</p>
+            <h1 id="home-hero-title" class="home-hero__title"><?php echo esc_html($title); ?></h1>
 
-        <?php if ($subtitle !== '') : ?>
-            <p class="home-hero__subtitle"><?php echo esc_html($subtitle); ?></p>
-        <?php endif; ?>
+            <?php if ($subtitle !== '') : ?>
+                <p class="home-hero__subtitle"><?php echo esc_html($subtitle); ?></p>
+            <?php endif; ?>
 
-        <div class="home-hero__actions">
-            <a class="home-button" href="<?php echo esc_url($attivita_archive_url); ?>">Scopri le attivita</a>
-            <a class="home-button home-button--ghost" href="<?php echo esc_url($contatti_page_url); ?>">Contattaci</a>
+            <div class="home-hero__actions">
+                <a class="home-button" href="<?php echo esc_url($attivita_archive_url); ?>">Scopri le attivita</a>
+                <a class="home-button home-button--ghost" href="<?php echo esc_url($contatti_page_url); ?>">Contattaci</a>
+            </div>
         </div>
         <div class="home-shape home-shape--bottom" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
