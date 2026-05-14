@@ -255,29 +255,42 @@ button {
 .home-divider::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 50%;
+  width: calc(100% + 1.3px);
   top: 0;
   height: var(--home-divider-top-height);
   background-image: var(--home-divider-mountains-svg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  background-position: center;
   color: rgba(255, 255, 255, 0.16);
+  transform: translateX(-50%);
+  transform-origin: center;
+  z-index: 0;
   pointer-events: none;
 }
 
 .home-divider::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 50%;
+  width: calc(100% + 1.3px);
   bottom: 0;
   height: var(--home-divider-bottom-height);
   background-image: var(--home-divider-waves-svg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  background-position: center;
   color: rgba(255, 255, 255, 0.12);
+  transform: translateX(-50%) rotate(180deg);
+  transform-origin: center;
+  z-index: 0;
   pointer-events: none;
+}
+
+.home-divider > * {
+  position: relative;
+  z-index: 1;
 }
 
 .home-divider--double {
