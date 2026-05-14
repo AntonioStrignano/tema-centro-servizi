@@ -296,11 +296,11 @@ function centro_servizi_render_dashboard_debug_notice(): void
 
 function centro_servizi_add_frontend_debug_to_admin_bar(WP_Admin_Bar $wp_admin_bar): void
 {
-    if (is_admin() || ! is_admin_bar_showing()) {
+    if (! is_admin_bar_showing()) {
         return;
     }
 
-    $title = centro_servizi_render_debug_chunks_html('frontend');
+    $title = centro_servizi_render_debug_chunks_html('admin');
 
     if ($title === '') {
         return;
