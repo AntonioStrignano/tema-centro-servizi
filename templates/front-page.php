@@ -68,7 +68,7 @@ $documenti_recenti = new WP_Query([
     <?php while (have_posts()) : the_post(); ?>
         <?php $content = trim((string) get_the_content()); ?>
         <?php if ($content !== '') : ?>
-            <section class="site-section home-intro" aria-labelledby="home-intro-title">
+            <section class="site-section home-intro home-divider" aria-labelledby="home-intro-title">
                 <h2 id="home-intro-title">Chi siamo</h2>
                 <div class="entry-content">
                     <?php the_content(); ?>
@@ -77,7 +77,7 @@ $documenti_recenti = new WP_Query([
         <?php endif; ?>
     <?php endwhile; ?>
 
-    <section class="site-section home-services" aria-labelledby="home-services-title">
+    <section class="site-section home-services home-divider home-divider--double" aria-labelledby="home-services-title">
         <h2 id="home-services-title">Aree e servizi</h2>
         <div class="home-services__grid">
             <article class="home-service-card">
@@ -98,7 +98,7 @@ $documenti_recenti = new WP_Query([
         </div>
     </section>
 
-    <section class="site-section home-attivita" aria-labelledby="home-attivita-title">
+    <section class="site-section home-attivita home-divider" aria-labelledby="home-attivita-title">
         <div class="home-section-head">
             <h2 id="home-attivita-title">Attivita recenti</h2>
             <a href="<?php echo esc_url($attivita_archive_url); ?>">Vedi tutte</a>
@@ -115,7 +115,7 @@ $documenti_recenti = new WP_Query([
         <?php endif; ?>
     </section>
 
-    <section class="site-section home-trasparenza" aria-labelledby="home-trasparenza-title">
+    <section class="site-section home-trasparenza home-divider home-divider--double" aria-labelledby="home-trasparenza-title">
         <div class="home-section-head">
             <h2 id="home-trasparenza-title">Documenti in evidenza</h2>
             <a href="<?php echo esc_url($trasparenza_archive_url); ?>">Vedi tutti</a>
@@ -142,7 +142,7 @@ $documenti_recenti = new WP_Query([
         <?php endif; ?>
     </section>
 
-    <section class="site-section home-contacts" aria-labelledby="home-contacts-title">
+    <section class="site-section home-contacts home-divider" aria-labelledby="home-contacts-title">
         <h2 id="home-contacts-title">Contatti rapidi</h2>
         <div class="home-contacts__grid">
             <?php if (isset($contacts_by_type['phone'])) : ?>
