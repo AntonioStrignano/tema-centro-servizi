@@ -238,7 +238,10 @@ button {
 
 .home-main {
   display: grid;
-  gap: 1.25rem;
+  gap: 0;
+  /* ── Palette homepage — modificare qui ── */
+  --home-bg-base:   #181f2b; /* secondario schiarisce + desatura molto  */
+  --home-bg-accent: #1d2a3a; /* stessa tinta, meno desaturato            */
 }
 
 /* ── Shape dividers — stessa logica di Elementor shapes.min.css ── */
@@ -278,6 +281,19 @@ button {
   fill: currentColor;
 }
 
+/* ── Sfondi sezioni ── */
+.home-hero,
+.home-intro,
+.home-attivita,
+.home-contacts {
+  background-color: var(--home-bg-base);
+}
+
+.home-services,
+.home-trasparenza {
+  background-color: var(--home-bg-accent);
+}
+
 .home-hero,
 .home-services,
 .home-trasparenza {
@@ -300,6 +316,18 @@ button {
 .home-trasparenza > *:not(.home-shape) {
   position: relative;
   z-index: 1;
+}
+
+/* ── Fill shape = colore sezione adiacente (transizione seamless) ── */
+.home-hero .home-shape--bottom {
+  color: var(--home-bg-accent);
+}
+
+.home-services .home-shape--top,
+.home-services .home-shape--bottom,
+.home-trasparenza .home-shape--top,
+.home-trasparenza .home-shape--bottom {
+  color: var(--home-bg-base);
 }
 
 .home-hero {
