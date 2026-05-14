@@ -239,99 +239,71 @@ button {
 .home-main {
   display: grid;
   gap: 1.25rem;
-  --home-divider-top-svg: url("../img/divider-top.svg");
-  --home-divider-bottom-svg: url("../img/divider-bottom.svg");
 }
 
-.home-divider {
-  position: relative;
+/* ── Shape dividers — stessa logica di Elementor shapes.min.css ── */
+.home-shape {
+  direction: ltr;
+  left: 0;
+  line-height: 0;
   overflow: hidden;
-  padding-top: 3.25rem;
-  padding-bottom: 2.5rem;
-  --home-divider-top-height: 82px;
-  --home-divider-bottom-height: 50px;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  pointer-events: none;
+  color: var(--home-shape-fill, #fff);
 }
 
-.home-divider::before {
-  content: "";
-  position: absolute;
+.home-shape--top {
+  top: -1px;
+}
+
+.home-shape--bottom {
+  bottom: -1px;
+}
+
+.home-shape svg {
+  display: block;
   left: 50%;
-  width: calc(100% + 1.3px);
-  top: 0;
-  height: var(--home-divider-top-height);
-  background-image: var(--home-divider-top-svg);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  color: rgba(255, 255, 255, 0.16);
+  position: relative;
   transform: translateX(-50%);
-  transform-origin: center;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.home-divider::after {
-  content: "";
-  position: absolute;
-  left: 50%;
   width: calc(100% + 1.3px);
-  bottom: 0;
-  height: var(--home-divider-bottom-height);
-  background-image: var(--home-divider-bottom-svg);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  color: rgba(255, 255, 255, 0.12);
+}
+
+.home-shape--bottom svg {
   transform: translateX(-50%) rotate(180deg);
-  transform-origin: center;
-  z-index: 0;
-  pointer-events: none;
 }
 
-.home-divider > * {
-  position: relative;
-  z-index: 1;
+.home-shape path {
+  fill: currentColor;
 }
 
-.home-divider-bottom-only {
+.home-hero,
+.home-services,
+.home-trasparenza {
   position: relative;
   overflow: hidden;
-  padding-bottom: 3.5rem;
-  --home-divider-bottom-height: 100px;
-}
-
-.home-divider-bottom-only::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  width: calc(100% + 1.3px);
-  bottom: 0;
-  height: var(--home-divider-bottom-height);
-  background-image: var(--home-divider-bottom-svg);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  color: rgba(255, 255, 255, 0.14);
-  transform: translateX(-50%) rotate(180deg);
-  transform-origin: center;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.home-divider-bottom-only > * {
-  position: relative;
-  z-index: 1;
-}
-
-.home-divider--double {
-  --home-divider-top-height: 150px;
-  --home-divider-bottom-height: 50px;
 }
 
 .home-hero {
+  padding-bottom: 70px;
+}
+
+.home-services,
+.home-trasparenza {
+  padding-top: 100px;
+  padding-bottom: 70px;
+}
+
+.home-hero > *,
+.home-services > *:not(.home-shape),
+.home-trasparenza > *:not(.home-shape) {
   position: relative;
-  overflow: hidden;
-  padding: 2rem 1.25rem;
+  z-index: 1;
+}
+
+.home-hero {
+  padding: 2rem 1.25rem 70px;
   border: 1px solid rgba(83, 224, 255, 0.25);
 }
 
