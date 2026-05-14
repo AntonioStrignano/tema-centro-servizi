@@ -39,9 +39,14 @@ function centro_servizi_get_debug_context(): array
     $template = centro_servizi_get_relative_theme_path(centro_servizi_get_current_template_path());
     $deployed_at = centro_servizi_get_deploy_datetime_label();
     $commit_title = centro_servizi_get_latest_commit_title();
+    $theme = wp_get_theme();
+    $theme_name = trim((string) $theme->get('Name'));
+    $theme_version = trim((string) $theme->get('Version'));
 
     return [
         'template' => $template !== '' ? $template : 'template non rilevato',
+        'theme_name' => $theme_name !== '' ? $theme_name : 'non disponibile',
+        'theme_version' => $theme_version,
         'view_type' => centro_servizi_get_debug_view_type(),
         'object' => centro_servizi_get_debug_object_label(),
         'css_mode' => centro_servizi_get_css_loading_mode(),
@@ -142,42 +147,128 @@ function centro_servizi_get_latest_commit_title(): string
     return $commit_title;
 }
 
-add_action('wp_dashboard_setup', 'centro_servizi_register_dashboard_debug_widget');
-add_action('admin_notices', 'centro_servizi_render_dashboard_debug_notice');
-add_action('admin_bar_menu', 'centro_servizi_add_frontend_debug_to_admin_bar', 999);
-
-function centro_servizi_register_dashboard_debug_widget(): void
+function centro_servizi_get_debug_status_checks(): array
 {
-    if (! current_user_can('manage_options')) {
-        return;
+    $maps_embed_url = trim((string) get_option('centro_servizi_maps_embed_url', ''));
+    $email_dpo = trim((string) get_option('centro_servizi_email_dpo', ''));
+    $email_privacy = trim((string) get_option('centro_servizi_email_privacy', ''));
+    $referente_privacy = trim((string) get_option('centro_servizi_referente_privacy', ''));
+    $whistleblowing_url = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
+    $address_contact = centro_servizi_get_contact_by_type('address');
+
+    $has_map = $maps_embed_url !== ''
+        || ($address_contact !== null && trim((string) ($address_contact['value'] ?? '')) !== '');
+
+    $has_privacy_contact = $email_dpo !== '' || $email_privacy !== '' || $referente_privacy !== '';
+    $has_privacy_page = get_page_by_path('privacy-policy') instanceof WP_Post;
+    $has_whistleblowing_page = get_page_by_path('whistleblowing') instanceof WP_Post;
+
+    return [
+        'wp_php' => 'WP ' . get_bloginfo('version') . ' / PHP ' . PHP_VERSION,
+        'map' => $has_map,
+        'privacy_dpo' => $has_privacy_contact && $has_privacy_page,
+        'whistleblowing' => $whistleblowing_url !== '' && $has_whistleblowing_page,
+    ];
+}
+
+function centro_servizi_get_debug_chunks(string $context = 'frontend'): array
+{
+    $debug_context = centro_servizi_get_debug_context();
+    $chunks = [];
+
+    if ($context === 'admin') {
+        $theme_label = $debug_context['theme_name'];
+        if ($debug_context['theme_version'] !== '') {
+            $theme_label .= ' v' . $debug_context['theme_version'];
+        }
+
+        $chunks[] = [
+            'label' => 'Tema in uso',
+            'value' => $theme_label,
+            'is_status' => false,
+        ];
+    } elseif ($debug_context['template'] !== '') {
+        $chunks[] = [
+            'label' => 'Template',
+            'value' => $debug_context['template'],
+            'is_status' => false,
+        ];
     }
 
-    wp_add_dashboard_widget(
-        'centro_servizi_dashboard_debug',
-        'Centro Servizi - Info tema',
-        'centro_servizi_render_dashboard_debug_widget'
-    );
+    $chunks[] = [
+        'label' => 'Deploy',
+        'value' => $debug_context['deployed_at'],
+        'is_status' => false,
+    ];
+
+    $chunks[] = [
+        'label' => 'Commit',
+        'value' => $debug_context['commit_title'],
+        'is_status' => false,
+    ];
+
+    if ($context === 'admin') {
+        $checks = centro_servizi_get_debug_status_checks();
+
+        $chunks[] = [
+            'label' => 'WordPress / PHP',
+            'value' => $checks['wp_php'],
+            'is_status' => false,
+        ];
+        $chunks[] = [
+            'label' => 'Mappa',
+            'value' => $checks['map'] ? 'ok' : 'no',
+            'is_status' => true,
+        ];
+        $chunks[] = [
+            'label' => 'Privacy/DPO',
+            'value' => $checks['privacy_dpo'] ? 'ok' : 'no',
+            'is_status' => true,
+        ];
+        $chunks[] = [
+            'label' => 'Whistleblowing',
+            'value' => $checks['whistleblowing'] ? 'ok' : 'no',
+            'is_status' => true,
+        ];
+    }
+
+    return $chunks;
 }
 
-function centro_servizi_render_dashboard_debug_widget(): void
+function centro_servizi_render_debug_chunks_html(string $context = 'frontend'): string
 {
-    $theme = wp_get_theme();
-    $commit_title = centro_servizi_get_latest_commit_title();
-    $commit_hash = centro_servizi_get_latest_commit_hash();
-    $deployed_at = centro_servizi_get_deploy_datetime_label();
-    $theme_name = (string) $theme->get('Name');
-    $theme_version = (string) $theme->get('Version');
-    ?>
-    <div class="centro-servizi-dashboard-debug">
-        <p><strong>Tema in uso:</strong> <?php echo esc_html($theme_name !== '' ? $theme_name : 'non disponibile'); ?><?php echo $theme_version !== '' ? ' <span style="color:#50575e;">v' . esc_html($theme_version) . '</span>' : ''; ?></p>
-        <p><strong>Deploy:</strong> <?php echo esc_html($deployed_at); ?></p>
-        <p><strong>Commit:</strong> <?php echo esc_html($commit_title !== '' ? $commit_title : 'non disponibile'); ?></p>
-        <?php if ($commit_hash !== '') : ?>
-            <p><strong>Hash:</strong> <code><?php echo esc_html($commit_hash); ?></code></p>
-        <?php endif; ?>
-    </div>
-    <?php
+    $chunks = centro_servizi_get_debug_chunks($context);
+
+    if ($chunks === []) {
+        return '';
+    }
+
+    $html_chunks = [];
+
+    foreach ($chunks as $chunk) {
+        $value_classes = ['centro-servizi-admin-debug__value'];
+
+        if (! empty($chunk['is_status'])) {
+            $value_classes[] = $chunk['value'] === 'ok'
+                ? 'is-ok'
+                : 'is-no';
+        }
+
+        $html_chunks[] = sprintf(
+            '<span class="centro-servizi-admin-debug__chunk"><strong>%1$s:</strong> <span class="%2$s">%3$s</span></span>',
+            esc_html((string) $chunk['label']),
+            esc_attr(implode(' ', $value_classes)),
+            esc_html((string) $chunk['value'])
+        );
+    }
+
+    return '<span class="centro-servizi-admin-debug">'
+        . implode('<span class="centro-servizi-admin-debug__sep">|</span>', $html_chunks)
+        . '</span>';
 }
+
+add_action('admin_notices', 'centro_servizi_render_dashboard_debug_notice');
+add_action('admin_bar_menu', 'centro_servizi_add_frontend_debug_to_admin_bar', 999);
 
 function centro_servizi_render_dashboard_debug_notice(): void
 {
@@ -191,32 +282,14 @@ function centro_servizi_render_dashboard_debug_notice(): void
         return;
     }
 
-    $theme = wp_get_theme();
-    $commit_title = centro_servizi_get_latest_commit_title();
-    $commit_hash = centro_servizi_get_latest_commit_hash();
-    $deployed_at = centro_servizi_get_deploy_datetime_label();
-    $theme_name = (string) $theme->get('Name');
-    $theme_version = (string) $theme->get('Version');
+    $content = centro_servizi_render_debug_chunks_html('admin');
+
+    if ($content === '') {
+        return;
+    }
     ?>
     <div class="notice notice-info">
-        <p>
-            <strong>Tema in uso:</strong>
-            <?php echo esc_html($theme_name !== '' ? $theme_name : 'non disponibile'); ?>
-            <?php if ($theme_version !== '') : ?>
-                <span style="color:#50575e;">v<?php echo esc_html($theme_version); ?></span>
-            <?php endif; ?>
-            <span style="color:#8c8f94;">|</span>
-            <strong>Deploy:</strong>
-            <?php echo esc_html($deployed_at); ?>
-            <span style="color:#8c8f94;">|</span>
-            <strong>Commit:</strong>
-            <?php echo esc_html($commit_title !== '' ? $commit_title : 'non disponibile'); ?>
-            <?php if ($commit_hash !== '') : ?>
-                <span style="color:#8c8f94;">|</span>
-                <strong>Hash:</strong>
-                <code><?php echo esc_html($commit_hash); ?></code>
-            <?php endif; ?>
-        </p>
+        <p><?php echo wp_kses($content, ['span' => ['class' => []], 'strong' => []]); ?></p>
     </div>
     <?php
 }
@@ -227,13 +300,11 @@ function centro_servizi_add_frontend_debug_to_admin_bar(WP_Admin_Bar $wp_admin_b
         return;
     }
 
-    $debug_context = centro_servizi_get_debug_context();
-    $title = sprintf(
-        '<span class="centro-servizi-admin-debug"><span class="centro-servizi-admin-debug__chunk"><strong>Template:</strong> %1$s</span><span class="centro-servizi-admin-debug__sep">|</span><span class="centro-servizi-admin-debug__chunk"><strong>Deploy:</strong> %2$s</span><span class="centro-servizi-admin-debug__sep">|</span><span class="centro-servizi-admin-debug__chunk"><strong>Commit:</strong> %3$s</span></span>',
-        esc_html($debug_context['template']),
-        esc_html($debug_context['deployed_at']),
-        esc_html($debug_context['commit_title'])
-    );
+    $title = centro_servizi_render_debug_chunks_html('frontend');
+
+    if ($title === '') {
+        return;
+    }
 
     $wp_admin_bar->add_node([
         'id' => 'centro-servizi-debug',
