@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'fix full width',
-    'commit_hash'  => 'b860b6d63',
-    'deployed_at'  => '2026-05-18 09:52:39',
+    'commit_title' => 'Aggiungi nuove opzioni per il legale rappresentante, DPO e dichiarazione AGID nelle impostazioni del tema',
+    'commit_hash'  => '94889d796',
+    'deployed_at'  => '2026-05-18 10:15:54',
 ];

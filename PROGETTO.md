@@ -475,21 +475,31 @@ Logica: rileva il tipo di contenuto e costruisce il percorso appropriato. Per le
 
 ---
 
-## 12. Strategia CSS — Fase Debug
+## 12. Strategia CSS — Regole Operative (18 maggio 2026)
 
-Per la fase attuale, CSS puramente funzionale/debug. Tutto in `style.css`.
+Obiettivo: tema pulito, uniforme, leggibile, con meno varianti possibili.
 
-**Principi:**
-- Ogni elemento ha bordo `1px dashed` per visualizzare i box
-- Padding `5px` globale su tutti i contenitori
-- Font e colori: default del browser, zero personalizzazione
-- Intestazioni: stile browser default
-- Layout: tutto in colonna singola, nessun grid/flex avanzato
-- Unica classe accessibilità: `.sr-only` per skip links
+**Regole base CSS:**
+- CSS il più pulito possibile, riducendo al minimo eccezioni e componenti diversi tra loro.
+- Spaziatura uniforme tra blocchi e loop: usare un solo valore base di gap/padding verticale per quasi tutto il frontend.
+- Evitare micro-variazioni non necessarie (niente margini "ad hoc" per ogni sezione).
+- Mantenere markup essenziale: meno wrapper possibili, niente div inutili.
 
-Nessun file CSS separato. Tutto nel `style.css` del tema (dopo l'header WP obbligatorio).
+**Larghezza contenuti (desktop):**
+- Container contenuti principale fino a `max-width: 1500px`.
+- Alcune sezioni possono restare full-width (bordo-bordo) solo quando serve davvero per il contenuto.
 
-CSS vero e proprio arriverà nella fase estetica futura.
+**Policy mobile (fase attuale):**
+- Priorita: funzionamento, leggibilita, accesso ai dati da parte di utenti e autorita.
+- Ottimizzazioni mobile avanzate (rifiniture estetiche e micro-layout) non sono prioritarie adesso.
+- Restano comunque obbligatorie: assenza di overflow orizzontale, testi leggibili, navigazione e contenuti consultabili.
+
+**Struttura minima loop Amm. Trasparente:**
+- Wrapper elenco.
+- Wrapper singolo elemento loop con: titolo, sottotitolo, contenuti vari, metadati.
+- Niente annidamenti superflui oltre questi livelli.
+
+Tutto resta centralizzato in `style.css` del tema (dopo l'header WP obbligatorio), evitando frammentazione in molti file salvo necessita reale.
 
 ---
 

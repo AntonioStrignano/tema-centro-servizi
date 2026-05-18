@@ -15,6 +15,7 @@ $legal_address       = trim((string) get_option('centro_servizi_legal_address', 
 $legal_vat           = trim((string) get_option('centro_servizi_legal_vat', ''));
 $legal_fiscal_code   = trim((string) get_option('centro_servizi_legal_fiscal_code', ''));
 $legal_mecc          = trim((string) get_option('centro_servizi_legal_mecc', ''));
+$legal_rea           = trim((string) get_option('centro_servizi_legal_rea', ''));
 $accessibility_feedback_url = trim((string) get_option('centro_servizi_accessibility_feedback_url', ''));
 
 $contacts_raw = centro_servizi_get_contacts();
@@ -38,6 +39,9 @@ if ($legal_fiscal_code !== '') {
 }
 if ($legal_mecc !== '') {
     $legal_chunks[] = 'Cod. Mecc. ' . $legal_mecc;
+}
+if ($legal_rea !== '') {
+    $legal_chunks[] = 'REA ' . $legal_rea;
 }
 
 $contact_chunks = [];

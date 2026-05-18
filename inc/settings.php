@@ -518,15 +518,23 @@ function centro_servizi_seed_load_contacts(): array
 
 function centro_servizi_get_seed_pages(string $site_name, string $site_url): array
 {
-    $contacts           = centro_servizi_seed_load_contacts();
-    $email_dpo          = (string) get_option('centro_servizi_email_dpo', '');
-    $url_whistleblowing = (string) get_option('centro_servizi_url_whistleblowing', '');
+    $contacts                     = centro_servizi_seed_load_contacts();
+    $legale_rappresentante        = trim((string) get_option('centro_servizi_legale_rappresentante', ''));
+    $dpo_nome_option              = trim((string) get_option('centro_servizi_dpo_nome', ''));
+    $dpo_email_option             = trim((string) get_option('centro_servizi_email_dpo', ''));
+    $email_privacy                = trim((string) get_option('centro_servizi_email_privacy', ''));
+    $contact_email                = isset($contacts['email']) ? trim((string) $contacts['email']) : '';
+    $dpo_nome                     = $dpo_nome_option !== '' ? $dpo_nome_option : $legale_rappresentante;
+    $dpo_email                    = $dpo_email_option !== '' ? $dpo_email_option : ($email_privacy !== '' ? $email_privacy : $contact_email);
+    $url_whistleblowing           = (string) get_option('centro_servizi_url_whistleblowing', '');
+    $url_dichiarazione_agid       = (string) get_option('centro_servizi_url_dichiarazione_agid', '');
+    $whistleblowing_responsabile  = (string) get_option('centro_servizi_whistleblowing_responsabile', '');
 
     return [
         [
             'title'   => 'Privacy Policy',
             'slug'    => 'privacy-policy',
-            'content' => centro_servizi_seed_content_privacy($site_name, $site_url, $contacts, $email_dpo),
+            'content' => centro_servizi_seed_content_privacy($site_name, $site_url, $contacts, $dpo_nome, $dpo_email),
         ],
         [
             'title'   => 'Cookie Policy',
@@ -541,12 +549,12 @@ function centro_servizi_get_seed_pages(string $site_name, string $site_url): arr
         [
             'title'   => 'Dichiarazione di Accessibilità',
             'slug'    => 'dichiarazione-accessibilita',
-            'content' => centro_servizi_seed_content_accessibilita($site_name, $site_url, $contacts, $email_dpo),
+            'content' => centro_servizi_seed_content_accessibilita($site_name, $site_url, $contacts, $dpo_nome, $dpo_email, $url_dichiarazione_agid),
         ],
         [
             'title'   => 'Segnalazioni Whistleblowing',
             'slug'    => 'whistleblowing',
-            'content' => centro_servizi_seed_content_whistleblowing($site_name, $url_whistleblowing),
+            'content' => centro_servizi_seed_content_whistleblowing($site_name, $url_whistleblowing, $whistleblowing_responsabile),
         ],
         [
             'title'   => 'Obiettivi di Accessibilità',
@@ -556,14 +564,15 @@ function centro_servizi_get_seed_pages(string $site_name, string $site_url): arr
     ];
 }
 
-function centro_servizi_seed_content_privacy(string $site_name, string $site_url, array $contacts = [], string $email_dpo = ''): string
+function centro_servizi_seed_content_privacy(string $site_name, string $site_url, array $contacts = [], string $dpo_nome = '', string $email_dpo = ''): string
 {
     $year    = (string) (int) date('Y');
     $address = isset($contacts['address']) ? esc_html($contacts['address']) : '[indirizzo sede legale]';
     $email   = isset($contacts['email'])   ? $contacts['email']             : '';
 
+    $dpo_display = $dpo_nome !== '' ? esc_html($dpo_nome) . ' — ' : '';
     $dpo_li = $email_dpo
-        ? '<li><strong>Responsabile della Protezione dei Dati (DPO):</strong> <a href="mailto:' . esc_attr($email_dpo) . '">' . esc_html($email_dpo) . '</a></li>'
+        ? '<li><strong>Responsabile della Protezione dei Dati (DPO):</strong> ' . $dpo_display . '<a href="mailto:' . esc_attr($email_dpo) . '">' . esc_html($email_dpo) . '</a></li>'
         : '<li><strong>Referente privacy:</strong> [da completare]</li>';
 
     $email_display = $email ? esc_html($email) : '[email contatto]';
@@ -674,19 +683,25 @@ function centro_servizi_seed_content_contatti(string $site_name, array $contacts
 <p>[da completare: indicazioni stradali o mappa embed]</p>';
 }
 
-function centro_servizi_seed_content_accessibilita(string $site_name, string $site_url, array $contacts = [], string $email_dpo = ''): string
+function centro_servizi_seed_content_accessibilita(string $site_name, string $site_url, array $contacts = [], string $dpo_nome = '', string $email_dpo = '', string $url_dichiarazione_agid = ''): string
 {
     $email       = $contacts['email'] ?? '';
     $contact_ref = $email_dpo ?: $email;
     $contact_li  = $contact_ref
         ? '<li>Email: <a href="mailto:' . esc_attr($contact_ref) . '">' . esc_html($contact_ref) . '</a></li>'
         : '<li>Email: [da completare]</li>';
+    $dpo_li = $dpo_nome !== ''
+        ? '<li>DPO: <strong>' . esc_html($dpo_nome) . '</strong></li>'
+        : '';
+    $agid_link = trim($url_dichiarazione_agid) !== ''
+        ? '<strong><a href="' . esc_url($url_dichiarazione_agid) . '" rel="noopener noreferrer">Vai alla dichiarazione di accessibilità pubblicata su AGID →</a></strong>'
+        : '<strong><a href="[da completare: incollare qui il link ottenuto da form.agid.gov.it]" rel="noopener noreferrer">Vai alla dichiarazione di accessibilità pubblicata su AGID →</a></strong>';
 
     return '<p>Questa pagina descrive lo stato di conformità di <strong>' . esc_html($site_name) . '</strong> (' . esc_html($site_url) . ') rispetto ai requisiti di accessibilità previsti dalla Direttiva UE 2016/2102 e dal D.Lgs. 10 agosto 2018, n. 111.</p>
 
 <h2>Dichiarazione ufficiale su AGID</h2>
 <p>La dichiarazione di accessibilità ufficiale è compilata e pubblicata sul portale dell\'Agenzia per l\'Italia Digitale (AGID):</p>
-<p><strong><a href="[da completare: incollare qui il link ottenuto da form.agid.gov.it]" rel="noopener noreferrer">Vai alla dichiarazione di accessibilità pubblicata su AGID →</a></strong></p>
+<p>' . $agid_link . '</p>
 <p><small>Per compilare o aggiornare la dichiarazione accedere a <a href="https://form.agid.gov.it" rel="noopener noreferrer">form.agid.gov.it</a> con SPID o CIE.</small></p>
 
 <h2>Stato di conformità</h2>
@@ -696,6 +711,7 @@ function centro_servizi_seed_content_accessibilita(string $site_name, string $si
 <p>Hai riscontrato un problema di accessibilità o hai bisogno di un contenuto in formato alternativo?</p>
 <ul>
 <li>Soggetto responsabile: <strong>' . esc_html($site_name) . '</strong></li>
+' . $dpo_li . '
 ' . $contact_li . '
 </ul>
 
@@ -703,11 +719,14 @@ function centro_servizi_seed_content_accessibilita(string $site_name, string $si
 <p>In caso di risposta insoddisfacente entro 30 giorni è possibile rivolgersi al <a href="https://www.agid.gov.it/it/design-servizi/accessibilita/difensore-civico-digitale" rel="noopener noreferrer">Difensore Civico per il Digitale</a>.</p>';
 }
 
-function centro_servizi_seed_content_whistleblowing(string $site_name, string $url_whistleblowing = ''): string
+function centro_servizi_seed_content_whistleblowing(string $site_name, string $url_whistleblowing = '', string $responsabile_canale = ''): string
 {
     $portal_link = $url_whistleblowing
         ? '<a href="' . esc_url($url_whistleblowing) . '" rel="noopener noreferrer" target="_blank">Accedi al portale di segnalazione →</a>'
         : '<strong>[da completare: inserire URL piattaforma GlobaLeaks nelle impostazioni sito]</strong>';
+    $responsabile_label = trim($responsabile_canale) !== ''
+        ? esc_html($responsabile_canale)
+        : '[da completare: nome o ufficio del responsabile del canale di segnalazione interna]';
 
     return '<p>' . esc_html($site_name) . ' garantisce canali sicuri e riservati per la segnalazione di condotte illecite, in conformità al D.Lgs. 10 marzo 2023, n. 24, che ha recepito la Direttiva UE 2019/1937.</p>
 
@@ -729,7 +748,7 @@ function centro_servizi_seed_content_whistleblowing(string $site_name, string $u
 <p>I dati personali eventualmente presenti nella segnalazione sono trattati nel rispetto del GDPR (Reg. UE 2016/679). Base giuridica: obbligo legale (art. 6 par. 1 lett. c GDPR). Conservazione: non oltre 5 anni dalla comunicazione dell\'esito della segnalazione.</p>
 
 <h2>Responsabile del canale interno</h2>
-<p>[da completare: nome o ufficio del responsabile del canale di segnalazione interna]</p>';
+<p>' . $responsabile_label . '</p>';
 }
 
 function centro_servizi_seed_content_obiettivi(string $site_name): string
@@ -893,6 +912,7 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         update_option('centro_servizi_legal_vat', sanitize_text_field($_POST['legal_vat'] ?? ''));
         update_option('centro_servizi_legal_fiscal_code', sanitize_text_field($_POST['legal_fiscal_code'] ?? ''));
         update_option('centro_servizi_legal_mecc', sanitize_text_field($_POST['legal_mecc'] ?? ''));
+        update_option('centro_servizi_legal_rea', sanitize_text_field($_POST['legal_rea'] ?? ''));
         update_option('centro_servizi_legal_address', sanitize_textarea_field($_POST['legal_address'] ?? ''));
         update_option('centro_servizi_accessibility_feedback_url', esc_url_raw(sanitize_text_field($_POST['accessibility_feedback_url'] ?? '')));
 
@@ -901,10 +921,14 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         update_option('centro_servizi_maps_embed_url', $maps_embed_url);
 
         // PRIVACY & GDPR
+        update_option('centro_servizi_legale_rappresentante', sanitize_text_field($_POST['legale_rappresentante'] ?? ''));
+        update_option('centro_servizi_dpo_nome', sanitize_text_field($_POST['dpo_nome'] ?? ''));
         update_option('centro_servizi_email_dpo', sanitize_email($_POST['email_dpo'] ?? ''));
         update_option('centro_servizi_email_privacy', sanitize_email($_POST['email_privacy'] ?? ''));
         update_option('centro_servizi_pec_privacy', sanitize_email($_POST['pec_privacy'] ?? ''));
         update_option('centro_servizi_referente_privacy', sanitize_text_field($_POST['referente_privacy'] ?? ''));
+        update_option('centro_servizi_url_dichiarazione_agid', esc_url_raw(sanitize_text_field($_POST['url_dichiarazione_agid'] ?? '')));
+        update_option('centro_servizi_whistleblowing_responsabile', sanitize_text_field($_POST['whistleblowing_responsabile'] ?? ''));
         $url_wb = esc_url_raw(sanitize_text_field($_POST['url_whistleblowing'] ?? ''));
         update_option('centro_servizi_url_whistleblowing', $url_wb);
 
@@ -929,16 +953,21 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     $contacts_json = get_option('centro_servizi_contacts', '[]');
     $contacts = json_decode($contacts_json, true) ?: [];
     $footer_text = get_option('centro_servizi_footer_text', '');
+    $legale_rappresentante = get_option('centro_servizi_legale_rappresentante', '');
+    $dpo_nome = get_option('centro_servizi_dpo_nome', '');
     $email_dpo = get_option('centro_servizi_email_dpo', '');
     $email_privacy = get_option('centro_servizi_email_privacy', '');
     $pec_privacy = get_option('centro_servizi_pec_privacy', '');
     $referente_privacy = get_option('centro_servizi_referente_privacy', '');
+    $url_dichiarazione_agid = get_option('centro_servizi_url_dichiarazione_agid', '');
+    $whistleblowing_responsabile = get_option('centro_servizi_whistleblowing_responsabile', '');
     $url_whistleblowing = get_option('centro_servizi_url_whistleblowing', '');
     $maps_embed_url = get_option('centro_servizi_maps_embed_url', '');
     $legal_company_name = get_option('centro_servizi_legal_company_name', '');
     $legal_vat = get_option('centro_servizi_legal_vat', '');
     $legal_fiscal_code = get_option('centro_servizi_legal_fiscal_code', '');
     $legal_mecc = get_option('centro_servizi_legal_mecc', '');
+    $legal_rea = get_option('centro_servizi_legal_rea', '');
     $legal_address = get_option('centro_servizi_legal_address', '');
     $accessibility_feedback_url = get_option('centro_servizi_accessibility_feedback_url', '');
 
@@ -1256,6 +1285,18 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                 <p class="description">Dati usati per generare le pagine obbligatorie (Privacy Policy, Whistleblowing).</p>
                 <table class="form-table">
                     <tr>
+                        <th scope="row"><label for="legale_rappresentante">Legale rappresentante:</label></th>
+                        <td>
+                            <input type="text" id="legale_rappresentante" name="legale_rappresentante" value="<?php echo esc_attr($legale_rappresentante); ?>" class="regular-text" placeholder="Nome e cognome" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="dpo_nome">DPO:</label></th>
+                        <td>
+                            <input type="text" id="dpo_nome" name="dpo_nome" value="<?php echo esc_attr($dpo_nome); ?>" class="regular-text" placeholder="Nome e cognome o ragione sociale" />
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><label for="referente_privacy">Referente privacy:</label></th>
                         <td>
                             <input type="text" id="referente_privacy" name="referente_privacy" value="<?php echo esc_attr($referente_privacy); ?>" class="regular-text" placeholder="Nome e ruolo" />
@@ -1274,10 +1315,17 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="email_dpo">Email DPO:</label></th>
+                        <th scope="row"><label for="email_dpo">Mail DPO:</label></th>
                         <td>
                             <input type="email" id="email_dpo" name="email_dpo" value="<?php echo esc_attr($email_dpo); ?>" class="regular-text" />
                             <p class="description">Contatto del Responsabile della Protezione dei Dati. Appare nella Privacy Policy e nella Dichiarazione di Accessibilità.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="url_dichiarazione_agid">URL dichiarazione AGID:</label></th>
+                        <td>
+                            <input type="url" id="url_dichiarazione_agid" name="url_dichiarazione_agid" value="<?php echo esc_attr($url_dichiarazione_agid); ?>" class="regular-text" placeholder="https://form.agid.gov.it/view/..." />
+                            <p class="description">Link pubblico della dichiarazione ufficiale di accessibilità pubblicata su AGID.</p>
                         </td>
                     </tr>
                     <tr>
@@ -1285,6 +1333,12 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                         <td>
                             <input type="url" id="url_whistleblowing" name="url_whistleblowing" value="<?php echo esc_attr($url_whistleblowing); ?>" class="regular-text" placeholder="https://segnalazioni.nomescuola.it" />
                             <p class="description">URL della piattaforma GlobaLeaks per le segnalazioni riservate.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="whistleblowing_responsabile">Responsabile canale Whistleblowing:</label></th>
+                        <td>
+                            <input type="text" id="whistleblowing_responsabile" name="whistleblowing_responsabile" value="<?php echo esc_attr($whistleblowing_responsabile); ?>" class="regular-text" placeholder="Nome o ufficio competente" />
                         </td>
                     </tr>
                 </table>
@@ -1322,6 +1376,12 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                         <th scope="row"><label for="legal_mecc">Codice meccanografico:</label></th>
                         <td>
                             <input type="text" id="legal_mecc" name="legal_mecc" value="<?php echo esc_attr($legal_mecc); ?>" class="regular-text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="legal_rea">REA:</label></th>
+                        <td>
+                            <input type="text" id="legal_rea" name="legal_rea" value="<?php echo esc_attr($legal_rea); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr>
