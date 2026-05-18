@@ -437,20 +437,75 @@ if ($selected_search !== '') {
     ]);
 
     if (! is_wp_error($matching_terms) && ! empty($matching_terms)) {
-        $matched_term_ids = array_map(static fn(WP_Term $t): int => $t->term_id, $matching_terms);
+        $matched_cat_term_ids = [];
+        $matched_year_term_ids = [];
 
-        $term_post_ids = get_posts([
-            'post_type'      => 'trasparenza',
-            'posts_per_page' => -1,
-            'fields'         => 'ids',
-            'no_found_rows'  => true,
-            'tax_query'      => [[
-                'taxonomy' => ['contenutiammtrasp', 'annoscolastico'],
+        foreach ($matching_terms as $matching_term) {
+            if (! $matching_term instanceof WP_Term) {
+                continue;
+            }
+
+            if ($matching_term->taxonomy === 'contenutiammtrasp') {
+                $matched_cat_term_ids[] = (int) $matching_term->term_id;
+                continue;
+            }
+
+            if ($matching_term->taxonomy === 'annoscolastico') {
+                $matched_year_term_ids[] = (int) $matching_term->term_id;
+            }
+        }
+
+        $term_match_tax_query = [
+            'relation' => 'OR',
+        ];
+
+        if (! empty($matched_cat_term_ids)) {
+            $term_match_tax_query[] = [
+                'taxonomy'         => 'contenutiammtrasp',
+                'field'            => 'term_id',
+                'terms'            => array_values(array_unique($matched_cat_term_ids)),
+                'operator'         => 'IN',
+                'include_children' => true,
+            ];
+        }
+
+        if (! empty($matched_year_term_ids)) {
+            $term_match_tax_query[] = [
+                'taxonomy' => 'annoscolastico',
                 'field'    => 'term_id',
-                'terms'    => $matched_term_ids,
+                'terms'    => array_values(array_unique($matched_year_term_ids)),
                 'operator' => 'IN',
-            ]],
-        ]);
+            ];
+        }
+
+        $term_post_ids = [];
+
+        if (count($term_match_tax_query) > 1) {
+            $term_tax_query = $term_match_tax_query;
+
+            if (! empty($tax_query)) {
+                $term_tax_query = [
+                    'relation' => 'AND',
+                    $term_match_tax_query,
+                ];
+
+                foreach ($tax_query as $tax_query_key => $tax_clause) {
+                    if ($tax_query_key === 'relation') {
+                        continue;
+                    }
+
+                    $term_tax_query[] = $tax_clause;
+                }
+            }
+
+            $term_post_ids = get_posts([
+                'post_type'      => 'trasparenza',
+                'posts_per_page' => -1,
+                'fields'         => 'ids',
+                'no_found_rows'  => true,
+                'tax_query'      => $term_tax_query,
+            ]);
+        }
 
         if (! empty($term_post_ids)) {
             $text_args           = $query_args;
