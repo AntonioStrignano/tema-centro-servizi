@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+if (! function_exists('centro_servizi_archive_trasparenza_selected_slug')) {
 function centro_servizi_archive_trasparenza_selected_slug(string $key): string
 {
     if (! isset($_GET[$key])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -361,6 +362,7 @@ function centro_servizi_archive_trasparenza_file_data(int $post_id): array
 
     return centro_servizi_get_meta_file_link_data($post_id, 'documento');
 }
+}
 
 get_template_part('partials/header');
 
@@ -404,10 +406,6 @@ if ($selected_cat !== '') {
     ];
 }
 
-if ($selected_search !== '') {
-    $query_args['s'] = $selected_search;
-}
-
 if (count($tax_query) > 1) {
     $tax_query['relation'] = 'AND';
 }
@@ -422,6 +420,10 @@ $query_args = [
 
 if (! empty($tax_query)) {
     $query_args['tax_query'] = $tax_query;
+}
+
+if ($selected_search !== '') {
+    $query_args['s'] = $selected_search;
 }
 
 $documenti = new WP_Query($query_args);
@@ -502,13 +504,14 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
                                             <?php if ($children !== []) : ?>
                                                 <ul class="trasparenza-filters__category-children">
                                                     <?php foreach ($children as $child) : ?>
-                                                        <?php if (! $child instanceof WP_Term) { continue; } ?>
-                                                        <li>
-                                                            <label class="trasparenza-filters__option trasparenza-filters__option--child">
-                                                                <input type="radio" name="cat" value="<?php echo esc_attr($child->slug); ?>" <?php checked($selected_cat, $child->slug); ?>>
-                                                                <span><?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($child)); ?></span>
-                                                            </label>
-                                                        </li>
+                                                        <?php if ($child instanceof WP_Term) : ?>
+                                                            <li>
+                                                                <label class="trasparenza-filters__option trasparenza-filters__option--child">
+                                                                    <input type="radio" name="cat" value="<?php echo esc_attr($child->slug); ?>" <?php checked($selected_cat, $child->slug); ?>>
+                                                                    <span><?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($child)); ?></span>
+                                                                </label>
+                                                            </li>
+                                                        <?php endif; ?>
                                                     <?php endforeach; ?>
                                                 </ul>
                                             <?php endif; ?>
