@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Riorganizza la logica di query per i termini abbinati nel modulo di trasparenza, separando le categorie e gli anni scolastici',
-    'commit_hash'  => '6c050fb30',
-    'deployed_at'  => '2026-05-18 12:25:51',
+    'commit_title' => 'Aggiungi suggerimenti di scorrimento per la barra laterale e i risultati nel modulo di trasparenza',
+    'commit_hash'  => '93a52a0df',
+    'deployed_at'  => '2026-05-18 12:35:05',
 ];

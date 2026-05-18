@@ -690,6 +690,7 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
 document.addEventListener('DOMContentLoaded', function () {
     var yearForm = document.querySelector('.trasparenza-archive__years-form');
     var filterForm = document.querySelector('.trasparenza-filters');
+    var sidebarContainer = document.querySelector('.trasparenza-archive__sidebar');
     var resultsContainer = document.querySelector('.trasparenza-archive__results');
 
     if (!yearForm || !filterForm || !resultsContainer) {
@@ -703,22 +704,21 @@ document.addEventListener('DOMContentLoaded', function () {
         return checked ? checked.value : '';
     }
 
-    function getToggleableInput(target) {
-        if (!target || !target.closest) {
-            return null;
+    function updateScrollHintState(container) {
+        if (!container) {
+            return;
         }
 
-        if (target.matches && target.matches('input[name="anno"], input[name="cat"]')) {
-            return target;
+        var scrollableDistance = container.scrollHeight - container.clientHeight;
+        var hasOverflow = scrollableDistance > 2;
+        var isAtBottom = !hasOverflow || (container.scrollTop >= scrollableDistance - 2);
+
+        container.classList.toggle('has-scroll-hint', hasOverflow);
+        container.classList.toggle('is-at-bottom', isAtBottom);
+
+        if (!hasOverflow) {
+            container.classList.remove('is-at-bottom');
         }
-
-        var label = target.closest('label');
-
-        if (!label) {
-            return null;
-        }
-
-        return label.querySelector('input[name="anno"], input[name="cat"]');
     }
 
     function buildUrl() {
@@ -776,6 +776,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 resultsContainer.innerHTML = newResults.innerHTML;
                 resultsContainer.scrollTop = previousScrollTop;
                 history.replaceState({}, '', url.pathname + url.search);
+                updateScrollHintState(resultsContainer);
             })
             .catch(function () {
                 if (requestId !== activeRequestId) {
@@ -813,6 +814,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setupRadioToggle(yearForm);
     setupRadioToggle(filterForm);
+
+    if (sidebarContainer) {
+        sidebarContainer.addEventListener('scroll', function () {
+            updateScrollHintState(sidebarContainer);
+        });
+    }
+
+    resultsContainer.addEventListener('scroll', function () {
+        updateScrollHintState(resultsContainer);
+    });
+
+    window.addEventListener('resize', function () {
+        updateScrollHintState(sidebarContainer);
+        updateScrollHintState(resultsContainer);
+    });
+
+    updateScrollHintState(sidebarContainer);
+    updateScrollHintState(resultsContainer);
 
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
     for (var index = 0; index < autoInputs.length; index += 1) {
