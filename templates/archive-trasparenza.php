@@ -595,7 +595,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var activeRequestId = 0;
-    var lastSelectionByGroup = {};
 
     function getSelectedValue(selector) {
         var checked = document.querySelector(selector + ':checked');
@@ -618,6 +617,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         return label.querySelector('input[name="anno"], input[name="cat"]');
+    }
+
+    function rememberCheckedState(control) {
+        if (!control) {
+            return;
+        }
+
+        control.dataset.wasChecked = control.checked ? '1' : '0';
     }
 
     function buildUrl() {
@@ -692,24 +699,38 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        lastSelectionByGroup[control.name] = getSelectedValue('input[name="' + control.name + '"]');
+        rememberCheckedState(control);
     });
 
-    filterForm.addEventListener('click', function (event) {
+    filterForm.addEventListener('mousedown', function (event) {
         var control = getToggleableInput(event.target);
 
         if (!control) {
             return;
         }
 
-        if (lastSelectionByGroup[control.name] === control.value && control.checked) {
-            event.preventDefault();
-            control.checked = false;
-            refreshResults();
-        }
+        rememberCheckedState(control);
     });
 
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
+    for (var index = 0; index < autoInputs.length; index += 1) {
+        autoInputs[index].addEventListener('keydown', function (event) {
+            if (event.key === ' ' || event.key === 'Enter') {
+                rememberCheckedState(event.currentTarget);
+            }
+        });
+
+        autoInputs[index].addEventListener('click', function (event) {
+            var control = event.currentTarget;
+
+            if (control.dataset.wasChecked === '1' && control.checked) {
+                event.preventDefault();
+                control.checked = false;
+                refreshResults();
+            }
+        });
+    }
+
     for (var index = 0; index < autoInputs.length; index += 1) {
         autoInputs[index].addEventListener('change', refreshResults);
     }
