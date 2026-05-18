@@ -10,63 +10,6 @@ function centro_servizi_archive_area_personale_selected_slug(string $key): strin
 
     return sanitize_text_field(wp_unslash((string) $_GET[$key])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 }
-
-function centro_servizi_archive_area_personale_clean_term_name(string $name): string
-{
-    $clean = preg_replace('/^\s*(?:\d+\s*[\.)\-_:]?\s*|[-\u{2013}\u{2014}]+\s*)+/u', '', $name);
-
-    if (! is_string($clean)) {
-        return trim($name);
-    }
-
-    $clean = trim($clean);
-
-    return $clean !== '' ? $clean : trim($name);
-}
-
-function centro_servizi_archive_area_personale_term_display_name(WP_Term $term): string
-{
-    return centro_servizi_archive_area_personale_clean_term_name($term->name);
-}
-
-function centro_servizi_archive_area_personale_category_groups(array $all_terms): array
-{
-    $parents = [];
-    $children_by_parent = [];
-
-    foreach ($all_terms as $term) {
-        if (! $term instanceof WP_Term) {
-            continue;
-        }
-
-        if ((int) $term->parent === 0) {
-            $parents[] = $term;
-            continue;
-        }
-
-        $children_by_parent[$term->parent][] = $term;
-    }
-
-    usort($parents, static function (WP_Term $a, WP_Term $b): int {
-        return strcmp($a->slug, $b->slug);
-    });
-
-    $groups = [];
-
-    foreach ($parents as $parent_term) {
-        $children = $children_by_parent[$parent_term->term_id] ?? [];
-        usort($children, static function (WP_Term $a, WP_Term $b): int {
-            return strcmp($a->slug, $b->slug);
-        });
-
-        $groups[] = [
-            'parent'   => $parent_term,
-            'children' => $children,
-        ];
-    }
-
-    return $groups;
-}
 } // end function_exists
 
 get_template_part('partials/header');
@@ -74,22 +17,22 @@ get_template_part('partials/header');
 $selected_cat    = centro_servizi_archive_area_personale_selected_slug('cat');
 $selected_search = centro_servizi_archive_area_personale_selected_slug('q');
 
-$all_categories  = get_terms([
+$all_categories = get_terms([
     'taxonomy'   => 'categoria-area-personale',
     'hide_empty' => false,
+    'orderby'    => 'name',
+    'order'      => 'ASC',
 ]);
 
-$all_categories  = is_wp_error($all_categories) ? [] : $all_categories;
-$category_groups = centro_servizi_archive_area_personale_category_groups($all_categories);
+$all_categories = is_wp_error($all_categories) ? [] : $all_categories;
 
 $tax_query = [];
 
 if ($selected_cat !== '') {
     $tax_query[] = [
-        'taxonomy'         => 'categoria-area-personale',
-        'field'            => 'slug',
-        'terms'            => $selected_cat,
-        'include_children' => true,
+        'taxonomy' => 'categoria-area-personale',
+        'field'    => 'slug',
+        'terms'    => $selected_cat,
     ];
 }
 
@@ -188,36 +131,17 @@ $has_active_filters = ($selected_cat !== '' || $selected_search !== '');
                                 <span>Tutte le categorie</span>
                             </label>
 
-                            <?php if ($category_groups !== []) : ?>
+                            <?php if ($all_categories !== []) : ?>
                                 <ul class="trasparenza-filters__category-list">
-                                    <?php foreach ($category_groups as $group) : ?>
-                                        <?php
-                                        $parent   = $group['parent'];
-                                        $children = $group['children'];
-                                        if (! $parent instanceof WP_Term) {
-                                            continue;
-                                        }
-                                        ?>
-                                        <li class="trasparenza-filters__category-group">
-                                            <div class="trasparenza-filters__option trasparenza-filters__option--parent trasparenza-filters__category-parent">
-                                                <span><strong><?php echo esc_html(centro_servizi_archive_area_personale_term_display_name($parent)); ?></strong></span>
-                                            </div>
-
-                                            <?php if ($children !== []) : ?>
-                                                <ul class="trasparenza-filters__category-children">
-                                                    <?php foreach ($children as $child) : ?>
-                                                        <?php if ($child instanceof WP_Term) : ?>
-                                                            <li>
-                                                                <label class="trasparenza-filters__option trasparenza-filters__option--child">
-                                                                    <input type="radio" name="cat" value="<?php echo esc_attr($child->slug); ?>" <?php checked($selected_cat, $child->slug); ?>>
-                                                                    <span><?php echo esc_html(centro_servizi_archive_area_personale_term_display_name($child)); ?></span>
-                                                                </label>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </ul>
-                                            <?php endif; ?>
-                                        </li>
+                                    <?php foreach ($all_categories as $categoria) : ?>
+                                        <?php if ($categoria instanceof WP_Term) : ?>
+                                            <li>
+                                                <label class="trasparenza-filters__option">
+                                                    <input type="radio" name="cat" value="<?php echo esc_attr($categoria->slug); ?>" <?php checked($selected_cat, $categoria->slug); ?>>
+                                                    <span><?php echo esc_html($categoria->name); ?></span>
+                                                </label>
+                                            </li>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
                                 </ul>
                             <?php else : ?>

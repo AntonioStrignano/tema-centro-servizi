@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiungi funzioni per la pulizia dei nomi dei termini e la gestione delle categorie nel modulo di trasparenza',
-    'commit_hash'  => '1eca2ea5d',
-    'deployed_at'  => '2026-05-18 12:47:36',
+    'commit_title' => 'Rimuovi funzioni non utilizzate e semplifica la logica di visualizzazione delle categorie nel modulo di area famiglie e personale',
+    'commit_hash'  => 'f1ec15b87',
+    'deployed_at'  => '2026-05-18 12:51:39',
 ];
