@@ -8,13 +8,17 @@ if (! defined('ABSPATH')) {
 get_template_part('partials/header');
 ?>
 <main class="site-main" id="contenuto-principale" role="main">
-    <?php while (have_posts()) : the_post(); ?>
-        <article <?php post_class('site-section'); ?>>
-            <h1><?php the_title(); ?></h1>
-            <?php the_content(); ?>
-            <p><?php echo esc_html(centro_servizi_get_post_meta_text()); ?></p>
-        </article>
-    <?php endwhile; ?>
+    <section class="site-section">
+        <div class="site-section__inner">
+            <?php while (have_posts()) : the_post(); ?>
+                <article <?php post_class(''); ?>>
+                    <h1><?php the_title(); ?></h1>
+                    <?php the_content(); ?>
+                    <p><?php echo esc_html(centro_servizi_get_post_meta_text()); ?></p>
+                </article>
+            <?php endwhile; ?>
+        </div>
+    </section>
 </main>
 <?php
 get_template_part('partials/footer');

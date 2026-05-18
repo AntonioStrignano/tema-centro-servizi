@@ -199,6 +199,8 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
 
 ?>
 <main class="site-main" id="contenuto-principale" role="main">
+    <section class="site-section">
+        <div class="site-section__inner">
 
     <h1><?php post_type_archive_title(); ?></h1>
 
@@ -315,6 +317,8 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
 
     <?php wp_reset_postdata(); ?>
 
+        </div>
+    </section>
 </main>
 
 <?php get_template_part('partials/footer'); ?>

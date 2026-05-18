@@ -50,6 +50,7 @@ get_template_part('partials/header');
     <?php get_template_part('partials/breadcrumb'); ?>
 
     <div class="site-section">
+        <div class="site-section__inner">
         <h1><?php the_title(); ?></h1>
 
         <?php if ($maps_embed_url !== '') : ?>
@@ -123,6 +124,7 @@ get_template_part('partials/header');
             endif;
         endwhile;
         ?>
+        </div>
     </div>
 </main>
 <?php

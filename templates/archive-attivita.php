@@ -77,7 +77,8 @@ $has_active_filters = ($selected_year !== '' || $selected_section !== '');
 ?>
 <main class="site-main" id="contenuto-principale" role="main">
     <section class="site-section attivita-archive">
-        <h1><?php post_type_archive_title(); ?></h1>
+        <div class="site-section__inner">
+            <h1><?php post_type_archive_title(); ?></h1>
 
         <form method="get" action="<?php echo esc_url($archive_url); ?>" class="attivita-archive__filters" id="filtri-attivita">
             <fieldset>
@@ -139,6 +140,7 @@ $has_active_filters = ($selected_year !== '' || $selected_section !== '');
         <?php endif; ?>
 
         <?php wp_reset_postdata(); ?>
+        </div>
     </section>
 </main>
 <?php

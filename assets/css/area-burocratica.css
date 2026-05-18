@@ -8,8 +8,8 @@ body.tax-contenutiammtrasp .site-main,
 body.tax-annoscolastico .site-main,
 body.page-template-page-amministrazione-trasparente .site-main,
 body.page-amministrazione-trasparente .site-main {
-  max-width: 72rem;
-  background: rgba(8, 12, 18, 0.55);
+  /* Removed max-width: sections now handle full-width */
+  background: transparent;
 }
 
 body.post-type-archive-trasparenza .site-card,

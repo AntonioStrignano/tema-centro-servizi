@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiungi stili per la sezione home-hero e ristruttura il markup per una migliore organizzazione',
-    'commit_hash'  => '9dd47922a',
-    'deployed_at'  => '2026-05-14 15:25:51',
+    'commit_title' => 'fix full width',
+    'commit_hash'  => 'b860b6d63',
+    'deployed_at'  => '2026-05-18 09:52:39',
 ];

@@ -69,10 +69,35 @@ textarea:focus,
 .site-footer,
 .site-navigation,
 .site-breadcrumb,
-.site-section,
 .site-card,
 .debug-bar {
   margin: 0.625rem 0;
+}
+
+/* Full-width sections */
+.site-section {
+  margin: 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+}
+
+/* Remove default margin for sections inside main */
+.site-main > .site-section {
+  margin: 0;
+}
+
+/* Inner container per sezioni: gestisce padding e max-width */
+.site-section__inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+}
+
+/* Ensure main has no extra margins */
+.site-main {
+  margin: 0;
 }
 
 .skip-links {
@@ -125,6 +150,59 @@ textarea:focus,
 .site-breadcrumb {
   background: rgba(255, 255, 255, 0.03);
   color: inherit;
+}
+
+/* Full-width sections: background extends edge-to-edge */
+body.post-type-archive-trasparenza .site-section,
+body.post-type-archive-area-famiglie .site-section,
+body.post-type-archive-area-personale .site-section,
+body.single-trasparenza .site-section,
+body.single-area-famiglie .site-section,
+body.single-area-personale .site-section,
+body.tax-contenutiammtrasp .site-section,
+body.tax-annoscolastico .site-section,
+body.page-template-page-amministrazione-trasparente .site-section,
+body.page-amministrazione-trasparente .site-section {
+  background: rgba(8, 12, 18, 0.55);
+}
+
+/* Cards inside sections */
+body.post-type-archive-trasparenza .site-card,
+body.post-type-archive-area-famiglie .site-card,
+body.post-type-archive-area-personale .site-card,
+body.single-trasparenza .site-card,
+body.single-area-famiglie .site-card,
+body.single-area-personale .site-card,
+body.tax-contenutiammtrasp .site-card,
+body.tax-annoscolastico .site-card,
+body.page-template-page-amministrazione-trasparente .site-card,
+body.page-amministrazione-trasparente .site-card {
+  background: rgba(26, 32, 40, 0.92);
+  color: #f3f7fb;
+}
+
+/* Headers and footers */
+body.post-type-archive-trasparenza .site-header,
+body.post-type-archive-area-famiglie .site-header,
+body.post-type-archive-area-personale .site-header,
+body.single-trasparenza .site-header,
+body.single-area-famiglie .site-header,
+body.single-area-personale .site-header,
+body.tax-contenutiammtrasp .site-header,
+body.tax-annoscolastico .site-header,
+body.page-template-page-amministrazione-trasparente .site-header,
+body.page-amministrazione-trasparente .site-header,
+body.post-type-archive-trasparenza .site-footer,
+body.post-type-archive-area-famiglie .site-footer,
+body.post-type-archive-area-personale .site-footer,
+body.single-trasparenza .site-footer,
+body.single-area-famiglie .site-footer,
+body.single-area-personale .site-footer,
+body.tax-contenutiammtrasp .site-footer,
+body.tax-annoscolastico .site-footer,
+body.page-template-page-amministrazione-trasparente .site-footer,
+body.page-amministrazione-trasparente .site-footer {
+  background: rgba(15, 20, 27, 0.94);
 }
 
 input,
