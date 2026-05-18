@@ -152,6 +152,7 @@ body.post-type-archive-trasparenza .site-card {
 .trasparenza-filters {
   display: grid;
   gap: 1rem;
+  color: #3c3c3c;
 }
 
 .trasparenza-filters__search,
@@ -166,9 +167,42 @@ body.post-type-archive-trasparenza .site-card {
   font-weight: 700;
 }
 
+.trasparenza-filters__category-parent {
+  color: #6a6a6a;
+  font-size: 0.96rem;
+}
+
+.trasparenza-filters__search label {
+  color: #6a6a6a;
+}
+
 .trasparenza-filters__search input,
 .trasparenza-filters__actions button {
   width: 100%;
+}
+
+.trasparenza-filters__search {
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #d8dce3;
+  border-radius: 0.85rem;
+}
+
+.trasparenza-filters__search input {
+  color: #3c3c3c;
+  background: #fff;
+  border-color: #cfd5dd;
+}
+
+.trasparenza-filters__search input::placeholder {
+  color: #8a8f98;
+}
+
+.trasparenza-filters__fieldset legend,
+.trasparenza-filters__option span,
+.trasparenza-filters__actions a,
+.trasparenza-filters__actions button {
+  color: #3c3c3c;
 }
 
 .trasparenza-filters__category-list,

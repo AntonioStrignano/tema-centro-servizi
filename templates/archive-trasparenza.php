@@ -478,7 +478,7 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
 
                         <div class="trasparenza-filters__search">
                             <label for="trasparenza-q">Cerca nei documenti</label>
-                            <input type="search" id="trasparenza-q" name="q" value="<?php echo esc_attr($selected_search); ?>" placeholder="Titolo o contenuto">
+                            <input type="search" id="trasparenza-q" name="q" value="<?php echo esc_attr($selected_search); ?>" placeholder="Cerca documento...">
                         </div>
 
                         <fieldset class="trasparenza-filters__fieldset">
@@ -500,10 +500,9 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
                                         }
                                         ?>
                                         <li class="trasparenza-filters__category-group">
-                                            <label class="trasparenza-filters__option trasparenza-filters__option--parent">
-                                                <input type="radio" name="cat" value="<?php echo esc_attr($parent->slug); ?>" <?php checked($selected_cat, $parent->slug); ?>>
+                                            <div class="trasparenza-filters__option trasparenza-filters__option--parent trasparenza-filters__category-parent">
                                                 <span><strong><?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($parent)); ?></strong></span>
-                                            </label>
+                                            </div>
 
                                             <?php if ($children !== []) : ?>
                                                 <ul class="trasparenza-filters__category-children">
@@ -596,10 +595,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var activeRequestId = 0;
+    var lastSelectionByGroup = {};
 
     function getSelectedValue(selector) {
         var checked = document.querySelector(selector + ':checked');
         return checked ? checked.value : '';
+    }
+
+    function getToggleableInput(target) {
+        if (!target || !target.closest) {
+            return null;
+        }
+
+        if (target.matches && target.matches('input[name="anno"], input[name="cat"]')) {
+            return target;
+        }
+
+        var label = target.closest('label');
+
+        if (!label) {
+            return null;
+        }
+
+        return label.querySelector('input[name="anno"], input[name="cat"]');
     }
 
     function buildUrl() {
@@ -666,6 +684,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = url.toString();
             });
     }
+
+    filterForm.addEventListener('pointerdown', function (event) {
+        var control = getToggleableInput(event.target);
+
+        if (!control) {
+            return;
+        }
+
+        lastSelectionByGroup[control.name] = getSelectedValue('input[name="' + control.name + '"]');
+    });
+
+    filterForm.addEventListener('click', function (event) {
+        var control = getToggleableInput(event.target);
+
+        if (!control) {
+            return;
+        }
+
+        if (lastSelectionByGroup[control.name] === control.value && control.checked) {
+            event.preventDefault();
+            control.checked = false;
+            refreshResults();
+        }
+    });
 
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
     for (var index = 0; index < autoInputs.length; index += 1) {
