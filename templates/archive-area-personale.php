@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+if (! function_exists('centro_servizi_archive_area_personale_selected_slug')) {
 function centro_servizi_archive_area_personale_selected_slug(string $key): string
 {
     if (! isset($_GET[$key])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
