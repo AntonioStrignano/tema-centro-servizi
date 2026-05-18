@@ -5,6 +5,61 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+function centro_servizi_is_debug_css_enabled(): bool
+{
+    $raw = isset($_COOKIE['centro_servizi_debug_css'])
+        ? sanitize_text_field((string) wp_unslash($_COOKIE['centro_servizi_debug_css']))
+        : '';
+
+    if ($raw === '0') {
+        return false;
+    }
+
+    return true;
+}
+
+add_action('init', 'centro_servizi_handle_debug_css_toggle_request');
+function centro_servizi_handle_debug_css_toggle_request(): void
+{
+    if (! is_user_logged_in() || ! current_user_can('manage_options')) {
+        return;
+    }
+
+    if (! isset($_GET['centro_debug_css'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        return;
+    }
+
+    $next_value = sanitize_text_field(wp_unslash((string) $_GET['centro_debug_css'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+    if (! in_array($next_value, ['0', '1'], true)) {
+        return;
+    }
+
+    $cookie_path = defined('COOKIEPATH') && is_string(COOKIEPATH) && COOKIEPATH !== '' ? COOKIEPATH : '/';
+    $cookie_domain = defined('COOKIE_DOMAIN') && is_string(COOKIE_DOMAIN) ? COOKIE_DOMAIN : '';
+    $expires = time() + YEAR_IN_SECONDS;
+
+    setcookie(
+        'centro_servizi_debug_css',
+        $next_value,
+        $expires,
+        $cookie_path,
+        $cookie_domain,
+        is_ssl(),
+        true
+    );
+
+    $_COOKIE['centro_servizi_debug_css'] = $next_value;
+
+    $redirect_url = remove_query_arg('centro_debug_css');
+    if (! is_string($redirect_url) || $redirect_url === '') {
+        $redirect_url = home_url('/');
+    }
+
+    wp_safe_redirect($redirect_url);
+    exit;
+}
+
 function centro_servizi_is_bureaucratic_context(): bool
 {
     return is_post_type_archive(['trasparenza', 'area-famiglie', 'area-personale'])
@@ -439,23 +494,28 @@ function centro_servizi_get_loaded_css_debug(): string
 
 function centro_servizi_get_theme_stylesheets(): array
 {
+    $debug_css_enabled = centro_servizi_is_debug_css_enabled();
     $stylesheets = [
-        [
-            'label' => 'style.css',
-            'path' => get_stylesheet_directory() . '/style.css',
-            'url' => get_stylesheet_uri(),
-        ],
         [
             'label' => 'assets/css/site.css',
             'path' => get_template_directory() . '/assets/css/site.css',
             'url' => get_template_directory_uri() . '/assets/css/site.css',
         ],
-        [
+    ];
+
+    if ($debug_css_enabled) {
+        array_unshift($stylesheets, [
+            'label' => 'style.css',
+            'path' => get_stylesheet_directory() . '/style.css',
+            'url' => get_stylesheet_uri(),
+        ]);
+
+        $stylesheets[] = [
             'label' => 'assets/css/css-debug.css',
             'path' => get_template_directory() . '/assets/css/css-debug.css',
             'url' => get_template_directory_uri() . '/assets/css/css-debug.css',
-        ],
-    ];
+        ];
+    }
 
     if (centro_servizi_is_bureaucratic_context()) {
         $stylesheets[] = [
@@ -512,9 +572,64 @@ function centro_servizi_get_theme_inline_css_bundle(): string
 
 function centro_servizi_get_css_loading_mode(): string
 {
-    return centro_servizi_get_theme_inline_css_bundle() !== ''
+    $mode = centro_servizi_get_theme_inline_css_bundle() !== ''
         ? 'inline+link'
         : 'link-only';
+
+    if (! centro_servizi_is_debug_css_enabled()) {
+        return $mode . ' (debug off)';
+    }
+
+    return $mode . ' (debug on)';
+}
+
+add_action('wp_footer', 'centro_servizi_render_debug_toggle_floating', 99);
+function centro_servizi_render_debug_toggle_floating(): void
+{
+    if (is_admin() || ! is_user_logged_in() || ! current_user_can('manage_options')) {
+        return;
+    }
+
+    $enabled = centro_servizi_is_debug_css_enabled();
+    $request_uri = isset($_SERVER['REQUEST_URI'])
+        ? wp_unslash((string) $_SERVER['REQUEST_URI'])
+        : '/';
+    $current_url = home_url($request_uri);
+    $toggle_url = add_query_arg('centro_debug_css', $enabled ? '0' : '1', $current_url);
+    ?>
+    <div class="centro-debug-toggle" role="region" aria-label="Controllo debug CSS">
+        <a href="<?php echo esc_url($toggle_url); ?>" class="centro-debug-toggle__button">
+            Debug CSS: <?php echo $enabled ? 'ON' : 'OFF'; ?>
+        </a>
+    </div>
+    <style>
+        .centro-debug-toggle {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 99999;
+        }
+
+        .centro-debug-toggle__button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.25rem;
+            padding: 0.4rem 0.7rem;
+            background: #111;
+            color: #fff;
+            border: 1px solid #fff;
+            text-decoration: none;
+            font: 600 0.8rem/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+
+        .centro-debug-toggle__button:hover,
+        .centro-debug-toggle__button:focus {
+            background: #222;
+            color: #fff;
+        }
+    </style>
+    <?php
 }
 
 function centro_servizi_get_debug_view_type(): string
