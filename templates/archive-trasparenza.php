@@ -589,14 +589,15 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
 document.addEventListener('DOMContentLoaded', function () {
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
 
-    autoInputs.forEach(function (input) {
+    for (var index = 0; index < autoInputs.length; index += 1) {
+        var input = autoInputs[index];
         input.addEventListener('change', function () {
             var form = input.closest('form');
             if (form) {
                 form.submit();
             }
         });
-    });
+    }
 });
 </script>
 
