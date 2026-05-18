@@ -440,30 +440,34 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
                 <p class="trasparenza-archive__intro">Consulta i documenti filtrando per anno scolastico, categoria o parola chiave.</p>
             </header>
 
-            <nav class="trasparenza-archive__years" aria-label="Filtro per anno scolastico">
-                <?php
-                $all_year_args = [];
-                if ($selected_cat !== '') {
-                    $all_year_args['cat'] = $selected_cat;
-                }
-                if ($selected_search !== '') {
-                    $all_year_args['q'] = $selected_search;
-                }
-                ?>
-                <a class="trasparenza-archive__year-link <?php echo $selected_anno === '' ? 'is-active' : ''; ?>" href="<?php echo esc_url($all_year_args === [] ? $archive_url : add_query_arg($all_year_args, $archive_url)); ?>">Tutti gli anni</a>
-                <?php foreach ($anni as $anno) : ?>
-                    <?php
-                    $year_args = ['anno' => $anno->slug];
-                    if ($selected_cat !== '') {
-                        $year_args['cat'] = $selected_cat;
-                    }
-                    if ($selected_search !== '') {
-                        $year_args['q'] = $selected_search;
-                    }
-                    ?>
-                    <a class="trasparenza-archive__year-link <?php echo $selected_anno === $anno->slug ? 'is-active' : ''; ?>" href="<?php echo esc_url(add_query_arg($year_args, $archive_url)); ?>"><?php echo esc_html($anno->name); ?></a>
-                <?php endforeach; ?>
-            </nav>
+            <form method="get" action="<?php echo esc_url($archive_url); ?>" class="trasparenza-archive__years-form" aria-label="Filtro per anno scolastico">
+                <?php if ($selected_cat !== '') : ?>
+                    <input type="hidden" name="cat" value="<?php echo esc_attr($selected_cat); ?>">
+                <?php endif; ?>
+                <?php if ($selected_search !== '') : ?>
+                    <input type="hidden" name="q" value="<?php echo esc_attr($selected_search); ?>">
+                <?php endif; ?>
+
+                <fieldset class="trasparenza-archive__years">
+                    <legend class="sr-only">Anno scolastico</legend>
+
+                    <label class="trasparenza-archive__year-option">
+                        <input type="radio" name="anno" value="" <?php checked($selected_anno, ''); ?>>
+                        <span>Tutti gli anni</span>
+                    </label>
+
+                    <?php foreach ($anni as $anno) : ?>
+                        <label class="trasparenza-archive__year-option">
+                            <input type="radio" name="anno" value="<?php echo esc_attr($anno->slug); ?>" <?php checked($selected_anno, $anno->slug); ?>>
+                            <span><?php echo esc_html($anno->name); ?></span>
+                        </label>
+                    <?php endforeach; ?>
+                </fieldset>
+
+                <noscript>
+                    <button type="submit">Applica anno</button>
+                </noscript>
+            </form>
 
             <div class="trasparenza-archive__layout">
                 <aside class="trasparenza-archive__sidebar" aria-label="Filtri archivio trasparenza">
@@ -580,5 +584,20 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
         </div>
     </section>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
+
+    autoInputs.forEach(function (input) {
+        input.addEventListener('change', function () {
+            var form = input.closest('form');
+            if (form) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
 
 <?php get_template_part('partials/footer'); ?>

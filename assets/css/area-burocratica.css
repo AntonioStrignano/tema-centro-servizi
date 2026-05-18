@@ -49,6 +49,16 @@ body.page-amministrazione-trasparente .site-footer {
   background: rgba(15, 20, 27, 0.94);
 }
 
+body.post-type-archive-trasparenza,
+body.post-type-archive-trasparenza .site-main,
+body.post-type-archive-trasparenza .site-section,
+body.post-type-archive-trasparenza .site-header,
+body.post-type-archive-trasparenza .site-footer,
+body.post-type-archive-trasparenza .site-card {
+  background: #fff;
+  color: #1f1f1f;
+}
+
 .trasparenza-archive__header {
   margin-bottom: 1.5rem;
 }
@@ -63,23 +73,46 @@ body.page-amministrazione-trasparente .site-footer {
   margin-top: 0.5rem;
 }
 
+.trasparenza-archive__years-form {
+  margin: 0 0 1.5rem;
+}
+
 .trasparenza-archive__years {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin: 0 0 1.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-.trasparenza-archive__year-link {
+.trasparenza-archive__year-option {
+  position: relative;
+}
+
+.trasparenza-archive__year-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trasparenza-archive__year-option span {
   display: inline-flex;
   align-items: center;
   min-height: 2.5rem;
   padding: 0.5rem 0.9rem;
-  text-decoration: none;
+  background: #eceff2;
+  color: #1f1f1f;
 }
 
-.trasparenza-archive__year-link.is-active {
+.trasparenza-archive__year-option input:checked + span {
+  background: #ccd3db;
   font-weight: 700;
+}
+
+.trasparenza-archive__year-option input:focus + span {
+  outline: 2px solid #1f4f8c;
+  outline-offset: 2px;
 }
 
 .trasparenza-archive__layout {
@@ -138,13 +171,33 @@ body.page-amministrazione-trasparente .site-footer {
 }
 
 .trasparenza-filters__option {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
 }
 
 .trasparenza-filters__option input {
-  margin-top: 0.2rem;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trasparenza-filters__option span {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  background: #f0f2f5;
+  color: #1f1f1f;
+}
+
+.trasparenza-filters__option input:checked + span {
+  background: #d2d8df;
+}
+
+.trasparenza-filters__option input:focus + span {
+  outline: 2px solid #1f4f8c;
+  outline-offset: 2px;
 }
 
 .trasparenza-filters__actions {
@@ -156,6 +209,11 @@ body.page-amministrazione-trasparente .site-footer {
 
 .trasparenza-filters__actions a {
   text-decoration: none;
+}
+
+.trasparenza-card {
+  background: #fff;
+  color: #1f1f1f;
 }
 
 .trasparenza-archive__summary {
@@ -186,7 +244,7 @@ body.page-amministrazione-trasparente .site-footer {
   display: grid;
   gap: 0.25rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid #cfd6dd;
 }
 
 @media (max-width: 60rem) {
