@@ -32,19 +32,19 @@ $contenuto = isset($args['contenuto']) && is_string($args['contenuto'])
 
 $titolo_card = centro_servizi_archive_trasparenza_title($termine_display, $tag_anno, get_the_title($post_id));
 ?>
-<article>
-    <h2><?php echo esc_html($titolo_card); ?></h2>
+<article class="site-card trasparenza-card">
+    <h2 class="trasparenza-card__title"><?php echo esc_html($titolo_card); ?></h2>
 
     <?php if ($titolo_custom !== '') : ?>
-    <p><strong><?php echo esc_html($titolo_custom); ?></strong></p>
+    <p class="trasparenza-card__subtitle"><strong><?php echo esc_html($titolo_custom); ?></strong></p>
     <?php endif; ?>
 
     <?php if ($testo !== '') : ?>
-    <p><?php echo esc_html($testo); ?></p>
+    <p class="trasparenza-card__text"><?php echo esc_html($testo); ?></p>
     <?php endif; ?>
 
     <?php if ($allegato !== []) : ?>
-    <p>
+    <p class="trasparenza-card__file">
         <a href="<?php echo esc_url((string) $allegato['url']); ?>" target="_blank" rel="noopener noreferrer">
             <?php echo esc_html((string) $allegato['label']); ?> <span class="sr-only">(apre in nuova finestra)</span>
         </a>
@@ -52,11 +52,11 @@ $titolo_card = centro_servizi_archive_trasparenza_title($termine_display, $tag_a
     <?php endif; ?>
 
     <?php if ($contenuto !== '') : ?>
-    <div><?php echo apply_filters('the_content', $contenuto); ?></div>
+    <div class="trasparenza-card__content"><?php echo apply_filters('the_content', $contenuto); ?></div>
     <?php endif; ?>
 
-    <div style="margin-top: 1.5em; padding-top: 1em; border-top: 1px solid #ccc;">
-        <p style="margin: 0.25em 0;">Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
-        <p style="margin: 0.25em 0;">Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
+    <div class="trasparenza-card__meta">
+        <p>Pubblicato il <?php echo esc_html(get_the_date('j F Y', $post_id)); ?></p>
+        <p>Ultima modifica <?php echo esc_html(get_the_modified_date('j F Y', $post_id)); ?></p>
     </div>
 </article>

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Rimuovi il caricamento del font Roboto per le pagine legali e semplifica la struttura del markup nella template delle pagine legali',
-    'commit_hash'  => '518bfd2f4',
-    'deployed_at'  => '2026-05-18 10:33:24',
+    'commit_title' => 'Aggiungi stili e markup per migliorare l'archivio trasparenza, inclusi filtri di ricerca e layout',
+    'commit_hash'  => '7f2693ad7',
+    'deployed_at'  => '2026-05-18 10:47:07',
 ];

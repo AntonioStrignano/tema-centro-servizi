@@ -23,6 +23,235 @@ function centro_servizi_archive_trasparenza_child_terms(int $parent_id): array
     return is_wp_error($terms) ? [] : $terms;
 }
 
+function centro_servizi_archive_trasparenza_category_blueprint(): array
+{
+    return [
+        [
+            'slug' => '01-documentaz-trasp',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'circolari-mim'],
+                ['slug' => 'convenzione-con-ambito'],
+                ['slug' => 'normativa'],
+                ['slug' => 'ptpct'],
+            ],
+        ],
+        [
+            'slug' => '02-organizzaz',
+            'legacy_slugs' => ['02-organizzazione'],
+            'children' => [
+                ['slug' => 'organi-collegiali'],
+                ['slug' => 'organigramma'],
+                ['slug' => 'organizzazione'],
+            ],
+        ],
+        [
+            'slug' => '03-autorizzazioni',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'convenzioni'],
+                ['slug' => 'decreto-parita-scolastica'],
+                ['slug' => 'patto-corresp'],
+                ['slug' => 'autorizzazioni'],
+            ],
+        ],
+        [
+            'slug' => '04-personale',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'ccnl'],
+                ['slug' => 'costi-pers'],
+                ['slug' => 'organico'],
+                ['slug' => 'r-i-l'],
+                ['slug' => 'tassi-ass'],
+            ],
+        ],
+        [
+            'slug' => '05-consul-e-collab',
+            'legacy_slugs' => ['05-consulenti-e-collaboratori'],
+            'children' => [
+                ['slug' => 'consulenti-e-collaboratori-esterni', 'legacy_slugs' => ['consul-e-collab']],
+                ['slug' => 'convenzioni-uni'],
+            ],
+        ],
+        [
+            'slug' => '06-bilanci',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'consuntivo'],
+                ['slug' => 'preventivo'],
+                ['slug' => 'sociale'],
+            ],
+        ],
+        [
+            'slug' => '07-immobili',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'immobile', 'legacy_slugs' => ['immobili']],
+                ['slug' => 'planimetria'],
+            ],
+        ],
+        [
+            'slug' => '08-aiuti-economici',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'agenzia-delle-entrate'],
+                ['slug' => 'contributi-pubblici'],
+                ['slug' => 'incentivi-per-occupazione', 'legacy_slugs' => ['incentivi-per-occupaz']],
+            ],
+        ],
+        [
+            'slug' => '09-orari-e-calendario',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'calendario'],
+                ['slug' => 'giornata-tipo'],
+                ['slug' => 'orari-funz'],
+            ],
+        ],
+        [
+            'slug' => '10-iscrizioni',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'moduli-iscriz', 'legacy_slugs' => ['iscrizioni']],
+            ],
+        ],
+        [
+            'slug' => '11-servizi-erogati',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'carta-serv', 'legacy_slugs' => ['carta-servizi']],
+                ['slug' => 'mensa'],
+                ['slug' => 'offerta-formativa'],
+                ['slug' => 'pai'],
+                ['slug' => 'ptof'],
+                ['slug' => 'rav'],
+                ['slug' => 'regolamenti'],
+                ['slug' => 'rette-fam', 'legacy_slugs' => ['rette-famiglie']],
+                ['slug' => 'regolamento-interno-scuola'],
+            ],
+        ],
+        [
+            'slug' => '12-controlli-e-rilievi',
+            'legacy_slugs' => [],
+            'children' => [
+                ['slug' => 'griglia-anac'],
+                ['slug' => 'nomina'],
+                ['slug' => 'snv'],
+                ['slug' => 'verifiche-periodiche'],
+            ],
+        ],
+    ];
+}
+
+function centro_servizi_archive_trasparenza_find_term_by_slugs(array $terms, array $slugs): ?WP_Term
+{
+    foreach ($terms as $term) {
+        if (! $term instanceof WP_Term) {
+            continue;
+        }
+
+        if (in_array($term->slug, $slugs, true)) {
+            return $term;
+        }
+    }
+
+    return null;
+}
+
+function centro_servizi_archive_trasparenza_sort_terms_by_label(array $terms): array
+{
+    usort($terms, static function (WP_Term $left, WP_Term $right): int {
+        return strcasecmp(
+            centro_servizi_archive_trasparenza_term_display_name($left),
+            centro_servizi_archive_trasparenza_term_display_name($right)
+        );
+    });
+
+    return $terms;
+}
+
+function centro_servizi_archive_trasparenza_ordered_category_groups(array $all_terms): array
+{
+    $parents = [];
+    $children_by_parent = [];
+
+    foreach ($all_terms as $term) {
+        if (! $term instanceof WP_Term) {
+            continue;
+        }
+
+        if ((int) $term->parent === 0) {
+            $parents[] = $term;
+            continue;
+        }
+
+        if (! isset($children_by_parent[$term->parent])) {
+            $children_by_parent[$term->parent] = [];
+        }
+
+        $children_by_parent[$term->parent][] = $term;
+    }
+
+    $groups = [];
+    $used_parent_ids = [];
+    $used_child_ids = [];
+
+    foreach (centro_servizi_archive_trasparenza_category_blueprint() as $parent_config) {
+        $parent_slugs = array_merge([$parent_config['slug']], $parent_config['legacy_slugs'] ?? []);
+        $parent_term = centro_servizi_archive_trasparenza_find_term_by_slugs($parents, $parent_slugs);
+
+        if (! $parent_term instanceof WP_Term) {
+            continue;
+        }
+
+        $used_parent_ids[$parent_term->term_id] = true;
+        $children = [];
+        $actual_children = $children_by_parent[$parent_term->term_id] ?? [];
+
+        foreach ($parent_config['children'] as $child_config) {
+            $child_slugs = array_merge([$child_config['slug']], $child_config['legacy_slugs'] ?? []);
+            $child_term = centro_servizi_archive_trasparenza_find_term_by_slugs($actual_children, $child_slugs);
+
+            if (! $child_term instanceof WP_Term) {
+                continue;
+            }
+
+            $children[] = $child_term;
+            $used_child_ids[$child_term->term_id] = true;
+        }
+
+        $extra_children = [];
+        foreach ($actual_children as $child_term) {
+            if (! isset($used_child_ids[$child_term->term_id])) {
+                $extra_children[] = $child_term;
+            }
+        }
+
+        $groups[] = [
+            'parent' => $parent_term,
+            'children' => array_merge($children, centro_servizi_archive_trasparenza_sort_terms_by_label($extra_children)),
+        ];
+    }
+
+    $extra_parents = [];
+    foreach ($parents as $parent_term) {
+        if (! isset($used_parent_ids[$parent_term->term_id])) {
+            $extra_parents[] = $parent_term;
+        }
+    }
+
+    foreach (centro_servizi_archive_trasparenza_sort_terms_by_label($extra_parents) as $parent_term) {
+        $children = centro_servizi_archive_trasparenza_sort_terms_by_label($children_by_parent[$parent_term->term_id] ?? []);
+        $groups[] = [
+            'parent' => $parent_term,
+            'children' => $children,
+        ];
+    }
+
+    return $groups;
+}
+
 function centro_servizi_archive_trasparenza_assigned_terms(int $post_id): array
 {
     $terms = get_the_terms($post_id, 'contenutiammtrasp');
@@ -98,7 +327,7 @@ function centro_servizi_archive_trasparenza_term_label(?WP_Term $term): string
 
 function centro_servizi_archive_trasparenza_clean_term_name(string $name): string
 {
-    $clean = preg_replace('/^\s*\d+\s*[\.)\-_:]?\s*/u', '', $name);
+    $clean = preg_replace('/^\s*(?:\d+\s*[\.)\-_:]?\s*|[-–—]+\s*)+/u', '', $name);
 
     if (! is_string($clean)) {
         return trim($name);
@@ -137,6 +366,7 @@ get_template_part('partials/header');
 
 $selected_anno = centro_servizi_archive_trasparenza_selected_slug('anno');
 $selected_cat = centro_servizi_archive_trasparenza_selected_slug('cat');
+$selected_search = centro_servizi_archive_trasparenza_selected_slug('q');
 
 $anni = get_terms([
     'taxonomy'   => 'annoscolastico',
@@ -147,15 +377,13 @@ $anni = get_terms([
 
 $anni = is_wp_error($anni) ? [] : $anni;
 
-$cat_parents = get_terms([
+$all_categories = get_terms([
     'taxonomy'   => 'contenutiammtrasp',
-    'parent'     => 0,
     'hide_empty' => false,
-    'orderby'    => 'slug',
-    'order'      => 'ASC',
 ]);
 
-$cat_parents = is_wp_error($cat_parents) ? [] : $cat_parents;
+$all_categories = is_wp_error($all_categories) ? [] : $all_categories;
+$category_groups = centro_servizi_archive_trasparenza_ordered_category_groups($all_categories);
 
 $tax_query = [];
 
@@ -174,6 +402,10 @@ if ($selected_cat !== '') {
         'terms'            => $selected_cat,
         'include_children' => true,
     ];
+}
+
+if ($selected_search !== '') {
+    $query_args['s'] = $selected_search;
 }
 
 if (count($tax_query) > 1) {
@@ -195,91 +427,113 @@ if (! empty($tax_query)) {
 $documenti = new WP_Query($query_args);
 
 $archive_url = get_post_type_archive_link('trasparenza');
-$has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
+$has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selected_search !== '');
 
 ?>
-<main class="site-main" id="contenuto-principale" role="main">
+<main class="site-main trasparenza-archive" id="contenuto-principale" role="main">
     <section class="site-section">
         <div class="site-section__inner">
+            <header class="trasparenza-archive__header">
+                <h1 class="trasparenza-archive__title"><?php post_type_archive_title(); ?></h1>
+                <p class="trasparenza-archive__intro">Consulta i documenti filtrando per anno scolastico, categoria o parola chiave.</p>
+            </header>
 
-    <h1><?php post_type_archive_title(); ?></h1>
+            <nav class="trasparenza-archive__years" aria-label="Filtro per anno scolastico">
+                <?php
+                $all_year_args = [];
+                if ($selected_cat !== '') {
+                    $all_year_args['cat'] = $selected_cat;
+                }
+                if ($selected_search !== '') {
+                    $all_year_args['q'] = $selected_search;
+                }
+                ?>
+                <a class="trasparenza-archive__year-link <?php echo $selected_anno === '' ? 'is-active' : ''; ?>" href="<?php echo esc_url($all_year_args === [] ? $archive_url : add_query_arg($all_year_args, $archive_url)); ?>">Tutti gli anni</a>
+                <?php foreach ($anni as $anno) : ?>
+                    <?php
+                    $year_args = ['anno' => $anno->slug];
+                    if ($selected_cat !== '') {
+                        $year_args['cat'] = $selected_cat;
+                    }
+                    if ($selected_search !== '') {
+                        $year_args['q'] = $selected_search;
+                    }
+                    ?>
+                    <a class="trasparenza-archive__year-link <?php echo $selected_anno === $anno->slug ? 'is-active' : ''; ?>" href="<?php echo esc_url(add_query_arg($year_args, $archive_url)); ?>"><?php echo esc_html($anno->name); ?></a>
+                <?php endforeach; ?>
+            </nav>
 
-    <p>
-        <a href="<?php echo esc_url(home_url('/wp-sitemap.xml')); ?>" target="_blank" rel="noopener noreferrer">
-            Sitemap del sito <span class="sr-only">(apre in nuova finestra)</span>
-        </a>
-    </p>
+            <div class="trasparenza-archive__layout">
+                <aside class="trasparenza-archive__sidebar" aria-label="Filtri archivio trasparenza">
+                    <form method="get" action="<?php echo esc_url($archive_url); ?>" class="trasparenza-filters">
+                        <?php if ($selected_anno !== '') : ?>
+                            <input type="hidden" name="anno" value="<?php echo esc_attr($selected_anno); ?>">
+                        <?php endif; ?>
 
-    <form method="get" action="<?php echo esc_url($archive_url); ?>" id="filtri-ammtrasp">
-        <fieldset>
-            <legend>Anno scolastico</legend>
+                        <div class="trasparenza-filters__search">
+                            <label for="trasparenza-q">Cerca nei documenti</label>
+                            <input type="search" id="trasparenza-q" name="q" value="<?php echo esc_attr($selected_search); ?>" placeholder="Titolo o contenuto">
+                        </div>
 
-            <label>
-                <input type="radio" name="anno" value=""
-                    <?php checked($selected_anno, ''); ?>
-                    onchange="this.form.submit()">
-                Tutti
-            </label>
+                        <fieldset class="trasparenza-filters__fieldset">
+                            <legend>Categoria</legend>
 
-            <?php foreach ($anni as $anno) : ?>
-            <label>
-                <input type="radio" name="anno" value="<?php echo esc_attr($anno->slug); ?>"
-                    <?php checked($selected_anno, $anno->slug); ?>
-                    onchange="this.form.submit()">
-                <?php echo esc_html($anno->name); ?>
-            </label>
-            <?php endforeach; ?>
+                            <label class="trasparenza-filters__option trasparenza-filters__option--all">
+                                <input type="radio" name="cat" value="" <?php checked($selected_cat, ''); ?>>
+                                <span>Tutte le categorie</span>
+                            </label>
 
-            <?php if ($anni === []) : ?>
-            <p>Nessun anno scolastico disponibile.</p>
-            <?php endif; ?>
+                            <?php if ($category_groups !== []) : ?>
+                                <ul class="trasparenza-filters__category-list">
+                                    <?php foreach ($category_groups as $group) : ?>
+                                        <?php
+                                        $parent = $group['parent'];
+                                        $children = $group['children'];
+                                        if (! $parent instanceof WP_Term) {
+                                            continue;
+                                        }
+                                        ?>
+                                        <li class="trasparenza-filters__category-group">
+                                            <label class="trasparenza-filters__option trasparenza-filters__option--parent">
+                                                <input type="radio" name="cat" value="<?php echo esc_attr($parent->slug); ?>" <?php checked($selected_cat, $parent->slug); ?>>
+                                                <span><strong><?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($parent)); ?></strong></span>
+                                            </label>
 
-        </fieldset>
+                                            <?php if ($children !== []) : ?>
+                                                <ul class="trasparenza-filters__category-children">
+                                                    <?php foreach ($children as $child) : ?>
+                                                        <?php if (! $child instanceof WP_Term) { continue; } ?>
+                                                        <li>
+                                                            <label class="trasparenza-filters__option trasparenza-filters__option--child">
+                                                                <input type="radio" name="cat" value="<?php echo esc_attr($child->slug); ?>" <?php checked($selected_cat, $child->slug); ?>>
+                                                                <span><?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($child)); ?></span>
+                                                            </label>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php endif; ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php else : ?>
+                                <p>Nessuna categoria disponibile.</p>
+                            <?php endif; ?>
+                        </fieldset>
 
-        <fieldset>
-            <legend>Categoria</legend>
+                        <div class="trasparenza-filters__actions">
+                            <button type="submit">Filtra</button>
+                            <?php if ($has_active_filters) : ?>
+                                <a href="<?php echo esc_url($archive_url); ?>">Reset</a>
+                            <?php endif; ?>
+                        </div>
+                    </form>
+                </aside>
 
-            <label>
-                <input type="radio" name="cat" value=""
-                    <?php checked($selected_cat, ''); ?>
-                    onchange="this.form.submit()">
-                Tutte
-            </label>
-
-            <?php foreach ($cat_parents as $parent) : ?>
-            <?php $cat_children = centro_servizi_archive_trasparenza_child_terms((int) $parent->term_id); ?>
-
-            <label style="display: block;">
-                <input type="radio" name="cat" value="<?php echo esc_attr($parent->slug); ?>"
-                    <?php checked($selected_cat, $parent->slug); ?>
-                    onchange="this.form.submit()">
-                <?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($parent)); ?>
-            </label>
-
-            <?php foreach ($cat_children as $child) : ?>
-            <label style="padding-left: 1.5em; display: block;">
-                <input type="radio" name="cat" value="<?php echo esc_attr($child->slug); ?>"
-                    <?php checked($selected_cat, $child->slug); ?>
-                    onchange="this.form.submit()">
-                <?php echo esc_html(centro_servizi_archive_trasparenza_term_display_name($child)); ?>
-            </label>
-            <?php endforeach; ?>
-            <?php endforeach; ?>
-
-            <?php if ($cat_parents === []) : ?>
-            <p>Nessuna categoria disponibile.</p>
-            <?php endif; ?>
-
-        </fieldset>
-
-        <noscript>
-            <button type="submit">Filtra</button>
-        </noscript>
-
-    </form>
+                <div class="trasparenza-archive__results">
+                    <p class="trasparenza-archive__summary"><?php echo esc_html(sprintf(_n('%d documento trovato', '%d documenti trovati', $documenti->post_count, 'tema-centro-servizi'), $documenti->post_count)); ?></p>
 
     <?php if ($documenti->post_count > 0) : ?>
-    <ul>
+    <ul class="trasparenza-archive__list">
         <?php foreach ($documenti->posts as $documento_post) : ?>
         <?php
         setup_postdata($documento_post);
@@ -291,7 +545,7 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
         $termine_display = centro_servizi_archive_trasparenza_display_term(centro_servizi_archive_trasparenza_assigned_terms($post_id));
         $contenuto = trim((string) get_post_field('post_content', $post_id));
         ?>
-        <li>
+        <li class="trasparenza-archive__item">
             <?php
             get_template_part('partials/card-trasparenza', null, [
                 'post_id' => $post_id,
@@ -314,6 +568,9 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '');
     <p><a href="<?php echo esc_url($archive_url); ?>">Reset filtri</a></p>
     <?php endif; ?>
     <?php endif; ?>
+
+                </div>
+            </div>
 
     <?php wp_reset_postdata(); ?>
 
