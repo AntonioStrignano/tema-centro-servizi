@@ -619,14 +619,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return label.querySelector('input[name="anno"], input[name="cat"]');
     }
 
-    function rememberCheckedState(control) {
-        if (!control) {
-            return;
-        }
-
-        control.dataset.wasChecked = control.checked ? '1' : '0';
-    }
-
     function buildUrl() {
         var url = new URL(window.location.href);
         var anno = getSelectedValue('input[name="anno"]');
@@ -692,48 +684,24 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    filterForm.addEventListener('pointerdown', function (event) {
-        var control = getToggleableInput(event.target);
-
-        if (!control) {
-            return;
-        }
-
-        rememberCheckedState(control);
-    });
-
-    filterForm.addEventListener('mousedown', function (event) {
-        var control = getToggleableInput(event.target);
-
-        if (!control) {
-            return;
-        }
-
-        rememberCheckedState(control);
-    });
-
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
-    for (var index = 0; index < autoInputs.length; index += 1) {
-        autoInputs[index].addEventListener('keydown', function (event) {
-            if (event.key === ' ' || event.key === 'Enter') {
-                rememberCheckedState(event.currentTarget);
-            }
-        });
-
-        autoInputs[index].addEventListener('click', function (event) {
-            var control = event.currentTarget;
-
-            if (control.dataset.wasChecked === '1' && control.checked) {
-                event.preventDefault();
-                control.checked = false;
-                refreshResults();
-            }
-        });
-    }
-
     for (var index = 0; index < autoInputs.length; index += 1) {
         autoInputs[index].addEventListener('change', refreshResults);
     }
+
+    filterForm.addEventListener('click', function (event) {
+        var control = getToggleableInput(event.target);
+
+        if (!control) {
+            return;
+        }
+
+        if (control.checked) {
+            event.preventDefault();
+            control.checked = false;
+            refreshResults();
+        }
+    });
 
     filterForm.addEventListener('submit', function (event) {
         event.preventDefault();

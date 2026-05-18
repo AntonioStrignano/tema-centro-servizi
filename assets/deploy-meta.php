@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Migliora la gestione dello stato dei controlli nel modulo di filtro e ottimizza l'interazione con gli eventi',
-    'commit_hash'  => 'd3e94bd5d',
-    'deployed_at'  => '2026-05-18 11:49:01',
+    'commit_title' => 'bug 2',
+    'commit_hash'  => '6be013a1b',
+    'deployed_at'  => '2026-05-18 11:53:03',
 ];
