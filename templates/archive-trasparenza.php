@@ -426,6 +426,54 @@ if ($selected_search !== '') {
     $query_args['s'] = $selected_search;
 }
 
+// Expand text search to also match taxonomy term names (categories + years).
+// This lets users find documents by typing e.g. "contributi" to surface docs
+// in the "Contributi Pubblici" category even when post content is minimal.
+if ($selected_search !== '') {
+    $matching_terms = get_terms([
+        'taxonomy'   => ['contenutiammtrasp', 'annoscolastico'],
+        'hide_empty' => false,
+        'search'     => $selected_search,
+    ]);
+
+    if (! is_wp_error($matching_terms) && ! empty($matching_terms)) {
+        $matched_term_ids = array_map(static fn(WP_Term $t): int => $t->term_id, $matching_terms);
+
+        $term_post_ids = get_posts([
+            'post_type'      => 'trasparenza',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'no_found_rows'  => true,
+            'tax_query'      => [[
+                'taxonomy' => ['contenutiammtrasp', 'annoscolastico'],
+                'field'    => 'term_id',
+                'terms'    => $matched_term_ids,
+                'operator' => 'IN',
+            ]],
+        ]);
+
+        if (! empty($term_post_ids)) {
+            $text_args           = $query_args;
+            $text_args['fields'] = 'ids';
+            $text_post_ids       = get_posts($text_args);
+
+            $merged_ids = array_values(array_unique(array_merge(
+                array_map('intval', (array) $text_post_ids),
+                array_map('intval', (array) $term_post_ids)
+            )));
+
+            $query_args = [
+                'post_type'      => 'trasparenza',
+                'posts_per_page' => -1,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'no_found_rows'  => true,
+                'post__in'       => ! empty($merged_ids) ? $merged_ids : [0],
+            ];
+        }
+    }
+}
+
 $documenti = new WP_Query($query_args);
 
 $archive_url = get_post_type_archive_link('trasparenza');
