@@ -731,6 +731,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    // Track whether the radio was already checked BEFORE the click (mousedown
+    // fires before the browser toggles the checked state).
+    var checkedBeforeClick = false;
+
+    filterForm.addEventListener('mousedown', function (event) {
+        var control = getToggleableInput(event.target);
+        checkedBeforeClick = control ? control.checked : false;
+    });
+
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
     for (var index = 0; index < autoInputs.length; index += 1) {
         autoInputs[index].addEventListener('change', refreshResults);
@@ -743,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (control.checked) {
+        if (checkedBeforeClick && control.checked) {
             event.preventDefault();
             control.checked = false;
             refreshResults();
