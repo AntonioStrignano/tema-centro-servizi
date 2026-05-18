@@ -4,6 +4,7 @@ html {
   scroll-behavior: smooth;
   background: #12161c;
   color: #f3f7fb;
+  --site-content-max-width: 93.75rem;
 }
 
 *,
@@ -90,7 +91,7 @@ textarea:focus,
 
 /* Inner container per sezioni: gestisce padding e max-width */
 .site-section__inner {
-  max-width: 72rem;
+  max-width: var(--site-content-max-width);
   margin: 0 auto;
   padding: 1.5rem 1.25rem;
 }
@@ -399,7 +400,7 @@ button {
 }
 
 .home-hero__inner {
-  max-width: 72rem;
+  max-width: var(--site-content-max-width);
   margin: 0 auto;
   padding: 2rem 1.25rem 70px;
 }
@@ -474,7 +475,6 @@ button {
 
 .home-hero__subtitle {
   margin: 0.75rem 0 0;
-  max-width: 58ch;
   color: #d7e7f7;
 }
 
