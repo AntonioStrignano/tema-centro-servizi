@@ -526,12 +526,11 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
                             <?php endif; ?>
                         </fieldset>
 
+                        <?php if ($has_active_filters) : ?>
                         <div class="trasparenza-filters__actions">
-                            <button type="submit">Filtra</button>
-                            <?php if ($has_active_filters) : ?>
-                                <a href="<?php echo esc_url($archive_url); ?>">Reset</a>
-                            <?php endif; ?>
+                            <a href="<?php echo esc_url($archive_url); ?>">Reset filtri</a>
                         </div>
+                        <?php endif; ?>
                     </form>
                 </aside>
 

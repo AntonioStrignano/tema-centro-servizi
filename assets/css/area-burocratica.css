@@ -162,6 +162,13 @@ body.post-type-archive-trasparenza .site-card {
   gap: 0.75rem;
 }
 
+.trasparenza-filters__fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-inline-size: unset;
+}
+
 .trasparenza-filters__search label,
 .trasparenza-filters__fieldset legend {
   font-weight: 700;
@@ -176,8 +183,7 @@ body.post-type-archive-trasparenza .site-card {
   color: #6a6a6a;
 }
 
-.trasparenza-filters__search input,
-.trasparenza-filters__actions button {
+.trasparenza-filters__search input {
   width: 100%;
 }
 
