@@ -595,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    var isLoading = false;
+    var activeRequestId = 0;
 
     function getSelectedValue(selector) {
         var checked = document.querySelector(selector + ':checked');
@@ -627,11 +627,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function refreshResults() {
-        if (isLoading) {
-            return;
-        }
-
-        isLoading = true;
+        activeRequestId += 1;
+        var requestId = activeRequestId;
         var url = buildUrl();
         var previousScrollTop = resultsContainer.scrollTop;
 
@@ -645,6 +642,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.text();
             })
             .then(function (html) {
+                if (requestId !== activeRequestId) {
+                    return;
+                }
+
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(html, 'text/html');
                 var newResults = doc.querySelector('.trasparenza-archive__results');
@@ -658,10 +659,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 history.replaceState({}, '', url.pathname + url.search);
             })
             .catch(function () {
+                if (requestId !== activeRequestId) {
+                    return;
+                }
+
                 window.location.href = url.toString();
-            })
-            .finally(function () {
-                isLoading = false;
             });
     }
 
