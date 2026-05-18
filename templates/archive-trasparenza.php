@@ -731,33 +731,38 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Track whether the radio was already checked BEFORE the click (mousedown
-    // fires before the browser toggles the checked state).
-    var checkedBeforeClick = false;
+    // Radio deselection: memorizza lo stato sul label stesso al mousedown,
+    // così ogni label ha il proprio stato e non c'è variabile condivisa.
+    function setupRadioToggle(form) {
+        form.addEventListener('mousedown', function (event) {
+            var label = event.target.closest('label');
+            if (!label) { return; }
+            var input = label.querySelector('input[name="anno"], input[name="cat"]');
+            if (!input) { return; }
+            label.dataset.prevChecked = input.checked ? '1' : '0';
+        });
 
-    filterForm.addEventListener('mousedown', function (event) {
-        var control = getToggleableInput(event.target);
-        checkedBeforeClick = control ? control.checked : false;
-    });
+        form.addEventListener('click', function (event) {
+            var label = event.target.closest('label');
+            if (!label) { return; }
+            var input = label.querySelector('input[name="anno"], input[name="cat"]');
+            if (!input) { return; }
+
+            if (label.dataset.prevChecked === '1') {
+                event.preventDefault();
+                input.checked = false;
+                refreshResults();
+            }
+        });
+    }
+
+    setupRadioToggle(yearForm);
+    setupRadioToggle(filterForm);
 
     var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
     for (var index = 0; index < autoInputs.length; index += 1) {
         autoInputs[index].addEventListener('change', refreshResults);
     }
-
-    filterForm.addEventListener('click', function (event) {
-        var control = getToggleableInput(event.target);
-
-        if (!control) {
-            return;
-        }
-
-        if (checkedBeforeClick && control.checked) {
-            event.preventDefault();
-            control.checked = false;
-            refreshResults();
-        }
-    });
 
     filterForm.addEventListener('submit', function (event) {
         event.preventDefault();
