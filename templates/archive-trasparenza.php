@@ -374,7 +374,7 @@ $anni = get_terms([
     'taxonomy'   => 'annoscolastico',
     'hide_empty' => false,
     'orderby'    => 'slug',
-    'order'      => 'DESC',
+    'order'      => 'ASC',
 ]);
 
 $anni = is_wp_error($anni) ? [] : $anni;
@@ -587,17 +587,93 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
+    var yearForm = document.querySelector('.trasparenza-archive__years-form');
+    var filterForm = document.querySelector('.trasparenza-filters');
+    var resultsContainer = document.querySelector('.trasparenza-archive__results');
 
-    for (var index = 0; index < autoInputs.length; index += 1) {
-        var input = autoInputs[index];
-        input.addEventListener('change', function () {
-            var form = input.closest('form');
-            if (form) {
-                form.submit();
-            }
-        });
+    if (!yearForm || !filterForm || !resultsContainer) {
+        return;
     }
+
+    var isLoading = false;
+
+    function getSelectedValue(selector) {
+        var checked = document.querySelector(selector + ':checked');
+        return checked ? checked.value : '';
+    }
+
+    function buildUrl() {
+        var url = new URL(window.location.href);
+        var anno = getSelectedValue('input[name="anno"]');
+        var cat = getSelectedValue('input[name="cat"]');
+        var searchInput = filterForm.querySelector('input[name="q"]');
+        var q = searchInput ? searchInput.value.trim() : '';
+
+        url.searchParams.delete('anno');
+        url.searchParams.delete('cat');
+        url.searchParams.delete('q');
+
+        if (anno !== '') {
+            url.searchParams.set('anno', anno);
+        }
+        if (cat !== '') {
+            url.searchParams.set('cat', cat);
+        }
+        if (q !== '') {
+            url.searchParams.set('q', q);
+        }
+
+        return url;
+    }
+
+    function refreshResults() {
+        if (isLoading) {
+            return;
+        }
+
+        isLoading = true;
+        var url = buildUrl();
+        var previousScrollTop = resultsContainer.scrollTop;
+
+        fetch(url.toString(), {
+            credentials: 'same-origin',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                var newResults = doc.querySelector('.trasparenza-archive__results');
+
+                if (!newResults) {
+                    return;
+                }
+
+                resultsContainer.innerHTML = newResults.innerHTML;
+                resultsContainer.scrollTop = previousScrollTop;
+                history.replaceState({}, '', url.pathname + url.search);
+            })
+            .catch(function () {
+                window.location.href = url.toString();
+            })
+            .finally(function () {
+                isLoading = false;
+            });
+    }
+
+    var autoInputs = document.querySelectorAll('input[name="anno"], input[name="cat"]');
+    for (var index = 0; index < autoInputs.length; index += 1) {
+        autoInputs[index].addEventListener('change', refreshResults);
+    }
+
+    filterForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        refreshResults();
+    });
 });
 </script>
 

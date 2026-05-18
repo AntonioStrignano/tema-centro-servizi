@@ -127,6 +127,28 @@ body.post-type-archive-trasparenza .site-card {
   min-width: 0;
 }
 
+@media (min-width: 60.01rem) {
+  .trasparenza-archive__layout {
+    height: calc(100vh - 12rem);
+  }
+
+  .trasparenza-archive__sidebar,
+  .trasparenza-archive__results {
+    height: 100%;
+    overflow: auto;
+  }
+
+  .trasparenza-archive__sidebar {
+    position: sticky;
+    top: 1rem;
+    padding-right: 0.25rem;
+  }
+
+  .trasparenza-archive__results {
+    padding-right: 0.25rem;
+  }
+}
+
 .trasparenza-filters {
   display: grid;
   gap: 1rem;
@@ -250,5 +272,12 @@ body.post-type-archive-trasparenza .site-card {
 @media (max-width: 60rem) {
   .trasparenza-archive__layout {
     grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .trasparenza-archive__sidebar,
+  .trasparenza-archive__results {
+    height: auto;
+    overflow: visible;
   }
 }
