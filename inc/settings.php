@@ -974,6 +974,10 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     $accessibility_feedback_url = get_option('centro_servizi_accessibility_feedback_url', '');
 
     $fonts = centro_servizi_get_font_catalog();
+    uasort($fonts, static function (array $a, array $b): int {
+        return strcmp($a['label'], $b['label']);
+    });
+
     $contact_types = [
         'email' => 'Email',
         'phone' => 'Telefono',
@@ -1725,10 +1729,36 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     </style>
 
     <script>
+        function preloadGoogleFont(fontFamily) {
+            if (!fontFamily) return;
+            const fontName = fontFamily.replace(/ /g, '+');
+            const linkId = `gfont-${fontName}`;
+            if (document.getElementById(linkId)) return;
+            const link = document.createElement('link');
+            link.id = linkId;
+            link.rel = 'stylesheet';
+            link.href = `https://fonts.googleapis.com/css2?family=${fontName}&display=swap`;
+            document.head.appendChild(link);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const fontCatalog = <?php echo wp_json_encode($fonts); ?>;
             const profiles = <?php echo wp_json_encode($profiles); ?>;
             const paletteKeys = <?php echo wp_json_encode(array_keys($palette_choices)); ?>;
+
+            // Preload font attualmente selezionati per ogni profilo
+            profiles.forEach((profile) => {
+                const fontInput = document.getElementById(`font_${profile}`);
+                const customFontInput = document.getElementById(`custom_font_${profile}`);
+                const fontSourceInput = document.getElementById(`font_source_${profile}`);
+                if (fontSourceInput && fontSourceInput.value === 'custom-google' && customFontInput) {
+                    const customFont = customFontInput.value.trim();
+                    if (customFont) preloadGoogleFont(customFont);
+                } else if (fontInput && fontCatalog[fontInput.value]) {
+                    const googleFamily = fontCatalog[fontInput.value].google_family;
+                    if (googleFamily) preloadGoogleFont(googleFamily);
+                }
+            });
 
             // ===== FONT PICKER LOGIC =====
             profiles.forEach((profile) => {
@@ -1793,9 +1823,13 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                     item.addEventListener('click', () => {
                         const value = item.dataset.value;
                         const label = fontCatalog[value] ? fontCatalog[value].label : value;
+                        const fontFamily = fontCatalog[value] ? fontCatalog[value].google_family : '';
                         input.value = value;
                         display.textContent = label;
                         dropdown.style.display = 'none';
+                        if (fontFamily) {
+                            preloadGoogleFont(fontFamily);
+                        }
                         updatePreview(profile);
                     });
                 });
@@ -1909,6 +1943,13 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                 const fontSource = fontSourceInput ? fontSourceInput.value : 'catalog';
                 const customFont = customFontInput ? customFontInput.value.trim() : '';
                 const fontKey = fontInput ? fontInput.value : 'arial';
+                
+                if (fontSource === 'custom-google' && customFont) {
+                    preloadGoogleFont(customFont);
+                } else if (fontCatalog[fontKey] && fontCatalog[fontKey].google_family) {
+                    preloadGoogleFont(fontCatalog[fontKey].google_family);
+                }
+                
                 const fontStack = (fontSource === 'custom-google' && customFont)
                     ? `"${customFont}", Arial, sans-serif`
                     : (fontCatalog[fontKey] ? fontCatalog[fontKey].stack : 'Arial, sans-serif');
