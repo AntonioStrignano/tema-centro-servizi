@@ -792,11 +792,14 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             wp_die('Verifica di sicurezza fallita.');
         }
 
+        // Rimuove gli slash aggiunti automaticamente da WordPress (add_magic_quotes)
+        $_post = wp_unslash($_POST);
+
         // COLORI (4 base)
-        $color_main = sanitize_hex_color($_POST['color_main'] ?? '#007acc');
-        $color_secondary = sanitize_hex_color($_POST['color_secondary'] ?? '#f0f0f0');
-        $color_body = sanitize_hex_color($_POST['color_body'] ?? '#1f1f1f');
-        $color_accent = sanitize_hex_color($_POST['color_accent'] ?? '#ff6b6b');
+        $color_main = sanitize_hex_color($_post['color_main'] ?? '#007acc');
+        $color_secondary = sanitize_hex_color($_post['color_secondary'] ?? '#f0f0f0');
+        $color_body = sanitize_hex_color($_post['color_body'] ?? '#1f1f1f');
+        $color_accent = sanitize_hex_color($_post['color_accent'] ?? '#ff6b6b');
 
         update_option('centro_servizi_color_main', $color_main);
         update_option('centro_servizi_color_secondary', $color_secondary);
@@ -810,17 +813,17 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         $typography = [];
 
         foreach ($profiles as $profile) {
-            $font_source = sanitize_text_field($_POST["font_source_${profile}"] ?? 'catalog');
-            $font_key = sanitize_text_field($_POST["font_${profile}"] ?? 'arial');
-            $custom_font = sanitize_text_field($_POST["custom_font_${profile}"] ?? '');
-            $font_size = (float) ($_POST["size_${profile}"] ?? 16);
-            $font_unit = sanitize_text_field($_POST["size_unit_${profile}"] ?? 'px');
-            $font_weight = (int) ($_POST["weight_${profile}"] ?? 400);
-            $font_style = sanitize_text_field($_POST["style_${profile}"] ?? 'normal');
-            $font_transform = sanitize_text_field($_POST["transform_${profile}"] ?? 'none');
-            $font_color_mode = sanitize_text_field($_POST["color_mode_${profile}"] ?? 'custom');
-            $font_color = sanitize_hex_color($_POST["color_${profile}"] ?? '#1f1f1f');
-            $font_color_palette = sanitize_text_field($_POST["color_palette_${profile}"] ?? 'body');
+            $font_source = sanitize_text_field($_post["font_source_${profile}"] ?? 'catalog');
+            $font_key = sanitize_text_field($_post["font_${profile}"] ?? 'arial');
+            $custom_font = sanitize_text_field($_post["custom_font_${profile}"] ?? '');
+            $font_size = (float) ($_post["size_${profile}"] ?? 16);
+            $font_unit = sanitize_text_field($_post["size_unit_${profile}"] ?? 'px');
+            $font_weight = (int) ($_post["weight_${profile}"] ?? 400);
+            $font_style = sanitize_text_field($_post["style_${profile}"] ?? 'normal');
+            $font_transform = sanitize_text_field($_post["transform_${profile}"] ?? 'none');
+            $font_color_mode = sanitize_text_field($_post["color_mode_${profile}"] ?? 'custom');
+            $font_color = sanitize_hex_color($_post["color_${profile}"] ?? '#1f1f1f');
+            $font_color_palette = sanitize_text_field($_post["color_palette_${profile}"] ?? 'body');
 
             if (! isset($size_units[$font_unit])) {
                 $font_unit = 'px';
@@ -868,31 +871,31 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         update_option('centro_servizi_typography', wp_json_encode($typography));
 
         // GOOGLE FONTS URL
-        $google_fonts_url = centro_servizi_sanitize_google_fonts_url(sanitize_text_field($_POST['google_fonts_url'] ?? ''));
+        $google_fonts_url = centro_servizi_sanitize_google_fonts_url(sanitize_text_field($_post['google_fonts_url'] ?? ''));
         update_option('centro_servizi_google_fonts_url', $google_fonts_url);
 
         // HOMEPAGE
-        update_option('centro_servizi_homepage_title', sanitize_text_field($_POST['homepage_title'] ?? ''));
-        update_option('centro_servizi_homepage_subtitle', sanitize_textarea_field($_POST['homepage_subtitle'] ?? ''));
+        update_option('centro_servizi_homepage_title', sanitize_text_field($_post['homepage_title'] ?? ''));
+        update_option('centro_servizi_homepage_subtitle', sanitize_textarea_field($_post['homepage_subtitle'] ?? ''));
 
         // CONTATTI (dinamici)
         $contacts = [];
-        if (isset($_POST['contact_type']) && is_array($_POST['contact_type'])) {
-            foreach ($_POST['contact_type'] as $index => $type) {
+        if (isset($_post['contact_type']) && is_array($_post['contact_type'])) {
+            foreach ($_post['contact_type'] as $index => $type) {
                 $type = sanitize_text_field($type);
-                $label = sanitize_text_field($_POST['contact_label'][$index] ?? '');
+                $label = sanitize_text_field($_post['contact_label'][$index] ?? '');
                 $value = '';
 
                 if ($type === 'email') {
-                    $value = sanitize_email($_POST['contact_value'][$index] ?? '');
+                    $value = sanitize_email($_post['contact_value'][$index] ?? '');
                 } elseif ($type === 'phone') {
-                    $value = sanitize_text_field($_POST['contact_value'][$index] ?? '');
+                    $value = sanitize_text_field($_post['contact_value'][$index] ?? '');
                 } elseif ($type === 'pec') {
-                    $value = sanitize_email($_POST['contact_value'][$index] ?? '');
+                    $value = sanitize_email($_post['contact_value'][$index] ?? '');
                 } elseif ($type === 'address') {
-                    $value = sanitize_textarea_field($_POST['contact_value'][$index] ?? '');
+                    $value = sanitize_textarea_field($_post['contact_value'][$index] ?? '');
                 } else {
-                    $value = sanitize_text_field($_POST['contact_value'][$index] ?? '');
+                    $value = sanitize_text_field($_post['contact_value'][$index] ?? '');
                 }
 
                 if (! empty($value)) {
@@ -907,31 +910,31 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         update_option('centro_servizi_contacts', wp_json_encode($contacts));
 
         // FOOTER
-        update_option('centro_servizi_footer_text', sanitize_textarea_field($_POST['footer_text'] ?? ''));
+        update_option('centro_servizi_footer_text', sanitize_textarea_field($_post['footer_text'] ?? ''));
 
         // DATI LEGALI FOOTER
-        update_option('centro_servizi_legal_company_name', sanitize_text_field($_POST['legal_company_name'] ?? ''));
-        update_option('centro_servizi_legal_vat', sanitize_text_field($_POST['legal_vat'] ?? ''));
-        update_option('centro_servizi_legal_fiscal_code', sanitize_text_field($_POST['legal_fiscal_code'] ?? ''));
-        update_option('centro_servizi_legal_mecc', sanitize_text_field($_POST['legal_mecc'] ?? ''));
-        update_option('centro_servizi_legal_rea', sanitize_text_field($_POST['legal_rea'] ?? ''));
-        update_option('centro_servizi_legal_address', sanitize_textarea_field($_POST['legal_address'] ?? ''));
-        update_option('centro_servizi_accessibility_feedback_url', esc_url_raw(sanitize_text_field($_POST['accessibility_feedback_url'] ?? '')));
+        update_option('centro_servizi_legal_company_name', sanitize_text_field($_post['legal_company_name'] ?? ''));
+        update_option('centro_servizi_legal_vat', sanitize_text_field($_post['legal_vat'] ?? ''));
+        update_option('centro_servizi_legal_fiscal_code', sanitize_text_field($_post['legal_fiscal_code'] ?? ''));
+        update_option('centro_servizi_legal_mecc', sanitize_text_field($_post['legal_mecc'] ?? ''));
+        update_option('centro_servizi_legal_rea', sanitize_text_field($_post['legal_rea'] ?? ''));
+        update_option('centro_servizi_legal_address', sanitize_textarea_field($_post['legal_address'] ?? ''));
+        update_option('centro_servizi_accessibility_feedback_url', esc_url_raw(sanitize_text_field($_post['accessibility_feedback_url'] ?? '')));
 
         // MAPPA
-        $maps_embed_url = esc_url_raw(sanitize_text_field($_POST['maps_embed_url'] ?? ''));
+        $maps_embed_url = esc_url_raw(sanitize_text_field($_post['maps_embed_url'] ?? ''));
         update_option('centro_servizi_maps_embed_url', $maps_embed_url);
 
         // PRIVACY & GDPR
-        update_option('centro_servizi_legale_rappresentante', sanitize_text_field($_POST['legale_rappresentante'] ?? ''));
-        update_option('centro_servizi_dpo_nome', sanitize_text_field($_POST['dpo_nome'] ?? ''));
-        update_option('centro_servizi_email_dpo', sanitize_email($_POST['email_dpo'] ?? ''));
-        update_option('centro_servizi_email_privacy', sanitize_email($_POST['email_privacy'] ?? ''));
-        update_option('centro_servizi_pec_privacy', sanitize_email($_POST['pec_privacy'] ?? ''));
-        update_option('centro_servizi_referente_privacy', sanitize_text_field($_POST['referente_privacy'] ?? ''));
-        update_option('centro_servizi_url_dichiarazione_agid', esc_url_raw(sanitize_text_field($_POST['url_dichiarazione_agid'] ?? '')));
-        update_option('centro_servizi_whistleblowing_responsabile', sanitize_text_field($_POST['whistleblowing_responsabile'] ?? ''));
-        $url_wb = esc_url_raw(sanitize_text_field($_POST['url_whistleblowing'] ?? ''));
+        update_option('centro_servizi_legale_rappresentante', sanitize_text_field($_post['legale_rappresentante'] ?? ''));
+        update_option('centro_servizi_dpo_nome', sanitize_text_field($_post['dpo_nome'] ?? ''));
+        update_option('centro_servizi_email_dpo', sanitize_email($_post['email_dpo'] ?? ''));
+        update_option('centro_servizi_email_privacy', sanitize_email($_post['email_privacy'] ?? ''));
+        update_option('centro_servizi_pec_privacy', sanitize_email($_post['pec_privacy'] ?? ''));
+        update_option('centro_servizi_referente_privacy', sanitize_text_field($_post['referente_privacy'] ?? ''));
+        update_option('centro_servizi_url_dichiarazione_agid', esc_url_raw(sanitize_text_field($_post['url_dichiarazione_agid'] ?? '')));
+        update_option('centro_servizi_whistleblowing_responsabile', sanitize_text_field($_post['whistleblowing_responsabile'] ?? ''));
+        $url_wb = esc_url_raw(sanitize_text_field($_post['url_whistleblowing'] ?? ''));
         update_option('centro_servizi_url_whistleblowing', $url_wb);
 
         echo '<div class="notice notice-success"><p>Impostazioni salvate con successo!</p></div>';
