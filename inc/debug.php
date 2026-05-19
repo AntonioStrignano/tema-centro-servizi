@@ -256,9 +256,14 @@ function centro_servizi_get_debug_chunks(string $context = 'frontend'): array
         'is_status' => false,
     ];
 
+    $commit_display = $debug_context['commit_title'];
+    if (strlen($commit_display) > 20) {
+        $commit_display = substr($commit_display, 0, 20) . '...';
+    }
+
     $chunks[] = [
         'label' => 'Commit',
-        'value' => $debug_context['commit_title'],
+        'value' => $commit_display,
         'is_status' => false,
     ];
 
