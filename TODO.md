@@ -78,7 +78,7 @@
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
 - [x] Template pagine legali condiviso (`templates/page-legale.php`) per: `amministrazione-trasparente`, `dichiarazione-accessibilita`, `privacy-policy`, `cookie-policy`, `whistleblowing`, `obiettivi-accessibilita`
 - [x] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
-- [x] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi
+- [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi (solo abbozzato, manca CSS e UX)
 - [x] Link whistleblowing nel footer/Amm. Trasparente (gestito da opzione `url_whistleblowing` con fallback pagina seed)
 - [x] Pagina WP `whistleblowing` con spiegazione + link piattaforma (generata via seed pagine obbligatorie)
 - [ ] Verificare contributi L. 124/2017: tabelle TablePress con tutti i 5 campi obbligatori

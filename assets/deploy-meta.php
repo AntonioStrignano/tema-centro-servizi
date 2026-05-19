@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Rimuovi funzioni non utilizzate e semplifica la logica di visualizzazione delle categorie nel modulo di area famiglie e personale',
-    'commit_hash'  => 'f1ec15b87',
-    'deployed_at'  => '2026-05-18 12:51:39',
+    'commit_title' => 'Aggiungi nuovi font al catalogo delle font nel modulo di impostazioni',
+    'commit_hash'  => 'd47a9901d',
+    'deployed_at'  => '2026-05-19 12:23:39',
 ];
