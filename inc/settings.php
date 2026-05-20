@@ -2234,6 +2234,8 @@ function centro_servizi_print_dynamic_css(): void
     foreach ($selector_map as $profile => $selector) {
         $config = is_array($typography[$profile] ?? null) ? $typography[$profile] : [];
         $font_stack = centro_servizi_get_profile_font_stack($config, $font_catalog);
+        $safe_font_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $font_stack);
+        $safe_font_stack = is_string($safe_font_stack) && $safe_font_stack !== '' ? $safe_font_stack : 'Arial, sans-serif';
         $computed_font_stacks[$profile] = $font_stack;
         $font_size = (float) centro_servizi_get_typography_value($config, 'size', 16);
         $size_unit = (string) centro_servizi_get_typography_value($config, 'size_unit', 'px');
@@ -2253,7 +2255,7 @@ function centro_servizi_print_dynamic_css(): void
         }
 
         echo $selector . ' { '
-            . 'font-family: ' . esc_html($font_stack) . '; '
+            . 'font-family: ' . $safe_font_stack . '; '
             . 'font-size: ' . esc_html((string) $font_size . $size_unit) . '; '
             . 'font-weight: ' . intval($font_weight) . '; '
             . 'font-style: ' . esc_html($font_style) . '; '
@@ -2270,12 +2272,19 @@ function centro_servizi_print_dynamic_css(): void
     $home_links_stack = (string) ($computed_font_stacks['links'] ?? $home_body_stack);
     $home_buttons_stack = (string) ($computed_font_stacks['buttons'] ?? $home_body_stack);
 
-    echo ".home-vitrine, .home-vitrine p, .home-vitrine li, .home-vitrine span { font-family: " . esc_html($home_body_stack) . "; }\n";
-    echo ".home-vitrine h1, .home-vitrine .home-vitrine__title { font-family: " . esc_html($home_h1_stack) . "; }\n";
-    echo ".home-vitrine h2, .home-vitrine .home-vitrine__section-title { font-family: " . esc_html($home_h2_stack) . "; }\n";
-    echo ".home-vitrine h3, .home-vitrine .home-vitrine__contact-card h3, .home-vitrine .home-vitrine__calendar-card h3, .home-vitrine .home-vitrine__highlight-content h3 { font-family: " . esc_html($home_h3_stack) . "; }\n";
-    echo ".home-vitrine a, .home-vitrine .home-vitrine__text-link { font-family: " . esc_html($home_links_stack) . "; }\n";
-    echo ".home-vitrine .home-vitrine__button { font-family: " . esc_html($home_buttons_stack) . "; }\n";
+    $home_body_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $home_body_stack) ?: 'Arial, sans-serif';
+    $home_h1_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $home_h1_stack) ?: $home_body_stack;
+    $home_h2_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $home_h2_stack) ?: $home_h1_stack;
+    $home_h3_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $home_h3_stack) ?: $home_h2_stack;
+    $home_links_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $home_links_stack) ?: $home_body_stack;
+    $home_buttons_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $home_buttons_stack) ?: $home_body_stack;
+
+    echo ".home-vitrine, .home-vitrine p, .home-vitrine li, .home-vitrine span { font-family: " . $home_body_stack . "; }\n";
+    echo ".home-vitrine h1, .home-vitrine .home-vitrine__title { font-family: " . $home_h1_stack . "; }\n";
+    echo ".home-vitrine h2, .home-vitrine .home-vitrine__section-title { font-family: " . $home_h2_stack . "; }\n";
+    echo ".home-vitrine h3, .home-vitrine .home-vitrine__contact-card h3, .home-vitrine .home-vitrine__calendar-card h3, .home-vitrine .home-vitrine__highlight-content h3 { font-family: " . $home_h3_stack . "; }\n";
+    echo ".home-vitrine a, .home-vitrine .home-vitrine__text-link { font-family: " . $home_links_stack . "; }\n";
+    echo ".home-vitrine .home-vitrine__button { font-family: " . $home_buttons_stack . "; }\n";
 
     echo "</style>\n";
 }
