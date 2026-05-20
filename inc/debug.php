@@ -7,15 +7,15 @@ if (! defined('ABSPATH')) {
 
 function centro_servizi_is_debug_css_enabled(): bool
 {
+    if (! is_user_logged_in() || ! current_user_can('manage_options')) {
+        return false;
+    }
+
     $raw = isset($_COOKIE['centro_servizi_debug_css'])
         ? sanitize_text_field((string) wp_unslash($_COOKIE['centro_servizi_debug_css']))
         : '';
 
-    if ($raw === '0') {
-        return false;
-    }
-
-    return true;
+    return $raw === '1';
 }
 
 add_action('wp', 'centro_servizi_handle_debug_css_toggle_request', 1);

@@ -9,15 +9,6 @@ body.page-amministrazione-trasparente {
   font-family: "Roboto", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 }
 
-body.page-privacy-policy *,
-body.page-cookie-policy *,
-body.page-dichiarazione-accessibilita *,
-body.page-whistleblowing *,
-body.page-obiettivi-accessibilita *,
-body.page-amministrazione-trasparente * {
-  background-image: none;
-}
-
 body.page-privacy-policy a,
 body.page-cookie-policy a,
 body.page-dichiarazione-accessibilita a,
