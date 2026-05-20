@@ -135,13 +135,44 @@ function centro_servizi_get_deploy_meta(): array
         return $meta;
     }
 
-    $raw_meta = require $meta_file;
+    $raw_meta = centro_servizi_parse_deploy_meta_file($meta_file);
 
-    if (is_array($raw_meta)) {
+    if (! empty($raw_meta)) {
         $meta = $raw_meta;
     }
 
     return $meta;
+}
+
+function centro_servizi_parse_deploy_meta_file(string $meta_file): array
+{
+    $content = file_get_contents($meta_file);
+
+    if (! is_string($content) || $content === '') {
+        return [];
+    }
+
+    $keys = [
+        'channel',
+        'commit_title',
+        'commit_hash',
+        'deployed_at',
+    ];
+
+    $parsed = [];
+
+    foreach ($keys as $key) {
+        $pattern = "/'" . preg_quote($key, '/') . "'\\s*=>\\s*(['\"])((?:\\\\.|(?!\\1).)*)\\1/s";
+
+        if (! preg_match($pattern, $content, $matches)) {
+            continue;
+        }
+
+        $value = stripcslashes((string) $matches[2]);
+        $parsed[$key] = sanitize_text_field($value);
+    }
+
+    return $parsed;
 }
 
 function centro_servizi_get_deploy_datetime_label(): string
