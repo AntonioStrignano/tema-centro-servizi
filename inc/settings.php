@@ -2075,6 +2075,22 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             document.querySelectorAll('.remove-contact').forEach(attachRemoveListener);
         });
     </script>
+
+    <hr style="margin: 3rem 0;" />
+    <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 4px; border-left: 4px solid #007acc;">
+        <h3 style="margin-top: 0; color: #333;">🐛 Debug: Dati Tipografia Salvati</h3>
+        <p style="margin: 0 0 1rem; color: #666; font-size: 0.9rem;">Verifica che i font selezionati siano salvati correttamente nel database.</p>
+        <pre style="margin: 0; padding: 1rem; background: white; border: 1px solid #ddd; border-radius: 3px; overflow-x: auto; font-size: 0.8rem; max-height: 300px; overflow-y: auto;">
+<?php
+$current_typo = get_option('centro_servizi_typography', '{}');
+$typo_array = json_decode($current_typo, true) ?: [];
+echo 'Profili tipografia: ' . json_encode($typo_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n\n";
+
+$current_gf_url = get_option('centro_servizi_google_fonts_url', '');
+echo 'URL Custom Google Fonts: ' . ($current_gf_url ?: '(vuoto)') . "\n";
+?>
+        </pre>
+    </div>
     <?php
 }
 
