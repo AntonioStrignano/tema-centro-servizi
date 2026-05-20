@@ -142,7 +142,7 @@ if (is_user_logged_in() && current_user_can('manage_options')) {
 ?>
 
 <main class="site-main home-main home-vitrine" id="contenuto-principale" role="main">
-	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title">
+	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title" style="background-image: url('https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp'); background-position: center center; background-size: cover; background-repeat: no-repeat;">
 		<div class="site-section__inner home-vitrine__hero-inner">
 			<p class="home-vitrine__eyebrow">Scuola dell'infanzia</p>
 			<h1 id="home-hero-title" class="home-vitrine__title"><?php echo esc_html($title); ?></h1>
