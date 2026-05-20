@@ -2201,6 +2201,7 @@ function centro_servizi_print_dynamic_css(): void
     $typography_json = get_option('centro_servizi_typography', '{}');
     $typography = centro_servizi_normalize_typography(json_decode($typography_json, true) ?: []);
     $font_catalog = centro_servizi_get_font_catalog();
+    $computed_font_stacks = [];
 
     echo "\n<style id=\"centro-servizi-dynamic-css\">\n";
     echo ":root {\n";
@@ -2233,6 +2234,7 @@ function centro_servizi_print_dynamic_css(): void
     foreach ($selector_map as $profile => $selector) {
         $config = is_array($typography[$profile] ?? null) ? $typography[$profile] : [];
         $font_stack = centro_servizi_get_profile_font_stack($config, $font_catalog);
+        $computed_font_stacks[$profile] = $font_stack;
         $font_size = (float) centro_servizi_get_typography_value($config, 'size', 16);
         $size_unit = (string) centro_servizi_get_typography_value($config, 'size_unit', 'px');
         $font_weight = (int) centro_servizi_get_typography_value($config, 'weight', 400);
@@ -2259,6 +2261,21 @@ function centro_servizi_print_dynamic_css(): void
             . 'color: ' . esc_html($font_color) . '; '
             . "}\n";
     }
+
+    // Homepage: assicura applicazione esplicita dei font scelti anche sui blocchi vetrina custom.
+    $home_body_stack = (string) ($computed_font_stacks['body'] ?? 'Arial, sans-serif');
+    $home_h1_stack = (string) ($computed_font_stacks['h1'] ?? $home_body_stack);
+    $home_h2_stack = (string) ($computed_font_stacks['h2'] ?? $home_h1_stack);
+    $home_h3_stack = (string) ($computed_font_stacks['h3'] ?? $home_h2_stack);
+    $home_links_stack = (string) ($computed_font_stacks['links'] ?? $home_body_stack);
+    $home_buttons_stack = (string) ($computed_font_stacks['buttons'] ?? $home_body_stack);
+
+    echo ".home-vitrine, .home-vitrine p, .home-vitrine li, .home-vitrine span { font-family: " . esc_html($home_body_stack) . "; }\n";
+    echo ".home-vitrine h1, .home-vitrine .home-vitrine__title { font-family: " . esc_html($home_h1_stack) . "; }\n";
+    echo ".home-vitrine h2, .home-vitrine .home-vitrine__section-title { font-family: " . esc_html($home_h2_stack) . "; }\n";
+    echo ".home-vitrine h3, .home-vitrine .home-vitrine__contact-card h3, .home-vitrine .home-vitrine__calendar-card h3, .home-vitrine .home-vitrine__highlight-content h3 { font-family: " . esc_html($home_h3_stack) . "; }\n";
+    echo ".home-vitrine a, .home-vitrine .home-vitrine__text-link { font-family: " . esc_html($home_links_stack) . "; }\n";
+    echo ".home-vitrine .home-vitrine__button { font-family: " . esc_html($home_buttons_stack) . "; }\n";
 
     echo "</style>\n";
 }

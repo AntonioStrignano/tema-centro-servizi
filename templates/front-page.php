@@ -132,6 +132,15 @@ if ($attivita_speciali_page instanceof WP_Post) {
 	}
 }
 ?>
+<!-- DEBUG: Homepage Font Debug -->
+<?php
+if (is_user_logged_in() && current_user_can('manage_options')) {
+	$typo_json = get_option('centro_servizi_typography', '{}');
+	$typo = json_decode($typo_json, true) ?: [];
+	echo '<!-- TYPOGRAPHY SAVED: ' . esc_html(json_encode($typo, JSON_PRETTY_PRINT)) . ' -->';
+}
+?>
+
 <main class="site-main home-main home-vitrine" id="contenuto-principale" role="main">
 	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title">
 		<div class="site-section__inner home-vitrine__hero-inner">
