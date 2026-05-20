@@ -797,3 +797,430 @@ button {
     direction: ltr;
   }
 }
+
+/* ─── HOMEPAGE PROFESSIONALE ─────────────────────────────────────── */
+
+:root {
+  /* Variabili colore (sovrascrivibili da settings) */
+  --color-main: #0066cc;
+  --color-secondary: #f5f5f5;
+  --color-body: #333333;
+  --color-accent: #ff6b35;
+  --color-light-bg: #fafafa;
+  --color-border: #e0e0e0;
+  --color-text-muted: #666666;
+  
+  /* Spacing standardizzato */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2.5rem;
+  --spacing-xl: 4rem;
+  
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.5rem;
+}
+
+/* Hero Section con immagine background */
+.home-hero {
+  position: relative;
+  min-height: clamp(30rem, 70vh, 50rem);
+  background: linear-gradient(135deg, var(--color-main) 0%, #0052a3 100%);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('https://lilliputandria.it/wp-content/uploads/2022/04/pencils-g9b510d2a6_1280.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 102, 204, 0.85) 0%, rgba(0, 82, 163, 0.85) 100%);
+  z-index: 1;
+}
+
+.home-hero__inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+.home-hero__title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 var(--spacing-md) 0;
+  letter-spacing: -0.02em;
+}
+
+.home-hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0 0 var(--spacing-lg) 0;
+  opacity: 0.95;
+}
+
+.home-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+.home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: var(--spacing-sm) 2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.home-button:visited,
+.home-button:focus {
+  color: #ffffff;
+}
+
+.home-button:hover {
+  background: #ff8852;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+/* Intro/Chi siamo Section */
+.home-intro {
+  background: #ffffff;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.home-intro h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-main);
+  margin: 0 0 var(--spacing-md) 0;
+  font-weight: 800;
+}
+
+.home-intro .entry-content {
+  max-width: 650px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-body);
+}
+
+.home-intro .entry-content p {
+  margin: var(--spacing-md) 0;
+  color: var(--color-text-muted);
+}
+
+/* La Nostra Scuola Section - Gallery Prominente */
+.home-la-nostra-scuola {
+  background: var(--color-light-bg);
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.home-la-nostra-scuola__inner {
+  max-width: var(--site-content-max-width);
+  margin: 0 auto;
+}
+
+.home-la-nostra-scuola h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-main);
+  margin: 0 0 var(--spacing-md) 0;
+  font-weight: 800;
+  text-align: center;
+}
+
+.home-la-nostra-scuola__excerpt {
+  text-align: center;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.home-la-nostra-scuola__gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
+}
+
+.home-la-nostra-scuola__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  aspect-ratio: 4/3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.home-la-nostra-scuola__item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.home-la-nostra-scuola__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.home-la-nostra-scuola__item:hover img {
+  transform: scale(1.05);
+}
+
+.home-la-nostra-scuola__item figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+  color: #ffffff;
+  padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  font-weight: 700;
+  font-size: 1.1rem;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.home-la-nostra-scuola__item:hover figcaption {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.home-la-nostra-scuola__actions {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+}
+
+/* Contatti Section */
+.home-contacts {
+  background: #ffffff;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.home-contacts h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-main);
+  margin: 0 0 var(--spacing-lg) 0;
+  font-weight: 800;
+  text-align: center;
+}
+
+.home-contacts__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-contact-card {
+  background: var(--color-light-bg);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-accent);
+  transition: all 0.2s ease;
+}
+
+.home-contact-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.home-contact-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.home-contact-card__value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-body);
+  margin: 0;
+}
+
+.home-contact-card__value a {
+  color: var(--color-main);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.home-contact-card__value a:hover {
+  text-decoration: underline;
+  color: var(--color-accent);
+}
+
+.home-contacts__actions {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+}
+
+/* Orari & Calendario Section */
+.home-orari-calendario {
+  background: var(--color-light-bg);
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.home-orari-calendario h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-main);
+  margin: 0 0 var(--spacing-lg) 0;
+  font-weight: 800;
+  text-align: center;
+}
+
+.home-orari-calendario__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-orari-calendario__card {
+  background: #ffffff;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  border-top: 4px solid var(--color-main);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.home-orari-calendario__card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.home-orari-calendario__card h3 {
+  font-size: 1.25rem;
+  color: var(--color-body);
+  margin: 0 0 var(--spacing-sm) 0;
+  font-weight: 700;
+}
+
+.home-orari-calendario__excerpt {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+.home-link {
+  color: var(--color-main);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.home-link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.home-link::after {
+  content: "→";
+  margin-left: 0.4em;
+  transition: transform 0.2s ease;
+}
+
+.home-link:hover::after {
+  transform: translateX(4px);
+}
+
+.home-orari-calendario__actions {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 48rem) {
+  :root {
+    --spacing-xl: 2rem;
+    --spacing-lg: 1.5rem;
+  }
+  
+  .home-hero {
+    min-height: 25rem;
+  }
+  
+  .home-hero__title {
+    font-size: 1.75rem;
+  }
+  
+  .home-hero__subtitle {
+    font-size: 1rem;
+  }
+  
+  .home-contacts__grid,
+  .home-orari-calendario__grid,
+  .home-la-nostra-scuola__gallery {
+    grid-template-columns: 1fr;
+  }
+  
+  .home-hero::before {
+    background-attachment: scroll;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__item,
+  .home-la-nostra-scuola__item,
+  .home-contact-card,
+  .home-orari-calendario__card,
+  .home-button {
+    transition: none;
+  }
+  
+  .home-la-nostra-scuola__item img {
+    transition: none;
+  }
+}

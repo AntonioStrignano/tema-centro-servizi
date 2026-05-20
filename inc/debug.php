@@ -18,18 +18,20 @@ function centro_servizi_is_debug_css_enabled(): bool
     return true;
 }
 
-add_action('init', 'centro_servizi_handle_debug_css_toggle_request');
+add_action('wp', 'centro_servizi_handle_debug_css_toggle_request', 1);
 function centro_servizi_handle_debug_css_toggle_request(): void
 {
     if (! is_user_logged_in() || ! current_user_can('manage_options')) {
         return;
     }
 
-    if (! isset($_GET['centro_debug_css'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if (! isset($_GET['centro_debug_css'])) {
         return;
     }
 
-    $next_value = sanitize_text_field(wp_unslash((string) $_GET['centro_debug_css'])); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $next_value = sanitize_text_field(wp_unslash((string) $_GET['centro_debug_css']));
 
     if (! in_array($next_value, ['0', '1'], true)) {
         return;
@@ -39,15 +41,21 @@ function centro_servizi_handle_debug_css_toggle_request(): void
     $cookie_domain = defined('COOKIE_DOMAIN') && is_string(COOKIE_DOMAIN) ? COOKIE_DOMAIN : '';
     $expires = time() + YEAR_IN_SECONDS;
 
-    setcookie(
-        'centro_servizi_debug_css',
-        $next_value,
-        $expires,
-        $cookie_path,
-        $cookie_domain,
-        is_ssl(),
-        true
-    );
+    // Ensure we can set cookies
+    if (! headers_sent()) {
+        setcookie(
+            'centro_servizi_debug_css',
+            $next_value,
+            [
+                'expires' => $expires,
+                'path' => $cookie_path,
+                'domain' => $cookie_domain,
+                'secure' => is_ssl(),
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]
+        );
+    }
 
     $_COOKIE['centro_servizi_debug_css'] = $next_value;
 
