@@ -981,8 +981,14 @@ button {
   pointer-events: none;
   z-index: 4;
   background-color: var(--vitrine-site-bg);
-  -webkit-mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
-  mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
+  -webkit-mask-image: url('../img/divider-bottom.svg');
+  -webkit-mask-position: center bottom;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url('../img/divider-bottom.svg');
+  mask-position: center bottom;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
   transform: scaleY(-1);
 }
 
@@ -1001,8 +1007,14 @@ button {
   pointer-events: none;
   z-index: 4;
   background-color: var(--vitrine-site-bg);
-  -webkit-mask: url('../img/divider-top.svg') center top / 100% 100% no-repeat;
-  mask: url('../img/divider-top.svg') center top / 100% 100% no-repeat;
+  -webkit-mask-image: url('../img/divider-top.svg');
+  -webkit-mask-position: center top;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url('../img/divider-top.svg');
+  mask-position: center top;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 }
 
 .home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type)::after {
@@ -1015,8 +1027,14 @@ button {
   pointer-events: none;
   z-index: 4;
   background-color: var(--vitrine-site-bg);
-  -webkit-mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
-  mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
+  -webkit-mask-image: url('../img/divider-bottom.svg');
+  -webkit-mask-position: center bottom;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url('../img/divider-bottom.svg');
+  mask-position: center bottom;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
   transform: scaleY(-1);
 }
 
