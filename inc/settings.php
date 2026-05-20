@@ -247,11 +247,12 @@ function centro_servizi_lighten_color(string $hex, int $percent = 20): string
     if (! $rgb) {
         return $hex;
     }
-    $factor = 1 + ($percent / 100);
+
+    $amount = max(0, min(100, $percent)) / 100;
     return centro_servizi_rgb_to_hex(
-        (int) min(255, $rgb['r'] * $factor),
-        (int) min(255, $rgb['g'] * $factor),
-        (int) min(255, $rgb['b'] * $factor)
+        (int) round($rgb['r'] + (255 - $rgb['r']) * $amount),
+        (int) round($rgb['g'] + (255 - $rgb['g']) * $amount),
+        (int) round($rgb['b'] + (255 - $rgb['b']) * $amount)
     );
 }
 
@@ -1011,16 +1012,16 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
 
     $palette_preview_map = [
         'main' => $color_main,
-        'main-light' => centro_servizi_lighten_color($color_main, 20),
+        'main-light' => centro_servizi_lighten_color($color_main, 55),
         'main-dark' => centro_servizi_darken_color($color_main, 20),
         'secondary' => $color_secondary,
-        'secondary-light' => centro_servizi_lighten_color($color_secondary, 20),
+        'secondary-light' => centro_servizi_lighten_color($color_secondary, 55),
         'secondary-dark' => centro_servizi_darken_color($color_secondary, 20),
         'body' => $color_body,
-        'body-light' => centro_servizi_lighten_color($color_body, 20),
+        'body-light' => centro_servizi_lighten_color($color_body, 55),
         'body-dark' => centro_servizi_darken_color($color_body, 20),
         'accent' => $color_accent,
-        'accent-light' => centro_servizi_lighten_color($color_accent, 20),
+        'accent-light' => centro_servizi_lighten_color($color_accent, 55),
         'accent-dark' => centro_servizi_darken_color($color_accent, 20),
     ];
     ?>
@@ -1922,11 +1923,12 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             function applyLightness(hex, percent, mode) {
                 const rgb = hexToRgb(hex);
                 if (!rgb) return '#1f1f1f';
-                const factor = mode === 'lighten' ? (1 + (percent / 100)) : (1 - (percent / 100));
+                const amount = Math.max(0, Math.min(100, percent)) / 100;
+                const factor = mode === 'lighten' ? (1 - amount) : (1 - amount);
                 return rgbToHex({
-                    r: rgb.r * factor,
-                    g: rgb.g * factor,
-                    b: rgb.b * factor
+                    r: mode === 'lighten' ? (rgb.r + (255 - rgb.r) * amount) : (rgb.r * factor),
+                    g: mode === 'lighten' ? (rgb.g + (255 - rgb.g) * amount) : (rgb.g * factor),
+                    b: mode === 'lighten' ? (rgb.b + (255 - rgb.b) * amount) : (rgb.b * factor)
                 });
             }
 
@@ -1938,16 +1940,16 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
 
                 return {
                     'main': main,
-                    'main-light': applyLightness(main, 20, 'lighten'),
+                    'main-light': applyLightness(main, 55, 'lighten'),
                     'main-dark': applyLightness(main, 20, 'darken'),
                     'secondary': secondary,
-                    'secondary-light': applyLightness(secondary, 20, 'lighten'),
+                    'secondary-light': applyLightness(secondary, 55, 'lighten'),
                     'secondary-dark': applyLightness(secondary, 20, 'darken'),
                     'body': body,
-                    'body-light': applyLightness(body, 20, 'lighten'),
+                    'body-light': applyLightness(body, 55, 'lighten'),
                     'body-dark': applyLightness(body, 20, 'darken'),
                     'accent': accent,
-                    'accent-light': applyLightness(accent, 20, 'lighten'),
+                    'accent-light': applyLightness(accent, 55, 'lighten'),
                     'accent-dark': applyLightness(accent, 20, 'darken')
                 };
             }
@@ -2206,16 +2208,16 @@ function centro_servizi_print_dynamic_css(): void
     echo "\n<style id=\"centro-servizi-dynamic-css\">\n";
     echo ":root {\n";
     echo "  --color-main: " . esc_html($color_main) . ";\n";
-    echo "  --color-main-light: " . esc_html(centro_servizi_lighten_color($color_main, 20)) . ";\n";
+    echo "  --color-main-light: " . esc_html(centro_servizi_lighten_color($color_main, 55)) . ";\n";
     echo "  --color-main-dark: " . esc_html(centro_servizi_darken_color($color_main, 20)) . ";\n";
     echo "  --color-secondary: " . esc_html($color_secondary) . ";\n";
-    echo "  --color-secondary-light: " . esc_html(centro_servizi_lighten_color($color_secondary, 20)) . ";\n";
+    echo "  --color-secondary-light: " . esc_html(centro_servizi_lighten_color($color_secondary, 55)) . ";\n";
     echo "  --color-secondary-dark: " . esc_html(centro_servizi_darken_color($color_secondary, 20)) . ";\n";
     echo "  --color-body: " . esc_html($color_body) . ";\n";
-    echo "  --color-body-light: " . esc_html(centro_servizi_lighten_color($color_body, 20)) . ";\n";
+    echo "  --color-body-light: " . esc_html(centro_servizi_lighten_color($color_body, 55)) . ";\n";
     echo "  --color-body-dark: " . esc_html(centro_servizi_darken_color($color_body, 20)) . ";\n";
     echo "  --color-accent: " . esc_html($color_accent) . ";\n";
-    echo "  --color-accent-light: " . esc_html(centro_servizi_lighten_color($color_accent, 20)) . ";\n";
+    echo "  --color-accent-light: " . esc_html(centro_servizi_lighten_color($color_accent, 55)) . ";\n";
     echo "  --color-accent-dark: " . esc_html(centro_servizi_darken_color($color_accent, 20)) . ";\n";
     echo "}\n\n";
 

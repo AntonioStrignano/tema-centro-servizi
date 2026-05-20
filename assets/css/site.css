@@ -974,7 +974,7 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
+  bottom: 0;
   height: clamp(2.8rem, 6vw, 5rem);
   pointer-events: none;
   z-index: 4;
@@ -992,7 +992,7 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  top: -1px;
+  top: 0;
   height: clamp(2.6rem, 5vw, 4.3rem);
   pointer-events: none;
   z-index: 4;
@@ -1006,7 +1006,7 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
+  bottom: 0;
   height: clamp(2.8rem, 6vw, 5rem);
   pointer-events: none;
   z-index: 4;
