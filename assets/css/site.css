@@ -964,7 +964,7 @@ button {
 /* Pattern a numeri richiesto:
    1 = onda sotto
    2 = nessun separatore
-   3,5,7... = gocce sopra + onde sotto
+  3,5,7... = onde sopra + onde sotto
    pari = nessun separatore */
 .home-vitrine > .site-section::before,
 .home-vitrine > .site-section::after {
@@ -1001,8 +1001,8 @@ button {
   pointer-events: none;
   z-index: 4;
   background-color: var(--vitrine-site-bg);
-  -webkit-mask: url('../img/divider-top.svg') center top / 100% 100% no-repeat;
-  mask: url('../img/divider-top.svg') center top / 100% 100% no-repeat;
+  -webkit-mask: url('../img/divider-bottom.svg') center top / 100% 100% no-repeat;
+  mask: url('../img/divider-bottom.svg') center top / 100% 100% no-repeat;
 }
 
 .home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type)::after {
