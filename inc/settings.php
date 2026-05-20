@@ -937,6 +937,10 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         $url_wb = esc_url_raw(sanitize_text_field($_post['url_whistleblowing'] ?? ''));
         update_option('centro_servizi_url_whistleblowing', $url_wb);
 
+        // SOCIAL MEDIA
+        update_option('centro_servizi_social_facebook', esc_url_raw(sanitize_text_field($_post['social_facebook'] ?? '')));
+        update_option('centro_servizi_social_instagram', esc_url_raw(sanitize_text_field($_post['social_instagram'] ?? '')));
+
         echo '<div class="notice notice-success"><p>Impostazioni salvate con successo!</p></div>';
     }
 
@@ -975,6 +979,8 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     $legal_rea = get_option('centro_servizi_legal_rea', '');
     $legal_address = get_option('centro_servizi_legal_address', '');
     $accessibility_feedback_url = get_option('centro_servizi_accessibility_feedback_url', '');
+    $social_facebook = get_option('centro_servizi_social_facebook', '');
+    $social_instagram = get_option('centro_servizi_social_instagram', '');
 
     $fonts = centro_servizi_get_font_catalog();
     uasort($fonts, static function (array $a, array $b): int {
@@ -1348,6 +1354,25 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                         <th scope="row"><label for="whistleblowing_responsabile">Responsabile canale Whistleblowing:</label></th>
                         <td>
                             <input type="text" id="whistleblowing_responsabile" name="whistleblowing_responsabile" value="<?php echo esc_attr($whistleblowing_responsabile); ?>" class="regular-text" placeholder="Nome o ufficio competente" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="settings-section" data-settings-group="legale">
+                <h2>📱 Social media</h2>
+                <p class="description">Link ai profili social da mostrare nel footer o in altre sezioni del sito.</p>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row"><label for="social_facebook">Facebook:</label></th>
+                        <td>
+                            <input type="url" id="social_facebook" name="social_facebook" value="<?php echo esc_attr($social_facebook); ?>" class="regular-text" placeholder="https://facebook.com/nomedelprofilo" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="social_instagram">Instagram:</label></th>
+                        <td>
+                            <input type="url" id="social_instagram" name="social_instagram" value="<?php echo esc_attr($social_instagram); ?>" class="regular-text" placeholder="https://instagram.com/nomedelprofilo" />
                         </td>
                     </tr>
                 </table>

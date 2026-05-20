@@ -131,34 +131,6 @@ if ($attivita_speciali_page instanceof WP_Post) {
 		}
 	}
 }
-
-if ($attivita_speciali_cards === []) {
-	$fallback_attivita_posts = get_posts([
-		'post_type' => 'attivita',
-		'posts_per_page' => 3,
-		'orderby' => 'date',
-		'order' => 'DESC',
-		'no_found_rows' => true,
-	]);
-
-	foreach ($fallback_attivita_posts as $post_item) {
-		$post_id = (int) $post_item->ID;
-		$title_fallback = get_the_title($post_id);
-		if ($title_fallback === '') {
-			continue;
-		}
-
-		$thumbnail_id = get_post_thumbnail_id($post_id);
-		$image_alt = $thumbnail_id ? trim((string) get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true)) : '';
-		$attivita_speciali_cards[] = [
-			'title' => $title_fallback,
-			'text' => trim((string) get_the_excerpt($post_id)),
-			'image_url' => get_the_post_thumbnail_url($post_id, 'large') ?: '',
-			'image_alt' => $image_alt !== '' ? $image_alt : $title_fallback,
-			'url' => get_permalink($post_id),
-		];
-	}
-}
 ?>
 <main class="site-main home-main home-vitrine" id="contenuto-principale" role="main">
 	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title">
