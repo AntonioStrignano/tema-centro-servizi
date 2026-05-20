@@ -76,7 +76,9 @@ dd {
 #wpadminbar::before,
 #wpadminbar::after,
 #wpadminbar [id]::before,
-#wpadminbar [class]::after {
+#wpadminbar [class]::after,
+.centro-debug-toggle [id]::before,
+.centro-debug-toggle [class]::after {
   content: none;
 }
 
