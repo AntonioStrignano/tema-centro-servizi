@@ -518,12 +518,6 @@ function centro_servizi_get_theme_stylesheets(): array
     ];
 
     if ($debug_css_enabled) {
-        array_unshift($stylesheets, [
-            'label' => 'style.css',
-            'path' => get_stylesheet_directory() . '/style.css',
-            'url' => get_stylesheet_uri(),
-        ]);
-
         $stylesheets[] = [
             'label' => 'assets/css/css-debug.css',
             'path' => get_template_directory() . '/assets/css/css-debug.css',
