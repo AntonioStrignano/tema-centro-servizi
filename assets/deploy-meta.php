@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'aggiungi sanitizzazione dei font per evitare caratteri non validi nella stampa CSS',
-    'commit_hash'  => '47dfdb613',
-    'deployed_at'  => '2026-05-20 12:20:33',
+    'commit_title' => 'aggiungi stili di sfondo trasparenti e migliora la sezione home-vitrine',
+    'commit_hash'  => '4115214a4',
+    'deployed_at'  => '2026-05-20 12:25:26',
 ];

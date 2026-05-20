@@ -946,9 +946,73 @@ button {
   --vitrine-body: var(--color-body, #1f1f1f);
   --vitrine-body-dark: var(--color-body-dark, #101010);
   --vitrine-soft: var(--vitrine-secondary-light);
+  --vitrine-site-bg: var(--vitrine-secondary-light);
+  --vitrine-panel-contrast: var(--vitrine-secondary);
   --vitrine-card-shadow: 0 1rem 2rem rgba(7, 37, 74, 0.09);
-  background: linear-gradient(180deg, #ffffff 0%, var(--vitrine-secondary-light) 60%, #ffffff 100%);
+  background: var(--vitrine-site-bg);
   color: var(--vitrine-body);
+}
+
+.home-vitrine > .site-section {
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Pattern a numeri richiesto:
+   1 = onda sotto
+   2 = nessun separatore
+   3,5,7... = gocce sopra + onde sotto
+   pari = nessun separatore */
+.home-vitrine > .site-section::before,
+.home-vitrine > .site-section::after {
+  content: none;
+}
+
+.home-vitrine > .site-section:first-of-type::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(2.8rem, 6vw, 5rem);
+  pointer-events: none;
+  z-index: 4;
+  background-color: var(--vitrine-site-bg);
+  -webkit-mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
+  mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
+}
+
+.home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type) {
+  background: var(--vitrine-panel-contrast);
+}
+
+.home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: clamp(2.6rem, 5vw, 4.3rem);
+  pointer-events: none;
+  z-index: 4;
+  background-color: var(--vitrine-site-bg);
+  -webkit-mask: url('../img/divider-top.svg') center top / 100% 100% no-repeat;
+  mask: url('../img/divider-top.svg') center top / 100% 100% no-repeat;
+}
+
+.home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(2.8rem, 6vw, 5rem);
+  pointer-events: none;
+  z-index: 4;
+  background-color: var(--vitrine-site-bg);
+  -webkit-mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
+  mask: url('../img/divider-bottom.svg') center bottom / 100% 100% no-repeat;
 }
 
 .home-vitrine .site-section__inner {
@@ -1068,7 +1132,7 @@ button {
 }
 
 .home-vitrine__intro {
-  background: #ffffff;
+  background: transparent;
 }
 
 .home-vitrine__intro-inner {
@@ -1086,7 +1150,7 @@ button {
 }
 
 .home-vitrine__scuola {
-  background: linear-gradient(180deg, #ffffff 0%, var(--vitrine-secondary-light) 100%);
+  background: transparent;
 }
 
 .home-vitrine__section-head .home-vitrine__text-link {
@@ -1138,7 +1202,7 @@ button {
 }
 
 .home-vitrine__contacts {
-  background: #ffffff;
+  background: transparent;
 }
 
 .home-vitrine__contacts-grid {
@@ -1172,7 +1236,7 @@ button {
 }
 
 .home-vitrine__calendar {
-  background: linear-gradient(180deg, var(--vitrine-secondary-light) 0%, #ffffff 100%);
+  background: transparent;
 }
 
 .home-vitrine__calendar-grid {
@@ -1212,7 +1276,11 @@ button {
 }
 
 .home-vitrine__highlights {
-  background: #ffffff;
+  background: transparent;
+}
+
+.home-vitrine .strip-servizi {
+  background: transparent;
 }
 
 .home-vitrine__highlights-intro {
