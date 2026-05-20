@@ -73,14 +73,6 @@ $calendario_posts = new WP_Query([
 $contatti_page_url = home_url('/contatti/');
 $trasparenza_archive_url = get_post_type_archive_link('trasparenza') ?: home_url('/amministrazione-trasparente/');
 
-$attivita_posts = new WP_Query([
-    'post_type'      => 'attivita',
-    'posts_per_page' => 3,
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-    'no_found_rows'  => true,
-]);
-
 $intro_content = '';
 if (have_posts()) {
     while (have_posts()) {
@@ -111,32 +103,12 @@ if ($la_nostra_scuola_page instanceof WP_Post) {
 <main class="site-main home-main home-vitrine" id="contenuto-principale" role="main">
 	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title">
 		<div class="site-section__inner home-vitrine__hero-inner">
-			<p class="home-vitrine__eyebrow">Scuola dell'infanzia paritaria</p>
+			<p class="home-vitrine__eyebrow">Scuola dell'infanzia</p>
 			<h1 id="home-hero-title" class="home-vitrine__title"><?php echo esc_html($title); ?></h1>
 			<p class="home-vitrine__subtitle"><?php echo esc_html($subtitle); ?></p>
 			<div class="home-vitrine__cta-row">
-				<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Prenota un colloquio</a>
-				<a class="home-vitrine__button home-vitrine__button--ghost" href="<?php echo esc_url($trasparenza_archive_url); ?>">Informazioni utili</a>
-			</div>
-		</div>
-	</section>
-
-	<section class="site-section home-vitrine__pillars" aria-labelledby="home-pillars-title">
-		<div class="site-section__inner">
-			<h2 id="home-pillars-title" class="home-vitrine__section-title">Crescere bene, ogni giorno</h2>
-			<div class="home-vitrine__pillars-grid">
-				<article class="home-vitrine__pillar-card">
-					<h3>Accoglienza</h3>
-					<p>Ambienti sereni e ritmi rispettosi dei bambini, con attenzione ai bisogni di ogni famiglia.</p>
-				</article>
-				<article class="home-vitrine__pillar-card">
-					<h3>Didattica attiva</h3>
-					<p>Laboratori, gioco e scoperta per sviluppare autonomia, linguaggio, creativita e relazioni.</p>
-				</article>
-				<article class="home-vitrine__pillar-card">
-					<h3>Inclusione</h3>
-					<p>Progetti personalizzati e collaborazione educativa costante con genitori e territorio.</p>
-				</article>
+				<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Contattaci</a>
+				<a class="home-vitrine__button home-vitrine__button--ghost" href="<?php echo esc_url($trasparenza_archive_url); ?>">Orari e calendario</a>
 			</div>
 		</div>
 	</section>
@@ -151,43 +123,6 @@ if ($la_nostra_scuola_page instanceof WP_Post) {
 			</div>
 		</section>
 	<?php endif; ?>
-
-	<section class="site-section home-vitrine__attivita" aria-labelledby="home-attivita-title">
-		<div class="site-section__inner">
-			<div class="home-vitrine__section-head">
-				<h2 id="home-attivita-title" class="home-vitrine__section-title">Attivita in evidenza</h2>
-				<a class="home-vitrine__text-link" href="<?php echo esc_url(get_post_type_archive_link('attivita') ?: home_url('/attivita/')); ?>">Vedi tutte le attivita</a>
-			</div>
-
-			<div class="home-vitrine__attivita-grid">
-				<?php if ($attivita_posts->have_posts()) : ?>
-					<?php while ($attivita_posts->have_posts()) : $attivita_posts->the_post(); ?>
-						<article class="home-vitrine__attivita-card">
-							<?php if (has_post_thumbnail()) : ?>
-								<div class="home-vitrine__attivita-media">
-									<a href="<?php the_permalink(); ?>" aria-label="<?php echo esc_attr('Apri attivita: ' . get_the_title()); ?>">
-										<?php the_post_thumbnail('large', ['loading' => 'lazy']); ?>
-									</a>
-								</div>
-							<?php endif; ?>
-							<div class="home-vitrine__attivita-body">
-								<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-								<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 22)); ?></p>
-							</div>
-						</article>
-					<?php endwhile; ?>
-					<?php wp_reset_postdata(); ?>
-				<?php else : ?>
-					<article class="home-vitrine__attivita-card home-vitrine__attivita-card--empty">
-						<div class="home-vitrine__attivita-body">
-							<h3>Nuove attivita in arrivo</h3>
-							<p>Pubblicheremo presto i prossimi laboratori e i progetti educativi dell'anno scolastico.</p>
-						</div>
-					</article>
-				<?php endif; ?>
-			</div>
-		</div>
-	</section>
 
 	<?php if ($la_nostra_scuola_page instanceof WP_Post) : ?>
 		<section class="site-section home-vitrine__scuola" aria-labelledby="home-scuola-title">
@@ -222,66 +157,95 @@ if ($la_nostra_scuola_page instanceof WP_Post) {
 		</section>
 	<?php endif; ?>
 
-	<section class="site-section home-vitrine__info" aria-labelledby="home-info-title">
+	<section class="site-section home-vitrine__contacts" aria-labelledby="home-contacts-title">
 		<div class="site-section__inner">
 			<div class="home-vitrine__section-head">
-				<h2 id="home-info-title" class="home-vitrine__section-title">Informazioni pratiche</h2>
+				<h2 id="home-contacts-title" class="home-vitrine__section-title">Contatti</h2>
 			</div>
 
-			<div class="home-vitrine__info-grid">
-				<div class="home-vitrine__info-column">
-					<?php if ($orari_posts->have_posts()) : ?>
-						<?php while ($orari_posts->have_posts()) : $orari_posts->the_post(); ?>
-							<article class="home-vitrine__info-card">
-								<h3><?php the_title(); ?></h3>
-								<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 20)); ?></p>
-								<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi gli orari</a>
-							</article>
-						<?php endwhile; ?>
-						<?php wp_reset_postdata(); ?>
-					<?php endif; ?>
+			<div class="home-vitrine__contacts-grid">
+				<?php if ($address_value !== '') : ?>
+					<article class="home-vitrine__contact-card">
+						<h3>Indirizzo</h3>
+						<p><?php echo esc_html($address_value); ?></p>
+					</article>
+				<?php endif; ?>
 
-					<?php if ($calendario_posts->have_posts()) : ?>
-						<?php while ($calendario_posts->have_posts()) : $calendario_posts->the_post(); ?>
-							<article class="home-vitrine__info-card">
-								<h3><?php the_title(); ?></h3>
-								<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 20)); ?></p>
-								<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi il calendario</a>
-							</article>
-						<?php endwhile; ?>
-						<?php wp_reset_postdata(); ?>
-					<?php endif; ?>
-				</div>
+				<?php if ($phone_value !== '') : ?>
+					<article class="home-vitrine__contact-card">
+						<h3>Telefono</h3>
+						<p>
+							<?php if ($phone_href !== '') : ?>
+								<a href="tel:<?php echo esc_attr($phone_href); ?>"><?php echo esc_html($phone_value); ?></a>
+							<?php else : ?>
+								<?php echo esc_html($phone_value); ?>
+							<?php endif; ?>
+						</p>
+					</article>
+				<?php endif; ?>
 
-				<aside class="home-vitrine__contact-box" aria-label="Contatti rapidi">
-					<h3>Contatti rapidi</h3>
-					<ul>
-						<?php if ($address_value !== '') : ?>
-							<li><strong>Indirizzo:</strong> <?php echo esc_html($address_value); ?></li>
-						<?php endif; ?>
-						<?php if ($phone_value !== '') : ?>
-							<li>
-								<strong>Telefono:</strong>
-								<?php if ($phone_href !== '') : ?>
-									<a href="tel:<?php echo esc_attr($phone_href); ?>"><?php echo esc_html($phone_value); ?></a>
-								<?php else : ?>
-									<?php echo esc_html($phone_value); ?>
-								<?php endif; ?>
-							</li>
-						<?php endif; ?>
-						<?php if ($email_value !== '') : ?>
-							<li>
-								<strong>Email:</strong>
-								<?php if ($email_href !== '') : ?>
-									<a href="mailto:<?php echo esc_attr($email_href); ?>"><?php echo esc_html($email_value); ?></a>
-								<?php else : ?>
-									<?php echo esc_html($email_value); ?>
-								<?php endif; ?>
-							</li>
-						<?php endif; ?>
-					</ul>
-					<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Vai alla pagina contatti</a>
-				</aside>
+				<?php if ($email_value !== '') : ?>
+					<article class="home-vitrine__contact-card">
+						<h3>Email</h3>
+						<p>
+							<?php if ($email_href !== '') : ?>
+								<a href="mailto:<?php echo esc_attr($email_href); ?>"><?php echo esc_html($email_value); ?></a>
+							<?php else : ?>
+								<?php echo esc_html($email_value); ?>
+							<?php endif; ?>
+						</p>
+					</article>
+				<?php endif; ?>
+			</div>
+
+			<div class="home-vitrine__section-actions">
+				<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Vai alla pagina contatti</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-section home-vitrine__calendar" aria-labelledby="home-calendar-title">
+		<div class="site-section__inner">
+			<div class="home-vitrine__section-head">
+				<h2 id="home-calendar-title" class="home-vitrine__section-title">Orari e calendario</h2>
+			</div>
+
+			<div class="home-vitrine__calendar-grid">
+				<?php if ($orari_posts->have_posts()) : ?>
+					<?php while ($orari_posts->have_posts()) : $orari_posts->the_post(); ?>
+						<article class="home-vitrine__calendar-card">
+							<h3><?php the_title(); ?></h3>
+							<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 24)); ?></p>
+							<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi gli orari</a>
+						</article>
+					<?php endwhile; ?>
+					<?php wp_reset_postdata(); ?>
+				<?php else : ?>
+					<article class="home-vitrine__calendar-card">
+						<h3>Orari</h3>
+						<p>Gli orari verranno pubblicati a breve.</p>
+					</article>
+				<?php endif; ?>
+
+				<?php if ($calendario_posts->have_posts()) : ?>
+					<?php while ($calendario_posts->have_posts()) : $calendario_posts->the_post(); ?>
+						<article class="home-vitrine__calendar-card">
+							<h3><?php the_title(); ?></h3>
+							<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 24)); ?></p>
+							<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi il calendario</a>
+						</article>
+					<?php endwhile; ?>
+					<?php wp_reset_postdata(); ?>
+				<?php else : ?>
+					<article class="home-vitrine__calendar-card">
+						<h3>Calendario</h3>
+						<p>Il calendario scolastico verra aggiornato a breve.</p>
+					</article>
+				<?php endif; ?>
+			</div>
+
+			<div class="home-vitrine__section-actions">
+				<a class="home-vitrine__button home-vitrine__button--ghost" href="<?php echo esc_url($trasparenza_archive_url); ?>">Amministrazione trasparente</a>
 			</div>
 		</div>
 	</section>
