@@ -1048,7 +1048,8 @@ button {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--vitrine-secondary-light);
+  opacity: 0.4;
   pointer-events: none;
   z-index: 1;
 }
@@ -1063,7 +1064,19 @@ button {
   width: 100%;
   text-align: center;
   max-width: 52rem;
-  color: #ffffff;
+  color: var(--vitrine-brand);
+}
+
+.home-vitrine__logo-wrap {
+  margin: 0;
+}
+
+.home-vitrine__logo {
+  display: inline-block;
+  width: min(82vw, 34rem);
+  max-height: 10rem;
+  object-fit: contain;
+  margin: 0 auto;
 }
 
 .home-vitrine__eyebrow {
@@ -1079,14 +1092,14 @@ button {
   margin: 0.8rem 0 0;
   font-size: clamp(2.2rem, 6vw, 4.15rem);
   line-height: 1.02;
-  color: #ffffff;
+  color: var(--vitrine-brand);
 }
 
 .home-vitrine__subtitle {
   margin: 1rem auto 0;
   max-width: 44rem;
   font-size: clamp(1.05rem, 2.2vw, 1.45rem);
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--vitrine-brand);
 }
 
 .home-vitrine__cta-row {

@@ -72,6 +72,10 @@ $calendario_posts = new WP_Query([
 
 $contatti_page_url = home_url('/contatti/');
 
+$custom_logo_id = (int) get_theme_mod('custom_logo');
+$hero_logo_url = $custom_logo_id > 0 ? wp_get_attachment_image_url($custom_logo_id, 'full') : '';
+$hero_logo_alt = $title !== '' ? $title : get_bloginfo('name');
+
 $intro_content = '';
 if (have_posts()) {
     while (have_posts()) {
@@ -144,7 +148,14 @@ if (is_user_logged_in() && current_user_can('manage_options')) {
 <main class="site-main home-main home-vitrine" id="contenuto-principale" role="main">
 	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title" style="background-image: url('https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp'); background-position: center center; background-size: cover; background-repeat: no-repeat;">
 		<div class="site-section__inner home-vitrine__hero-inner">
-			<h1 id="home-hero-title" class="home-vitrine__title"><?php echo esc_html($title); ?></h1>
+			<?php if (is_string($hero_logo_url) && $hero_logo_url !== '') : ?>
+				<p class="home-vitrine__logo-wrap">
+					<img class="home-vitrine__logo" src="<?php echo esc_url($hero_logo_url); ?>" alt="<?php echo esc_attr($hero_logo_alt); ?>" loading="eager" decoding="async" />
+				</p>
+				<h1 id="home-hero-title" class="sr-only"><?php echo esc_html($title); ?></h1>
+			<?php else : ?>
+				<h1 id="home-hero-title" class="home-vitrine__title"><?php echo esc_html($title); ?></h1>
+			<?php endif; ?>
 			<p class="home-vitrine__subtitle"><?php echo esc_html($subtitle); ?></p>
 			<div class="home-vitrine__cta-row">
 				<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Contattaci</a>

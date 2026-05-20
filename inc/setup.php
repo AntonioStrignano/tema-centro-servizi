@@ -14,6 +14,12 @@ function centro_servizi_theme_setup(): void
 {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo', [
+        'height'      => 240,
+        'width'       => 800,
+        'flex-height' => true,
+        'flex-width'  => true,
+    ]);
     add_theme_support('automatic-feed-links');
     add_theme_support('html5', [
         'search-form',
