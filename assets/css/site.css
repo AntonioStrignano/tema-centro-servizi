@@ -955,6 +955,8 @@ button {
 
 .home-vitrine > .site-section {
   position: relative;
+  z-index: 0;
+  overflow: visible;
   background: transparent;
   box-shadow: none;
 }
@@ -986,6 +988,7 @@ button {
 
 .home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type) {
   background: var(--vitrine-panel-contrast);
+  z-index: 2;
 }
 
 .home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type)::before {
