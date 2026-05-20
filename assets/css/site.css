@@ -649,3 +649,151 @@ button {
     scroll-behavior: auto;
   }
 }
+
+/* ─── Strip Servizi ─────────────────────────────────────────── */
+
+.strip-servizi {
+  padding: 2.5rem 0;
+}
+
+.strip-servizi__titolo {
+  text-align: center;
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  margin: 0 0 1.5rem;
+}
+
+.strip-servizi__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.strip-servizi__item {
+  flex: 1 1 12rem;
+  min-width: 10rem;
+}
+
+.strip-servizi__card {
+  display: flex;
+  align-items: flex-end;
+  min-height: 14rem;
+  text-decoration: none;
+  color: inherit;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.strip-servizi__card:hover,
+.strip-servizi__card:focus {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+  outline-offset: 0.1875rem;
+}
+
+.strip-servizi__overlay {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.strip-servizi__card-titolo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  color: #fff;
+}
+
+.strip-servizi__card-desc {
+  font-size: 0.8rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip-servizi__card {
+    transition: none;
+  }
+}
+
+/* ─── La Nostra Scuola ─────────────────────────────────────── */
+
+.la-nostra-scuola-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.la-nostra-scuola__item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.la-nostra-scuola__item:nth-child(even) {
+  direction: rtl;
+}
+
+.la-nostra-scuola__item:nth-child(even) > * {
+  direction: ltr;
+}
+
+.la-nostra-scuola__figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.375rem;
+}
+
+.la-nostra-scuola__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.la-nostra-scuola__content {
+  padding: 0.5rem 0;
+}
+
+.la-nostra-scuola__titolo {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.la-nostra-scuola__paragrafo {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(243, 247, 251, 0.9);
+}
+
+.la-nostra-scuola__paragrafo p {
+  margin: 0.5rem 0;
+}
+
+.la-nostra-scuola__paragrafo p:first-child {
+  margin-top: 0;
+}
+
+.la-nostra-scuola__paragrafo p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 48rem) {
+  .la-nostra-scuola__item {
+    grid-template-columns: 1fr;
+  }
+
+  .la-nostra-scuola__item:nth-child(even) {
+    direction: ltr;
+  }
+}

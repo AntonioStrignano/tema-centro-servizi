@@ -40,6 +40,7 @@ function centro_servizi_get_legal_page_slugs(): array
         'whistleblowing',
         'obiettivi-accessibilita',
         'amministrazione-trasparente',
+        'la-nostra-scuola',
     ];
 }
 

@@ -86,6 +86,7 @@ function centro_servizi_is_legal_page_context(): bool
         'whistleblowing',
         'obiettivi-accessibilita',
         'amministrazione-trasparente',
+        'la-nostra-scuola',
     ]);
 }
 

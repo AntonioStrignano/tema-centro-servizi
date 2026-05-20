@@ -158,4 +158,59 @@ function centro_servizi_register_acf_fields(): void
             ],
         ],
     ]);
+
+    acf_add_local_field_group([
+        'key' => 'group_centro_servizi_la_nostra_scuola',
+        'title' => 'La nostra scuola',
+        'fields' => [
+            [
+                'key' => 'field_centro_servizi_la_nostra_scuola_repeater',
+                'label' => 'Sezioni scuola',
+                'name' => 'la_nostra_scuola',
+                'type' => 'repeater',
+                'button_label' => 'Aggiungi attività',
+                'min' => 0,
+                'max' => 0,
+                'collapsed' => 'field_centro_servizi_attivita_speciali_titolo',
+                'layout' => 'table',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_centro_servizi_la_nostra_scuola_titolo',
+                        'label' => 'Titolo',
+                        'name' => 'titolo',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_centro_servizi_la_nostra_scuola_immagine',
+                        'label' => 'Immagine',
+                        'name' => 'immagine',
+                        'type' => 'image',
+                        'return_format' => 'array',
+                        'library' => 'all',
+                    ],
+                    [
+                        'key' => 'field_centro_servizi_la_nostra_scuola_paragrafo',
+                        'label' => 'Paragrafo',
+                        'name' => 'paragrafo',
+                        'type' => 'textarea',
+                        'rows' => 4,
+                    ],
+                ],
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'page',
+                ],
+                [
+                    'param' => 'post_name',
+                    'operator' => '==',
+                    'value' => 'la-nostra-scuola',
+                ],
+            ],
+        ],
+    ]);
 }
