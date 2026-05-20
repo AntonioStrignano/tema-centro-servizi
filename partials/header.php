@@ -9,12 +9,6 @@ if (! defined('ABSPATH')) {
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $inline_css_bundle = centro_servizi_get_theme_inline_css_bundle(); ?>
-    <?php if ($inline_css_bundle !== '') : ?>
-        <style id="centro-servizi-inline-css">
-<?php echo $inline_css_bundle; ?>
-        </style>
-    <?php endif; ?>
     <?php foreach (centro_servizi_get_theme_stylesheets() as $stylesheet) : ?>
         <link rel="stylesheet" id="<?php echo esc_attr(sanitize_title($stylesheet['label'])); ?>-css" href="<?php echo esc_url($stylesheet['href']); ?>" media="all">
     <?php endforeach; ?>

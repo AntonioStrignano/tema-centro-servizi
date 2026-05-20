@@ -580,9 +580,7 @@ function centro_servizi_get_theme_inline_css_bundle(): string
 
 function centro_servizi_get_css_loading_mode(): string
 {
-    $mode = centro_servizi_get_theme_inline_css_bundle() !== ''
-        ? 'inline+link'
-        : 'link-only';
+    $mode = 'link-only';
 
     if (! centro_servizi_is_debug_css_enabled()) {
         return $mode . ' (debug off)';
