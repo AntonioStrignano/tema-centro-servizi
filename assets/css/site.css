@@ -997,7 +997,7 @@ button {
   left: 0;
   right: 0;
   top: 0;
-  height: clamp(2.6rem, 5vw, 4.3rem);
+  height: 60px;
   pointer-events: none;
   z-index: 4;
   background-color: var(--vitrine-site-bg);
@@ -1026,7 +1026,7 @@ button {
 }
 
 .home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type) > .site-section__inner {
-  padding-top: calc(clamp(2rem, 4vw, 4rem) + clamp(2.6rem, 5vw, 4.3rem));
+  padding-top: calc(clamp(2rem, 4vw, 4rem) + 60px);
 }
 
 .home-vitrine .site-section__inner {
