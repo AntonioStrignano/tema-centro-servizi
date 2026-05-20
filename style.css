@@ -49,10 +49,30 @@ body {
 	color: var(--debug-text);
 }
 
-body * {
-	outline: 1px dashed rgba(109, 255, 173, 0.72);
+main,
+section,
+article,
+aside,
+nav,
+header,
+footer,
+form,
+ul,
+ol,
+li,
+table,
+thead,
+tbody,
+tr,
+th,
+td,
+figure,
+figcaption,
+dl,
+dt,
+dd {
+	outline: 1px dashed rgba(109, 255, 173, 0.6);
 	outline-offset: -1px;
-	background-image: linear-gradient(rgba(109, 255, 173, 0.06), rgba(72, 212, 255, 0.03));
 }
 
 #wpadminbar,
