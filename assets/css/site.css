@@ -1036,6 +1036,9 @@ button {
 
 .home-vitrine__hero {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   min-height: clamp(30rem, 72vh, 45rem);
   background: url('https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp') center center / cover no-repeat;
@@ -1057,6 +1060,7 @@ button {
 .home-vitrine__hero-inner {
   position: relative;
   z-index: 3;
+  width: 100%;
   text-align: center;
   max-width: 52rem;
   color: #ffffff;
