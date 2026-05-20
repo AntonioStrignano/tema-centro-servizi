@@ -1038,9 +1038,7 @@ button {
   position: relative;
   overflow: hidden;
   min-height: clamp(30rem, 72vh, 45rem);
-  background:
-    linear-gradient(145deg, var(--vitrine-brand) 0%, var(--vitrine-brand-dark) 100%),
-    url('https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp') center center / cover no-repeat;
+  background: url('https://demo.pro06.it/wp-content/uploads/2026/04/WhatsApp-Image-2026-03-31-at-09.54.37-8.webp') center center / cover no-repeat;
 }
 
 .home-vitrine__hero::before {
