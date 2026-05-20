@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'ricostruzione headere e footer',
-    'commit_hash'  => '88fe9039f',
-    'deployed_at'  => '2026-05-20 11:20:25',
+    'commit_title' => 'homepage settata',
+    'commit_hash'  => 'b85f45748',
+    'deployed_at'  => '2026-05-20 11:47:50',
 ];

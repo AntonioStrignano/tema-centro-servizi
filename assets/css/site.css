@@ -1181,6 +1181,16 @@ button {
   color: #3d607f;
 }
 
+.home-vitrine__calendar-meta {
+  margin: 0 0 0.7rem;
+  font-size: 0.92rem;
+  color: #2f4f6b;
+}
+
+.home-vitrine__calendar-meta time {
+  font-weight: 600;
+}
+
 .home-vitrine__section-actions {
   margin-top: 1.2rem;
 }
