@@ -79,6 +79,10 @@
 - [x] Template pagine legali condiviso (`templates/page-legale.php`) per: `amministrazione-trasparente`, `dichiarazione-accessibilita`, `privacy-policy`, `cookie-policy`, `whistleblowing`, `obiettivi-accessibilita`
 - [x] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
 - [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi (solo abbozzato, manca CSS e UX)
+- [ ] Homepage: sostituire placeholder `Chi siamo` (Lorem ipsum) con copy definitivo cliente
+- [ ] Homepage: verificare che palette/font da `Impostazioni Sito > Stile Tema` influenzino davvero tutte le sezioni (niente hardcode residuo)
+- [ ] Homepage: consolidare sezione `Attivita in evidenza` (vetrina esperienze distintive, non archivio completo)
+- [ ] Homepage: definire fonte editoriale unica per vetrina (`pagina attivita-speciali` + repeater ACF)
 - [x] Link whistleblowing nel footer/Amm. Trasparente (gestito da opzione `url_whistleblowing` con fallback pagina seed)
 - [x] Pagina WP `whistleblowing` con spiegazione + link piattaforma (generata via seed pagine obbligatorie)
 - [ ] Verificare contributi L. 124/2017: tabelle TablePress con tutti i 5 campi obbligatori

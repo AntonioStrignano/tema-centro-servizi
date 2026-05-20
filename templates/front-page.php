@@ -98,6 +98,67 @@ if ($la_nostra_scuola_page instanceof WP_Post) {
         $la_nostra_scuola_items = $acf_items;
     }
 }
+
+$attivita_speciali_page = get_page_by_path('attivita-speciali');
+$attivita_speciali_intro = '';
+$attivita_speciali_cards = [];
+
+if ($attivita_speciali_page instanceof WP_Post) {
+	$attivita_speciali_intro = trim(
+		$attivita_speciali_page->post_excerpt !== ''
+			? (string) $attivita_speciali_page->post_excerpt
+			: wp_trim_words((string) $attivita_speciali_page->post_content, 32)
+	);
+
+	$attivita_speciali_items = get_field('attivita_speciali', $attivita_speciali_page->ID);
+	if (is_array($attivita_speciali_items)) {
+		foreach (array_slice($attivita_speciali_items, 0, 4) as $item) {
+			$item_title = isset($item['titolo']) ? trim((string) $item['titolo']) : '';
+			$item_text = isset($item['paragrafo']) ? trim((string) $item['paragrafo']) : '';
+			$item_image = isset($item['immagine']) && is_array($item['immagine']) ? $item['immagine'] : null;
+
+			if ($item_title === '') {
+				continue;
+			}
+
+			$attivita_speciali_cards[] = [
+				'title' => $item_title,
+				'text' => $item_text,
+				'image_url' => $item_image['url'] ?? '',
+				'image_alt' => $item_title,
+				'url' => get_permalink($attivita_speciali_page->ID),
+			];
+		}
+	}
+}
+
+if ($attivita_speciali_cards === []) {
+	$fallback_attivita_posts = get_posts([
+		'post_type' => 'attivita',
+		'posts_per_page' => 3,
+		'orderby' => 'date',
+		'order' => 'DESC',
+		'no_found_rows' => true,
+	]);
+
+	foreach ($fallback_attivita_posts as $post_item) {
+		$post_id = (int) $post_item->ID;
+		$title_fallback = get_the_title($post_id);
+		if ($title_fallback === '') {
+			continue;
+		}
+
+		$thumbnail_id = get_post_thumbnail_id($post_id);
+		$image_alt = $thumbnail_id ? trim((string) get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true)) : '';
+		$attivita_speciali_cards[] = [
+			'title' => $title_fallback,
+			'text' => trim((string) get_the_excerpt($post_id)),
+			'image_url' => get_the_post_thumbnail_url($post_id, 'large') ?: '',
+			'image_alt' => $image_alt !== '' ? $image_alt : $title_fallback,
+			'url' => get_permalink($post_id),
+		];
+	}
+}
 ?>
 <main class="site-main home-main home-vitrine" id="contenuto-principale" role="main">
 	<section class="site-section home-vitrine__hero" aria-labelledby="home-hero-title">
@@ -111,16 +172,18 @@ if ($la_nostra_scuola_page instanceof WP_Post) {
 		</div>
 	</section>
 
-	<?php if ($intro_content !== '') : ?>
-		<section class="site-section home-vitrine__intro" aria-labelledby="home-intro-title">
-			<div class="site-section__inner home-vitrine__intro-inner">
-				<h2 id="home-intro-title" class="home-vitrine__section-title">Chi siamo</h2>
-				<div class="entry-content home-vitrine__intro-content">
+	<section class="site-section home-vitrine__intro" aria-labelledby="home-intro-title">
+		<div class="site-section__inner home-vitrine__intro-inner">
+			<h2 id="home-intro-title" class="home-vitrine__section-title">Chi siamo</h2>
+			<div class="entry-content home-vitrine__intro-content">
+				<?php if ($intro_content !== '') : ?>
 					<?php echo wp_kses_post(apply_filters('the_content', $intro_content)); ?>
-				</div>
+				<?php else : ?>
+					<p class="home-vitrine__placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id pharetra ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Curabitur interdum, mauris id dignissim feugiat, justo erat sodales nibh, ac commodo magna est ac nibh. Suspendisse potenti. Donec molestie, lacus non congue varius, sem neque commodo sem, a scelerisque nisi neque eget orci.</p>
+				<?php endif; ?>
 			</div>
-		</section>
-	<?php endif; ?>
+		</div>
+	</section>
 
 	<?php if ($la_nostra_scuola_page instanceof WP_Post) : ?>
 		<section class="site-section home-vitrine__scuola" aria-labelledby="home-scuola-title">
@@ -151,6 +214,46 @@ if ($la_nostra_scuola_page instanceof WP_Post) {
 						<?php endforeach; ?>
 					</div>
 				<?php endif; ?>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<?php if ($attivita_speciali_cards !== []) : ?>
+		<section class="site-section home-vitrine__highlights" aria-labelledby="home-highlights-title">
+			<div class="site-section__inner">
+				<div class="home-vitrine__section-head">
+					<h2 id="home-highlights-title" class="home-vitrine__section-title">Attivita in evidenza</h2>
+					<?php if ($attivita_speciali_page instanceof WP_Post) : ?>
+						<a class="home-vitrine__text-link" href="<?php echo esc_url(get_permalink($attivita_speciali_page->ID)); ?>">Vedi tutte le attivita speciali</a>
+					<?php endif; ?>
+				</div>
+
+				<?php if ($attivita_speciali_intro !== '') : ?>
+					<p class="home-vitrine__highlights-intro"><?php echo esc_html($attivita_speciali_intro); ?></p>
+				<?php endif; ?>
+
+				<div class="home-vitrine__highlights-grid">
+					<?php foreach ($attivita_speciali_cards as $card) : ?>
+						<article class="home-vitrine__highlight-card">
+							<?php if ($card['image_url'] !== '') : ?>
+								<img
+									class="home-vitrine__highlight-image"
+									src="<?php echo esc_url((string) $card['image_url']); ?>"
+									alt="<?php echo esc_attr((string) $card['image_alt']); ?>"
+									loading="lazy"
+								/>
+							<?php endif; ?>
+
+							<div class="home-vitrine__highlight-content">
+								<h3><?php echo esc_html((string) $card['title']); ?></h3>
+								<?php if ((string) $card['text'] !== '') : ?>
+									<p><?php echo esc_html(wp_trim_words((string) $card['text'], 24)); ?></p>
+								<?php endif; ?>
+								<a class="home-vitrine__text-link" href="<?php echo esc_url((string) $card['url']); ?>">Approfondisci</a>
+							</div>
+						</article>
+					<?php endforeach; ?>
+				</div>
 			</div>
 		</section>
 	<?php endif; ?>
