@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'resto del commit',
-    'commit_hash'  => 'f04dbccee',
-    'deployed_at'  => '2026-05-21 11:27:51',
+    'commit_title' => 'aggiorna front-page.php per migliorare la struttura e il layout della homepage',
+    'commit_hash'  => 'f9db324a5',
+    'deployed_at'  => '2026-05-21 11:52:35',
 ];
