@@ -38,6 +38,9 @@ $phone_href = $phone_value !== '' ? preg_replace('/[^0-9\+]/', '', $phone_value)
 $email_href = sanitize_email($email_value);
 
 $la_nostra_scuola_page = get_page_by_path('la-nostra-scuola');
+$la_nostra_scuola_url = $la_nostra_scuola_page instanceof WP_Post
+    ? get_permalink($la_nostra_scuola_page->ID)
+    : home_url('/la-nostra-scuola/');
 $orari_posts = new WP_Query([
     'post_type'      => 'trasparenza',
     'posts_per_page' => 1,
@@ -152,13 +155,12 @@ if (is_user_logged_in() && current_user_can('manage_options')) {
 				<p class="home-vitrine__logo-wrap">
 					<img class="home-vitrine__logo" src="<?php echo esc_url($hero_logo_url); ?>" alt="<?php echo esc_attr($hero_logo_alt); ?>" loading="eager" decoding="async" />
 				</p>
-				<h1 id="home-hero-title" class="sr-only"><?php echo esc_html($title); ?></h1>
-			<?php else : ?>
-				<h1 id="home-hero-title" class="home-vitrine__title"><?php echo esc_html($title); ?></h1>
 			<?php endif; ?>
+			<h1 id="home-hero-title" class="home-vitrine__title"><?php echo esc_html($title); ?></h1>
 			<p class="home-vitrine__subtitle"><?php echo esc_html($subtitle); ?></p>
 			<div class="home-vitrine__cta-row">
-				<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Contattaci</a>
+				<a class="home-vitrine__button home-vitrine__button--primary" href="<?php echo esc_url($contatti_page_url); ?>">Prenota un colloquio</a>
+				<a class="home-vitrine__button home-vitrine__button--ghost" href="<?php echo esc_url((string) $la_nostra_scuola_url); ?>">Scopri la scuola</a>
 			</div>
 		</div>
 	</section>

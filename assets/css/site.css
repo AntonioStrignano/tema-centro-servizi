@@ -149,7 +149,7 @@ textarea:focus,
 .site-section,
 .site-card,
 .site-breadcrumb {
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
   color: inherit;
 }
 
@@ -1400,5 +1400,363 @@ button {
   .home-vitrine__calendar-card {
     transition: none;
     animation: none;
+  }
+}
+
+/* =====================================================================
+   2026 Visual System Refresh
+   Palette semantica ridotta: 10 token colore + stati.
+   ===================================================================== */
+
+:root {
+  --ui-bg: var(--color-secondary-light, #fdfbf7);
+  --ui-surface: #ffffff;
+  --ui-surface-alt: var(--color-secondary, #f7f2eb);
+  --ui-panel: #ffffff;
+  --ui-text: var(--color-body, #1f1f1f);
+  --ui-text-muted: var(--color-body-light, #4a4a4a);
+  --ui-border: rgba(20, 47, 66, 0.18);
+  --ui-primary: var(--color-main, #003342);
+  --ui-primary-strong: var(--color-main-dark, #002735);
+  --ui-accent: var(--color-accent, #a04f2f);
+  --ui-accent-strong: var(--color-accent-dark, #803f25);
+  --ui-focus: #0a67d2;
+  --ui-shadow-soft: 0 10px 30px rgba(12, 36, 52, 0.09);
+  --ui-shadow-card: 0 12px 34px rgba(15, 40, 57, 0.12);
+  --ui-radius-card: 1.05rem;
+}
+
+html {
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% -10%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 35%),
+    radial-gradient(circle at 90% 0%, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0) 42%),
+    var(--ui-bg);
+  color: var(--ui-text);
+}
+
+a {
+  color: var(--ui-primary);
+}
+
+a:visited {
+  color: var(--ui-primary-strong);
+}
+
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: 0.1875rem solid var(--ui-focus);
+}
+
+.site-header,
+.site-footer,
+.site-main,
+.site-section,
+.site-card,
+.site-breadcrumb {
+  background: transparent;
+  color: inherit;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  background: color-mix(in srgb, var(--ui-surface) 92%, transparent);
+  border-bottom: 1px solid var(--ui-border);
+  backdrop-filter: blur(10px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-branding p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.site-branding p:first-child a {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.site-branding p:last-child {
+  color: var(--ui-text-muted);
+  font-size: 0.92rem;
+}
+
+.site-navigation .menu {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-navigation .menu a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ui-text);
+}
+
+.site-navigation .menu a:hover,
+.site-navigation .menu a:focus {
+  color: var(--ui-primary);
+}
+
+.site-search {
+  min-width: 15rem;
+}
+
+.site-search form {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.site-search input[type="search"] {
+  min-height: 2.5rem;
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  padding: 0 0.9rem;
+}
+
+.site-search input[type="submit"] {
+  border: 0;
+  border-radius: 999px;
+  min-height: 2.5rem;
+  padding: 0 0.95rem;
+  background: var(--ui-primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.site-footer {
+  margin: 0;
+  padding: 2.75rem 1.25rem;
+  background: var(--ui-primary);
+  color: #f5fafc;
+}
+
+.site-footer a,
+.site-footer a:visited {
+  color: #f5fafc;
+}
+
+.site-footer ul {
+  margin: 1rem 0;
+  padding-left: 1.1rem;
+}
+
+.home-vitrine {
+  --vitrine-brand: var(--ui-primary);
+  --vitrine-brand-light: var(--color-main-light, #9cc1cf);
+  --vitrine-brand-dark: var(--ui-primary-strong);
+  --vitrine-secondary: var(--ui-surface-alt);
+  --vitrine-secondary-light: var(--ui-bg);
+  --vitrine-accent: var(--ui-accent);
+  --vitrine-body: var(--ui-text);
+  --vitrine-body-dark: var(--ui-text);
+  --vitrine-soft: var(--ui-surface);
+  --vitrine-site-bg: var(--ui-bg);
+  --vitrine-panel-contrast: var(--ui-surface-alt);
+  --vitrine-card-shadow: var(--ui-shadow-soft);
+  background: var(--vitrine-site-bg);
+  color: var(--vitrine-body);
+}
+
+.home-vitrine > .site-section {
+  background: transparent;
+}
+
+.home-vitrine > .site-section:nth-of-type(odd):not(:first-of-type) {
+  background: var(--vitrine-panel-contrast);
+}
+
+.home-vitrine .site-section__inner {
+  max-width: 80rem;
+}
+
+.home-vitrine__hero {
+  min-height: clamp(34rem, 78vh, 52rem);
+}
+
+.home-vitrine__hero::before {
+  background: linear-gradient(98deg, color-mix(in srgb, var(--ui-bg) 94%, transparent) 0%, color-mix(in srgb, var(--ui-bg) 58%, transparent) 54%, transparent 100%);
+  opacity: 1;
+}
+
+.home-vitrine__hero-inner {
+  max-width: 43rem;
+  margin-left: 0;
+  text-align: left;
+}
+
+.home-vitrine__logo {
+  width: min(64vw, 24rem);
+  max-height: 7rem;
+  margin: 0;
+}
+
+.home-vitrine__title {
+  margin-top: 1.1rem;
+  color: var(--ui-primary);
+  letter-spacing: -0.02em;
+}
+
+.home-vitrine__subtitle {
+  margin-inline: 0;
+  color: var(--ui-text-muted);
+  max-width: 36rem;
+}
+
+.home-vitrine__cta-row {
+  justify-content: flex-start;
+}
+
+.home-vitrine__button {
+  min-height: 2.9rem;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.home-vitrine__button--primary {
+  background: var(--ui-accent);
+}
+
+.home-vitrine__button--primary:hover {
+  background: var(--ui-accent-strong);
+}
+
+.home-vitrine__button--ghost {
+  background: color-mix(in srgb, var(--ui-surface) 90%, transparent);
+  border: 1px solid var(--ui-border);
+  color: var(--ui-primary-strong);
+}
+
+.home-vitrine__section-title {
+  color: var(--ui-primary);
+}
+
+.home-vitrine__intro-inner {
+  max-width: 62rem;
+}
+
+.home-vitrine__gallery-item,
+.home-vitrine__highlight-card,
+.home-vitrine__contact-card,
+.home-vitrine__calendar-card {
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-card);
+  box-shadow: var(--ui-shadow-soft);
+}
+
+.home-vitrine__gallery-item img,
+.home-vitrine__highlight-image {
+  transition: transform 0.35s ease;
+}
+
+.home-vitrine__gallery-item:hover img,
+.home-vitrine__highlight-card:hover .home-vitrine__highlight-image {
+  transform: scale(1.03);
+}
+
+.home-vitrine__contact-card,
+.home-vitrine__highlight-card,
+.home-vitrine__calendar-card {
+  background: var(--ui-panel);
+}
+
+.home-vitrine__calendar-card:nth-child(1) {
+  background: var(--ui-primary);
+  color: #fff;
+  border-color: color-mix(in srgb, var(--ui-primary) 80%, #ffffff 20%);
+}
+
+.home-vitrine__calendar-card:nth-child(1) h3,
+.home-vitrine__calendar-card:nth-child(1) p,
+.home-vitrine__calendar-card:nth-child(1) .home-vitrine__calendar-meta,
+.home-vitrine__calendar-card:nth-child(1) a {
+  color: #fff;
+}
+
+.home-vitrine__calendar-card:nth-child(2) {
+  background: var(--color-secondary-dark, #436555);
+  color: #fff;
+  border-color: color-mix(in srgb, var(--color-secondary-dark, #436555) 80%, #ffffff 20%);
+}
+
+.home-vitrine__calendar-card:nth-child(2) h3,
+.home-vitrine__calendar-card:nth-child(2) p,
+.home-vitrine__calendar-card:nth-child(2) .home-vitrine__calendar-meta,
+.home-vitrine__calendar-card:nth-child(2) a {
+  color: #fff;
+}
+
+.home-vitrine .strip-servizi {
+  background: transparent;
+}
+
+.strip-servizi__titolo {
+  color: var(--ui-primary);
+}
+
+.strip-servizi__card {
+  border-radius: 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--ui-primary) 18%, transparent);
+  box-shadow: var(--ui-shadow-card);
+}
+
+.strip-servizi__overlay {
+  background: linear-gradient(to top, rgba(0, 28, 40, 0.84) 0%, rgba(0, 28, 40, 0.12) 70%, rgba(0, 28, 40, 0) 100%);
+}
+
+@media (max-width: 75rem) {
+  .site-header {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .site-navigation .menu {
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+  }
+
+  .site-search {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 60rem) {
+  .home-vitrine__hero-inner {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .home-vitrine__cta-row {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-vitrine__gallery-item img,
+  .home-vitrine__highlight-image,
+  .home-vitrine__button,
+  .strip-servizi__card {
+    transition: none;
   }
 }
