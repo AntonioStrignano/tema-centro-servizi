@@ -107,7 +107,15 @@ foreach ($homepage_contacts as $contact) {
 <header class="sticky top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-b border-border-subtle dark:border-outline-variant">
 <div class="flex justify-between items-center h-20 px-4 md:px-gutter max-w-container-max mx-auto">
 <div class="flex items-center gap-unit">
-<span class="font-headline-sm text-headline-sm font-semibold text-primary dark:text-primary-fixed-dim"><?php echo esc_html($homepage_title); ?></span>
+<a class="stitch-logo-link" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
+<svg class="stitch-logo-svg" viewBox="0 0 120 120" role="img" aria-hidden="true" focusable="false">
+<circle cx="60" cy="60" r="56" fill="#e8f2ef"/>
+<circle cx="60" cy="60" r="44" fill="#ffffff"/>
+<path d="M34 70L60 42L86 70V86H66V72H54V86H34Z" fill="#003342"/>
+<path d="M32 30H88" stroke="#436555" stroke-width="8" stroke-linecap="round"/>
+<path d="M40 20H80" stroke="#581a01" stroke-width="6" stroke-linecap="round"/>
+</svg>
+</a>
 </div>
 <nav class="hidden lg:flex items-center gap-8" aria-label="Navigazione principale">
 <?php
@@ -120,9 +128,6 @@ wp_nav_menu([
 ?>
 </nav>
 <div class="flex items-center gap-4">
-<button type="button" class="p-2 text-on-surface-variant hover:text-primary transition-colors" aria-label="Cerca nel sito">
-<span class="material-symbols-outlined" data-icon="search">search</span>
-</button>
 <button type="button" class="bg-tertiary text-on-tertiary px-6 py-2.5 rounded-full font-label-caps text-label-caps font-semibold hover:opacity-90 active:scale-[0.98] transition-all">
                     Contattaci
                 </button>
@@ -137,10 +142,21 @@ wp_nav_menu([
 <div class="absolute inset-0 bg-gradient-to-r from-background-warm/90 via-background-warm/40 to-transparent"></div>
 </div>
 <div class="relative z-10 px-4 md:px-gutter max-w-container-max mx-auto w-full">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 <div class="max-w-2xl">
 <span class="font-label-caps text-label-caps text-tertiary mb-4 block">SCUOLA DELL'INFANZIA</span>
 <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 animate-fade-in"><?php echo esc_html($homepage_title); ?></h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-0 max-w-lg"><?php echo esc_html($homepage_subtitle); ?></p>
+</div>
+<div class="stitch-hero-logo-wrap">
+<svg class="stitch-hero-logo-svg" viewBox="0 0 160 160" role="img" aria-label="Logo della scuola placeholder">
+<rect x="8" y="8" width="144" height="144" rx="36" fill="#ffffff"/>
+<circle cx="80" cy="60" r="28" fill="#e8f2ef"/>
+<path d="M48 102L80 74L112 102V122H90V106H70V122H48Z" fill="#003342"/>
+<path d="M46 42H114" stroke="#436555" stroke-width="8" stroke-linecap="round"/>
+<path d="M56 30H104" stroke="#581a01" stroke-width="6" stroke-linecap="round"/>
+</svg>
+</div>
 </div>
 </div>
 </section>

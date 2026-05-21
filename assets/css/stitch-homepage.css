@@ -35,3 +35,34 @@
 #main-content .text-on-primary-container {
   color: rgba(255, 255, 255, 0.82);
 }
+
+.stitch-logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+}
+
+.stitch-logo-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 18px rgba(0, 51, 66, 0.15));
+}
+
+.stitch-hero-logo-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.stitch-hero-logo-svg {
+  width: min(360px, 100%);
+  height: auto;
+  filter: drop-shadow(0 20px 45px rgba(0, 51, 66, 0.2));
+}
+
+@media (min-width: 1024px) {
+  .stitch-hero-logo-wrap {
+    justify-content: flex-end;
+  }
+}
