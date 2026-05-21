@@ -21,13 +21,6 @@ function centro_servizi_enqueue_assets(): void
     $theme_uri = get_template_directory_uri();
 
     wp_enqueue_style(
-        'centro-servizi-fonts',
-        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Work+Sans:wght@400;500;600&display=swap',
-        [],
-        null
-    );
-
-    wp_enqueue_style(
         'centro-servizi-material-symbols',
         'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap',
         [],
@@ -37,7 +30,7 @@ function centro_servizi_enqueue_assets(): void
     wp_enqueue_style(
         'centro-servizi-stitch-layout',
         $theme_uri . '/assets/css/stitch-layout.css',
-        ['centro-servizi-fonts', 'centro-servizi-material-symbols'],
+            ['centro-servizi-material-symbols'],
         (string) filemtime($theme_dir . '/assets/css/stitch-layout.css')
     );
 
