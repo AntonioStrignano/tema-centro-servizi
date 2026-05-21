@@ -1,0 +1,37 @@
+/* Homepage-specific visual refinements */
+
+#main-content section {
+  position: relative;
+}
+
+#main-content section:first-of-type {
+  min-height: 70vh;
+}
+
+#main-content .rounded-\[3rem\] {
+  border-radius: 3rem;
+}
+
+#main-content .text-label-caps {
+  font-weight: 600;
+}
+
+#main-content .font-display-lg {
+  letter-spacing: -0.02em;
+}
+
+#main-content .group {
+  overflow: hidden;
+}
+
+#main-content .group img {
+  will-change: transform;
+}
+
+#main-content .border-border-subtle {
+  border-color: #e5e0d8;
+}
+
+#main-content .text-on-primary-container {
+  color: rgba(255, 255, 255, 0.82);
+}

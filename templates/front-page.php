@@ -1,119 +1,19 @@
-<!DOCTYPE html>
+<?php
+declare(strict_types=1);
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+?>
+<!DOCTYPE html>
 <html class="scroll-smooth" lang="it"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Scuola dell'Infanzia | Scuola Aperta</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        .editorial-shadow {
-            box-shadow: 0 12px 40px -12px rgba(0, 51, 66, 0.08);
-        }
-    </style>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "primary-fixed": "#baeaff",
-                      "on-tertiary-container": "#fc9974",
-                      "error-container": "#ffdad6",
-                      "surface-container-lowest": "#ffffff",
-                      "surface-dim": "#d9dadc",
-                      "on-tertiary-fixed-variant": "#783114",
-                      "surface-tint": "#306579",
-                      "surface-container": "#edeeef",
-                      "outline-variant": "#c0c8cc",
-                      "surface-container-highest": "#e1e2e4",
-                      "error": "#ba1a1a",
-                      "primary-container": "#0e4b5e",
-                      "background": "#f9f9fb",
-                      "on-surface": "#191c1d",
-                      "inverse-primary": "#9acee5",
-                      "on-error-container": "#93000a",
-                      "on-tertiary": "#ffffff",
-                      "tertiary-fixed-dim": "#ffb59a",
-                      "inverse-surface": "#2e3132",
-                      "surface-container-low": "#f3f4f5",
-                      "on-primary-fixed-variant": "#114d60",
-                      "surface-container-high": "#e7e8ea",
-                      "outline": "#71787c",
-                      "on-secondary": "#ffffff",
-                      "surface": "#f9f9fb",
-                      "primary-fixed-dim": "#9acee5",
-                      "surface-variant": "#e1e2e4",
-                      "on-primary-fixed": "#001f29",
-                      "background-warm": "#FDFBF7",
-                      "on-surface-variant": "#40484c",
-                      "text-muted": "#4A4A4A",
-                      "secondary-container": "#c2e8d4",
-                      "text-main": "#1A1A1A",
-                      "on-secondary-fixed": "#002115",
-                      "secondary-fixed-dim": "#a9cfbb",
-                      "on-primary-container": "#87bad0",
-                      "inverse-on-surface": "#f0f1f2",
-                      "secondary-fixed": "#c5ebd7",
-                      "surface-cream": "#F7F2EB",
-                      "primary": "#003342",
-                      "on-tertiary-fixed": "#380d00",
-                      "on-secondary-fixed-variant": "#2c4d3e",
-                      "on-error": "#ffffff",
-                      "border-subtle": "#E5E0D8",
-                      "secondary": "#436555",
-                      "tertiary-fixed": "#ffdbcf",
-                      "tertiary-container": "#753013",
-                      "tertiary": "#581a01",
-                      "on-background": "#191c1d",
-                      "on-primary": "#ffffff",
-                      "surface-bright": "#f9f9fb",
-                      "on-secondary-container": "#476a5a"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "section-padding-mobile": "64px",
-                      "unit": "8px",
-                      "gutter": "24px",
-                      "section-padding-desktop": "120px",
-                      "container-max": "1280px"
-              },
-              "fontFamily": {
-                      "display-lg-mobile": ["Plus Jakarta Sans"],
-                      "body-md": ["Work Sans"],
-                      "display-lg": ["Plus Jakarta Sans"],
-                      "body-sm": ["Work Sans"],
-                      "headline-md": ["Plus Jakarta Sans"],
-                      "body-lg": ["Work Sans"],
-                      "headline-sm": ["Plus Jakarta Sans"],
-                      "label-caps": ["Work Sans"]
-              },
-              "fontSize": {
-                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
-                      "body-md": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "body-sm": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
-                      "body-lg": ["20px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                      "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
-                      "label-caps": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}]
-              }
-            },
-          },
-        }
-      </script>
+<?php wp_head(); ?>
 </head>
-<body class="bg-background-warm text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<body <?php body_class('bg-background-warm text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed'); ?>>
+<?php wp_body_open(); ?>
 <a class="sr-only focus:not-sr-only" href="#main-content">Salta al contenuto principale</a>
 <!-- TopNavBar -->
 <header class="sticky top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-b border-border-subtle dark:border-outline-variant">
@@ -122,11 +22,14 @@
 <span class="font-headline-sm text-headline-sm font-semibold text-primary dark:text-primary-fixed-dim">Scuola dell'Infanzia</span>
 </div>
 <nav class="hidden lg:flex items-center gap-8" aria-label="Navigazione principale">
-<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-semibold pb-1 font-label-caps text-label-caps transition-all" href="#">La nostra scuola</a>
-<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Attività</a>
-<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Area famiglie</a>
-<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Area personale</a>
-<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Amministrazione trasparente</a>
+<?php
+wp_nav_menu([
+    'theme_location' => 'primary',
+    'container'      => false,
+    'menu_class'     => 'stitch-menu',
+    'fallback_cb'    => 'wp_page_menu',
+]);
+?>
 </nav>
 <div class="flex items-center gap-4">
 <button type="button" class="p-2 text-on-surface-variant hover:text-primary transition-colors" aria-label="Cerca nel sito">
@@ -454,24 +357,5 @@
             </p>
 </div>
 </footer>
-<script>
-        // Simple fade-in animation on scroll
-        const observerOptions = {
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section > div').forEach(el => {
-            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
-            observer.observe(el);
-        });
-    </script>
+<?php wp_footer(); ?>
 </body></html>
