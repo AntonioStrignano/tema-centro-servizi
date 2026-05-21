@@ -325,6 +325,131 @@ function centro_servizi_get_typography_defaults(): array
     ];
 }
 
+function centro_servizi_get_palette_presets(): array
+{
+    return [
+        'giallo' => [
+            'label' => 'Sole Giallo',
+            'description' => 'Caldo, luminoso e accogliente per scuole con tono familiare.',
+            'main' => '#8A5A00',
+            'secondary' => '#FFF3C4',
+            'body' => '#2A230F',
+            'accent' => '#E4A000',
+        ],
+        'rosso' => [
+            'label' => 'Rosso Civico',
+            'description' => 'Istituzionale e vicino al mondo cooperativo e parrocchiale.',
+            'main' => '#7A1F2B',
+            'secondary' => '#F7D8DC',
+            'body' => '#2F1A1D',
+            'accent' => '#C7435A',
+        ],
+        'blu' => [
+            'label' => 'Blu Fiducia',
+            'description' => 'Affidabile, pulito e molto leggibile.',
+            'main' => '#1F4E8C',
+            'secondary' => '#DCE9F8',
+            'body' => '#1A2433',
+            'accent' => '#2F80ED',
+        ],
+        'verde' => [
+            'label' => 'Verde Natura',
+            'description' => 'Sereno e educativo, adatto all’infanzia.',
+            'main' => '#2E6B4A',
+            'secondary' => '#DDEFE5',
+            'body' => '#1F2E26',
+            'accent' => '#5BA06E',
+        ],
+        'lilla' => [
+            'label' => 'Lilla Delicato',
+            'description' => 'Morbido e contemporaneo, senza eccessi.',
+            'main' => '#6C4A8A',
+            'secondary' => '#EBDDFA',
+            'body' => '#2D2435',
+            'accent' => '#9B6FD6',
+        ],
+        'arancio' => [
+            'label' => 'Arancio Energia',
+            'description' => 'Vivace ma controllato, ideale per comunicazione attiva.',
+            'main' => '#A24A1E',
+            'secondary' => '#FDE3D5',
+            'body' => '#352419',
+            'accent' => '#E67A38',
+        ],
+    ];
+}
+
+function centro_servizi_get_font_mood_presets(): array
+{
+    return [
+        'pulito' => [
+            'label' => 'Pulito Contemporaneo',
+            'description' => 'Chiaro e professionale, adatto a cooperative sociali.',
+            'body_font' => 'source-sans-3',
+            'heading_font' => 'montserrat',
+            'label_font' => 'work-sans',
+        ],
+        'classico' => [
+            'label' => 'Classico Serif',
+            'description' => 'Istituzionale e caldo, adatto a parrocchie e congregazioni.',
+            'body_font' => 'source-sans-3',
+            'heading_font' => 'playfair-display',
+            'label_font' => 'raleway',
+        ],
+        'giocoso' => [
+            'label' => 'Giocoso Educativo',
+            'description' => 'Amichevole e dinamico per scuole dell’infanzia paritarie.',
+            'body_font' => 'nunito',
+            'heading_font' => 'bree-serif',
+            'label_font' => 'nunito',
+        ],
+    ];
+}
+
+function centro_servizi_build_typography_from_mood(string $mood): array
+{
+    $presets = centro_servizi_get_font_mood_presets();
+    $safe_mood = isset($presets[$mood]) ? $mood : 'pulito';
+    $preset = $presets[$safe_mood];
+
+    $typography = centro_servizi_get_typography_defaults();
+    $heading_profiles = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
+    $typography['body']['font_source'] = 'catalog';
+    $typography['body']['font'] = centro_servizi_sanitize_font_key((string) $preset['body_font'], 'source-sans-3');
+    $typography['body']['weight'] = 400;
+    $typography['body']['color_mode'] = 'palette';
+    $typography['body']['color_palette'] = 'body';
+
+    foreach ($heading_profiles as $profile) {
+        $typography[$profile]['font_source'] = 'catalog';
+        $typography[$profile]['font'] = centro_servizi_sanitize_font_key((string) $preset['heading_font'], 'montserrat');
+        $typography[$profile]['weight'] = 700;
+        $typography[$profile]['color_mode'] = 'palette';
+        $typography[$profile]['color_palette'] = 'main';
+    }
+
+    $typography['links']['font_source'] = 'catalog';
+    $typography['links']['font'] = centro_servizi_sanitize_font_key((string) $preset['label_font'], 'work-sans');
+    $typography['links']['weight'] = 600;
+    $typography['links']['color_mode'] = 'palette';
+    $typography['links']['color_palette'] = 'main';
+
+    $typography['buttons']['font_source'] = 'catalog';
+    $typography['buttons']['font'] = centro_servizi_sanitize_font_key((string) $preset['label_font'], 'work-sans');
+    $typography['buttons']['weight'] = 700;
+    $typography['buttons']['color_mode'] = 'palette';
+    $typography['buttons']['color_palette'] = 'accent';
+
+    foreach ($typography as $profile => $config) {
+        $typography[$profile]['custom_font'] = '';
+        $typography[$profile]['style'] = 'normal';
+        $typography[$profile]['transform'] = $profile === 'links' || $profile === 'buttons' ? 'uppercase' : 'none';
+    }
+
+    return $typography;
+}
+
 function centro_servizi_get_typography_size_units(): array
 {
     return ['px' => 'px', 'rem' => 'rem', 'em' => 'em', '%' => '%'];
@@ -796,84 +921,29 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         // Rimuove gli slash aggiunti automaticamente da WordPress (add_magic_quotes)
         $_post = wp_unslash($_POST);
 
-        // COLORI (4 base)
-        $color_main = sanitize_hex_color($_post['color_main'] ?? '#007acc');
-        $color_secondary = sanitize_hex_color($_post['color_secondary'] ?? '#f0f0f0');
-        $color_body = sanitize_hex_color($_post['color_body'] ?? '#1f1f1f');
-        $color_accent = sanitize_hex_color($_post['color_accent'] ?? '#ff6b6b');
+        // PRESET VISIVI OBBLIGATORI (palette + tono font)
+        $palette_presets = centro_servizi_get_palette_presets();
+        $selected_palette = sanitize_key((string) ($_post['palette_preset'] ?? 'blu'));
+        if (! isset($palette_presets[$selected_palette])) {
+            $selected_palette = 'blu';
+        }
+        $palette = $palette_presets[$selected_palette];
 
-        update_option('centro_servizi_color_main', $color_main);
-        update_option('centro_servizi_color_secondary', $color_secondary);
-        update_option('centro_servizi_color_body', $color_body);
-        update_option('centro_servizi_color_accent', $color_accent);
+        update_option('centro_servizi_palette_preset', $selected_palette);
+        update_option('centro_servizi_color_main', (string) $palette['main']);
+        update_option('centro_servizi_color_secondary', (string) $palette['secondary']);
+        update_option('centro_servizi_color_body', (string) $palette['body']);
+        update_option('centro_servizi_color_accent', (string) $palette['accent']);
 
-        // FONT PROFILES
-        $profiles = centro_servizi_get_typography_profiles();
-        $size_units = centro_servizi_get_typography_size_units();
-        $palette_choices = centro_servizi_get_color_palette_choices();
-        $typography = [];
-
-        foreach ($profiles as $profile) {
-            $font_source = sanitize_text_field($_post["font_source_${profile}"] ?? 'catalog');
-            $font_key = sanitize_text_field($_post["font_${profile}"] ?? 'arial');
-            $custom_font = sanitize_text_field($_post["custom_font_${profile}"] ?? '');
-            $font_size = (float) ($_post["size_${profile}"] ?? 16);
-            $font_unit = sanitize_text_field($_post["size_unit_${profile}"] ?? 'px');
-            $font_weight = (int) ($_post["weight_${profile}"] ?? 400);
-            $font_style = sanitize_text_field($_post["style_${profile}"] ?? 'normal');
-            $font_transform = sanitize_text_field($_post["transform_${profile}"] ?? 'none');
-            $font_color_mode = sanitize_text_field($_post["color_mode_${profile}"] ?? 'custom');
-            $font_color = sanitize_hex_color($_post["color_${profile}"] ?? '#1f1f1f');
-            $font_color_palette = sanitize_text_field($_post["color_palette_${profile}"] ?? 'body');
-
-            if (! isset($size_units[$font_unit])) {
-                $font_unit = 'px';
-            }
-            if ($font_unit === 'px') {
-                $font_size = max(10, min(72, $font_size));
-            } elseif ($font_unit === '%') {
-                $font_size = max(50, min(400, $font_size));
-            } else {
-                $font_size = max(0.5, min(8, $font_size));
-            }
-
-            $font_weight = max(100, min(900, $font_weight));
-            if (! in_array($font_source, ['catalog', 'custom-google'], true)) {
-                $font_source = 'catalog';
-            }
-            if (! in_array($font_style, ['normal', 'italic', 'oblique'], true)) {
-                $font_style = 'normal';
-            }
-            if (! in_array($font_transform, ['none', 'uppercase', 'lowercase', 'capitalize'], true)) {
-                $font_transform = 'none';
-            }
-            if (! in_array($font_color_mode, ['custom', 'palette'], true)) {
-                $font_color_mode = 'custom';
-            }
-            if (! isset($palette_choices[$font_color_palette])) {
-                $font_color_palette = 'body';
-            }
-
-            $typography[$profile] = [
-                'font_source' => $font_source,
-                'font' => centro_servizi_sanitize_font_key($font_key, 'arial'),
-                'custom_font' => $custom_font,
-                'size' => $font_size,
-                'size_unit' => $font_unit,
-                'weight' => $font_weight,
-                'style' => $font_style,
-                'transform' => $font_transform,
-                'color_mode' => $font_color_mode,
-                'color' => $font_color ?: '#1f1f1f',
-                'color_palette' => $font_color_palette,
-            ];
+        $font_moods = centro_servizi_get_font_mood_presets();
+        $selected_font_mood = sanitize_key((string) ($_post['font_mood_preset'] ?? 'pulito'));
+        if (! isset($font_moods[$selected_font_mood])) {
+            $selected_font_mood = 'pulito';
         }
 
-        update_option('centro_servizi_typography', wp_json_encode($typography));
-
-        // GOOGLE FONTS URL
-        $google_fonts_url = centro_servizi_sanitize_google_fonts_url(sanitize_text_field($_post['google_fonts_url'] ?? ''));
-        update_option('centro_servizi_google_fonts_url', $google_fonts_url);
+        update_option('centro_servizi_font_mood_preset', $selected_font_mood);
+        update_option('centro_servizi_typography', wp_json_encode(centro_servizi_build_typography_from_mood($selected_font_mood)));
+        update_option('centro_servizi_google_fonts_url', '');
 
         // HOMEPAGE
         update_option('centro_servizi_homepage_title', sanitize_text_field($_post['homepage_title'] ?? ''));
@@ -945,11 +1015,25 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         echo '<div class="notice notice-success"><p>Impostazioni salvate con successo!</p></div>';
     }
 
-    // Carica valori correnti
-    $color_main = get_option('centro_servizi_color_main', '#007acc');
-    $color_secondary = get_option('centro_servizi_color_secondary', '#f0f0f0');
-    $color_body = get_option('centro_servizi_color_body', '#1f1f1f');
-    $color_accent = get_option('centro_servizi_color_accent', '#ff6b6b');
+    // Carica valori correnti (pilotati da preset)
+    $palette_presets = centro_servizi_get_palette_presets();
+    $font_mood_presets = centro_servizi_get_font_mood_presets();
+
+    $palette_preset = sanitize_key((string) get_option('centro_servizi_palette_preset', 'blu'));
+    if (! isset($palette_presets[$palette_preset])) {
+        $palette_preset = 'blu';
+    }
+    $active_palette = $palette_presets[$palette_preset];
+
+    $font_mood_preset = sanitize_key((string) get_option('centro_servizi_font_mood_preset', 'pulito'));
+    if (! isset($font_mood_presets[$font_mood_preset])) {
+        $font_mood_preset = 'pulito';
+    }
+
+    $color_main = (string) get_option('centro_servizi_color_main', (string) $active_palette['main']);
+    $color_secondary = (string) get_option('centro_servizi_color_secondary', (string) $active_palette['secondary']);
+    $color_body = (string) get_option('centro_servizi_color_body', (string) $active_palette['body']);
+    $color_accent = (string) get_option('centro_servizi_color_accent', (string) $active_palette['accent']);
 
     $typography_json = get_option('centro_servizi_typography', wp_json_encode(centro_servizi_get_typography_defaults()));
     $typography = centro_servizi_normalize_typography(json_decode($typography_json, true) ?: []);
@@ -957,7 +1041,7 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     $size_units = centro_servizi_get_typography_size_units();
     $palette_choices = centro_servizi_get_color_palette_choices();
 
-    $google_fonts_url = get_option('centro_servizi_google_fonts_url', '');
+    $google_fonts_url = '';
     $homepage_title = get_option('centro_servizi_homepage_title', 'Centro Servizi');
     $homepage_subtitle = get_option('centro_servizi_homepage_subtitle', '');
     $contacts_json = get_option('centro_servizi_contacts', '[]');
@@ -1044,171 +1128,53 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         <form method="post" class="centro-servizi-settings-form">
             <?php wp_nonce_field('centro_servizi_settings', 'centro_servizi_nonce'); ?>
 
-            <!-- COLORI -->
             <div class="settings-section" data-settings-group="style">
-                <h2>🎨 Colori</h2>
-                <p class="description">Imposta 4 colori base. Il tema genererà automaticamente sfumature chiare e scure.</p>
-                <div class="color-grid">
-                    <div class="color-item">
-                        <label for="color_main">Colore Main</label>
-                        <input type="color" id="color_main" name="color_main" value="<?php echo esc_attr($color_main); ?>" />
-                        <small><?php echo esc_html($color_main); ?></small>
-                    </div>
-                    <div class="color-item">
-                        <label for="color_secondary">Colore Secondary</label>
-                        <input type="color" id="color_secondary" name="color_secondary" value="<?php echo esc_attr($color_secondary); ?>" />
-                        <small><?php echo esc_html($color_secondary); ?></small>
-                    </div>
-                    <div class="color-item">
-                        <label for="color_body">Colore Corpo</label>
-                        <input type="color" id="color_body" name="color_body" value="<?php echo esc_attr($color_body); ?>" />
-                        <small><?php echo esc_html($color_body); ?></small>
-                    </div>
-                    <div class="color-item">
-                        <label for="color_accent">Colore Evidenza</label>
-                        <input type="color" id="color_accent" name="color_accent" value="<?php echo esc_attr($color_accent); ?>" />
-                        <small><?php echo esc_html($color_accent); ?></small>
-                    </div>
+                <h2>🎨 Template Palette</h2>
+                <p class="description">La palette è vincolata a preset studiati per evitare combinazioni incoerenti.</p>
+                <div class="form-group">
+                    <label for="palette_preset">Palette colore</label>
+                    <select id="palette_preset" name="palette_preset">
+                        <?php foreach ($palette_presets as $key => $preset): ?>
+                            <option value="<?php echo esc_attr($key); ?>" <?php selected($palette_preset, $key); ?>>
+                                <?php echo esc_html($preset['label']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <p class="description">
+                        <?php echo esc_html($palette_presets[$palette_preset]['description'] ?? 'Palette predefinita.'); ?>
+                    </p>
                 </div>
-            </div>
 
-            <!-- TYPOGRAPHY -->
-            <div class="settings-section" data-settings-group="style">
-                <h2>🔤 Tipografia</h2>
-                <p class="description">Configura font, dimensione (px/rem/em/%), peso, stile e colore per ogni elemento. I font Google custom possono essere assegnati a profili specifici.</p>
-
-                <div class="typography-grid">
-                    <?php foreach ($profiles as $profile): ?>
-                        <div class="typography-card">
-                            <h3><?php echo esc_html($heading_labels[$profile]); ?></h3>
-
-                            <div class="form-group">
-                                <label for="font_source_<?php echo $profile; ?>">Sorgente font</label>
-                                <select id="font_source_<?php echo $profile; ?>" name="font_source_<?php echo $profile; ?>" class="font-source-select" data-profile="<?php echo $profile; ?>">
-                                    <option value="catalog" <?php selected($typography[$profile]['font_source'] ?? 'catalog', 'catalog'); ?>>Catalogo interno</option>
-                                    <option value="custom-google" <?php selected($typography[$profile]['font_source'] ?? 'catalog', 'custom-google'); ?>>Google custom (nome famiglia)</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="font_<?php echo $profile; ?>">Font</label>
-                                <div class="font-mode-block font-mode-catalog" data-profile="<?php echo $profile; ?>">
-                                    <div class="font-picker-wrapper">
-                                        <input type="hidden" id="font_<?php echo $profile; ?>" name="font_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['font'] ?? 'arial'); ?>" />
-                                        <div class="font-picker-display" data-profile="<?php echo $profile; ?>">
-                                            <?php echo esc_html($fonts[$typography[$profile]['font'] ?? 'arial']['label'] ?? 'Arial'); ?>
-                                        </div>
-                                        <div class="font-picker-dropdown" id="dropdown_<?php echo $profile; ?>" style="display: none;">
-                                            <input type="text" class="font-search" placeholder="Cerca font..." data-profile="<?php echo $profile; ?>" />
-                                            <div class="font-list">
-                                                <?php foreach ($fonts as $key => $font): ?>
-                                                    <div class="font-item" data-value="<?php echo esc_attr($key); ?>" data-profile="<?php echo $profile; ?>" style="font-family: <?php echo esc_attr($font['stack']); ?>">
-                                                        <?php echo esc_html($font['label']); ?>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="font-mode-block font-mode-custom" data-profile="<?php echo $profile; ?>">
-                                    <input type="text" id="custom_font_<?php echo $profile; ?>" name="custom_font_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['custom_font'] ?? ''); ?>" placeholder="Es: DM Sans" />
-                                    <p class="description">Inserisci il nome famiglia Google Fonts da applicare solo a questo profilo.</p>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="size_<?php echo $profile; ?>">Dimensione</label>
-                                <div class="inline-controls">
-                                    <input type="number" id="size_<?php echo $profile; ?>" name="size_<?php echo $profile; ?>" value="<?php echo esc_attr((string) ($typography[$profile]['size'] ?? 16)); ?>" step="0.1" min="0.5" max="400" />
-                                    <select id="size_unit_<?php echo $profile; ?>" name="size_unit_<?php echo $profile; ?>">
-                                        <?php foreach ($size_units as $unit_key => $unit_label): ?>
-                                            <option value="<?php echo esc_attr($unit_key); ?>" <?php selected($typography[$profile]['size_unit'] ?? 'px', $unit_key); ?>><?php echo esc_html($unit_label); ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="weight_<?php echo $profile; ?>">Peso</label>
-                                <select id="weight_<?php echo $profile; ?>" name="weight_<?php echo $profile; ?>">
-                                    <?php $weights = [100, 200, 300, 400, 500, 600, 700, 800, 900]; ?>
-                                    <?php foreach ($weights as $w): ?>
-                                        <option value="<?php echo $w; ?>" <?php selected($typography[$profile]['weight'] ?? 400, $w); ?>>
-                                            <?php echo $w; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="style_<?php echo $profile; ?>">Stile font</label>
-                                <select id="style_<?php echo $profile; ?>" name="style_<?php echo $profile; ?>">
-                                    <option value="normal" <?php selected($typography[$profile]['style'] ?? 'normal', 'normal'); ?>>Normale</option>
-                                    <option value="italic" <?php selected($typography[$profile]['style'] ?? 'normal', 'italic'); ?>>Italic</option>
-                                    <option value="oblique" <?php selected($typography[$profile]['style'] ?? 'normal', 'oblique'); ?>>Oblique</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="transform_<?php echo $profile; ?>">Formato testo</label>
-                                <select id="transform_<?php echo $profile; ?>" name="transform_<?php echo $profile; ?>">
-                                    <option value="none" <?php selected($typography[$profile]['transform'] ?? 'none', 'none'); ?>>Nessuna trasformazione</option>
-                                    <option value="uppercase" <?php selected($typography[$profile]['transform'] ?? 'none', 'uppercase'); ?>>MAIUSCOLO</option>
-                                    <option value="lowercase" <?php selected($typography[$profile]['transform'] ?? 'none', 'lowercase'); ?>>minuscolo</option>
-                                    <option value="capitalize" <?php selected($typography[$profile]['transform'] ?? 'none', 'capitalize'); ?>>Capitalized</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="color_mode_<?php echo $profile; ?>">Origine colore</label>
-                                <select id="color_mode_<?php echo $profile; ?>" name="color_mode_<?php echo $profile; ?>" class="color-mode-select" data-profile="<?php echo $profile; ?>">
-                                    <option value="custom" <?php selected($typography[$profile]['color_mode'] ?? 'custom', 'custom'); ?>>Colore custom</option>
-                                    <option value="palette" <?php selected($typography[$profile]['color_mode'] ?? 'custom', 'palette'); ?>>Palette principale</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group color-mode-block color-mode-custom" data-profile="<?php echo $profile; ?>">
-                                <label for="color_<?php echo $profile; ?>">Colore custom</label>
-                                <input type="color" id="color_<?php echo $profile; ?>" name="color_<?php echo $profile; ?>" value="<?php echo esc_attr($typography[$profile]['color'] ?? '#1f1f1f'); ?>" />
-                            </div>
-
-                            <div class="form-group color-mode-block color-mode-palette" data-profile="<?php echo $profile; ?>">
-                                <label for="color_palette_<?php echo $profile; ?>">Colore da palette</label>
-                                <select id="color_palette_<?php echo $profile; ?>" name="color_palette_<?php echo $profile; ?>">
-                                    <?php foreach ($palette_choices as $palette_key => $palette_label): ?>
-                                        <option value="<?php echo esc_attr($palette_key); ?>" <?php selected($typography[$profile]['color_palette'] ?? 'body', $palette_key); ?>><?php echo esc_html($palette_label); ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="preview-box" id="preview_<?php echo $profile; ?>">
-                                <?php 
-                                $font_stack = centro_servizi_get_profile_font_stack($typography[$profile], $fonts);
-                                $font_size = (float) ($typography[$profile]['size'] ?? 16);
-                                $font_size_unit = (string) ($typography[$profile]['size_unit'] ?? 'px');
-                                $font_weight = intval($typography[$profile]['weight'] ?? 400);
-                                $font_style = esc_attr($typography[$profile]['style'] ?? 'normal');
-                                $font_transform = esc_attr($typography[$profile]['transform'] ?? 'none');
-                                $font_color_mode = $typography[$profile]['color_mode'] ?? 'custom';
-                                $font_color = esc_attr($typography[$profile]['color'] ?? '#1f1f1f');
-                                if ($font_color_mode === 'palette') {
-                                    $token = (string) ($typography[$profile]['color_palette'] ?? 'body');
-                                    $font_color = esc_attr($palette_preview_map[$token] ?? '#1f1f1f');
-                                }
-                                ?>
-                                <div style="font-family: <?php echo esc_attr($font_stack); ?>; font-size: <?php echo esc_attr($font_size . $font_size_unit); ?>; font-weight: <?php echo intval($font_weight); ?>; font-style: <?php echo $font_style; ?>; text-transform: <?php echo $font_transform; ?>; color: <?php echo esc_attr($font_color); ?>;">
-                                    <?php echo $profile === 'body' ? 'Anteprima testo corpo' : 'Titolo Anteprima'; ?>
-                                </div>
+                <div class="preset-chip-grid" aria-label="Anteprima palette disponibili">
+                    <?php foreach ($palette_presets as $key => $preset): ?>
+                        <div class="preset-chip <?php echo $key === $palette_preset ? 'is-active' : ''; ?>">
+                            <strong><?php echo esc_html($preset['label']); ?></strong>
+                            <div class="preset-chip-swatches">
+                                <span style="background: <?php echo esc_attr($preset['main']); ?>" title="Main"></span>
+                                <span style="background: <?php echo esc_attr($preset['secondary']); ?>" title="Secondary"></span>
+                                <span style="background: <?php echo esc_attr($preset['body']); ?>" title="Body"></span>
+                                <span style="background: <?php echo esc_attr($preset['accent']); ?>" title="Accent"></span>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
+            </div>
 
+            <div class="settings-section" data-settings-group="style">
+                <h2>🔤 Gruppi Font (Mood)</h2>
+                <p class="description">I font sono appaiati per tono comunicativo: pulito, classico o giocoso.</p>
                 <div class="form-group">
-                    <label for="google_fonts_url">URL Google Fonts (opzionale)</label>
-                    <input type="url" id="google_fonts_url" name="google_fonts_url" value="<?php echo esc_attr($google_fonts_url); ?>" class="regular-text code" placeholder="https://fonts.googleapis.com/css2?family=..." />
-                    <p class="description">Puoi usare un URL custom per includere famiglie extra; l'assegnazione del font rimane per singolo profilo.</p>
+                    <label for="font_mood_preset">Mood tipografico</label>
+                    <select id="font_mood_preset" name="font_mood_preset">
+                        <?php foreach ($font_mood_presets as $key => $preset): ?>
+                            <option value="<?php echo esc_attr($key); ?>" <?php selected($font_mood_preset, $key); ?>>
+                                <?php echo esc_html($preset['label']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <p class="description">
+                        <?php echo esc_html($font_mood_presets[$font_mood_preset]['description'] ?? 'Tono tipografico predefinito.'); ?>
+                    </p>
                 </div>
             </div>
 
@@ -1605,6 +1571,44 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
 
         .form-group {
             margin-bottom: 12px;
+        }
+
+        .preset-chip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .preset-chip {
+            border: 1px solid #dcdcde;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .preset-chip.is-active {
+            border-color: #2271b1;
+            box-shadow: 0 0 0 1px #2271b1;
+        }
+
+        .preset-chip strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .preset-chip-swatches {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 6px;
+        }
+
+        .preset-chip-swatches span {
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            display: block;
         }
 
         .form-group label {
@@ -2123,13 +2127,36 @@ function centro_servizi_get_contact_by_type(string $type): ?array
     return ! empty($contacts) ? reset($contacts) : null;
 }
 
+function centro_servizi_is_excluded_from_dynamic_theme(): bool
+{
+    if (is_admin()) {
+        return true;
+    }
+
+    if (is_post_type_archive('trasparenza') || is_singular('trasparenza') || is_tax('contenutiammtrasp')) {
+        return true;
+    }
+
+    if (is_page_template('templates/page-legale.php')) {
+        return true;
+    }
+
+    return is_page([
+        'privacy-policy',
+        'cookie-policy',
+        'dichiarazione-accessibilita',
+        'obiettivi-accessibilita',
+        'whistleblowing',
+    ]);
+}
+
 // ============================================================================
 // GOOGLE FONTS & DYNAMIC CSS (FRONTEND)
 // ============================================================================
 add_action('wp_enqueue_scripts', 'centro_servizi_enqueue_google_fonts', 20);
 function centro_servizi_enqueue_google_fonts(): void
 {
-    if (is_admin()) {
+    if (centro_servizi_is_excluded_from_dynamic_theme()) {
         return;
     }
 
@@ -2191,7 +2218,7 @@ function centro_servizi_enqueue_google_fonts(): void
 add_action('wp_head', 'centro_servizi_print_dynamic_css', 30);
 function centro_servizi_print_dynamic_css(): void
 {
-    if (is_admin()) {
+    if (centro_servizi_is_excluded_from_dynamic_theme()) {
         return;
     }
 
@@ -2204,6 +2231,18 @@ function centro_servizi_print_dynamic_css(): void
     $typography = centro_servizi_normalize_typography(json_decode($typography_json, true) ?: []);
     $font_catalog = centro_servizi_get_font_catalog();
     $computed_font_stacks = [];
+
+    $body_stack = centro_servizi_get_profile_font_stack(is_array($typography['body'] ?? null) ? $typography['body'] : [], $font_catalog);
+    $h1_stack = centro_servizi_get_profile_font_stack(is_array($typography['h1'] ?? null) ? $typography['h1'] : [], $font_catalog);
+
+    $body_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $body_stack) ?: 'Arial, sans-serif';
+    $h1_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $h1_stack) ?: $body_stack;
+
+    $stitch_bg_warm = centro_servizi_lighten_color($color_secondary, 68);
+    $stitch_surface = centro_servizi_lighten_color($color_secondary, 80);
+    $stitch_surface_cream = centro_servizi_lighten_color($color_secondary, 72);
+    $stitch_text_muted = centro_servizi_darken_color($color_body, 25);
+    $stitch_border_subtle = centro_servizi_lighten_color($color_body, 78);
 
     echo "\n<style id=\"centro-servizi-dynamic-css\">\n";
     echo ":root {\n";
@@ -2219,6 +2258,17 @@ function centro_servizi_print_dynamic_css(): void
     echo "  --color-accent: " . esc_html($color_accent) . ";\n";
     echo "  --color-accent-light: " . esc_html(centro_servizi_lighten_color($color_accent, 55)) . ";\n";
     echo "  --color-accent-dark: " . esc_html(centro_servizi_darken_color($color_accent, 20)) . ";\n";
+    echo "  --font-body-family: " . esc_html($body_stack) . ";\n";
+    echo "  --font-heading-family: " . esc_html($h1_stack) . ";\n";
+    echo "  --stitch-primary: var(--color-main, #003342);\n";
+    echo "  --stitch-secondary: var(--color-main-dark, #436555);\n";
+    echo "  --stitch-tertiary: var(--color-accent-dark, #581a01);\n";
+    echo "  --stitch-bg-warm: " . esc_html($stitch_bg_warm) . ";\n";
+    echo "  --stitch-surface: " . esc_html($stitch_surface) . ";\n";
+    echo "  --stitch-surface-cream: " . esc_html($stitch_surface_cream) . ";\n";
+    echo "  --stitch-text: var(--color-body, #191c1d);\n";
+    echo "  --stitch-text-muted: " . esc_html($stitch_text_muted) . ";\n";
+    echo "  --stitch-border-subtle: " . esc_html($stitch_border_subtle) . ";\n";
     echo "}\n\n";
 
     $selector_map = [
