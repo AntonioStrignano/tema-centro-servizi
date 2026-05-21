@@ -163,6 +163,11 @@ button {
   color: #fff;
 }
 
+.break-words {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .selection\:bg-primary-fixed::selection {
   background: #baeaff;
 }

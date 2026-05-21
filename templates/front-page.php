@@ -79,6 +79,28 @@ if (isset($contacts_map['pec'])) {
 $feedback_url = $accessibility_feedback_url !== ''
     ? $accessibility_feedback_url
     : 'https://example.com/google-form-accessibilita';
+
+$contact_cta_email = '';
+$contact_cta_phone = '';
+foreach ($homepage_contacts as $contact) {
+    if (! is_array($contact)) {
+        continue;
+    }
+
+    $type = (string) ($contact['type'] ?? '');
+    $href = (string) ($contact['href'] ?? '');
+    if ($href === '') {
+        continue;
+    }
+
+    if ($contact_cta_email === '' && ($type === 'email' || $type === 'pec')) {
+        $contact_cta_email = $href;
+    }
+
+    if ($contact_cta_phone === '' && ($type === 'phone' || $type === 'fax')) {
+        $contact_cta_phone = $href;
+    }
+}
 ?>
 <a class="sr-only focus:not-sr-only" href="#main-content">Salta al contenuto principale</a>
 <!-- TopNavBar -->
@@ -93,7 +115,7 @@ wp_nav_menu([
     'theme_location' => 'primary',
     'container'      => false,
     'menu_class'     => 'stitch-menu',
-    'fallback_cb'    => 'wp_page_menu',
+    'fallback_cb'    => false,
 ]);
 ?>
 </nav>
@@ -164,7 +186,7 @@ wp_nav_menu([
 <div class="bg-primary p-12 rounded-[2rem] text-on-primary">
 <div class="flex items-center gap-4 mb-8">
 <span class="material-symbols-outlined text-4xl" data-icon="schedule">schedule</span>
-<h2 class="font-headline-md text-headline-md">Orari di funzionamento</h2>
+<h2 class="font-headline-md text-headline-md text-on-primary">Orari di funzionamento</h2>
 </div>
 <p class="font-body-md text-body-md mb-8 opacity-90">Apri l'ultimo documento pubblicato sugli orari di funzionamento.</p>
 <a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="<?php echo esc_url($homepage_orari_document['url']); ?>">
@@ -178,7 +200,7 @@ wp_nav_menu([
 <div class="bg-secondary p-12 rounded-[2rem] text-on-secondary">
 <div class="flex items-center gap-4 mb-8">
 <span class="material-symbols-outlined text-4xl" data-icon="calendar_month">calendar_month</span>
-<h2 class="font-headline-md text-headline-md">Calendario scolastico</h2>
+<h2 class="font-headline-md text-headline-md text-on-secondary">Calendario scolastico</h2>
 </div>
 <p class="font-body-md text-body-md mb-8 opacity-90">Consulta l'ultimo documento pubblicato sul calendario scolastico.</p>
 <a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="<?php echo esc_url($homepage_calendar_document['url']); ?>">
@@ -199,20 +221,20 @@ wp_nav_menu([
 <span class="font-label-caps text-label-caps text-secondary mb-4 block">SERVIZI PER LE FAMIGLIE</span>
 <h2 class="font-headline-md text-headline-md text-primary">Tutto a portata di clic.</h2>
 </div>
-<div class="grid grid-cols-2 gap-4 md:gap-6 md:grid-cols-4 justify-items-center max-w-5xl mx-auto">
-<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<div class="grid grid-cols-2 gap-4 md:gap-6 md:grid-cols-4 max-w-5xl mx-auto">
+<a class="block bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group w-full h-full" href="#">
 <span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="description">description</span>
 <h4 class="font-label-caps text-label-caps text-primary">Modulistica</h4>
 </a>
-<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<a class="block bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group w-full h-full" href="#">
 <span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="notifications">notifications</span>
 <h4 class="font-label-caps text-label-caps text-primary">Archivio Modulistica</h4>
 </a>
-<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<a class="block bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group w-full h-full" href="#">
 <span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="assignment_ind">assignment_ind</span>
 <h4 class="font-label-caps text-label-caps text-primary">Archivio Comunicazioni</h4>
 </a>
-<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<a class="block bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group w-full h-full" href="#">
 <span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="diversity_1">diversity_1</span>
 <h4 class="font-label-caps text-label-caps text-primary">Archivio Iscrizioni</h4>
 </a>
@@ -227,31 +249,37 @@ wp_nav_menu([
 <span class="font-label-caps text-label-caps text-tertiary mb-4 block">CONTATTI</span>
 <h2 class="font-headline-md text-headline-md text-primary mb-8">Siamo qui per te.</h2>
 <?php if ($homepage_contacts !== []) : ?>
-<div class="space-y-8 mb-12">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
 <?php foreach ($homepage_contacts as $contact) : ?>
-<div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-secondary" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
+<div class="flex items-start gap-4 bg-surface-cream rounded-2xl p-4 h-full">
+<span class="material-symbols-outlined text-secondary mt-1" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
 <div>
 <h4 class="font-semibold text-primary"><?php echo esc_html((string) $contact['label']); ?></h4>
 <?php if ((string) $contact['href'] !== '') : ?>
 <?php $is_external = ! empty($contact['external']); ?>
-<p class="text-on-surface-variant">
+<p class="text-on-surface-variant break-words">
 <a href="<?php echo esc_url((string) $contact['href']); ?>"<?php echo $is_external ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
 <?php echo esc_html((string) $contact['value']); ?>
 <?php if ($is_external) : ?><span class="sr-only">(apre in nuova finestra)</span><?php endif; ?>
 </a>
 </p>
 <?php else : ?>
-<p class="text-on-surface-variant"><?php echo esc_html((string) $contact['value']); ?></p>
+<p class="text-on-surface-variant break-words"><?php echo esc_html((string) $contact['value']); ?></p>
 <?php endif; ?>
 </div>
 </div>
 <?php endforeach; ?>
 </div>
+<?php else : ?>
+<p class="text-on-surface-variant mb-12">I contatti saranno pubblicati a breve.</p>
 <?php endif; ?>
 <div class="flex flex-wrap gap-4">
-<button type="button" class="bg-primary text-on-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:opacity-90 transition-all">Scrivici</button>
-<button type="button" class="border-2 border-primary text-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:bg-primary/5 transition-all">Chiama ora</button>
+<?php if ($contact_cta_email !== '') : ?>
+<a href="<?php echo esc_url($contact_cta_email); ?>" class="bg-primary text-on-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:opacity-90 transition-all">Scrivici</a>
+<?php endif; ?>
+<?php if ($contact_cta_phone !== '') : ?>
+<a href="<?php echo esc_url($contact_cta_phone); ?>" class="border-2 border-primary text-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:bg-primary/5 transition-all">Chiama ora</a>
+<?php endif; ?>
 </div>
 </div>
 <div class="relative min-h-[400px]">
@@ -313,19 +341,19 @@ allowfullscreen></iframe>
 <?php endif; ?>
 </div>
 <div>
-<h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Link Utili</h4>
+<h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Navigazione</h4>
 <?php
 wp_nav_menu([
-    'theme_location' => 'footer',
+    'theme_location' => 'primary',
     'container'      => false,
     'fallback_cb'    => 'wp_page_menu',
-    'menu_class'     => 'space-y-4 font-body-sm text-body-sm',
+    'menu_class'     => 'space-y-4 font-body-sm text-body-sm footer-nav-menu',
 ]);
 ?>
 </div>
 <div>
 <h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Legale</h4>
-<ul class="space-y-4 font-body-sm text-body-sm">
+<ul class="space-y-4 font-body-sm text-body-sm footer-legal-menu">
 <li>
 <a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url($feedback_url); ?>" target="_blank" rel="noopener noreferrer">
 Feedback Accessibilita <span class="sr-only">(apre in nuova finestra)</span>

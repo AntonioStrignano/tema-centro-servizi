@@ -30,6 +30,42 @@ header.sticky {
   text-decoration: none;
 }
 
+header nav ul,
+header nav .menu,
+header nav .menu > ul {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav li {
+  margin: 0;
+  list-style: none;
+}
+
+header nav a {
+  color: #40484c;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+}
+
+header nav li.current-menu-item > a,
+header nav li.current-page-ancestor > a,
+header nav a:hover,
+header nav a:focus-visible {
+  color: #003342;
+  border-bottom-color: #003342;
+  text-decoration: none;
+}
+
 .stitch-menu > li.current-menu-item > a,
 .stitch-menu > li.current-page-ancestor > a,
 .stitch-menu > li > a:hover,
@@ -43,6 +79,26 @@ footer ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.footer-nav-menu li,
+.footer-legal-menu li {
+  margin: 0;
+}
+
+.footer-nav-menu a,
+.footer-legal-menu a {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-nav-menu a:hover,
+.footer-nav-menu a:focus-visible,
+.footer-legal-menu a:hover,
+.footer-legal-menu a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
 }
 
 footer a:focus-visible,
