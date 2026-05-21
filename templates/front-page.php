@@ -21,6 +21,64 @@ $homepage_contacts = centro_servizi_get_homepage_contacts();
 $homepage_map_embed_url = centro_servizi_get_homepage_map_embed_url();
 $homepage_orari_document = centro_servizi_get_homepage_latest_trasparenza_document('orari-funz', 'Orari di funzionamento');
 $homepage_calendar_document = centro_servizi_get_homepage_latest_trasparenza_document('calendario', 'Calendario scolastico');
+
+$accessibility_page = get_page_by_path('dichiarazione-accessibilita');
+$obiettivi_page = get_page_by_path('obiettivi-accessibilita');
+$whistleblowing_url = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
+$footer_text = trim((string) get_option('centro_servizi_footer_text', ''));
+$accessibility_feedback_url = trim((string) get_option('centro_servizi_accessibility_feedback_url', ''));
+
+$legal_company_name = trim((string) get_option('centro_servizi_legal_company_name', ''));
+$legal_address = trim((string) get_option('centro_servizi_legal_address', ''));
+$legal_vat = trim((string) get_option('centro_servizi_legal_vat', ''));
+$legal_fiscal_code = trim((string) get_option('centro_servizi_legal_fiscal_code', ''));
+$legal_mecc = trim((string) get_option('centro_servizi_legal_mecc', ''));
+$legal_rea = trim((string) get_option('centro_servizi_legal_rea', ''));
+
+$contacts_raw = centro_servizi_get_contacts();
+$contacts_map = [];
+foreach ($contacts_raw as $contact) {
+    $type = isset($contact['type']) ? (string) $contact['type'] : '';
+    $value = isset($contact['value']) ? trim((string) $contact['value']) : '';
+    if ($type === '' || $value === '' || isset($contacts_map[$type])) {
+        continue;
+    }
+    $contacts_map[$type] = $value;
+}
+
+$company_display = $legal_company_name !== '' ? $legal_company_name : get_bloginfo('name');
+
+$legal_chunks = [];
+if ($legal_vat !== '') {
+    $legal_chunks[] = 'P.IVA ' . $legal_vat;
+}
+if ($legal_fiscal_code !== '') {
+    $legal_chunks[] = 'Cod. Fiscale ' . $legal_fiscal_code;
+}
+if ($legal_mecc !== '') {
+    $legal_chunks[] = 'Cod. Mecc. ' . $legal_mecc;
+}
+if ($legal_rea !== '') {
+    $legal_chunks[] = 'REA ' . $legal_rea;
+}
+
+$contact_chunks = [];
+if (isset($contacts_map['address'])) {
+    $contact_chunks[] = 'Indirizzo: ' . $contacts_map['address'];
+}
+if (isset($contacts_map['phone'])) {
+    $contact_chunks[] = 'Tel: ' . $contacts_map['phone'];
+}
+if (isset($contacts_map['email'])) {
+    $contact_chunks[] = 'Email: ' . antispambot($contacts_map['email']);
+}
+if (isset($contacts_map['pec'])) {
+    $contact_chunks[] = 'PEC: ' . antispambot($contacts_map['pec']);
+}
+
+$feedback_url = $accessibility_feedback_url !== ''
+    ? $accessibility_feedback_url
+    : 'https://example.com/google-form-accessibilita';
 ?>
 <a class="sr-only focus:not-sr-only" href="#main-content">Salta al contenuto principale</a>
 <!-- TopNavBar -->
@@ -240,39 +298,64 @@ allowfullscreen></iframe>
 <footer class="bg-primary dark:bg-primary-container">
 <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter py-section-padding-mobile md:py-section-padding-desktop px-gutter max-w-container-max mx-auto text-on-primary">
 <div class="md:col-span-2">
-<span class="font-headline-sm text-headline-sm font-bold text-on-primary mb-6 block">Scuola Aperta</span>
-<p class="font-body-sm text-body-sm opacity-80 max-w-md mb-8">
-                    La nostra scuola paritaria dell'infanzia offre un percorso formativo d'eccellenza, radicato nei valori della comunità e dell'innovazione didattica, per accompagnare i bambini nelle loro prime tappe di scoperta del mondo.
-                </p>
-<div class="flex gap-4">
-<a class="hover:opacity-70 transition-opacity" href="#" aria-label="Pagina social principale"><span class="material-symbols-outlined" data-icon="facebook">social_leaderboard</span></a>
-<a class="hover:opacity-70 transition-opacity" href="#" aria-label="Profilo foto"><span class="material-symbols-outlined" data-icon="camera">camera</span></a>
-<a class="hover:opacity-70 transition-opacity" href="#" aria-label="Galleria immagini"><span class="material-symbols-outlined" data-icon="linked_camera">linked_camera</span></a>
-</div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-primary mb-6 block"><?php echo esc_html($company_display); ?></span>
+<?php if ($legal_address !== '') : ?>
+<p class="font-body-sm text-body-sm opacity-80 max-w-md mb-4"><?php echo nl2br(esc_html($legal_address)); ?></p>
+<?php endif; ?>
+<?php if ($footer_text !== '') : ?>
+<p class="font-body-sm text-body-sm opacity-80 max-w-md mb-4"><?php echo nl2br(esc_html($footer_text)); ?></p>
+<?php endif; ?>
+<?php if (! empty($contact_chunks)) : ?>
+<p class="font-body-sm text-body-sm opacity-80 max-w-md mb-4"><?php echo esc_html(implode(' | ', $contact_chunks)); ?></p>
+<?php endif; ?>
+<?php if (! empty($legal_chunks)) : ?>
+<p class="font-body-sm text-body-sm opacity-80 max-w-md"><?php echo esc_html(implode(' | ', $legal_chunks)); ?></p>
+<?php endif; ?>
 </div>
 <div>
 <h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Link Utili</h4>
-<ul class="space-y-4 font-body-sm text-body-sm">
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">La nostra scuola</a></li>
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Attività</a></li>
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Area famiglie</a></li>
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Mappa del Sito</a></li>
-</ul>
+<?php
+wp_nav_menu([
+    'theme_location' => 'footer',
+    'container'      => false,
+    'fallback_cb'    => 'wp_page_menu',
+    'menu_class'     => 'space-y-4 font-body-sm text-body-sm',
+]);
+?>
 </div>
 <div>
 <h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Legale</h4>
 <ul class="space-y-4 font-body-sm text-body-sm">
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Feedback Accessibilità</a></li>
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity underline" href="#">Privacy Policy</a></li>
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Cookie Policy</a></li>
-<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Amministrazione Trasparente</a></li>
+<li>
+<a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url($feedback_url); ?>" target="_blank" rel="noopener noreferrer">
+Feedback Accessibilita <span class="sr-only">(apre in nuova finestra)</span>
+</a>
+</li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url(home_url('/cookie-policy/')); ?>">Cookie Policy</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/amministrazione-trasparente/')); ?>">Amministrazione Trasparente</a></li>
+<?php if ($whistleblowing_url !== '') : ?>
+<li>
+<a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url($whistleblowing_url); ?>" target="_blank" rel="noopener noreferrer">
+Whistleblowing <span class="sr-only">(apre in nuova finestra)</span>
+</a>
+</li>
+<?php endif; ?>
+<?php if ($accessibility_page instanceof WP_Post) : ?>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di Accessibilita</a></li>
+<?php endif; ?>
+<?php if ($obiettivi_page instanceof WP_Post) : ?>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="<?php echo esc_url(get_permalink($obiettivi_page)); ?>">Obiettivi di Accessibilita</a></li>
+<?php endif; ?>
 </ul>
 </div>
 </div>
 <div class="border-t border-white/10 px-gutter max-w-container-max mx-auto py-8">
 <p class="font-label-caps text-label-caps text-on-primary opacity-60 text-center">
-                © 2024 Scuola Paritaria. Tutti i diritti riservati. Codice Meccanografico: SC12345. P.IVA 01234567890.
-            </p>
+<?php echo esc_html('© ' . gmdate('Y') . ' ' . get_bloginfo('name') . '. Tutti i diritti riservati.'); ?>
+<?php if ($legal_mecc !== '') : ?> <?php echo esc_html(' Codice Meccanografico: ' . $legal_mecc . '.'); ?><?php endif; ?>
+<?php if ($legal_vat !== '') : ?> <?php echo esc_html(' P.IVA ' . $legal_vat . '.'); ?><?php endif; ?>
+</p>
 </div>
 </footer>
 <?php wp_footer(); ?>
