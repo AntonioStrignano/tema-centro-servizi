@@ -123,9 +123,9 @@ if (function_exists('centro_servizi_normalize_typography') && function_exists('c
 ?>
 <style id="centro-servizi-frontpage-font-bridge">
     :root {
-        --font-body-family: <?php echo esc_html($front_body_stack); ?>;
-        --font-heading-family: <?php echo esc_html($front_heading_stack); ?>;
-        --font-label-family: <?php echo esc_html($front_label_stack); ?>;
+        --font-body-family: <?php echo $front_body_stack; ?>;
+        --font-heading-family: <?php echo $front_heading_stack; ?>;
+        --font-label-family: <?php echo $front_label_stack; ?>;
     }
 </style>
 <a class="skip-link" href="#main-content">Salta al contenuto principale</a>

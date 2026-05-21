@@ -2510,9 +2510,9 @@ function centro_servizi_print_dynamic_css(): void
     echo "  --color-accent: " . esc_html($color_accent) . ";\n";
     echo "  --color-accent-light: " . esc_html(centro_servizi_lighten_color($color_accent, 55)) . ";\n";
     echo "  --color-accent-dark: " . esc_html(centro_servizi_darken_color($color_accent, 20)) . ";\n";
-    echo "  --font-body-family: " . esc_html($body_stack) . ";\n";
-    echo "  --font-heading-family: " . esc_html($h1_stack) . ";\n";
-    echo "  --font-label-family: " . esc_html($label_stack) . ";\n";
+    echo "  --font-body-family: " . $body_stack . ";\n";
+    echo "  --font-heading-family: " . $h1_stack . ";\n";
+    echo "  --font-label-family: " . $label_stack . ";\n";
     echo "  --stitch-primary: var(--color-main, #003342);\n";
     echo "  --stitch-secondary: var(--color-main-dark, #436555);\n";
     echo "  --stitch-tertiary: var(--color-accent-dark, #581a01);\n";
