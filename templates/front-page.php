@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="it">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Scuola dell'Infanzia | Scuola Aperta</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/site.css?v=<?php echo time(); ?>">
-    <style>
+
+<html class="scroll-smooth" lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scuola dell'Infanzia | Scuola Aperta</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             vertical-align: middle;
@@ -16,20 +16,116 @@
             box-shadow: 0 12px 40px -12px rgba(0, 51, 66, 0.08);
         }
     </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#baeaff",
+                      "on-tertiary-container": "#fc9974",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d9dadc",
+                      "on-tertiary-fixed-variant": "#783114",
+                      "surface-tint": "#306579",
+                      "surface-container": "#edeeef",
+                      "outline-variant": "#c0c8cc",
+                      "surface-container-highest": "#e1e2e4",
+                      "error": "#ba1a1a",
+                      "primary-container": "#0e4b5e",
+                      "background": "#f9f9fb",
+                      "on-surface": "#191c1d",
+                      "inverse-primary": "#9acee5",
+                      "on-error-container": "#93000a",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb59a",
+                      "inverse-surface": "#2e3132",
+                      "surface-container-low": "#f3f4f5",
+                      "on-primary-fixed-variant": "#114d60",
+                      "surface-container-high": "#e7e8ea",
+                      "outline": "#71787c",
+                      "on-secondary": "#ffffff",
+                      "surface": "#f9f9fb",
+                      "primary-fixed-dim": "#9acee5",
+                      "surface-variant": "#e1e2e4",
+                      "on-primary-fixed": "#001f29",
+                      "background-warm": "#FDFBF7",
+                      "on-surface-variant": "#40484c",
+                      "text-muted": "#4A4A4A",
+                      "secondary-container": "#c2e8d4",
+                      "text-main": "#1A1A1A",
+                      "on-secondary-fixed": "#002115",
+                      "secondary-fixed-dim": "#a9cfbb",
+                      "on-primary-container": "#87bad0",
+                      "inverse-on-surface": "#f0f1f2",
+                      "secondary-fixed": "#c5ebd7",
+                      "surface-cream": "#F7F2EB",
+                      "primary": "#003342",
+                      "on-tertiary-fixed": "#380d00",
+                      "on-secondary-fixed-variant": "#2c4d3e",
+                      "on-error": "#ffffff",
+                      "border-subtle": "#E5E0D8",
+                      "secondary": "#436555",
+                      "tertiary-fixed": "#ffdbcf",
+                      "tertiary-container": "#753013",
+                      "tertiary": "#581a01",
+                      "on-background": "#191c1d",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#f9f9fb",
+                      "on-secondary-container": "#476a5a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-padding-mobile": "64px",
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "section-padding-desktop": "120px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "display-lg-mobile": ["Plus Jakarta Sans"],
+                      "body-md": ["Work Sans"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "body-sm": ["Work Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "body-lg": ["Work Sans"],
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "label-caps": ["Work Sans"]
+              },
+              "fontSize": {
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "body-md": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-lg": ["20px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "label-caps": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
 </head>
 <body class="bg-background-warm text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
 <!-- TopNavBar -->
-<header class="sticky top-0 w-full z-50 bg-surface border-b border-border-subtle">
+<header class="sticky top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-b border-border-subtle dark:border-outline-variant">
 <div class="flex justify-between items-center h-20 px-4 md:px-gutter max-w-container-max mx-auto">
 <div class="flex items-center gap-unit">
-<span class="font-headline-sm text-headline-sm font-semibold text-primary">Scuola dell'Infanzia</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-primary dark:text-primary-fixed-dim">Scuola dell'Infanzia</span>
 </div>
 <nav class="hidden lg:flex items-center gap-8">
-<a class="text-primary border-b-2 border-primary font-semibold pb-1 font-label-caps text-label-caps transition-all" href="#">La nostra scuola</a>
-<a class="text-on-surface-variant font-normal pb-1 hover:text-primary transition-colors duration-200 font-label-caps text-label-caps" href="#">Attività</a>
-<a class="text-on-surface-variant font-normal pb-1 hover:text-primary transition-colors duration-200 font-label-caps text-label-caps" href="#">Area famiglie</a>
-<a class="text-on-surface-variant font-normal pb-1 hover:text-primary transition-colors duration-200 font-label-caps text-label-caps" href="#">Area personale</a>
-<a class="text-on-surface-variant font-normal pb-1 hover:text-primary transition-colors duration-200 font-label-caps text-label-caps" href="#">Amministrazione trasparente</a>
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-semibold pb-1 font-label-caps text-label-caps transition-all" href="#">La nostra scuola</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Attività</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Area famiglie</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Area personale</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-normal pb-1 hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200 font-label-caps text-label-caps" href="#">Amministrazione trasparente</a>
 </nav>
 <div class="flex items-center gap-4">
 <button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
@@ -45,7 +141,7 @@
 <!-- Hero Section -->
 <section class="relative min-h-[870px] flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOEOdhKhmf4ocmIu2t4NkiFaoSjGU1DVVh_8a2u3UO_ocAQ-nCpHO412KgFFr0A1XLAP13MmZdldtGE30HBR5350iBoo3JtlsAUTmgVDffVsOln047IwDd_G3DIHv0PpuviOZqDXNqxtHZcu6bZIUjheQUlyq1zMs1_2LLK8Ob-YZP5R0VlirMvHEn0kz-lHoV21FaL6u-ogrIrt-H2VQFuo2MhvL2lL7WxNMNuieejtgv2U-NFTtEWjrsJHfzWZvkNzcI2Dt00K82" alt="Hero Image">
+<img class="w-full h-full object-cover" data-alt="A warm and naturally lit interior of a modern Italian preschool. Soft sunlight streams through large windows onto wooden floors where children's handcrafted paper art hangs from the ceiling. The atmosphere is serene, welcoming, and authentic, featuring a palette of cream, sage green, and soft wood tones to evoke a sense of safety and wonder. High-quality editorial photography style with a shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOEOdhKhmf4ocmIu2t4NkiFaoSjGU1DVVh_8a2u3UO_ocAQ-nCpHO412KgFFr0A1XLAP13MmZdldtGE30HBR5350iBoo3JtlsAUTmgVDffVsOln047IwDd_G3DIHv0PpuviOZqDXNqxtHZcu6bZIUjheQUlyq1zMs1_2LLK8Ob-YZP5R0VlirMvHEn0kz-lHoV21FaL6u-ogrIrt-H2VQFuo2MhvL2lL7WxNMNuieejtgv2U-NFTtEWjrsJHfzWZvkNzcI2Dt00K82"/>
 <div class="absolute inset-0 bg-gradient-to-r from-background-warm/90 via-background-warm/40 to-transparent"></div>
 </div>
 <div class="relative z-10 px-4 md:px-gutter max-w-container-max mx-auto w-full">
@@ -120,25 +216,25 @@
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 <div class="space-y-4">
 <div class="aspect-[4/5] rounded-3xl overflow-hidden">
-<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdh5na1rpTmHcMqxT0pqpJreVVjX2XS1eSsDT7NPTYV6FYXCWHTAD25SD4ql1gj2yO8oY5Q1TtRDy3NoTJorVUeC8eraSQwzkpUC79-6ln1_Zbo2WjM0ylhQGn0e3ksBzHAdeU2hJ9lhIckBTZTC7Mo0qBLG2k9FLLb8yZK7ZqbyFJHJ-peO3oR9zlQgh1ooYlsJ7ab0UAtdayfFRSqcz2TH4shcg-IP8r64HU6IlVPicTqBYL7rkvXeRkDNWLK7wZ7jngL0XjH394" alt="Aula polifunzionale">
+<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="A bright classroom with low-level wooden tables and chairs, organized with natural materials like baskets of pinecones and colorful building blocks. The walls are painted in a soft cream color, creating a calm and focused learning environment for young children. Soft afternoon light fills the room." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdh5na1rpTmHcMqxT0pqpJreVVjX2XS1eSsDT7NPTYV6FYXCWHTAD25SD4ql1gj2yO8oY5Q1TtRDy3NoTJorVUeC8eraSQwzkpUC79-6ln1_Zbo2WjM0ylhQGn0e3ksBzHAdeU2hJ9lhIckBTZTC7Mo0qBLG2k9FLLb8yZK7ZqbyFJHJ-peO3oR9zlQgh1ooYlsJ7ab0UAtdayfFRSqcz2TH4shcg-IP8r64HU6IlVPicTqBYL7rkvXeRkDNWLK7wZ7jngL0XjH394"/>
 </div>
 <p class="font-label-caps text-label-caps text-primary px-2">Aula polifunzionale</p>
 </div>
 <div class="space-y-4 md:mt-12">
 <div class="aspect-[4/5] rounded-3xl overflow-hidden">
-<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNMPLe6BN65k37pNZ9tykZJzzu88rx4kZymtD_mPGqkNc9mtps3I4PbyXYx5tkh2ZTktBf6wpT0BozIpAdm3tM5ddJxhrGNhwbKS6uLmZkGTzzVE-upi0eFp2Q7UidHrB1XBu_movCtJcSgA3_T6SFgKmVKjPrO3X0X5Q0JD-IPe-HH2xObuJ8LZT8yDp8_qHys7HEigViRe-mDuXNiwYpgjXKh5Ywia0YmbYlo7UmJZI1nCa3vXVYehnfxGcAGQuKpGZSxpb4htF" alt="Giardino esterno">
+<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="A safe outdoor playground area with a lush green lawn, small wooden climbing structures, and a colorful rubberized safety floor section. Large leafy trees provide natural shade, and the setting is peaceful and secure, surrounded by a low wooden fence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNMPLe6BN65k37pNZ9tykZJzzu88rx4kZymtD_mPGqkNc9mtps3I4PbyXYx5tkh2ZTktBf6wpT0BozIpAdm3tM5ddJxhrGNhwbKS6uLmZkGTzzVE-upi0eFp2Q7UidHrB1XBu_movCtJcSgA3_T6SFgKmVKjPrO3X0X5Q0JD-IPe-HH2xObuJ8LZT8yDp8_qHys7HEigViRe-mDuXNiwYpgjXKh5Ywia0YmbYlo7UmJZI1nCa3vXVYehnfxGcAGQuKpGZSxpb4htF"/>
 </div>
 <p class="font-label-caps text-label-caps text-primary px-2">Giardino esterno</p>
 </div>
 <div class="space-y-4">
 <div class="aspect-[4/5] rounded-3xl overflow-hidden">
-<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9GcGYrJD0DtSRKZMua6hvH8-4mLi-ukSuWbR1nzK_VFSkYCKW8QHI6xNev3qEZXYHifk1STgoG5ct0hejF8bfmOO4s_Z-wMzJmJTSyqFYHypFMIgRBBeYwrrcvCxuC7iZHlbgGBIx0zJMibFGvHEeHOz8gMuxfOiSxkpkwcuZvnU0SeOb9OOnjLgyu48j7TEjKgAiF4LTLWoAGn-QZ17tBNtFrCTcno0ZIm9DgBRJnWL3oq_UvV5AGxNjNyxWM3GRz3SDZX-OU9Ka" alt="Laboratorio creativo">
+<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="An atelier or art studio for children, featuring large rolls of paper, jars of vibrant tempera paints, and brushes of various sizes. Natural light comes from above, and the space is organized yet creative, with drying racks filled with children's colorful paintings." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9GcGYrJD0DtSRKZMua6hvH8-4mLi-ukSuWbR1nzK_VFSkYCKW8QHI6xNev3qEZXYHifk1STgoG5ct0hejF8bfmOO4s_Z-wMzJmJTSyqFYHypFMIgRBBeYwrrcvCxuC7iZHlbgGBIx0zJMibFGvHEeHOz8gMuxfOiSxkpkwcuZvnU0SeOb9OOnjLgyu48j7TEjKgAiF4LTLWoAGn-QZ17tBNtFrCTcno0ZIm9DgBRJnWL3oq_UvV5AGxNjNyxWM3GRz3SDZX-OU9Ka"/>
 </div>
 <p class="font-label-caps text-label-caps text-primary px-2">Laboratorio creativo</p>
 </div>
 <div class="space-y-4 md:mt-12">
 <div class="aspect-[4/5] rounded-3xl overflow-hidden">
-<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD10J3r7ipd-PbdzTFMszODPK5OvOk3zBrDnE84zhOiCd2Ic9811PXrB-KXz6qqJI77FRROa1p0olJmdQK2-lP4XsZknsrkZtsu1d_MtQJfjQ24zaSQlLJO6kmyD0CN-GSHkbdfXtB5o7cGkTKZI3EvIw_fISB5ssz7ETbAl1r5AvANwa84qnuFXuNYW7xVUuhmSIp1SSHUNbKPDtM60YKyBlZAac3ZNlQBqLblRff9QS5FZR-4YDajX9mC0dNaizCtpFM5MEVpzwWq" alt="Area riposo">
+<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="A cozy rest area for toddlers, featuring soft individual mats with clean linens, dim lighting, and a soothing atmosphere. The room uses natural wood accents and soft blue colors to promote relaxation and quiet time during the afternoon nap." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD10J3r7ipd-PbdzTFMszODPK5OvOk3zBrDnE84zhOiCd2Ic9811PXrB-KXz6qqJI77FRROa1p0olJmdQK2-lP4XsZknsrkZtsu1d_MtQJfjQ24zaSQlLJO6kmyD0CN-GSHkbdfXtB5o7cGkTKZI3EvIw_fISB5ssz7ETbAl1r5AvANwa84qnuFXuNYW7xVUuhmSIp1SSHUNbKPDtM60YKyBlZAac3ZNlQBqLblRff9QS5FZR-4YDajX9mC0dNaizCtpFM5MEVpzwWq"/>
 </div>
 <p class="font-label-caps text-label-caps text-primary px-2">Area riposo</p>
 </div>
@@ -151,7 +247,7 @@
 <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
 <div class="w-full lg:w-1/2 relative">
 <div class="aspect-[4/5] rounded-[3rem] overflow-hidden editorial-shadow relative z-10">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCqdfqf86yBMLs89-SVbZojTGqtnPQBdOo5WmOYkCa9-Eh_5PHHCnswX62aYgIVX2mggL2yD0PYq6iFaJ06FmmXI_YotXP3h42k4NonnfE5pu4JQusKZ68f4Mva5GYjKMPJ8UnYrs-JZc1mQBSVljiRBtyS0cW74Ld46fiILH1U33mggccSPNrAJImJM_dtaF_BZ2jQwFiWeDNds22aesHu_wkCDbJwOsUU75suCBP4urpo9ZqS5G4fyk5NmmKq5fIXtU4EblIaKZd" alt="Esperienze speciali">
+<img class="w-full h-full object-cover" data-alt="A teacher in a soft sage apron kneeling next to a small group of children in an outdoor garden laboratory. They are looking closely at young seedlings in wooden planters. The sunlight is warm and soft, and the scene captures a moment of quiet focus and discovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCqdfqf86yBMLs89-SVbZojTGqtnPQBdOo5WmOYkCa9-Eh_5PHHCnswX62aYgIVX2mggL2yD0PYq6iFaJ06FmmXI_YotXP3h42k4NonnfE5pu4JQusKZ68f4Mva5GYjKMPJ8UnYrs-JZc1mQBSVljiRBtyS0cW74Ld46fiILH1U33mggccSPNrAJImJM_dtaF_BZ2jQwFiWeDNds22aesHu_wkCDbJwOsUU75suCBP4urpo9ZqS5G4fyk5NmmKq5fIXtU4EblIaKZd"/>
 </div>
 <!-- Decorative element -->
 <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-tertiary-fixed rounded-3xl -z-0 hidden md:block"></div>
@@ -287,12 +383,13 @@
 </div>
 </div>
 <div class="relative min-h-[400px]">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuunF_uo4bdmo8_tl1U4-RyiuxPcGMMeMfuMPW7IJjz8wwmkk4bh4Z70Ja0AC3sc_r4kFI2evYy7beIz2Uh-j4kgfX5UuSOxVdNg5Nz80UBLyUdSYMedgaQiwIH93F_sgLr2KDFjAyynv5niblO5QLoteCJCkNZAUrkWTrUQH2kzzBqV93lFtmWwecSaQ2AxWOOFv-FbsggaQTqS_pWvTnjsAcVi9-kCfindJS6vrGtk3oQR5MED-I8_36OjXGY1t4EnePAdBhODAm" alt="Mappa Roma">
+<img class="w-full h-full object-cover" data-alt="A stylized minimalist map of a Rome neighborhood, highlighting the preschool's location with a friendly petrol blue pin. The map design is clean and high-contrast, using a light color palette to match the website's aesthetic, emphasizing major landmarks and surrounding parks in soft green." data-location="Rome, Italy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuunF_uo4bdmo8_tl1U4-RyiuxPcGMMeMfuMPW7IJjz8wwmkk4bh4Z70Ja0AC3sc_r4kFI2evYy7beIz2Uh-j4kgfX5UuSOxVdNg5Nz80UBLyUdSYMedgaQiwIH93F_sgLr2KDFjAyynv5niblO5QLoteCJCkNZAUrkWTrUQH2kzzBqV93lFtmWwecSaQ2AxWOOFv-FbsggaQTqS_pWvTnjsAcVi9-kCfindJS6vrGtk3oQR5MED-I8_36OjXGY1t4EnePAdBhODAm"/>
 </div>
 </div>
 </div>
 </section>
-<!-- Footer partner e credits -->
+</main>
+<!-- Footer -->
 <section class="relative py-section-padding-mobile md:py-section-padding-desktop overflow-hidden">
 <div class="absolute inset-0 z-0">
 <img alt="Partner Background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzRNDreMgYxqjNMVbORRy8sxSCTuYQVxw-n3EWp2khMpKqOGpbjlaFN7S6AxrhQYgB8FpYvRqntf_nFLqiJKs4XDdUJTwUyxsztqwxjdI-5Q0lfWveoH-9MFnxGK7cVtAsd8-STUIrKYhFFLlY8H8oomTTOObkf0grD-VgPR2WPXqm7vO-dZ-8uuoifaFderLgFTcCL1hBmibmxuqoaYDMgC1WHMYbMES1VUdFxEcwrS4-TpbSqCc0a7stG_7p-JiO-p0GSsWLw31n"/>
@@ -317,8 +414,7 @@
 </div>
 </div>
 </div>
-</section>
-<footer class="bg-primary">
+</section><footer class="bg-primary dark:bg-primary-container">
 <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter py-section-padding-mobile md:py-section-padding-desktop px-gutter max-w-container-max mx-auto text-on-primary">
 <div class="md:col-span-2">
 <span class="font-headline-sm text-headline-sm font-bold text-on-primary mb-6 block">Scuola Aperta</span>
@@ -334,19 +430,19 @@
 <div>
 <h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Link Utili</h4>
 <ul class="space-y-4 font-body-sm text-body-sm">
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">La nostra scuola</a></li>
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Attività</a></li>
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Area famiglie</a></li>
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Mappa del Sito</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">La nostra scuola</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Attività</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Area famiglie</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Mappa del Sito</a></li>
 </ul>
 </div>
 <div>
 <h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Legale</h4>
 <ul class="space-y-4 font-body-sm text-body-sm">
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Feedback Accessibilità</a></li>
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity underline" href="#">Privacy Policy</a></li>
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Cookie Policy</a></li>
-<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Amministrazione Trasparente</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Feedback Accessibilità</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity underline" href="#">Privacy Policy</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Cookie Policy</a></li>
+<li><a class="text-on-primary-container dark:text-on-primary-fixed-variant opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Amministrazione Trasparente</a></li>
 </ul>
 </div>
 </div>
@@ -356,5 +452,24 @@
             </p>
 </div>
 </footer>
-</body>
-</html>
+<script>
+        // Simple fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body></html>
