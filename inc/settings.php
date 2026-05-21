@@ -2484,9 +2484,11 @@ function centro_servizi_print_dynamic_css(): void
 
     $body_stack = centro_servizi_get_profile_font_stack(is_array($typography['body'] ?? null) ? $typography['body'] : [], $font_catalog);
     $h1_stack = centro_servizi_get_profile_font_stack(is_array($typography['h1'] ?? null) ? $typography['h1'] : [], $font_catalog);
+    $label_stack = centro_servizi_get_profile_font_stack(is_array($typography['links'] ?? null) ? $typography['links'] : [], $font_catalog);
 
     $body_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $body_stack) ?: 'Arial, sans-serif';
     $h1_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $h1_stack) ?: $body_stack;
+    $label_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', $label_stack) ?: $body_stack;
 
     $stitch_bg_warm = centro_servizi_lighten_color($color_secondary, 68);
     $stitch_surface = centro_servizi_lighten_color($color_secondary, 80);
@@ -2510,6 +2512,7 @@ function centro_servizi_print_dynamic_css(): void
     echo "  --color-accent-dark: " . esc_html(centro_servizi_darken_color($color_accent, 20)) . ";\n";
     echo "  --font-body-family: " . esc_html($body_stack) . ";\n";
     echo "  --font-heading-family: " . esc_html($h1_stack) . ";\n";
+    echo "  --font-label-family: " . esc_html($label_stack) . ";\n";
     echo "  --stitch-primary: var(--color-main, #003342);\n";
     echo "  --stitch-secondary: var(--color-main-dark, #436555);\n";
     echo "  --stitch-tertiary: var(--color-accent-dark, #581a01);\n";

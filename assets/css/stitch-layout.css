@@ -335,8 +335,8 @@ button {
 .font-headline-sm { font-family: var(--font-heading-family, "Plus Jakarta Sans", Arial, sans-serif); }
 .font-body-lg,
 .font-body-md,
-.font-body-sm,
-.font-label-caps { font-family: var(--font-body-family, "Work Sans", Arial, sans-serif); }
+.font-body-sm { font-family: var(--font-body-family, "Work Sans", Arial, sans-serif); }
+.font-label-caps { font-family: var(--font-label-family, var(--font-body-family, "Work Sans", Arial, sans-serif)); }
 
 .font-bold { font-weight: 700; }
 .font-semibold { font-weight: 600; }

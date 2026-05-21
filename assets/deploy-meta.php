@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'aggiungi aggiornamenti alla homepage e miglioramenti del sistema di stile, inclusi preset di palette e anteprime font',
-    'commit_hash'  => '9f179ffbe',
-    'deployed_at'  => '2026-05-21 12:51:22',
+    'commit_title' => 'aggiungi supporto per la gestione dei font etichetta nelle impostazioni di stile',
+    'commit_hash'  => 'e502a0f67',
+    'deployed_at'  => '2026-05-21 12:55:43',
 ];
