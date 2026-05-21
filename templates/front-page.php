@@ -144,7 +144,6 @@ wp_nav_menu([
 <div class="relative z-10 px-4 md:px-gutter max-w-container-max mx-auto w-full">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 <div class="max-w-2xl">
-<span class="font-label-caps text-label-caps text-tertiary mb-4 block">SCUOLA DELL'INFANZIA</span>
 <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 animate-fade-in"><?php echo esc_html($homepage_title); ?></h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-0 max-w-lg"><?php echo esc_html($homepage_subtitle); ?></p>
 </div>
@@ -265,10 +264,10 @@ wp_nav_menu([
 <span class="font-label-caps text-label-caps text-tertiary mb-4 block">CONTATTI</span>
 <h2 class="font-headline-md text-headline-md text-primary mb-8">Siamo qui per te.</h2>
 <?php if ($homepage_contacts !== []) : ?>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+<ul class="stitch-contact-list mb-12" role="list">
 <?php foreach ($homepage_contacts as $contact) : ?>
-<div class="flex items-start gap-4 bg-surface-cream rounded-2xl p-4 h-full">
-<span class="material-symbols-outlined text-secondary mt-1" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
+<li class="stitch-contact-list__item">
+<span class="material-symbols-outlined text-secondary" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
 <div>
 <h4 class="font-semibold text-primary"><?php echo esc_html((string) $contact['label']); ?></h4>
 <?php if ((string) $contact['href'] !== '') : ?>
@@ -283,9 +282,9 @@ wp_nav_menu([
 <p class="text-on-surface-variant break-words"><?php echo esc_html((string) $contact['value']); ?></p>
 <?php endif; ?>
 </div>
-</div>
+</li>
 <?php endforeach; ?>
-</div>
+</ul>
 <?php else : ?>
 <p class="text-on-surface-variant mb-12">I contatti saranno pubblicati a breve.</p>
 <?php endif; ?>
