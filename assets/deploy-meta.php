@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'rimuovi codice non utilizzato e semplifica la struttura della homepage',
-    'commit_hash'  => '4d78e14cd',
-    'deployed_at'  => '2026-05-21 10:29:05',
+    'commit_title' => 'aggiungi stili CSS di base per la homepage e struttura del layout',
+    'commit_hash'  => '0bec0bfd2',
+    'deployed_at'  => '2026-05-21 10:39:04',
 ];

@@ -1,0 +1,132 @@
+/* CSS base per la homepage Stitch - da personalizzare e integrare */
+
+body {
+  background: #FDFBF7;
+  color: #191c1d;
+  font-family: 'Work Sans', Arial, sans-serif;
+}
+
+header {
+  background: #f9f9fb;
+  border-bottom: 1px solid #E5E0D8;
+}
+
+.font-headline-sm {
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.font-display-lg {
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.font-body-lg {
+  font-family: 'Work Sans', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.bg-surface-cream {
+  background: #F7F2EB;
+}
+
+.bg-primary {
+  background: #003342;
+}
+
+.text-primary {
+  color: #003342;
+}
+
+.text-on-primary {
+  color: #fff;
+}
+
+.text-secondary {
+  color: #436555;
+}
+
+.bg-tertiary {
+  background: #581a01;
+}
+
+.text-on-tertiary {
+  color: #fff;
+}
+
+.bg-secondary-container {
+  background: #c2e8d4;
+}
+
+.text-tertiary {
+  color: #581a01;
+}
+
+.bg-primary-fixed {
+  background: #baeaff;
+}
+
+.bg-tertiary-fixed {
+  background: #ffdbcf;
+}
+
+.border-primary {
+  border-color: #003342;
+}
+
+.border-secondary {
+  border-color: #436555;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.rounded-3xl {
+  border-radius: 1.5rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.editorial-shadow {
+  box-shadow: 0 12px 40px -12px rgba(0, 51, 66, 0.08);
+}
+
+/* Utility per padding e spacing */
+.py-section-padding-mobile {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+@media (min-width: 768px) {
+  .py-section-padding-desktop {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+}
+
+.max-w-container-max {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.px-gutter {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.gap-unit {
+  gap: 8px;
+}
+
+/* Altre utility e fix possono essere aggiunte qui */
