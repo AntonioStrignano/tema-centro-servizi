@@ -178,126 +178,189 @@ if (is_user_logged_in() && current_user_can('manage_options')) {
 		</div>
 	</section>
 
-	<?php if ($la_nostra_scuola_page instanceof WP_Post) : ?>
-		<section class="site-section home-vitrine__scuola" aria-labelledby="home-scuola-title">
-			<div class="site-section__inner">
-				<div class="home-vitrine__section-head">
-					<h2 id="home-scuola-title" class="home-vitrine__section-title"><?php echo esc_html($la_nostra_scuola_page->post_title); ?></h2>
-					<a class="home-vitrine__text-link" href="<?php echo esc_url(get_permalink($la_nostra_scuola_page->ID)); ?>">Scopri la scuola</a>
-				</div>
+	<!-- Chi Siamo / Valori -->
+<section class="py-section-padding-mobile md:py-section-padding-desktop bg-surface-cream">
+    <div class="px-4 md:px-gutter max-w-container-max mx-auto">
+        <div class="grid lg:grid-cols-2 gap-16 items-center md:grid-cols-4 justify-items-center max-w-5xl mx-auto">
+            <div>
+                <span class="font-label-caps text-label-caps text-tertiary mb-4 block">CHI SIAMO</span>
+                <h2 class="font-headline-md text-headline-md text-primary mb-6">Educhiamo con amore, guidiamo con esperienza.</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                    La nostra scuola paritaria è un luogo di crescita armoniosa dove la curiosità naturale dei bambini viene alimentata attraverso il gioco, l'esplorazione e la relazione. Crediamo in un'educazione che valorizzi l'unicità di ogni individuo in un contesto comunitario solido.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:grid-cols-4 justify-items-center max-w-5xl mx-auto">
+                <div class="bg-white p-8 rounded-2xl editorial-shadow text-center">
+                    <div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-secondary">
+                        <span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
+                    </div>
+                    <h3 class="font-headline-sm text-headline-sm text-primary mb-2">Accoglienza</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Un clima familiare e sereno.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl editorial-shadow text-center">
+                    <div class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                        <span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+                    </div>
+                    <h3 class="font-headline-sm text-headline-sm text-primary mb-2">Crescita</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Sviluppo cognitivo e motorio.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl editorial-shadow text-center">
+                    <div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-tertiary">
+                        <span class="material-symbols-outlined" data-icon="groups">groups</span>
+                    </div>
+                    <h3 class="font-headline-sm text-headline-sm text-primary mb-2">Comunità</h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Condivisione con le famiglie.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-				<?php if ($la_nostra_scuola_excerpt !== '') : ?>
-					<p class="home-vitrine__scuola-excerpt"><?php echo esc_html($la_nostra_scuola_excerpt); ?></p>
-				<?php endif; ?>
+<!-- Mini Gallery -->
+<section class="py-section-padding-mobile md:py-section-padding-desktop">
+    <div class="px-4 md:px-gutter max-w-container-max mx-auto">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <span class="font-label-caps text-label-caps text-secondary mb-4 block">GLI SPAZI</span>
+                <h2 class="font-headline-md text-headline-md text-primary">Un ambiente su misura per i piccoli.</h2>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="space-y-4">
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden">
+                    <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdh5na1rpTmHcMqxT0pqpJreVVjX2XS1eSsDT7NPTYV6FYXCWHTAD25SD4ql1gj2yO8oY5Q1TtRDy3NoTJorVUeC8eraSQwzkpUC79-6ln1_Zbo2WjM0ylhQGn0e3ksBzHAdeU2hJ9lhIckBTZTC7Mo0qBLG2k9FLLb8yZK7ZqbyFJHJ-peO3oR9zlQgh1ooYlsJ7ab0UAtdayfFRSqcz2TH4shcg-IP8r64HU6IlVPicTqBYL7rkvXeRkDNWLK7wZ7jngL0XjH394" alt="Aula polifunzionale">
+                </div>
+                <p class="font-label-caps text-label-caps text-primary px-2">Aula polifunzionale</p>
+            </div>
+            <div class="space-y-4 md:mt-12">
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden">
+                    <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNMPLe6BN65k37pNZ9tykZJzzu88rx4kZymtD_mPGqkNc9mtps3I4PbyXYx5tkh2ZTktBf6wpT0BozIpAdm3tM5ddJxhrGNhwbKS6uLmZkGTzzVE-upi0eFp2Q7UidHrB1XBu_movCtJcSgA3_T6SFgKmVKjPrO3X0X5Q0JD-IPe-HH2xObuJ8LZT8yDp8_qHys7HEigViRe-mDuXNiwYpgjXKh5Ywia0YmbYlo7UmJZI1nCa3vXVYehnfxGcAGQuKpGZSxpb4htF" alt="Giardino esterno">
+                </div>
+                <p class="font-label-caps text-label-caps text-primary px-2">Giardino esterno</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-				<?php if (! empty($la_nostra_scuola_items)) : ?>
-					<div class="home-vitrine__gallery-grid">
-						<?php foreach (array_slice($la_nostra_scuola_items, 0, 4) as $index => $item) :
-							$image = isset($item['immagine']) && is_array($item['immagine']) ? $item['immagine'] : null;
-							if (! $image || empty($image['url'])) {
-								continue;
-							}
-							$item_title = isset($item['titolo']) ? trim((string) $item['titolo']) : '';
-							$item_title = $item_title !== '' ? $item_title : 'Ambiente educativo ' . ($index + 1);
-							?>
-							<figure class="home-vitrine__gallery-item">
-								<img src="<?php echo esc_url((string) $image['url']); ?>" alt="<?php echo esc_attr($item_title); ?>" loading="lazy" />
-								<figcaption><?php echo esc_html($item_title); ?></figcaption>
-							</figure>
-						<?php endforeach; ?>
-					</div>
-				<?php endif; ?>
-			</div>
-		</section>
-	<?php endif; ?>
-
-	<?php if ($attivita_speciali_cards !== []) : ?>
-		<section class="site-section home-vitrine__highlights" aria-labelledby="home-highlights-title">
-			<div class="site-section__inner">
-				<div class="home-vitrine__section-head">
-					<h2 id="home-highlights-title" class="home-vitrine__section-title">Attivita in evidenza</h2>
-					<?php if ($attivita_speciali_page instanceof WP_Post) : ?>
-						<a class="home-vitrine__text-link" href="<?php echo esc_url(get_permalink($attivita_speciali_page->ID)); ?>">Vedi tutte le attivita speciali</a>
-					<?php endif; ?>
-				</div>
-
-				<?php if ($attivita_speciali_intro !== '') : ?>
-					<p class="home-vitrine__highlights-intro"><?php echo esc_html($attivita_speciali_intro); ?></p>
-				<?php endif; ?>
-
-				<div class="home-vitrine__highlights-grid">
-					<?php foreach ($attivita_speciali_cards as $card) : ?>
-						<article class="home-vitrine__highlight-card">
-							<?php if ($card['image_url'] !== '') : ?>
-								<img
-									class="home-vitrine__highlight-image"
-									src="<?php echo esc_url((string) $card['image_url']); ?>"
-									alt="<?php echo esc_attr((string) $card['image_alt']); ?>"
-									loading="lazy"
-								/>
-							<?php endif; ?>
-
-							<div class="home-vitrine__highlight-content">
-								<h3><?php echo esc_html((string) $card['title']); ?></h3>
-								<?php if ((string) $card['text'] !== '') : ?>
-									<p><?php echo esc_html(wp_trim_words((string) $card['text'], 24)); ?></p>
-								<?php endif; ?>
-								<a class="home-vitrine__text-link" href="<?php echo esc_url((string) $card['url']); ?>">Approfondisci</a>
-							</div>
-						</article>
-					<?php endforeach; ?>
-				</div>
-			</div>
-		</section>
-	<?php endif; ?>
-
-	<section class="site-section home-vitrine__calendar" aria-labelledby="home-calendar-title">
+<?php if ($la_nostra_scuola_page instanceof WP_Post) : ?>
+	<section class="site-section home-vitrine__scuola" aria-labelledby="home-scuola-title">
 		<div class="site-section__inner">
 			<div class="home-vitrine__section-head">
-				<h2 id="home-calendar-title" class="home-vitrine__section-title">Orari e calendario</h2>
+				<h2 id="home-scuola-title" class="home-vitrine__section-title"><?php echo esc_html($la_nostra_scuola_page->post_title); ?></h2>
+				<a class="home-vitrine__text-link" href="<?php echo esc_url(get_permalink($la_nostra_scuola_page->ID)); ?>">Scopri la scuola</a>
 			</div>
 
-			<div class="home-vitrine__calendar-grid">
-				<?php if ($orari_posts->have_posts()) : ?>
-					<?php while ($orari_posts->have_posts()) : $orari_posts->the_post(); ?>
-						<article class="home-vitrine__calendar-card">
-							<h3><?php the_title(); ?></h3>
-							<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 24)); ?></p>
-							<p class="home-vitrine__calendar-meta">
-								Pubblicato: <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('d/m/Y')); ?></time>
-								| Aggiornato: <time datetime="<?php echo esc_attr(get_the_modified_date('c')); ?>"><?php echo esc_html(get_the_modified_date('d/m/Y')); ?></time>
-							</p>
-							<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi gli orari</a>
-						</article>
-					<?php endwhile; ?>
-					<?php wp_reset_postdata(); ?>
-				<?php else : ?>
-					<article class="home-vitrine__calendar-card">
-						<h3>Orari</h3>
-						<p>Gli orari verranno pubblicati a breve.</p>
-					</article>
-				<?php endif; ?>
+			<?php if ($la_nostra_scuola_excerpt !== '') : ?>
+				<p class="home-vitrine__scuola-excerpt"><?php echo esc_html($la_nostra_scuola_excerpt); ?></p>
+			<?php endif; ?>
 
-				<?php if ($calendario_posts->have_posts()) : ?>
-					<?php while ($calendario_posts->have_posts()) : $calendario_posts->the_post(); ?>
-						<article class="home-vitrine__calendar-card">
-							<h3><?php the_title(); ?></h3>
-							<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 24)); ?></p>
-							<p class="home-vitrine__calendar-meta">
-								Pubblicato: <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('d/m/Y')); ?></time>
-								| Aggiornato: <time datetime="<?php echo esc_attr(get_the_modified_date('c')); ?>"><?php echo esc_html(get_the_modified_date('d/m/Y')); ?></time>
-							</p>
-							<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi il calendario</a>
-						</article>
-					<?php endwhile; ?>
-					<?php wp_reset_postdata(); ?>
-				<?php else : ?>
-					<article class="home-vitrine__calendar-card">
-						<h3>Calendario</h3>
-						<p>Il calendario scolastico verra aggiornato a breve.</p>
-					</article>
+			<?php if (! empty($la_nostra_scuola_items)) : ?>
+				<div class="home-vitrine__gallery-grid">
+					<?php foreach (array_slice($la_nostra_scuola_items, 0, 4) as $index => $item) :
+						$image = isset($item['immagine']) && is_array($item['immagine']) ? $item['immagine'] : null;
+						if (! $image || empty($image['url'])) {
+							continue;
+						}
+						$item_title = isset($item['titolo']) ? trim((string) $item['titolo']) : '';
+						$item_title = $item_title !== '' ? $item_title : 'Ambiente educativo ' . ($index + 1);
+						?>
+						<figure class="home-vitrine__gallery-item">
+							<img src="<?php echo esc_url((string) $image['url']); ?>" alt="<?php echo esc_attr($item_title); ?>" loading="lazy" />
+							<figcaption><?php echo esc_html($item_title); ?></figcaption>
+						</figure>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</div>
+	</section>
+<?php endif; ?>
+
+<?php if ($attivita_speciali_cards !== []) : ?>
+	<section class="site-section home-vitrine__highlights" aria-labelledby="home-highlights-title">
+		<div class="site-section__inner">
+			<div class="home-vitrine__section-head">
+				<h2 id="home-highlights-title" class="home-vitrine__section-title">Attivita in evidenza</h2>
+				<?php if ($attivita_speciali_page instanceof WP_Post) : ?>
+					<a class="home-vitrine__text-link" href="<?php echo esc_url(get_permalink($attivita_speciali_page->ID)); ?>">Vedi tutte le attivita speciali</a>
 				<?php endif; ?>
 			</div>
+
+			<?php if ($attivita_speciali_intro !== '') : ?>
+				<p class="home-vitrine__highlights-intro"><?php echo esc_html($attivita_speciali_intro); ?></p>
+			<?php endif; ?>
+
+			<div class="home-vitrine__highlights-grid">
+				<?php foreach ($attivita_speciali_cards as $card) : ?>
+					<article class="home-vitrine__highlight-card">
+						<?php if ($card['image_url'] !== '') : ?>
+							<img
+								class="home-vitrine__highlight-image"
+								src="<?php echo esc_url((string) $card['image_url']); ?>"
+								alt="<?php echo esc_attr((string) $card['image_alt']); ?>"
+								loading="lazy"
+							/>
+						<?php endif; ?>
+
+						<div class="home-vitrine__highlight-content">
+							<h3><?php echo esc_html((string) $card['title']); ?></h3>
+							<?php if ((string) $card['text'] !== '') : ?>
+								<p><?php echo esc_html(wp_trim_words((string) $card['text'], 24)); ?></p>
+							<?php endif; ?>
+							<a class="home-vitrine__text-link" href="<?php echo esc_url((string) $card['url']); ?>">Approfondisci</a>
+						</div>
+					</article>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</section>
+<?php endif; ?>
+
+<section class="site-section home-vitrine__calendar" aria-labelledby="home-calendar-title">
+	<div class="site-section__inner">
+		<div class="home-vitrine__section-head">
+			<h2 id="home-calendar-title" class="home-vitrine__section-title">Orari e calendario</h2>
+		</div>
+
+		<div class="home-vitrine__calendar-grid">
+			<?php if ($orari_posts->have_posts()) : ?>
+				<?php while ($orari_posts->have_posts()) : $orari_posts->the_post(); ?>
+					<article class="home-vitrine__calendar-card">
+						<h3><?php the_title(); ?></h3>
+						<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 24)); ?></p>
+						<p class="home-vitrine__calendar-meta">
+							Pubblicato: <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('d/m/Y')); ?></time>
+							| Aggiornato: <time datetime="<?php echo esc_attr(get_the_modified_date('c')); ?>"><?php echo esc_html(get_the_modified_date('d/m/Y')); ?></time>
+						</p>
+						<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi gli orari</a>
+					</article>
+				<?php endwhile; ?>
+				<?php wp_reset_postdata(); ?>
+			<?php else : ?>
+				<article class="home-vitrine__calendar-card">
+					<h3>Orari</h3>
+					<p>Gli orari verranno pubblicati a breve.</p>
+				</article>
+			<?php endif; ?>
+
+			<?php if ($calendario_posts->have_posts()) : ?>
+				<?php while ($calendario_posts->have_posts()) : $calendario_posts->the_post(); ?>
+					<article class="home-vitrine__calendar-card">
+						<h3><?php the_title(); ?></h3>
+						<p><?php echo esc_html(wp_trim_words((string) get_the_excerpt(), 24)); ?></p>
+						<p class="home-vitrine__calendar-meta">
+							Pubblicato: <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('d/m/Y')); ?></time>
+							| Aggiornato: <time datetime="<?php echo esc_attr(get_the_modified_date('c')); ?>"><?php echo esc_html(get_the_modified_date('d/m/Y')); ?></time>
+						</p>
+						<a class="home-vitrine__text-link" href="<?php the_permalink(); ?>">Leggi il calendario</a>
+					</article>
+				<?php endwhile; ?>
+				<?php wp_reset_postdata(); ?>
+			<?php else : ?>
+				<article class="home-vitrine__calendar-card">
+					<h3>Calendario</h3>
+					<p>Il calendario scolastico verra aggiornato a breve.</p>
+				</article>
+			<?php endif; ?>
 		</div>
 	</section>
 
