@@ -204,10 +204,157 @@
 </li>
 </ul>
 </div>
-<!-- ...continua con la seconda colonna e altre sezioni se necessario... -->
+<div class="bg-secondary p-12 rounded-[2rem] text-on-secondary">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-4xl" data-icon="calendar_month">calendar_month</span>
+<h2 class="font-headline-md text-headline-md">Calendario scolastico</h2>
+</div>
+<p class="font-body-md text-body-md mb-8 opacity-90">Consulta le festività, i periodi di chiusura e le date degli eventi speciali previsti per l'anno scolastico in corso.</p>
+<div class="space-y-4">
+<a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="#">
+<span class="font-semibold">Scarica Calendario 2024/25</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-y-1" data-icon="download">download</span>
+</a>
+<a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="#">
+<span class="font-semibold">Eventi e Recite</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="event_note">event_note</span>
+</a>
+</div>
+</div>
 </div>
 </div>
 </section>
-</main>
+<!-- Servizi principali -->
+<section class="py-section-padding-mobile md:py-section-padding-desktop bg-surface-cream">
+<div class="px-4 md:px-gutter max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<span class="font-label-caps text-label-caps text-secondary mb-4 block">SERVIZI PER LE FAMIGLIE</span>
+<h2 class="font-headline-md text-headline-md text-primary">Tutto a portata di clic.</h2>
+</div>
+<div class="grid grid-cols-2 gap-4 md:gap-6 md:grid-cols-4 justify-items-center max-w-5xl mx-auto">
+<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="description">description</span>
+<h4 class="font-label-caps text-label-caps text-primary">Modulistica</h4>
+</a>
+<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="notifications">notifications</span>
+<h4 class="font-label-caps text-label-caps text-primary">Archivio Modulistica</h4>
+</a>
+<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="assignment_ind">assignment_ind</span>
+<h4 class="font-label-caps text-label-caps text-primary">Archivio Comunicazioni</h4>
+</a>
+<a class="bg-white p-8 rounded-3xl text-center hover:shadow-xl transition-all border border-border-subtle group" href="#">
+<span class="material-symbols-outlined text-4xl text-primary mb-4 block transition-transform group-hover:scale-110" data-icon="diversity_1">diversity_1</span>
+<h4 class="font-label-caps text-label-caps text-primary">Archivio Iscrizioni</h4>
+</a>
+</div>
+</div>
+</section>
+<!-- Contatti rapidi -->
+<section class="py-section-padding-mobile md:py-section-padding-desktop">
+<div class="px-4 md:px-gutter max-w-container-max mx-auto">
+<div class="bg-white rounded-[3rem] overflow-hidden editorial-shadow grid md:grid-cols-2">
+<div class="p-12 md:p-20">
+<span class="font-label-caps text-label-caps text-tertiary mb-4 block">CONTATTI</span>
+<h2 class="font-headline-md text-headline-md text-primary mb-8">Siamo qui per te.</h2>
+<div class="space-y-8 mb-12">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+<div>
+<h4 class="font-semibold text-primary">Sede Centrale</h4>
+<p class="text-on-surface-variant">Via delle Scuole, 15 - 00100 Roma (RM)</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="call">call</span>
+<div>
+<h4 class="font-semibold text-primary">Telefono</h4>
+<p class="text-on-surface-variant">+39 06 123 4567</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="mail">mail</span>
+<div>
+<h4 class="font-semibold text-primary">Email</h4>
+<p class="text-on-surface-variant">segreteria@scuolaaperta.it</p>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:opacity-90 transition-all">Scrivici</button>
+<button class="border-2 border-primary text-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:bg-primary/5 transition-all">Chiama ora</button>
+</div>
+</div>
+<div class="relative min-h-[400px]">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuunF_uo4bdmo8_tl1U4-RyiuxPcGMMeMfuMPW7IJjz8wwmkk4bh4Z70Ja0AC3sc_r4kFI2evYy7beIz2Uh-j4kgfX5UuSOxVdNg5Nz80UBLyUdSYMedgaQiwIH93F_sgLr2KDFjAyynv5niblO5QLoteCJCkNZAUrkWTrUQH2kzzBqV93lFtmWwecSaQ2AxWOOFv-FbsggaQTqS_pWvTnjsAcVi9-kCfindJS6vrGtk3oQR5MED-I8_36OjXGY1t4EnePAdBhODAm" alt="Mappa Roma">
+</div>
+</div>
+</div>
+</section>
+<!-- Footer partner e credits -->
+<section class="relative py-section-padding-mobile md:py-section-padding-desktop overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Partner Background" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzRNDreMgYxqjNMVbORRy8sxSCTuYQVxw-n3EWp2khMpKqOGpbjlaFN7S6AxrhQYgB8FpYvRqntf_nFLqiJKs4XDdUJTwUyxsztqwxjdI-5Q0lfWveoH-9MFnxGK7cVtAsd8-STUIrKYhFFLlY8H8oomTTOObkf0grD-VgPR2WPXqm7vO-dZ-8uuoifaFderLgFTcCL1hBmibmxuqoaYDMgC1WHMYbMES1VUdFxEcwrS4-TpbSqCc0a7stG_7p-JiO-p0GSsWLw31n"/>
+<div class="absolute inset-0 bg-background-warm/80 backdrop-blur-sm"></div>
+</div>
+<div class="relative z-10 px-4 md:px-gutter max-w-container-max mx-auto text-center">
+<div class="max-w-3xl mx-auto space-y-8">
+<div class="space-y-4">
+<h2 class="font-display-lg text-headline-md md:text-display-lg text-primary">I Nostri Partner: Eccellenza nella Formazione</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. La nostra azienda partner supporta la scuola con servizi specializzati di alta qualità.
+                </p>
+</div>
+<div class="flex flex-wrap justify-center gap-4">
+<span class="px-6 py-2 bg-secondary-container text-secondary rounded-full font-label-caps text-label-caps font-semibold">Formazione</span>
+<span class="px-6 py-2 bg-primary-fixed text-primary rounded-full font-label-caps text-label-caps font-semibold">Consulenza</span>
+<span class="px-6 py-2 bg-tertiary-fixed text-tertiary rounded-full font-label-caps text-label-caps font-semibold">Progettazione</span>
+<span class="px-6 py-2 bg-surface-variant text-on-surface-variant rounded-full font-label-caps text-label-caps font-semibold">Comunicazione</span>
+</div>
+<div class="pt-4">
+<button class="bg-primary text-on-primary px-10 py-5 rounded-2xl font-headline-sm text-headline-sm hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95">Visita il sito aziendale</button>
+</div>
+</div>
+</div>
+</section>
+<footer class="bg-primary">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter py-section-padding-mobile md:py-section-padding-desktop px-gutter max-w-container-max mx-auto text-on-primary">
+<div class="md:col-span-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-primary mb-6 block">Scuola Aperta</span>
+<p class="font-body-sm text-body-sm opacity-80 max-w-md mb-8">
+                    La nostra scuola paritaria dell'infanzia offre un percorso formativo d'eccellenza, radicato nei valori della comunità e dell'innovazione didattica, per accompagnare i bambini nelle loro prime tappe di scoperta del mondo.
+                </p>
+<div class="flex gap-4">
+<a class="hover:opacity-70 transition-opacity" href="#"><span class="material-symbols-outlined" data-icon="facebook">social_leaderboard</span></a>
+<a class="hover:opacity-70 transition-opacity" href="#"><span class="material-symbols-outlined" data-icon="camera">camera</span></a>
+<a class="hover:opacity-70 transition-opacity" href="#"><span class="material-symbols-outlined" data-icon="linked_camera">linked_camera</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Link Utili</h4>
+<ul class="space-y-4 font-body-sm text-body-sm">
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">La nostra scuola</a></li>
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Attività</a></li>
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Area famiglie</a></li>
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Mappa del Sito</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps mb-6 font-bold uppercase tracking-widest">Legale</h4>
+<ul class="space-y-4 font-body-sm text-body-sm">
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Feedback Accessibilità</a></li>
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity underline" href="#">Privacy Policy</a></li>
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Cookie Policy</a></li>
+<li><a class="text-on-primary-container opacity-80 hover:opacity-100 hover:underline transition-opacity" href="#">Amministrazione Trasparente</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/10 px-gutter max-w-container-max mx-auto py-8">
+<p class="font-label-caps text-label-caps text-on-primary opacity-60 text-center">
+                © 2024 Scuola Paritaria. Tutti i diritti riservati. Codice Meccanografico: SC12345. P.IVA 01234567890.
+            </p>
+</div>
+</footer>
 </body>
 </html>
