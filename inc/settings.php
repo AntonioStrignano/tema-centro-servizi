@@ -219,7 +219,7 @@ function centro_servizi_get_font_catalog(): array
         'fredoka' => ['label' => 'Fredoka (Google)', 'stack' => '"Fredoka", Arial, sans-serif', 'google_family' => 'Fredoka', 'weights' => [300, 400, 500, 600, 700]],
         'baloo-2' => ['label' => 'Baloo 2 (Google)', 'stack' => '"Baloo 2", Arial, sans-serif', 'google_family' => 'Baloo 2', 'weights' => [400, 500, 600, 700, 800]],
         'caveat' => ['label' => 'Caveat (Google)', 'stack' => '"Caveat", "Comic Sans MS", cursive', 'google_family' => 'Caveat', 'weights' => [400, 500, 600, 700]],
-        'patrick-hand' => ['label' => 'Patrick Hand (Google)', 'stack' => '"Patrick Hand", "Comic Sans MS", cursive', 'google_family' => 'Patrick Hand', 'weights' => [400]],
+        'patrick-hand' => ['label' => 'Patrick Hand (Google)', 'stack' => '"Patrick Hand", cursive', 'google_family' => 'Patrick Hand', 'weights' => [400]],
         'quicksand' => ['label' => 'Quicksand (Google)', 'stack' => '"Quicksand", Arial, sans-serif', 'google_family' => 'Quicksand', 'weights' => [300, 400, 500, 600, 700]],
         'comfortaa' => ['label' => 'Comfortaa (Google)', 'stack' => '"Comfortaa", Arial, sans-serif', 'google_family' => 'Comfortaa', 'weights' => [300, 400, 500, 600, 700]],
         'lora' => ['label' => 'Lora (Google)', 'stack' => '"Lora", Georgia, serif', 'google_family' => 'Lora', 'weights' => [400, 500, 600, 700]],
