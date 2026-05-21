@@ -1191,6 +1191,28 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
         return strcmp($a['label'], $b['label']);
     });
 
+    $preview_font_families = [];
+    foreach ($font_mood_presets as $preset) {
+        foreach (['body_font', 'heading_font', 'label_font'] as $font_slot) {
+            $font_key = centro_servizi_sanitize_font_key((string) ($preset[$font_slot] ?? 'arial'), 'arial');
+            $family = trim((string) ($fonts[$font_key]['google_family'] ?? ''));
+            if ($family !== '') {
+                $preview_font_families[$family] = true;
+            }
+        }
+    }
+
+    $admin_preview_fonts_url = '';
+    if ($preview_font_families !== []) {
+        $font_params = [];
+        foreach (array_keys($preview_font_families) as $family) {
+            $encoded = str_replace('%20', '+', rawurlencode($family));
+            $font_params[] = 'family=' . $encoded;
+        }
+        $font_params[] = 'display=swap';
+        $admin_preview_fonts_url = 'https://fonts.googleapis.com/css2?' . implode('&', $font_params);
+    }
+
     $contact_types = [
         'email' => 'Email',
         'phone' => 'Telefono',
@@ -1229,6 +1251,10 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     ];
     ?>
 
+    <?php if ($admin_preview_fonts_url !== '') : ?>
+        <link rel="stylesheet" href="<?php echo esc_url($admin_preview_fonts_url); ?>" />
+    <?php endif; ?>
+
     <div class="wrap">
         <h1>Impostazioni Sito - <?php echo esc_html($sections[$active_section]['title']); ?></h1>
 
@@ -1250,23 +1276,17 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             <div class="settings-section" data-settings-group="style">
                 <h2>🎨 Template Palette</h2>
                 <p class="description">La palette è vincolata a preset studiati per evitare combinazioni incoerenti.</p>
-                <div class="form-group">
-                    <label for="palette_preset">Palette colore</label>
-                    <select id="palette_preset" name="palette_preset">
-                        <?php foreach ($palette_presets as $key => $preset): ?>
-                            <option value="<?php echo esc_attr($key); ?>" <?php selected($palette_preset, $key); ?>>
-                                <?php echo esc_html($preset['label']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <p class="description">
-                        <?php echo esc_html($palette_presets[$palette_preset]['description'] ?? 'Palette predefinita.'); ?>
-                    </p>
-                </div>
-
-                <div class="preset-chip-grid" aria-label="Anteprima palette disponibili">
+                <fieldset class="preset-chip-grid" aria-label="Anteprima palette disponibili">
+                    <legend class="screen-reader-text">Seleziona una palette colore</legend>
                     <?php foreach ($palette_presets as $key => $preset): ?>
-                        <div class="preset-chip <?php echo $key === $palette_preset ? 'is-active' : ''; ?>">
+                        <label class="preset-chip preset-choice-card <?php echo $key === $palette_preset ? 'is-active' : ''; ?>">
+                            <input
+                                class="preset-choice-input"
+                                type="radio"
+                                name="palette_preset"
+                                value="<?php echo esc_attr($key); ?>"
+                                <?php checked($palette_preset, $key); ?>
+                            />
                             <strong><?php echo esc_html($preset['label']); ?></strong>
                             <div class="preset-chip-swatches">
                                 <span style="background: <?php echo esc_attr($preset['main']); ?>" title="Main"></span>
@@ -1274,27 +1294,43 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                                 <span style="background: <?php echo esc_attr($preset['body']); ?>" title="Body"></span>
                                 <span style="background: <?php echo esc_attr($preset['accent']); ?>" title="Accent"></span>
                             </div>
-                        </div>
+                            <small><?php echo esc_html($preset['description']); ?></small>
+                        </label>
                     <?php endforeach; ?>
-                </div>
+                </fieldset>
             </div>
 
             <div class="settings-section" data-settings-group="style">
                 <h2>🔤 Gruppi Font (Mood)</h2>
                 <p class="description">I font sono appaiati per tono comunicativo: pulito, classico o giocoso.</p>
-                <div class="form-group">
-                    <label for="font_mood_preset">Mood tipografico</label>
-                    <select id="font_mood_preset" name="font_mood_preset">
-                        <?php foreach ($font_mood_presets as $key => $preset): ?>
-                            <option value="<?php echo esc_attr($key); ?>" <?php selected($font_mood_preset, $key); ?>>
-                                <?php echo esc_html($preset['label']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <p class="description">
-                        <?php echo esc_html($font_mood_presets[$font_mood_preset]['description'] ?? 'Tono tipografico predefinito.'); ?>
-                    </p>
-                </div>
+                <fieldset class="mood-chip-grid" aria-label="Anteprima mood tipografici">
+                    <legend class="screen-reader-text">Seleziona un mood tipografico</legend>
+                    <?php foreach ($font_mood_presets as $key => $preset): ?>
+                        <?php
+                        $heading_key = centro_servizi_sanitize_font_key((string) ($preset['heading_font'] ?? 'montserrat'), 'montserrat');
+                        $body_key = centro_servizi_sanitize_font_key((string) ($preset['body_font'] ?? 'source-sans-3'), 'source-sans-3');
+                        $label_key = centro_servizi_sanitize_font_key((string) ($preset['label_font'] ?? 'work-sans'), 'work-sans');
+
+                        $heading_stack = (string) ($fonts[$heading_key]['stack'] ?? 'Arial, sans-serif');
+                        $body_stack = (string) ($fonts[$body_key]['stack'] ?? 'Arial, sans-serif');
+                        $label_stack = (string) ($fonts[$label_key]['stack'] ?? 'Arial, sans-serif');
+                        ?>
+                        <label class="mood-chip preset-choice-card <?php echo $key === $font_mood_preset ? 'is-active' : ''; ?>">
+                            <input
+                                class="preset-choice-input"
+                                type="radio"
+                                name="font_mood_preset"
+                                value="<?php echo esc_attr($key); ?>"
+                                <?php checked($font_mood_preset, $key); ?>
+                            />
+                            <strong><?php echo esc_html($preset['label']); ?></strong>
+                            <p class="mood-chip__title" style="font-family: <?php echo esc_attr($heading_stack); ?>;">Scuola dell'infanzia paritaria</p>
+                            <p class="mood-chip__body" style="font-family: <?php echo esc_attr($body_stack); ?>;">Ambiente accogliente, crescita serena e relazione educativa.</p>
+                            <span class="mood-chip__label" style="font-family: <?php echo esc_attr($label_stack); ?>;">ISCRIZIONI APERTE</span>
+                            <small><?php echo esc_html($preset['description']); ?></small>
+                        </label>
+                    <?php endforeach; ?>
+                </fieldset>
             </div>
 
             <!-- HOMEPAGE -->
@@ -1697,6 +1733,19 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
             margin-top: 12px;
+            border: 0;
+            padding: 0;
+            margin-left: 0;
+        }
+
+        .mood-chip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+            border: 0;
+            padding: 0;
+            margin-left: 0;
         }
 
         .preset-chip {
@@ -1704,6 +1753,35 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             border-radius: 8px;
             padding: 10px;
             background: #fff;
+        }
+
+        .preset-choice-card {
+            position: relative;
+            display: block;
+            cursor: pointer;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+        }
+
+        .preset-choice-card:hover {
+            border-color: #7aa7cc;
+            transform: translateY(-1px);
+        }
+
+        .preset-choice-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .preset-choice-card:has(.preset-choice-input:checked) {
+            border-color: #2271b1;
+            box-shadow: 0 0 0 1px #2271b1;
+            background: #f7fbff;
+        }
+
+        .preset-choice-card:has(.preset-choice-input:focus-visible) {
+            outline: 2px solid #2271b1;
+            outline-offset: 2px;
         }
 
         .preset-chip.is-active {
@@ -1717,6 +1795,14 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             font-size: 12px;
         }
 
+        .preset-chip small {
+            display: block;
+            margin-top: 8px;
+            color: #50575e;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
         .preset-chip-swatches {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1728,6 +1814,51 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
             border-radius: 4px;
             border: 1px solid rgba(0, 0, 0, 0.08);
             display: block;
+        }
+
+        .mood-chip {
+            border: 1px solid #dcdcde;
+            border-radius: 8px;
+            background: #fff;
+            padding: 12px;
+        }
+
+        .mood-chip strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .mood-chip__title {
+            margin: 0 0 6px;
+            font-size: 20px;
+            line-height: 1.2;
+            color: #1d2327;
+        }
+
+        .mood-chip__body {
+            margin: 0 0 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #50575e;
+        }
+
+        .mood-chip__label {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #edf5ff;
+            color: #0a4b78;
+            margin-bottom: 8px;
+        }
+
+        .mood-chip small {
+            display: block;
+            font-size: 12px;
+            color: #50575e;
+            line-height: 1.4;
         }
 
         .form-group label {
