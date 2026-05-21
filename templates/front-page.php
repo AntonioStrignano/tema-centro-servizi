@@ -101,7 +101,33 @@ foreach ($homepage_contacts as $contact) {
         $contact_cta_phone = $href;
     }
 }
+
+// Bridge font dinamico: front-page legge direttamente le impostazioni tipografiche salvate.
+$front_body_stack = 'Arial, sans-serif';
+$front_heading_stack = $front_body_stack;
+$front_label_stack = $front_body_stack;
+
+if (function_exists('centro_servizi_normalize_typography') && function_exists('centro_servizi_get_font_catalog') && function_exists('centro_servizi_get_profile_font_stack')) {
+    $front_typography_json = get_option('centro_servizi_typography', '{}');
+    $front_typography = centro_servizi_normalize_typography(json_decode($front_typography_json, true) ?: []);
+    $front_font_catalog = centro_servizi_get_font_catalog();
+
+    $front_body_stack = centro_servizi_get_profile_font_stack(is_array($front_typography['body'] ?? null) ? $front_typography['body'] : [], $front_font_catalog);
+    $front_heading_stack = centro_servizi_get_profile_font_stack(is_array($front_typography['h1'] ?? null) ? $front_typography['h1'] : [], $front_font_catalog);
+    $front_label_stack = centro_servizi_get_profile_font_stack(is_array($front_typography['links'] ?? null) ? $front_typography['links'] : [], $front_font_catalog);
+
+    $front_body_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', (string) $front_body_stack) ?: 'Arial, sans-serif';
+    $front_heading_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', (string) $front_heading_stack) ?: $front_body_stack;
+    $front_label_stack = preg_replace('/[^A-Za-z0-9\s,\"\'\-]/', '', (string) $front_label_stack) ?: $front_body_stack;
+}
 ?>
+<style id="centro-servizi-frontpage-font-bridge">
+    :root {
+        --font-body-family: <?php echo esc_html($front_body_stack); ?>;
+        --font-heading-family: <?php echo esc_html($front_heading_stack); ?>;
+        --font-label-family: <?php echo esc_html($front_label_stack); ?>;
+    }
+</style>
 <a class="sr-only focus:not-sr-only" href="#main-content">Salta al contenuto principale</a>
 <!-- TopNavBar -->
 <header class="sticky top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-b border-border-subtle dark:border-outline-variant">
