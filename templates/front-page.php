@@ -4,17 +4,6 @@ declare(strict_types=1);
 if (! defined('ABSPATH')) {
     exit;
 }
-
-$homepage_title_option = trim((string) get_option('centro_servizi_homepage_title', ''));
-$homepage_subtitle_option = trim((string) get_option('centro_servizi_homepage_subtitle', ''));
-
-$homepage_title = $homepage_title_option !== ''
-    ? $homepage_title_option
-    : get_bloginfo('name');
-
-$homepage_subtitle = $homepage_subtitle_option !== ''
-    ? $homepage_subtitle_option
-    : get_bloginfo('description');
 ?>
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="it"><head>
@@ -25,6 +14,14 @@ $homepage_subtitle = $homepage_subtitle_option !== ''
 </head>
 <body <?php body_class('bg-background-warm text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed'); ?>>
 <?php wp_body_open(); ?>
+<?php
+$homepage_title = centro_servizi_get_homepage_title();
+$homepage_subtitle = centro_servizi_get_homepage_subtitle();
+$homepage_contacts = centro_servizi_get_homepage_contacts();
+$homepage_map_embed_url = centro_servizi_get_homepage_map_embed_url();
+$homepage_orari_document = centro_servizi_get_homepage_latest_trasparenza_document('orari-funz', 'Orari di funzionamento');
+$homepage_calendar_document = centro_servizi_get_homepage_latest_trasparenza_document('calendario', 'Calendario scolastico');
+?>
 <a class="sr-only focus:not-sr-only" href="#main-content">Salta al contenuto principale</a>
 <!-- TopNavBar -->
 <header class="sticky top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-b border-border-subtle dark:border-outline-variant">
@@ -207,37 +204,28 @@ wp_nav_menu([
 <span class="material-symbols-outlined text-4xl" data-icon="schedule">schedule</span>
 <h2 class="font-headline-md text-headline-md">Orari di funzionamento</h2>
 </div>
-<ul class="space-y-6 font-body-md text-body-md border-l-2 border-primary-fixed/30 pl-6">
-<li>
-<span class="block font-bold">Ingresso:</span>
-<span class="opacity-90">Dalle 08:00 alle 09:00</span>
-</li>
-<li>
-<span class="block font-bold">Uscita intermedia:</span>
-<span class="opacity-90">Dalle 13:00 alle 13:30</span>
-</li>
-<li>
-<span class="block font-bold">Uscita finale:</span>
-<span class="opacity-90">Dalle 15:45 alle 16:30</span>
-</li>
-</ul>
+<p class="font-body-md text-body-md mb-8 opacity-90">Apri l'ultimo documento pubblicato sugli orari di funzionamento.</p>
+<a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="<?php echo esc_url($homepage_orari_document['url']); ?>">
+<span class="font-semibold"><?php echo esc_html($homepage_orari_document['title']); ?></span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="open_in_new">open_in_new</span>
+</a>
+<?php if ($homepage_orari_document['summary'] !== '') : ?>
+<p class="font-body-sm text-body-sm mt-4 opacity-80"><?php echo esc_html($homepage_orari_document['summary']); ?></p>
+<?php endif; ?>
 </div>
 <div class="bg-secondary p-12 rounded-[2rem] text-on-secondary">
 <div class="flex items-center gap-4 mb-8">
 <span class="material-symbols-outlined text-4xl" data-icon="calendar_month">calendar_month</span>
 <h2 class="font-headline-md text-headline-md">Calendario scolastico</h2>
 </div>
-<p class="font-body-md text-body-md mb-8 opacity-90">Consulta le festività, i periodi di chiusura e le date degli eventi speciali previsti per l'anno scolastico in corso.</p>
-<div class="space-y-4">
-<a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="#">
-<span class="font-semibold">Scarica Calendario 2024/25</span>
-<span class="material-symbols-outlined transition-transform group-hover:translate-y-1" data-icon="download">download</span>
-</a>
-<a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="#">
-<span class="font-semibold">Eventi e Recite</span>
+<p class="font-body-md text-body-md mb-8 opacity-90">Consulta l'ultimo documento pubblicato sul calendario scolastico.</p>
+<a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="<?php echo esc_url($homepage_calendar_document['url']); ?>">
+<span class="font-semibold"><?php echo esc_html($homepage_calendar_document['title']); ?></span>
 <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="event_note">event_note</span>
 </a>
-</div>
+<?php if ($homepage_calendar_document['summary'] !== '') : ?>
+<p class="font-body-sm text-body-sm mt-4 opacity-80"><?php echo esc_html($homepage_calendar_document['summary']); ?></p>
+<?php endif; ?>
 </div>
 </div>
 </div>
@@ -276,36 +264,44 @@ wp_nav_menu([
 <div class="p-12 md:p-20">
 <span class="font-label-caps text-label-caps text-tertiary mb-4 block">CONTATTI</span>
 <h2 class="font-headline-md text-headline-md text-primary mb-8">Siamo qui per te.</h2>
+<?php if ($homepage_contacts !== []) : ?>
 <div class="space-y-8 mb-12">
+<?php foreach ($homepage_contacts as $contact) : ?>
 <div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+<span class="material-symbols-outlined text-secondary" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
 <div>
-<h4 class="font-semibold text-primary">Sede Centrale</h4>
-<p class="text-on-surface-variant">Via delle Scuole, 15 - 00100 Roma (RM)</p>
+<h4 class="font-semibold text-primary"><?php echo esc_html((string) $contact['label']); ?></h4>
+<?php if ((string) $contact['href'] !== '') : ?>
+<?php $is_external = ! empty($contact['external']); ?>
+<p class="text-on-surface-variant">
+<a href="<?php echo esc_url((string) $contact['href']); ?>"<?php echo $is_external ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
+<?php echo esc_html((string) $contact['value']); ?>
+<?php if ($is_external) : ?><span class="sr-only">(apre in nuova finestra)</span><?php endif; ?>
+</a>
+</p>
+<?php else : ?>
+<p class="text-on-surface-variant"><?php echo esc_html((string) $contact['value']); ?></p>
+<?php endif; ?>
 </div>
 </div>
-<div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-secondary" data-icon="call">call</span>
-<div>
-<h4 class="font-semibold text-primary">Telefono</h4>
-<p class="text-on-surface-variant">+39 06 123 4567</p>
+<?php endforeach; ?>
 </div>
-</div>
-<div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-secondary" data-icon="mail">mail</span>
-<div>
-<h4 class="font-semibold text-primary">Email</h4>
-<p class="text-on-surface-variant">segreteria@scuolaaperta.it</p>
-</div>
-</div>
-</div>
+<?php endif; ?>
 <div class="flex flex-wrap gap-4">
 <button type="button" class="bg-primary text-on-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:opacity-90 transition-all">Scrivici</button>
 <button type="button" class="border-2 border-primary text-primary px-8 py-3 rounded-full font-label-caps text-label-caps font-semibold hover:bg-primary/5 transition-all">Chiama ora</button>
 </div>
 </div>
 <div class="relative min-h-[400px]">
-<img class="w-full h-full object-cover" alt="Mappa della zona della scuola" data-location="Rome, Italy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuunF_uo4bdmo8_tl1U4-RyiuxPcGMMeMfuMPW7IJjz8wwmkk4bh4Z70Ja0AC3sc_r4kFI2evYy7beIz2Uh-j4kgfX5UuSOxVdNg5Nz80UBLyUdSYMedgaQiwIH93F_sgLr2KDFjAyynv5niblO5QLoteCJCkNZAUrkWTrUQH2kzzBqV93lFtmWwecSaQ2AxWOOFv-FbsggaQTqS_pWvTnjsAcVi9-kCfindJS6vrGtk3oQR5MED-I8_36OjXGY1t4EnePAdBhODAm"/>
+<?php if ($homepage_map_embed_url !== '') : ?>
+<iframe
+class="w-full h-full object-cover"
+src="<?php echo esc_url($homepage_map_embed_url); ?>"
+title="Mappa sede"
+loading="lazy"
+referrerpolicy="no-referrer-when-downgrade"
+allowfullscreen></iframe>
+<?php endif; ?>
 </div>
 </div>
 </div>
