@@ -22,6 +22,29 @@
 
 - [x] Cartella `samples/` disponibile per HTML/CSS di riferimento (esclusa da git)
 
+## Aggiornamento sessione (21/05/2026) — Homepage + sistema stile
+
+### Completato
+
+- [x] Homepage resa dinamica e rifinita in `templates/front-page.php` (hero, sezioni, contatti, footer)
+- [x] Consolidata la logica dati homepage in `inc/homepage.php` (helper centralizzati)
+- [x] Risolti regressioni layout: menu header senza bullet fallback, hero ripristinata, sezioni riallineate
+- [x] Ridisegnata area contatti con lista robusta e CTA email/telefono derivate dai contatti configurati
+- [x] Footer legale ristrutturato con colonne navigazione/legale e collegamenti obbligatori
+- [x] Introdotti preset vincolati in `inc/settings.php` per palette colore e mood tipografici
+- [x] Applicazione preset collegata al frontend con CSS dinamico (variabili colore/font)
+- [x] Escluso il tema dinamico da pagine legali/trasparenza per mantenere contrasti e coerenza normativa
+- [x] Migliorata UX admin: selezione preset tramite card cliccabili (radio-card) invece di sole select
+- [x] Aggiunte anteprime font nei mood (titolo/corpo/label) con caricamento font per preview affidabile
+- [x] Tokenizzati gli stili Stitch in `assets/css/stitch-layout.css`, `assets/css/stitch-header-footer.css`, `assets/css/stitch-homepage.css`
+
+### Intenzioni prossime
+
+- [ ] Validazione end-to-end in admin: click card preset -> salva -> verifica persistenza e resa frontend
+- [ ] Pulizia tecnica: rimuovere JS/CSS legacy del vecchio picker tipografico in `inc/settings.php`
+- [ ] Rifinitura UX admin: feedback visuale ancora piu evidente su card selezionata (micro-polish)
+- [ ] QA finale esclusioni tema dinamico su pagine legali e trasparenza
+
 ---
 
 ## 🚨 URGENTE — Da fare PRIMA del tema (siti già online)
@@ -78,9 +101,9 @@
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
 - [x] Template pagine legali condiviso (`templates/page-legale.php`) per: `amministrazione-trasparente`, `dichiarazione-accessibilita`, `privacy-policy`, `cookie-policy`, `whistleblowing`, `obiettivi-accessibilita`
 - [x] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
-- [ ] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi (solo abbozzato, manca CSS e UX)
+- [x] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi (versione dinamica attiva)
 - [ ] Homepage: sostituire placeholder `Chi siamo` (Lorem ipsum) con copy definitivo cliente
-- [ ] Homepage: verificare che palette/font da `Impostazioni Sito > Stile Tema` influenzino davvero tutte le sezioni (niente hardcode residuo)
+- [x] Homepage: palette/font da `Impostazioni Sito > Stile Tema` applicati alle sezioni tramite preset e CSS dinamico
 - [ ] Homepage: consolidare sezione `Attivita in evidenza` (vetrina esperienze distintive, non archivio completo)
 - [ ] Homepage: definire fonte editoriale unica per vetrina (`pagina attivita-speciali` + repeater ACF)
 - [x] Link whistleblowing nel footer/Amm. Trasparente (gestito da opzione `url_whistleblowing` con fallback pagina seed)
