@@ -264,22 +264,22 @@ wp_nav_menu([
 <span class="font-label-caps text-label-caps text-tertiary mb-4 block">CONTATTI</span>
 <h2 class="font-headline-md text-headline-md text-primary mb-8">Siamo qui per te.</h2>
 <?php if ($homepage_contacts !== []) : ?>
-<ul class="stitch-contact-list mb-12" role="list">
+<ul class="stitch-contact-list mb-12 font-body-md" role="list">
 <?php foreach ($homepage_contacts as $contact) : ?>
 <li class="stitch-contact-list__item">
 <span class="material-symbols-outlined text-secondary" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
 <div>
-<h4 class="font-semibold text-primary"><?php echo esc_html((string) $contact['label']); ?></h4>
+<h4 class="font-headline-sm font-semibold text-primary"><?php echo esc_html((string) $contact['label']); ?></h4>
 <?php if ((string) $contact['href'] !== '') : ?>
 <?php $is_external = ! empty($contact['external']); ?>
-<p class="text-on-surface-variant break-words">
+<p class="font-body-md text-on-surface-variant break-words">
 <a href="<?php echo esc_url((string) $contact['href']); ?>"<?php echo $is_external ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
 <?php echo esc_html((string) $contact['value']); ?>
 <?php if ($is_external) : ?><span class="sr-only">(apre in nuova finestra)</span><?php endif; ?>
 </a>
 </p>
 <?php else : ?>
-<p class="text-on-surface-variant break-words"><?php echo esc_html((string) $contact['value']); ?></p>
+<p class="font-body-md text-on-surface-variant break-words"><?php echo esc_html((string) $contact['value']); ?></p>
 <?php endif; ?>
 </div>
 </li>

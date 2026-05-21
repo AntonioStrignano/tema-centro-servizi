@@ -215,6 +215,15 @@ function centro_servizi_get_font_catalog(): array
         'inter' => ['label' => 'Inter (Google)', 'stack' => '"Inter", Arial, sans-serif', 'google_family' => 'Inter', 'weights' => [100, 200, 300, 400, 500, 600, 700, 800, 900]],
         'work-sans' => ['label' => 'Work Sans (Google)', 'stack' => '"Work Sans", Arial, sans-serif', 'google_family' => 'Work Sans', 'weights' => [100, 200, 300, 400, 500, 600, 700, 800, 900]],
         'jost' => ['label' => 'Jost (Google)', 'stack' => '"Jost", Arial, sans-serif', 'google_family' => 'Jost', 'weights' => [100, 200, 300, 400, 500, 600, 700, 800, 900]],
+        'nunito-sans' => ['label' => 'Nunito Sans (Google)', 'stack' => '"Nunito Sans", Arial, sans-serif', 'google_family' => 'Nunito Sans', 'weights' => [200, 300, 400, 500, 600, 700, 800, 900]],
+        'fredoka' => ['label' => 'Fredoka (Google)', 'stack' => '"Fredoka", Arial, sans-serif', 'google_family' => 'Fredoka', 'weights' => [300, 400, 500, 600, 700]],
+        'baloo-2' => ['label' => 'Baloo 2 (Google)', 'stack' => '"Baloo 2", Arial, sans-serif', 'google_family' => 'Baloo 2', 'weights' => [400, 500, 600, 700, 800]],
+        'caveat' => ['label' => 'Caveat (Google)', 'stack' => '"Caveat", "Comic Sans MS", cursive', 'google_family' => 'Caveat', 'weights' => [400, 500, 600, 700]],
+        'patrick-hand' => ['label' => 'Patrick Hand (Google)', 'stack' => '"Patrick Hand", "Comic Sans MS", cursive', 'google_family' => 'Patrick Hand', 'weights' => [400]],
+        'quicksand' => ['label' => 'Quicksand (Google)', 'stack' => '"Quicksand", Arial, sans-serif', 'google_family' => 'Quicksand', 'weights' => [300, 400, 500, 600, 700]],
+        'comfortaa' => ['label' => 'Comfortaa (Google)', 'stack' => '"Comfortaa", Arial, sans-serif', 'google_family' => 'Comfortaa', 'weights' => [300, 400, 500, 600, 700]],
+        'lora' => ['label' => 'Lora (Google)', 'stack' => '"Lora", Georgia, serif', 'google_family' => 'Lora', 'weights' => [400, 500, 600, 700]],
+        'amatic-sc' => ['label' => 'Amatic SC (Google)', 'stack' => '"Amatic SC", "Comic Sans MS", cursive', 'google_family' => 'Amatic SC', 'weights' => [400, 700]],
     ];
 }
 
@@ -328,6 +337,7 @@ function centro_servizi_get_typography_defaults(): array
 function centro_servizi_get_palette_presets(): array
 {
     return [
+        // Palette principali richieste
         'giallo' => [
             'label' => 'Sole Giallo',
             'description' => 'Caldo, luminoso e accogliente per scuole con tono familiare.',
@@ -376,12 +386,63 @@ function centro_servizi_get_palette_presets(): array
             'body' => '#352419',
             'accent' => '#E67A38',
         ],
+
+        // Varianti curate per ampliare la libreria senza caos
+        'ottanio' => [
+            'label' => 'Ottanio Calmo',
+            'description' => 'Serio ma moderno, adatto a cooperative strutturate.',
+            'main' => '#1F5A63',
+            'secondary' => '#D8EEF0',
+            'body' => '#1C2B2E',
+            'accent' => '#2E8A96',
+        ],
+        'salvia' => [
+            'label' => 'Salvia Gentile',
+            'description' => 'Naturale e rassicurante, ottimo per nido e infanzia.',
+            'main' => '#4E6E5D',
+            'secondary' => '#E5EFE9',
+            'body' => '#24312A',
+            'accent' => '#7BAA8F',
+        ],
+        'bordeaux' => [
+            'label' => 'Bordeaux Istituzionale',
+            'description' => 'Tradizionale e autorevole per enti religiosi.',
+            'main' => '#6A1E3B',
+            'secondary' => '#F2DCE6',
+            'body' => '#2E1A23',
+            'accent' => '#A83E67',
+        ],
+        'cielo' => [
+            'label' => 'Cielo Aperto',
+            'description' => 'Fresco e arioso, molto leggibile su siti informativi.',
+            'main' => '#2A6DB0',
+            'secondary' => '#DDEBFA',
+            'body' => '#1B2838',
+            'accent' => '#56A0F5',
+        ],
+        'pesca' => [
+            'label' => 'Pesca Morbido',
+            'description' => 'Accogliente e delicato, ideale per tono familiare.',
+            'main' => '#A55A46',
+            'secondary' => '#FBE5DD',
+            'body' => '#352621',
+            'accent' => '#E08A6D',
+        ],
+        'ardesia' => [
+            'label' => 'Ardesia Pulita',
+            'description' => 'Neutra elegante con accento caldo, sobria ma moderna.',
+            'main' => '#35485A',
+            'secondary' => '#E2E8EE',
+            'body' => '#1E2329',
+            'accent' => '#C37A48',
+        ],
     ];
 }
 
 function centro_servizi_get_font_mood_presets(): array
 {
     return [
+        // Core moods
         'pulito' => [
             'label' => 'Pulito Contemporaneo',
             'description' => 'Chiaro e professionale, adatto a cooperative sociali.',
@@ -391,17 +452,75 @@ function centro_servizi_get_font_mood_presets(): array
         ],
         'classico' => [
             'label' => 'Classico Serif',
-            'description' => 'Istituzionale e caldo, adatto a parrocchie e congregazioni.',
-            'body_font' => 'source-sans-3',
+            'description' => 'Con grazie evidenti, istituzionale e caldo per parrocchie e congregazioni.',
+            'body_font' => 'merriweather',
             'heading_font' => 'playfair-display',
-            'label_font' => 'raleway',
+            'label_font' => 'source-sans-3',
         ],
         'giocoso' => [
             'label' => 'Giocoso Educativo',
             'description' => 'Amichevole e dinamico per scuole dell’infanzia paritarie.',
-            'body_font' => 'nunito',
+            'body_font' => 'nunito-sans',
+            'heading_font' => 'fredoka',
+            'label_font' => 'baloo-2',
+        ],
+        'lavagna' => [
+            'label' => 'Lavagna Creativa',
+            'description' => 'Tocco chalk/handwritten per sezioni più giocose in stile kindergarten.',
+            'body_font' => 'nunito-sans',
+            'heading_font' => 'patrick-hand',
+            'label_font' => 'caveat',
+        ],
+
+        // Varianti orientate ai contesti reali
+        'cooperativa-umana' => [
+            'label' => 'Cooperativa Umana',
+            'description' => 'Molto leggibile, caldo e contemporaneo.',
+            'body_font' => 'open-sans',
+            'heading_font' => 'jost',
+            'label_font' => 'work-sans',
+        ],
+        'parrocchia-sobria' => [
+            'label' => 'Parrocchia Sobria',
+            'description' => 'Serif tradizionale con supporto sans per chiarezza.',
+            'body_font' => 'lora',
+            'heading_font' => 'merriweather',
+            'label_font' => 'source-sans-3',
+        ],
+        'congregazione-editoriale' => [
+            'label' => 'Congregazione Editoriale',
+            'description' => 'Taglio editoriale più autorevole ma ancora accessibile.',
+            'body_font' => 'merriweather',
+            'heading_font' => 'playfair-display',
+            'label_font' => 'raleway',
+        ],
+        'atelier-creativo' => [
+            'label' => 'Atelier Creativo',
+            'description' => 'Esprimente e giocoso per comunicazione laboratori.',
+            'body_font' => 'nunito-sans',
+            'heading_font' => 'comfortaa',
+            'label_font' => 'baloo-2',
+        ],
+        'montessori-soft' => [
+            'label' => 'Montessori Soft',
+            'description' => 'Pulito, morbido e non urlato, adatto a tono pedagogico.',
+            'body_font' => 'quicksand',
             'heading_font' => 'bree-serif',
             'label_font' => 'nunito',
+        ],
+        'chalk-festivo' => [
+            'label' => 'Chalk Festivo',
+            'description' => 'Più audace: titoli effetto lavagna e testi morbidi.',
+            'body_font' => 'nunito-sans',
+            'heading_font' => 'amatic-sc',
+            'label_font' => 'patrick-hand',
+        ],
+        'friendly-istituzionale' => [
+            'label' => 'Friendly Istituzionale',
+            'description' => 'Bilanciato tra affidabilità e tono accogliente.',
+            'body_font' => 'lato',
+            'heading_font' => 'montserrat',
+            'label_font' => 'quicksand',
         ],
     ];
 }
