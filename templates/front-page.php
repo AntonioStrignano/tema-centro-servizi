@@ -65,6 +65,12 @@ wp_nav_menu([
                         <?php echo esc_html($homepage_title); ?>
                     </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-lg">
+    $homepage_title = centro_servizi_get_homepage_title();
+    $homepage_subtitle = centro_servizi_get_homepage_subtitle();
+    $homepage_contacts = centro_servizi_get_homepage_contacts();
+    $homepage_map_embed_url = centro_servizi_get_homepage_map_embed_url();
+    $homepage_orari_document = centro_servizi_get_homepage_latest_trasparenza_document('orari-funz', 'Orari di funzionamento');
+    $homepage_calendar_document = centro_servizi_get_homepage_latest_trasparenza_document('calendario', 'Calendario scolastico');
                         <?php echo esc_html($homepage_subtitle); ?>
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
@@ -74,37 +80,28 @@ wp_nav_menu([
 <button type="button" class="border-2 border-secondary text-secondary px-8 py-4 rounded-xl font-headline-sm text-headline-sm hover:bg-secondary/5 transition-all">
                             Scopri la scuola
                         </button>
-</div>
-</div>
-</div>
-</section>
-<!-- Chi Siamo / Valori -->
-<section class="py-section-padding-mobile md:py-section-padding-desktop bg-surface-cream">
-<div class="px-4 md:px-gutter max-w-container-max mx-auto">
-<div class="grid lg:grid-cols-2 gap-16 items-center md:grid-cols-4 justify-items-center max-w-5xl mx-auto">
-<div>
-<span class="font-label-caps text-label-caps text-tertiary mb-4 block">CHI SIAMO</span>
-<h2 class="font-headline-md text-headline-md text-primary mb-6">Educhiamo con amore, guidiamo con esperienza.</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                            La nostra scuola paritaria è un luogo di crescita armoniosa dove la curiosità naturale dei bambini viene alimentata attraverso il gioco, l'esplorazione e la relazione. Crediamo in un'educazione che valorizzi l'unicità di ogni individuo in un contesto comunitario solido.
-                        </p>
+    <p class="font-body-md text-body-md mb-8 opacity-90">Apri l'ultimo documento pubblicato sugli orari di funzionamento.</p>
+    <a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="<?php echo esc_url($homepage_orari_document['url']); ?>">
+    <span class="font-semibold"><?php echo esc_html($homepage_orari_document['title']); ?></span>
+    <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="open_in_new">open_in_new</span>
+    </a>
+    <?php if ($homepage_orari_document['summary'] !== '') : ?>
+    <p class="font-body-sm text-body-sm mt-4 opacity-80"><?php echo esc_html($homepage_orari_document['summary']); ?></p>
+    <?php endif; ?>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:grid-cols-4 justify-items-center max-w-5xl mx-auto">
 <div class="bg-white p-8 rounded-2xl editorial-shadow text-center">
 <div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-secondary">
 <span class="material-symbols-outlined" data-icon="volunteer_activism">volunteer_activism</span>
 </div>
-<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Accoglienza</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Un clima familiare e sereno.</p>
-</div>
-<div class="bg-white p-8 rounded-2xl editorial-shadow text-center">
-<div class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
-<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
-</div>
-<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Crescita</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Sviluppo cognitivo e motorio.</p>
-</div>
-<div class="bg-white p-8 rounded-2xl editorial-shadow text-center">
+    <p class="font-body-md text-body-md mb-8 opacity-90">Consulta l'ultimo documento pubblicato sul calendario scolastico.</p>
+    <a class="flex items-center justify-between bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors group" href="<?php echo esc_url($homepage_calendar_document['url']); ?>">
+    <span class="font-semibold"><?php echo esc_html($homepage_calendar_document['title']); ?></span>
+    <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="event_note">event_note</span>
+    </a>
+    <?php if ($homepage_calendar_document['summary'] !== '') : ?>
+    <p class="font-body-sm text-body-sm mt-4 opacity-80"><?php echo esc_html($homepage_calendar_document['summary']); ?></p>
+    <?php endif; ?>
 <div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center mx-auto mb-4 text-tertiary">
 <span class="material-symbols-outlined" data-icon="groups">groups</span>
 </div>
@@ -115,36 +112,46 @@ wp_nav_menu([
 </div>
 </div>
 </section>
-<!-- La nostra scuola: Mini Gallery -->
-<section class="py-section-padding-mobile md:py-section-padding-desktop">
-<div class="px-4 md:px-gutter max-w-container-max mx-auto">
-<div class="flex justify-between items-end mb-12">
-<div>
-<span class="font-label-caps text-label-caps text-secondary mb-4 block">GLI SPAZI</span>
-<h2 class="font-headline-md text-headline-md text-primary">Un ambiente su misura per i piccoli.</h2>
-</div>
-<a class="hidden md:flex items-center gap-2 text-secondary font-semibold hover:underline group" href="#">
-                        Scopri la scuola 
-                        <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
-</a>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-<div class="space-y-4">
-<div class="aspect-[4/5] rounded-3xl overflow-hidden">
-<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" alt="Aula polifunzionale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdh5na1rpTmHcMqxT0pqpJreVVjX2XS1eSsDT7NPTYV6FYXCWHTAD25SD4ql1gj2yO8oY5Q1TtRDy3NoTJorVUeC8eraSQwzkpUC79-6ln1_Zbo2WjM0ylhQGn0e3ksBzHAdeU2hJ9lhIckBTZTC7Mo0qBLG2k9FLLb8yZK7ZqbyFJHJ-peO3oR9zlQgh1ooYlsJ7ab0UAtdayfFRSqcz2TH4shcg-IP8r64HU6IlVPicTqBYL7rkvXeRkDNWLK7wZ7jngL0XjH394"/>
-</div>
-<p class="font-label-caps text-label-caps text-primary px-2">Aula polifunzionale</p>
-</div>
-<div class="space-y-4 md:mt-12">
-<div class="aspect-[4/5] rounded-3xl overflow-hidden">
-<img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" alt="Giardino esterno" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHNMPLe6BN65k37pNZ9tykZJzzu88rx4kZymtD_mPGqkNc9mtps3I4PbyXYx5tkh2ZTktBf6wpT0BozIpAdm3tM5ddJxhrGNhwbKS6uLmZkGTzzVE-upi0eFp2Q7UidHrB1XBu_movCtJcSgA3_T6SFgKmVKjPrO3X0X5Q0JD-IPe-HH2xObuJ8LZT8yDp8_qHys7HEigViRe-mDuXNiwYpgjXKh5Ywia0YmbYlo7UmJZI1nCa3vXVYehnfxGcAGQuKpGZSxpb4htF"/>
+    <?php if ($homepage_contacts !== []) : ?>
+    <div class="space-y-8 mb-12">
+    <?php foreach ($homepage_contacts as $contact) : ?>
+    <div class="flex items-start gap-4">
+    <span class="material-symbols-outlined text-secondary" data-icon="<?php echo esc_attr((string) $contact['icon']); ?>"><?php echo esc_html((string) $contact['icon']); ?></span>
+    <div>
+    <h4 class="font-semibold text-primary"><?php echo esc_html((string) $contact['label']); ?></h4>
+    <?php if ((string) $contact['href'] !== '') : ?>
+    <?php $is_external = ! empty($contact['external']); ?>
+    <p class="text-on-surface-variant">
+    <a href="<?php echo esc_url((string) $contact['href']); ?>"<?php echo $is_external ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
+    <?php echo esc_html((string) $contact['value']); ?>
+    <?php if ($is_external) : ?>
+    <span class="sr-only">(apre in nuova finestra)</span>
+    <?php endif; ?>
+    </a>
+    </p>
+    <?php else : ?>
+    <p class="text-on-surface-variant"><?php echo esc_html((string) $contact['value']); ?></p>
+    <?php endif; ?>
+    </div>
+    </div>
+    <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
 </div>
 <p class="font-label-caps text-label-caps text-primary px-2">Giardino esterno</p>
 </div>
 <div class="space-y-4">
 <div class="aspect-[4/5] rounded-3xl overflow-hidden">
 <img class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" alt="Laboratorio creativo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9GcGYrJD0DtSRKZMua6hvH8-4mLi-ukSuWbR1nzK_VFSkYCKW8QHI6xNev3qEZXYHifk1STgoG5ct0hejF8bfmOO4s_Z-wMzJmJTSyqFYHypFMIgRBBeYwrrcvCxuC7iZHlbgGBIx0zJMibFGvHEeHOz8gMuxfOiSxkpkwcuZvnU0SeOb9OOnjLgyu48j7TEjKgAiF4LTLWoAGn-QZ17tBNtFrCTcno0ZIm9DgBRJnWL3oq_UvV5AGxNjNyxWM3GRz3SDZX-OU9Ka"/>
-</div>
+    <?php if ($homepage_map_embed_url !== '') : ?>
+    <iframe
+    class="w-full h-full object-cover"
+    src="<?php echo esc_url($homepage_map_embed_url); ?>"
+    title="Mappa sede"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen></iframe>
+    <?php endif; ?>
 <p class="font-label-caps text-label-caps text-primary px-2">Laboratorio creativo</p>
 </div>
 <div class="space-y-4 md:mt-12">

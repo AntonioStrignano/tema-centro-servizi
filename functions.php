@@ -10,6 +10,7 @@ $centro_servizi_includes = [
     '/inc/enqueue.php',
     '/inc/settings.php',
     '/inc/debug.php',
+    '/inc/homepage.php',
     '/inc/cpt-attivita.php',
     '/inc/cpt-trasparenza.php',
     '/inc/cpt-area-famiglie.php',
