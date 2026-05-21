@@ -4,6 +4,17 @@ declare(strict_types=1);
 if (! defined('ABSPATH')) {
     exit;
 }
+
+$homepage_title_option = trim((string) get_option('centro_servizi_homepage_title', ''));
+$homepage_subtitle_option = trim((string) get_option('centro_servizi_homepage_subtitle', ''));
+
+$homepage_title = $homepage_title_option !== ''
+    ? $homepage_title_option
+    : get_bloginfo('name');
+
+$homepage_subtitle = $homepage_subtitle_option !== ''
+    ? $homepage_subtitle_option
+    : get_bloginfo('description');
 ?>
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="it"><head>
@@ -19,7 +30,7 @@ if (! defined('ABSPATH')) {
 <header class="sticky top-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-b border-border-subtle dark:border-outline-variant">
 <div class="flex justify-between items-center h-20 px-4 md:px-gutter max-w-container-max mx-auto">
 <div class="flex items-center gap-unit">
-<span class="font-headline-sm text-headline-sm font-semibold text-primary dark:text-primary-fixed-dim">Scuola dell'Infanzia</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-primary dark:text-primary-fixed-dim"><?php echo esc_html($homepage_title); ?></span>
 </div>
 <nav class="hidden lg:flex items-center gap-8" aria-label="Navigazione principale">
 <?php
@@ -51,10 +62,10 @@ wp_nav_menu([
 <div class="relative z-10 px-4 md:px-gutter max-w-container-max mx-auto w-full">
 <div class="max-w-2xl">
 <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 animate-fade-in">
-                        Il primo passo verso un futuro sereno.
+                        <?php echo esc_html($homepage_title); ?>
                     </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-lg">
-                        Un ambiente accogliente dove crescere, imparare e sognare insieme. Ogni bambino è al centro del nostro progetto educativo.
+                        <?php echo esc_html($homepage_subtitle); ?>
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
 <button type="button" class="bg-tertiary text-on-tertiary px-8 py-4 rounded-xl font-headline-sm text-headline-sm hover:shadow-lg transition-all active:scale-95">
