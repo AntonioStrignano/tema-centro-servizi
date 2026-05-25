@@ -16,7 +16,14 @@ function centro_servizi_enqueue_assets(): void
     $theme_dir = get_template_directory();
     $theme_uri = get_template_directory_uri();
 
-    if (! is_front_page()) {
+    $is_bureaucratic_context = function_exists('centro_servizi_is_bureaucratic_context')
+        && centro_servizi_is_bureaucratic_context();
+
+    if (! is_front_page() || $is_bureaucratic_context) {
+        wp_dequeue_style('centro-servizi-stitch-layout');
+        wp_dequeue_style('centro-servizi-stitch-header-footer');
+        wp_dequeue_style('centro-servizi-stitch-homepage');
+        wp_dequeue_script('centro-servizi-stitch-homepage');
         return;
     }
 
