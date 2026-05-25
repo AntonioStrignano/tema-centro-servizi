@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiorna le larghezze massime e le proprietà di layout per le sezioni del tema burocratico, migliorando la responsività e l'allineamento.',
-    'commit_hash'  => '82345f53f',
-    'deployed_at'  => '2026-05-25 10:08:07',
+    'commit_title' => 'Aggiungi intestazione e piè di pagina personalizzati per il contesto burocratico, migliorando la struttura e l'accessibilità del tema.',
+    'commit_hash'  => '1bd2fa330',
+    'deployed_at'  => '2026-05-25 10:11:18',
 ];

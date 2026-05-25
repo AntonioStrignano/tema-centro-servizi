@@ -146,6 +146,576 @@ body.page-la-nostra-scuola .site-footer {
   color: #f5fbf7;
 }
 
+body.post-type-archive-trasparenza .hp-header,
+body.post-type-archive-area-famiglie .hp-header,
+body.post-type-archive-area-personale .hp-header,
+body.single-trasparenza .hp-header,
+body.single-area-famiglie .hp-header,
+body.single-area-personale .hp-header,
+body.tax-contenutiammtrasp .hp-header,
+body.tax-annoscolastico .hp-header,
+body.page-template-page-amministrazione-trasparente .hp-header,
+body.page-amministrazione-trasparente .hp-header,
+body.page-privacy-policy .hp-header,
+body.page-cookie-policy .hp-header,
+body.page-dichiarazione-accessibilita .hp-header,
+body.page-whistleblowing .hp-header,
+body.page-obiettivi-accessibilita .hp-header,
+body.page-la-nostra-scuola .hp-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(251, 252, 250, 0.92);
+  border-bottom: 1px solid var(--bureaucratic-border);
+  box-shadow: 0 0.75rem 1.75rem rgba(18, 33, 33, 0.06);
+  backdrop-filter: blur(12px);
+}
+
+body.post-type-archive-trasparenza .hp-header__inner,
+body.post-type-archive-area-famiglie .hp-header__inner,
+body.post-type-archive-area-personale .hp-header__inner,
+body.single-trasparenza .hp-header__inner,
+body.single-area-famiglie .hp-header__inner,
+body.single-area-personale .hp-header__inner,
+body.tax-contenutiammtrasp .hp-header__inner,
+body.tax-annoscolastico .hp-header__inner,
+body.page-template-page-amministrazione-trasparente .hp-header__inner,
+body.page-amministrazione-trasparente .hp-header__inner,
+body.page-privacy-policy .hp-header__inner,
+body.page-cookie-policy .hp-header__inner,
+body.page-dichiarazione-accessibilita .hp-header__inner,
+body.page-whistleblowing .hp-header__inner,
+body.page-obiettivi-accessibilita .hp-header__inner,
+body.page-la-nostra-scuola .hp-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 5rem;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+body.post-type-archive-trasparenza .hp-logo,
+body.post-type-archive-area-famiglie .hp-logo,
+body.post-type-archive-area-personale .hp-logo,
+body.single-trasparenza .hp-logo,
+body.single-area-famiglie .hp-logo,
+body.single-area-personale .hp-logo,
+body.tax-contenutiammtrasp .hp-logo,
+body.tax-annoscolastico .hp-logo,
+body.page-template-page-amministrazione-trasparente .hp-logo,
+body.page-amministrazione-trasparente .hp-logo,
+body.page-privacy-policy .hp-logo,
+body.page-cookie-policy .hp-logo,
+body.page-dichiarazione-accessibilita .hp-logo,
+body.page-whistleblowing .hp-logo,
+body.page-obiettivi-accessibilita .hp-logo,
+body.page-la-nostra-scuola .hp-logo {
+  display: inline-flex;
+  width: 3.25rem;
+  height: 3.25rem;
+  flex-shrink: 0;
+}
+
+body.post-type-archive-trasparenza .hp-logo__svg,
+body.post-type-archive-area-famiglie .hp-logo__svg,
+body.post-type-archive-area-personale .hp-logo__svg,
+body.single-trasparenza .hp-logo__svg,
+body.single-area-famiglie .hp-logo__svg,
+body.single-area-personale .hp-logo__svg,
+body.tax-contenutiammtrasp .hp-logo__svg,
+body.tax-annoscolastico .hp-logo__svg,
+body.page-template-page-amministrazione-trasparente .hp-logo__svg,
+body.page-amministrazione-trasparente .hp-logo__svg,
+body.page-privacy-policy .hp-logo__svg,
+body.page-cookie-policy .hp-logo__svg,
+body.page-dichiarazione-accessibilita .hp-logo__svg,
+body.page-whistleblowing .hp-logo__svg,
+body.page-obiettivi-accessibilita .hp-logo__svg,
+body.page-la-nostra-scuola .hp-logo__svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 18px rgba(0, 51, 66, 0.12));
+}
+
+body.post-type-archive-trasparenza .hp-header__nav,
+body.post-type-archive-area-famiglie .hp-header__nav,
+body.post-type-archive-area-personale .hp-header__nav,
+body.single-trasparenza .hp-header__nav,
+body.single-area-famiglie .hp-header__nav,
+body.single-area-personale .hp-header__nav,
+body.tax-contenutiammtrasp .hp-header__nav,
+body.tax-annoscolastico .hp-header__nav,
+body.page-template-page-amministrazione-trasparente .hp-header__nav,
+body.page-amministrazione-trasparente .hp-header__nav,
+body.page-privacy-policy .hp-header__nav,
+body.page-cookie-policy .hp-header__nav,
+body.page-dichiarazione-accessibilita .hp-header__nav,
+body.page-whistleblowing .hp-header__nav,
+body.page-obiettivi-accessibilita .hp-header__nav,
+body.page-la-nostra-scuola .hp-header__nav {
+  display: none;
+}
+
+body.post-type-archive-trasparenza .hp-header__actions,
+body.post-type-archive-area-famiglie .hp-header__actions,
+body.post-type-archive-area-personale .hp-header__actions,
+body.single-trasparenza .hp-header__actions,
+body.single-area-famiglie .hp-header__actions,
+body.single-area-personale .hp-header__actions,
+body.tax-contenutiammtrasp .hp-header__actions,
+body.tax-annoscolastico .hp-header__actions,
+body.page-template-page-amministrazione-trasparente .hp-header__actions,
+body.page-amministrazione-trasparente .hp-header__actions,
+body.page-privacy-policy .hp-header__actions,
+body.page-cookie-policy .hp-header__actions,
+body.page-dichiarazione-accessibilita .hp-header__actions,
+body.page-whistleblowing .hp-header__actions,
+body.page-obiettivi-accessibilita .hp-header__actions,
+body.page-la-nostra-scuola .hp-header__actions {
+  flex-shrink: 0;
+}
+
+body.post-type-archive-trasparenza .hp-header .btn,
+body.post-type-archive-area-famiglie .hp-header .btn,
+body.post-type-archive-area-personale .hp-header .btn,
+body.single-trasparenza .hp-header .btn,
+body.single-area-famiglie .hp-header .btn,
+body.single-area-personale .hp-header .btn,
+body.tax-contenutiammtrasp .hp-header .btn,
+body.tax-annoscolastico .hp-header .btn,
+body.page-template-page-amministrazione-trasparente .hp-header .btn,
+body.page-amministrazione-trasparente .hp-header .btn,
+body.page-privacy-policy .hp-header .btn,
+body.page-cookie-policy .hp-header .btn,
+body.page-dichiarazione-accessibilita .hp-header .btn,
+body.page-whistleblowing .hp-header .btn,
+body.page-obiettivi-accessibilita .hp-header .btn,
+body.page-la-nostra-scuola .hp-header .btn {
+  background: var(--bureaucratic-accent);
+  border-color: var(--bureaucratic-accent);
+  color: #fff;
+}
+
+body.post-type-archive-trasparenza .hp-header .btn:hover,
+body.post-type-archive-area-famiglie .hp-header .btn:hover,
+body.post-type-archive-area-personale .hp-header .btn:hover,
+body.single-trasparenza .hp-header .btn:hover,
+body.single-area-famiglie .hp-header .btn:hover,
+body.single-area-personale .hp-header .btn:hover,
+body.tax-contenutiammtrasp .hp-header .btn:hover,
+body.tax-annoscolastico .hp-header .btn:hover,
+body.page-template-page-amministrazione-trasparente .hp-header .btn:hover,
+body.page-amministrazione-trasparente .hp-header .btn:hover,
+body.page-privacy-policy .hp-header .btn:hover,
+body.page-cookie-policy .hp-header .btn:hover,
+body.page-dichiarazione-accessibilita .hp-header .btn:hover,
+body.page-whistleblowing .hp-header .btn:hover,
+body.page-obiettivi-accessibilita .hp-header .btn:hover,
+body.page-la-nostra-scuola .hp-header .btn:hover {
+  background: var(--bureaucratic-accent-strong);
+  border-color: var(--bureaucratic-accent-strong);
+}
+
+body.post-type-archive-trasparenza .hp-nav-menu,
+body.post-type-archive-area-famiglie .hp-nav-menu,
+body.post-type-archive-area-personale .hp-nav-menu,
+body.single-trasparenza .hp-nav-menu,
+body.single-area-famiglie .hp-nav-menu,
+body.single-area-personale .hp-nav-menu,
+body.tax-contenutiammtrasp .hp-nav-menu,
+body.tax-annoscolastico .hp-nav-menu,
+body.page-template-page-amministrazione-trasparente .hp-nav-menu,
+body.page-amministrazione-trasparente .hp-nav-menu,
+body.page-privacy-policy .hp-nav-menu,
+body.page-cookie-policy .hp-nav-menu,
+body.page-dichiarazione-accessibilita .hp-nav-menu,
+body.page-whistleblowing .hp-nav-menu,
+body.page-obiettivi-accessibilita .hp-nav-menu,
+body.page-la-nostra-scuola .hp-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+body.post-type-archive-trasparenza .hp-nav-menu a,
+body.post-type-archive-area-famiglie .hp-nav-menu a,
+body.post-type-archive-area-personale .hp-nav-menu a,
+body.single-trasparenza .hp-nav-menu a,
+body.single-area-famiglie .hp-nav-menu a,
+body.single-area-personale .hp-nav-menu a,
+body.tax-contenutiammtrasp .hp-nav-menu a,
+body.tax-annoscolastico .hp-nav-menu a,
+body.page-template-page-amministrazione-trasparente .hp-nav-menu a,
+body.page-amministrazione-trasparente .hp-nav-menu a,
+body.page-privacy-policy .hp-nav-menu a,
+body.page-cookie-policy .hp-nav-menu a,
+body.page-dichiarazione-accessibilita .hp-nav-menu a,
+body.page-whistleblowing .hp-nav-menu a,
+body.page-obiettivi-accessibilita .hp-nav-menu a,
+body.page-la-nostra-scuola .hp-nav-menu a {
+  font-family: var(--bureaucratic-heading-font);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--bureaucratic-text-muted);
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.2rem;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+body.post-type-archive-trasparenza .hp-nav-menu a:hover,
+body.post-type-archive-area-famiglie .hp-nav-menu a:hover,
+body.post-type-archive-area-personale .hp-nav-menu a:hover,
+body.single-trasparenza .hp-nav-menu a:hover,
+body.single-area-famiglie .hp-nav-menu a:hover,
+body.single-area-personale .hp-nav-menu a:hover,
+body.tax-contenutiammtrasp .hp-nav-menu a:hover,
+body.tax-annoscolastico .hp-nav-menu a:hover,
+body.page-template-page-amministrazione-trasparente .hp-nav-menu a:hover,
+body.page-amministrazione-trasparente .hp-nav-menu a:hover,
+body.page-privacy-policy .hp-nav-menu a:hover,
+body.page-cookie-policy .hp-nav-menu a:hover,
+body.page-dichiarazione-accessibilita .hp-nav-menu a:hover,
+body.page-whistleblowing .hp-nav-menu a:hover,
+body.page-obiettivi-accessibilita .hp-nav-menu a:hover,
+body.page-la-nostra-scuola .hp-nav-menu a:hover,
+body.post-type-archive-trasparenza .hp-nav-menu a:focus,
+body.post-type-archive-area-famiglie .hp-nav-menu a:focus,
+body.post-type-archive-area-personale .hp-nav-menu a:focus,
+body.single-trasparenza .hp-nav-menu a:focus,
+body.single-area-famiglie .hp-nav-menu a:focus,
+body.single-area-personale .hp-nav-menu a:focus,
+body.tax-contenutiammtrasp .hp-nav-menu a:focus,
+body.tax-annoscolastico .hp-nav-menu a:focus,
+body.page-template-page-amministrazione-trasparente .hp-nav-menu a:focus,
+body.page-amministrazione-trasparente .hp-nav-menu a:focus,
+body.page-privacy-policy .hp-nav-menu a:focus,
+body.page-cookie-policy .hp-nav-menu a:focus,
+body.page-dichiarazione-accessibilita .hp-nav-menu a:focus,
+body.page-whistleblowing .hp-nav-menu a:focus,
+body.page-obiettivi-accessibilita .hp-nav-menu a:focus,
+body.page-la-nostra-scuola .hp-nav-menu a:focus {
+  color: var(--bureaucratic-accent);
+  border-bottom-color: var(--bureaucratic-accent);
+}
+
+body.post-type-archive-trasparenza .hp-footer,
+body.post-type-archive-area-famiglie .hp-footer,
+body.post-type-archive-area-personale .hp-footer,
+body.single-trasparenza .hp-footer,
+body.single-area-famiglie .hp-footer,
+body.single-area-personale .hp-footer,
+body.tax-contenutiammtrasp .hp-footer,
+body.tax-annoscolastico .hp-footer,
+body.page-template-page-amministrazione-trasparente .hp-footer,
+body.page-amministrazione-trasparente .hp-footer,
+body.page-privacy-policy .hp-footer,
+body.page-cookie-policy .hp-footer,
+body.page-dichiarazione-accessibilita .hp-footer,
+body.page-whistleblowing .hp-footer,
+body.page-obiettivi-accessibilita .hp-footer,
+body.page-la-nostra-scuola .hp-footer {
+  background: linear-gradient(180deg, #173644 0%, #0f242b 100%);
+  color: #f5fbf7;
+}
+
+body.post-type-archive-trasparenza .hp-footer__grid,
+body.post-type-archive-area-famiglie .hp-footer__grid,
+body.post-type-archive-area-personale .hp-footer__grid,
+body.single-trasparenza .hp-footer__grid,
+body.single-area-famiglie .hp-footer__grid,
+body.single-area-personale .hp-footer__grid,
+body.tax-contenutiammtrasp .hp-footer__grid,
+body.tax-annoscolastico .hp-footer__grid,
+body.page-template-page-amministrazione-trasparente .hp-footer__grid,
+body.page-amministrazione-trasparente .hp-footer__grid,
+body.page-privacy-policy .hp-footer__grid,
+body.page-cookie-policy .hp-footer__grid,
+body.page-dichiarazione-accessibilita .hp-footer__grid,
+body.page-whistleblowing .hp-footer__grid,
+body.page-obiettivi-accessibilita .hp-footer__grid,
+body.page-la-nostra-scuola .hp-footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+body.post-type-archive-trasparenza .hp-footer__brand-name,
+body.post-type-archive-area-famiglie .hp-footer__brand-name,
+body.post-type-archive-area-personale .hp-footer__brand-name,
+body.single-trasparenza .hp-footer__brand-name,
+body.single-area-famiglie .hp-footer__brand-name,
+body.single-area-personale .hp-footer__brand-name,
+body.tax-contenutiammtrasp .hp-footer__brand-name,
+body.tax-annoscolastico .hp-footer__brand-name,
+body.page-template-page-amministrazione-trasparente .hp-footer__brand-name,
+body.page-amministrazione-trasparente .hp-footer__brand-name,
+body.page-privacy-policy .hp-footer__brand-name,
+body.page-cookie-policy .hp-footer__brand-name,
+body.page-dichiarazione-accessibilita .hp-footer__brand-name,
+body.page-whistleblowing .hp-footer__brand-name,
+body.page-obiettivi-accessibilita .hp-footer__brand-name,
+body.page-la-nostra-scuola .hp-footer__brand-name {
+  display: block;
+  margin-bottom: 1.25rem;
+  font-family: var(--bureaucratic-heading-font);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+body.post-type-archive-trasparenza .hp-footer__brand p,
+body.post-type-archive-area-famiglie .hp-footer__brand p,
+body.post-type-archive-area-personale .hp-footer__brand p,
+body.single-trasparenza .hp-footer__brand p,
+body.single-area-famiglie .hp-footer__brand p,
+body.single-area-personale .hp-footer__brand p,
+body.tax-contenutiammtrasp .hp-footer__brand p,
+body.tax-annoscolastico .hp-footer__brand p,
+body.page-template-page-amministrazione-trasparente .hp-footer__brand p,
+body.page-amministrazione-trasparente .hp-footer__brand p,
+body.page-privacy-policy .hp-footer__brand p,
+body.page-cookie-policy .hp-footer__brand p,
+body.page-dichiarazione-accessibilita .hp-footer__brand p,
+body.page-whistleblowing .hp-footer__brand p,
+body.page-obiettivi-accessibilita .hp-footer__brand p,
+body.page-la-nostra-scuola .hp-footer__brand p {
+  margin: 0 0 0.75rem;
+  max-width: 28rem;
+  opacity: 0.84;
+  font-family: var(--bureaucratic-body-font);
+  line-height: 1.6;
+}
+
+body.post-type-archive-trasparenza .hp-footer__col-title,
+body.post-type-archive-area-famiglie .hp-footer__col-title,
+body.post-type-archive-area-personale .hp-footer__col-title,
+body.single-trasparenza .hp-footer__col-title,
+body.single-area-famiglie .hp-footer__col-title,
+body.single-area-personale .hp-footer__col-title,
+body.tax-contenutiammtrasp .hp-footer__col-title,
+body.tax-annoscolastico .hp-footer__col-title,
+body.page-template-page-amministrazione-trasparente .hp-footer__col-title,
+body.page-amministrazione-trasparente .hp-footer__col-title,
+body.page-privacy-policy .hp-footer__col-title,
+body.page-cookie-policy .hp-footer__col-title,
+body.page-dichiarazione-accessibilita .hp-footer__col-title,
+body.page-whistleblowing .hp-footer__col-title,
+body.page-obiettivi-accessibilita .hp-footer__col-title,
+body.page-la-nostra-scuola .hp-footer__col-title {
+  margin: 0 0 1.25rem;
+  font-family: var(--bureaucratic-heading-font);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+body.post-type-archive-trasparenza .hp-footer__nav,
+body.post-type-archive-area-famiglie .hp-footer__nav,
+body.post-type-archive-area-personale .hp-footer__nav,
+body.single-trasparenza .hp-footer__nav,
+body.single-area-famiglie .hp-footer__nav,
+body.single-area-personale .hp-footer__nav,
+body.tax-contenutiammtrasp .hp-footer__nav,
+body.tax-annoscolastico .hp-footer__nav,
+body.page-template-page-amministrazione-trasparente .hp-footer__nav,
+body.page-amministrazione-trasparente .hp-footer__nav,
+body.page-privacy-policy .hp-footer__nav,
+body.page-cookie-policy .hp-footer__nav,
+body.page-dichiarazione-accessibilita .hp-footer__nav,
+body.page-whistleblowing .hp-footer__nav,
+body.page-obiettivi-accessibilita .hp-footer__nav,
+body.page-la-nostra-scuola .hp-footer__nav,
+body.post-type-archive-trasparenza .hp-footer__legal,
+body.post-type-archive-area-famiglie .hp-footer__legal,
+body.post-type-archive-area-personale .hp-footer__legal,
+body.single-trasparenza .hp-footer__legal,
+body.single-area-famiglie .hp-footer__legal,
+body.single-area-personale .hp-footer__legal,
+body.tax-contenutiammtrasp .hp-footer__legal,
+body.tax-annoscolastico .hp-footer__legal,
+body.page-template-page-amministrazione-trasparente .hp-footer__legal,
+body.page-amministrazione-trasparente .hp-footer__legal,
+body.page-privacy-policy .hp-footer__legal,
+body.page-cookie-policy .hp-footer__legal,
+body.page-dichiarazione-accessibilita .hp-footer__legal,
+body.page-whistleblowing .hp-footer__legal,
+body.page-obiettivi-accessibilita .hp-footer__legal,
+body.page-la-nostra-scuola .hp-footer__legal {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+body.post-type-archive-trasparenza .hp-footer__nav a,
+body.post-type-archive-area-famiglie .hp-footer__nav a,
+body.post-type-archive-area-personale .hp-footer__nav a,
+body.single-trasparenza .hp-footer__nav a,
+body.single-area-famiglie .hp-footer__nav a,
+body.single-area-personale .hp-footer__nav a,
+body.tax-contenutiammtrasp .hp-footer__nav a,
+body.tax-annoscolastico .hp-footer__nav a,
+body.page-template-page-amministrazione-trasparente .hp-footer__nav a,
+body.page-amministrazione-trasparente .hp-footer__nav a,
+body.page-privacy-policy .hp-footer__nav a,
+body.page-cookie-policy .hp-footer__nav a,
+body.page-dichiarazione-accessibilita .hp-footer__nav a,
+body.page-whistleblowing .hp-footer__nav a,
+body.page-obiettivi-accessibilita .hp-footer__nav a,
+body.page-la-nostra-scuola .hp-footer__nav a,
+body.post-type-archive-trasparenza .hp-footer__legal a,
+body.post-type-archive-area-famiglie .hp-footer__legal a,
+body.post-type-archive-area-personale .hp-footer__legal a,
+body.single-trasparenza .hp-footer__legal a,
+body.single-area-famiglie .hp-footer__legal a,
+body.single-area-personale .hp-footer__legal a,
+body.tax-contenutiammtrasp .hp-footer__legal a,
+body.tax-annoscolastico .hp-footer__legal a,
+body.page-template-page-amministrazione-trasparente .hp-footer__legal a,
+body.page-amministrazione-trasparente .hp-footer__legal a,
+body.page-privacy-policy .hp-footer__legal a,
+body.page-cookie-policy .hp-footer__legal a,
+body.page-dichiarazione-accessibilita .hp-footer__legal a,
+body.page-whistleblowing .hp-footer__legal a,
+body.page-obiettivi-accessibilita .hp-footer__legal a,
+body.page-la-nostra-scuola .hp-footer__legal a {
+  font-family: var(--bureaucratic-body-font);
+  font-size: 0.9rem;
+  color: rgba(245, 251, 247, 0.78);
+  text-decoration: none;
+}
+
+body.post-type-archive-trasparenza .hp-footer__nav a:hover,
+body.post-type-archive-area-famiglie .hp-footer__nav a:hover,
+body.post-type-archive-area-personale .hp-footer__nav a:hover,
+body.single-trasparenza .hp-footer__nav a:hover,
+body.single-area-famiglie .hp-footer__nav a:hover,
+body.single-area-personale .hp-footer__nav a:hover,
+body.tax-contenutiammtrasp .hp-footer__nav a:hover,
+body.tax-annoscolastico .hp-footer__nav a:hover,
+body.page-template-page-amministrazione-trasparente .hp-footer__nav a:hover,
+body.page-amministrazione-trasparente .hp-footer__nav a:hover,
+body.page-privacy-policy .hp-footer__nav a:hover,
+body.page-cookie-policy .hp-footer__nav a:hover,
+body.page-dichiarazione-accessibilita .hp-footer__nav a:hover,
+body.page-whistleblowing .hp-footer__nav a:hover,
+body.page-obiettivi-accessibilita .hp-footer__nav a:hover,
+body.page-la-nostra-scuola .hp-footer__nav a:hover,
+body.post-type-archive-trasparenza .hp-footer__legal a:hover,
+body.post-type-archive-area-famiglie .hp-footer__legal a:hover,
+body.post-type-archive-area-personale .hp-footer__legal a:hover,
+body.single-trasparenza .hp-footer__legal a:hover,
+body.single-area-famiglie .hp-footer__legal a:hover,
+body.single-area-personale .hp-footer__legal a:hover,
+body.tax-contenutiammtrasp .hp-footer__legal a:hover,
+body.tax-annoscolastico .hp-footer__legal a:hover,
+body.page-template-page-amministrazione-trasparente .hp-footer__legal a:hover,
+body.page-amministrazione-trasparente .hp-footer__legal a:hover,
+body.page-privacy-policy .hp-footer__legal a:hover,
+body.page-cookie-policy .hp-footer__legal a:hover,
+body.page-dichiarazione-accessibilita .hp-footer__legal a:hover,
+body.page-whistleblowing .hp-footer__legal a:hover,
+body.page-obiettivi-accessibilita .hp-footer__legal a:hover,
+body.page-la-nostra-scuola .hp-footer__legal a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+body.post-type-archive-trasparenza .hp-footer__bottom,
+body.post-type-archive-area-famiglie .hp-footer__bottom,
+body.post-type-archive-area-personale .hp-footer__bottom,
+body.single-trasparenza .hp-footer__bottom,
+body.single-area-famiglie .hp-footer__bottom,
+body.single-area-personale .hp-footer__bottom,
+body.tax-contenutiammtrasp .hp-footer__bottom,
+body.tax-annoscolastico .hp-footer__bottom,
+body.page-template-page-amministrazione-trasparente .hp-footer__bottom,
+body.page-amministrazione-trasparente .hp-footer__bottom,
+body.page-privacy-policy .hp-footer__bottom,
+body.page-cookie-policy .hp-footer__bottom,
+body.page-dichiarazione-accessibilita .hp-footer__bottom,
+body.page-whistleblowing .hp-footer__bottom,
+body.page-obiettivi-accessibilita .hp-footer__bottom,
+body.page-la-nostra-scuola .hp-footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-block: 1.5rem;
+  text-align: center;
+  font-family: var(--bureaucratic-body-font);
+  font-size: 0.8rem;
+  color: rgba(245, 251, 247, 0.58);
+}
+
+body.post-type-archive-trasparenza .hp-footer__bottom p,
+body.post-type-archive-area-famiglie .hp-footer__bottom p,
+body.post-type-archive-area-personale .hp-footer__bottom p,
+body.single-trasparenza .hp-footer__bottom p,
+body.single-area-famiglie .hp-footer__bottom p,
+body.single-area-personale .hp-footer__bottom p,
+body.tax-contenutiammtrasp .hp-footer__bottom p,
+body.tax-annoscolastico .hp-footer__bottom p,
+body.page-template-page-amministrazione-trasparente .hp-footer__bottom p,
+body.page-amministrazione-trasparente .hp-footer__bottom p,
+body.page-privacy-policy .hp-footer__bottom p,
+body.page-cookie-policy .hp-footer__bottom p,
+body.page-dichiarazione-accessibilita .hp-footer__bottom p,
+body.page-whistleblowing .hp-footer__bottom p,
+body.page-obiettivi-accessibilita .hp-footer__bottom p,
+body.page-la-nostra-scuola .hp-footer__bottom p {
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  body.post-type-archive-trasparenza .hp-footer__grid,
+  body.post-type-archive-area-famiglie .hp-footer__grid,
+  body.post-type-archive-area-personale .hp-footer__grid,
+  body.single-trasparenza .hp-footer__grid,
+  body.single-area-famiglie .hp-footer__grid,
+  body.single-area-personale .hp-footer__grid,
+  body.tax-contenutiammtrasp .hp-footer__grid,
+  body.tax-annoscolastico .hp-footer__grid,
+  body.page-template-page-amministrazione-trasparente .hp-footer__grid,
+  body.page-amministrazione-trasparente .hp-footer__grid,
+  body.page-privacy-policy .hp-footer__grid,
+  body.page-cookie-policy .hp-footer__grid,
+  body.page-dichiarazione-accessibilita .hp-footer__grid,
+  body.page-whistleblowing .hp-footer__grid,
+  body.page-obiettivi-accessibilita .hp-footer__grid,
+  body.page-la-nostra-scuola .hp-footer__grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  body.post-type-archive-trasparenza .hp-header__nav,
+  body.post-type-archive-area-famiglie .hp-header__nav,
+  body.post-type-archive-area-personale .hp-header__nav,
+  body.single-trasparenza .hp-header__nav,
+  body.single-area-famiglie .hp-header__nav,
+  body.single-area-personale .hp-header__nav,
+  body.tax-contenutiammtrasp .hp-header__nav,
+  body.tax-annoscolastico .hp-header__nav,
+  body.page-template-page-amministrazione-trasparente .hp-header__nav,
+  body.page-amministrazione-trasparente .hp-header__nav,
+  body.page-privacy-policy .hp-header__nav,
+  body.page-cookie-policy .hp-header__nav,
+  body.page-dichiarazione-accessibilita .hp-header__nav,
+  body.page-whistleblowing .hp-header__nav,
+  body.page-obiettivi-accessibilita .hp-header__nav,
+  body.page-la-nostra-scuola .hp-header__nav {
+    display: block;
+  }
+}
+
 body.post-type-archive-trasparenza .site-footer a,
 body.post-type-archive-area-famiglie .site-footer a,
 body.post-type-archive-area-personale .site-footer a,

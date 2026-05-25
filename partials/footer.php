@@ -5,6 +5,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+$is_bureaucratic_context = function_exists('centro_servizi_is_bureaucratic_context') && centro_servizi_is_bureaucratic_context();
+
 $accessibility_page  = get_page_by_path('dichiarazione-accessibilita');
 $obiettivi_page      = get_page_by_path('obiettivi-accessibilita');
 $whistleblowing_url  = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
@@ -61,6 +63,76 @@ if (isset($contacts_map['pec'])) {
 $feedback_url = $accessibility_feedback_url !== ''
     ? $accessibility_feedback_url
     : 'https://example.com/google-form-accessibilita';
+
+if ($is_bureaucratic_context) :
+    ?>
+    <footer class="hp-footer" role="contentinfo">
+        <div class="hp-footer__grid hp-container">
+            <div class="hp-footer__brand">
+                <span class="hp-footer__brand-name"><?php echo esc_html($company_display); ?></span>
+                <?php if ($legal_address !== '') : ?>
+                    <p><?php echo nl2br(esc_html($legal_address)); ?></p>
+                <?php endif; ?>
+                <?php if ($footer_text !== '') : ?>
+                    <p><?php echo nl2br(esc_html($footer_text)); ?></p>
+                <?php endif; ?>
+                <?php if (! empty($contact_chunks)) : ?>
+                    <p><?php echo esc_html(implode(' | ', $contact_chunks)); ?></p>
+                <?php endif; ?>
+                <?php if (! empty($legal_chunks)) : ?>
+                    <p><?php echo esc_html(implode(' | ', $legal_chunks)); ?></p>
+                <?php endif; ?>
+            </div>
+
+            <div class="hp-footer__col">
+                <h4 class="hp-footer__col-title">Navigazione</h4>
+                <?php
+                wp_nav_menu([
+                    'theme_location' => 'primary',
+                    'container'      => false,
+                    'fallback_cb'    => 'wp_page_menu',
+                    'menu_class'     => 'hp-footer__nav',
+                ]);
+                ?>
+            </div>
+
+            <div class="hp-footer__col">
+                <h4 class="hp-footer__col-title">Legale</h4>
+                <ul class="hp-footer__legal">
+                    <li>
+                        <a href="<?php echo esc_url($feedback_url); ?>" target="_blank" rel="noopener noreferrer">
+                            Feedback Accessibilita <span class="sr-only">(apre in nuova finestra)</span>
+                        </a>
+                    </li>
+                    <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a></li>
+                    <li><a href="<?php echo esc_url(home_url('/cookie-policy/')); ?>">Cookie Policy</a></li>
+                    <li><a href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/amministrazione-trasparente/')); ?>">Amministrazione Trasparente</a></li>
+                    <?php if ($whistleblowing_url !== '') : ?>
+                        <li>
+                            <a href="<?php echo esc_url($whistleblowing_url); ?>" target="_blank" rel="noopener noreferrer">
+                                Whistleblowing <span class="sr-only">(apre in nuova finestra)</span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($accessibility_page instanceof WP_Post) : ?>
+                        <li><a href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di Accessibilita</a></li>
+                    <?php endif; ?>
+                    <?php if ($obiettivi_page instanceof WP_Post) : ?>
+                        <li><a href="<?php echo esc_url(get_permalink($obiettivi_page)); ?>">Obiettivi di Accessibilita</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+
+        <div class="hp-footer__bottom hp-container">
+            <p>&copy; <?php echo esc_html((string) gmdate('Y')); ?> <?php echo esc_html($company_display); ?> &mdash; Tutti i diritti riservati</p>
+        </div>
+    </footer>
+    <?php wp_footer(); ?>
+    </body></html>
+    <?php
+    return;
+endif;
 ?>
 <footer class="site-footer" id="footer-sito" role="contentinfo">
     <nav aria-label="Menu footer">
