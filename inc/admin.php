@@ -5,75 +5,6 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-function centro_servizi_get_admin_debug_static_meta(): array
-{
-    return [
-        'branch' => 'main',
-        'commit_short' => '-',
-        'commit_datetime' => '-',
-    ];
-}
-
-function centro_servizi_get_deploy_meta_admin(): array
-{
-    $meta_file = get_template_directory() . '/assets/deploy-meta.php';
-
-    if (! file_exists($meta_file)) {
-        return [];
-    }
-
-    $meta = require $meta_file;
-
-    return is_array($meta) ? $meta : [];
-}
-
-function centro_servizi_get_short_subject(string $subject): string
-{
-    $subject_length = function_exists('mb_strlen') ? mb_strlen($subject) : strlen($subject);
-
-    if ($subject_length <= 18) {
-        return $subject;
-    }
-
-    $subject_short = function_exists('mb_substr')
-        ? mb_substr($subject, 0, 18)
-        : substr($subject, 0, 18);
-
-    return $subject_short . '...';
-}
-
-function centro_servizi_get_latest_deploy_commit_meta(): array
-{
-    $deploy_meta = centro_servizi_get_deploy_meta_admin();
-
-    $subject_fallback = '';
-    if (isset($deploy_meta['commit_title']) && is_string($deploy_meta['commit_title'])) {
-        $subject_fallback = trim($deploy_meta['commit_title']);
-    }
-
-    if ($subject_fallback === '' && isset($deploy_meta['commit_hash']) && is_string($deploy_meta['commit_hash'])) {
-        $subject_fallback = trim($deploy_meta['commit_hash']);
-    }
-
-    $date_fallback = '';
-    if (isset($deploy_meta['deployed_at']) && is_string($deploy_meta['deployed_at'])) {
-        $deployed_at = trim($deploy_meta['deployed_at']);
-        $timestamp = strtotime($deployed_at);
-        $date_fallback = ($timestamp !== false && $timestamp > 0)
-            ? wp_date('Y-m-d H:i', $timestamp)
-            : $deployed_at;
-    }
-
-    if ($subject_fallback === '' && $date_fallback === '') {
-        return [];
-    }
-
-    return [
-        'commit_short' => sanitize_text_field($subject_fallback !== '' ? centro_servizi_get_short_subject($subject_fallback) : '-'),
-        'commit_datetime' => sanitize_text_field($date_fallback !== '' ? $date_fallback : '-'),
-    ];
-}
-
 function centro_servizi_get_current_template_label(): string
 {
     if (is_admin()) {
@@ -96,31 +27,26 @@ function centro_servizi_get_current_template_label(): string
     return basename($normalized_template);
 }
 
-function centro_servizi_add_admin_bar_release_info(WP_Admin_Bar $wp_admin_bar): void
+function centro_servizi_get_release_info_meta(): array
 {
+    return [
+        'branch' => 'main',
+        'commit_short' => '-',
+        'commit_datetime' => '-',
+    ];
+}
+
+function centro_servizi_add_admin_bar_release_info($wp_admin_bar): void
+{
+    if (! ($wp_admin_bar instanceof WP_Admin_Bar)) {
+        return;
+    }
+
     if (! is_admin_bar_showing() || ! current_user_can('manage_options')) {
         return;
     }
 
-    $meta = centro_servizi_get_admin_debug_static_meta();
-    $deploy_meta = centro_servizi_get_deploy_meta_admin();
-    $deploy_commit_meta = centro_servizi_get_latest_deploy_commit_meta();
-
-    if (isset($deploy_meta['branch']) && is_string($deploy_meta['branch'])) {
-        $deploy_branch = trim($deploy_meta['branch']);
-
-        if ($deploy_branch !== '') {
-            $meta['branch'] = sanitize_text_field($deploy_branch);
-        }
-    }
-
-    if (isset($deploy_commit_meta['commit_short'])) {
-        $meta['commit_short'] = (string) $deploy_commit_meta['commit_short'];
-    }
-
-    if (isset($deploy_commit_meta['commit_datetime'])) {
-        $meta['commit_datetime'] = (string) $deploy_commit_meta['commit_datetime'];
-    }
+    $meta = centro_servizi_get_release_info_meta();
 
     $template_label = centro_servizi_get_current_template_label();
 
