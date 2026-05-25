@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiorna gli stili dell'intestazione del tema per migliorare la coerenza visiva e l'usabilità; utilizza variabili CSS per una gestione più efficace dei colori.',
-    'commit_hash'  => '78b4687c3',
-    'deployed_at'  => '2026-05-25 11:24:13',
+    'commit_title' => 'Riorganizza il footer del tema, migliorando la struttura e la presentazione dei contatti; utilizza un layout a griglia e aggiungi logica per la navigazione e le informazioni legali.',
+    'commit_hash'  => '02553e3a9',
+    'deployed_at'  => '2026-05-25 11:29:22',
 ];
