@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'rimosso debug',
-    'commit_hash'  => 'e79d72460',
-    'deployed_at'  => '2026-05-25 12:17:01',
+    'commit_title' => 'barra debug',
+    'commit_hash'  => '99d51b0ac',
+    'deployed_at'  => '2026-05-25 12:21:30',
 ];
