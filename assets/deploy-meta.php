@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'barra debug',
-    'commit_hash'  => '99d51b0ac',
-    'deployed_at'  => '2026-05-25 12:21:30',
+    'commit_title' => 'Aggiungi la funzione per ottenere il branch git corrente e aggiorna le informazioni nella admin bar',
+    'commit_hash'  => 'a795591e6',
+    'deployed_at'  => '2026-05-25 12:24:04',
 ];

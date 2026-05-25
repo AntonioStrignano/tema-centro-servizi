@@ -18,6 +18,29 @@ function centro_servizi_get_admin_debug_static_meta(): array
     ];
 }
 
+function centro_servizi_get_current_git_branch(): string
+{
+    if (! function_exists('shell_exec')) {
+        return '';
+    }
+
+    $theme_dir = get_template_directory();
+    $command = sprintf('git -C %s rev-parse --abbrev-ref HEAD 2>/dev/null', escapeshellarg($theme_dir));
+    $output = shell_exec($command);
+
+    if (! is_string($output)) {
+        return '';
+    }
+
+    $branch = trim($output);
+
+    if ($branch === '' || $branch === 'HEAD') {
+        return '';
+    }
+
+    return sanitize_text_field($branch);
+}
+
 function centro_servizi_get_current_template_label(): string
 {
     if (is_admin()) {
@@ -47,6 +70,12 @@ function centro_servizi_add_admin_bar_release_info(WP_Admin_Bar $wp_admin_bar): 
     }
 
     $meta = centro_servizi_get_admin_debug_static_meta();
+    $runtime_branch = centro_servizi_get_current_git_branch();
+
+    if ($runtime_branch !== '') {
+        $meta['branch'] = $runtime_branch;
+    }
+
     $template_label = centro_servizi_get_current_template_label();
 
     $title = sprintf(
