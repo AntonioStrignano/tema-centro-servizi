@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiorna gli stili del footer e dell'intestazione per migliorare la coerenza visiva e la responsività; aggiungi il caricamento dei fogli di stile nel front-page.php.',
-    'commit_hash'  => 'ace5aac46',
-    'deployed_at'  => '2026-05-25 11:07:49',
+    'commit_title' => 'Riorganizza l'intestazione del tema, migliorando la struttura e la chiarezza del codice; aggiungi logica per il caricamento dei contatti e il marchio.',
+    'commit_hash'  => 'e40f9a0f3',
+    'deployed_at'  => '2026-05-25 11:16:25',
 ];
