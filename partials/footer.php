@@ -82,7 +82,7 @@ $feedback_url = $accessibility_feedback_url !== ''
     <div class="site-footer__inner">
         <div class="site-footer__grid">
             <section class="site-footer__brand-block" aria-label="Identita sito">
-                <p class="site-footer__eyebrow">Centro servizi</p>
+                <p class="site-footer__eyebrow">Scuola dell'infanzia</p>
                 <h2 class="site-footer__title"><?php echo esc_html($company_display); ?></h2>
 
                 <?php if ($legal_address !== '') : ?>
@@ -162,7 +162,7 @@ $feedback_url = $accessibility_feedback_url !== ''
                 <?php if (! empty($legal_chunks)) : ?>
                     <p><?php echo esc_html(implode(' | ', $legal_chunks)); ?></p>
                 <?php endif; ?>
-                <p>Powered by Centro Servizi</p>
+                <p>Sito scolastico istituzionale</p>
             </div>
             <p class="site-footer__copyright">&copy; <?php echo esc_html(gmdate('Y')); ?> <?php bloginfo('name'); ?></p>
         </div>
