@@ -7,9 +7,9 @@ if (! defined('ABSPATH')) {
 
 $centro_servizi_includes = [
     '/inc/setup.php',
+    '/inc/theme-assets.php',
     '/inc/enqueue.php',
     '/inc/settings.php',
-    '/inc/debug.php',
     '/inc/homepage.php',
     '/inc/cpt-attivita.php',
     '/inc/cpt-trasparenza.php',
