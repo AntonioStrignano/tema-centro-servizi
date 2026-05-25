@@ -17,36 +17,6 @@ if (! defined('ABSPATH')) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <?php get_template_part('partials/skip-links'); ?>
-<?php if (function_exists('centro_servizi_is_bureaucratic_context') && centro_servizi_is_bureaucratic_context()) : ?>
-<header class="hp-header" role="banner">
-    <div class="hp-header__inner">
-        <a class="hp-logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
-            <svg class="hp-logo__svg" viewBox="0 0 120 120" role="img" aria-hidden="true" focusable="false">
-                <circle cx="60" cy="60" r="56" fill="#e8f2ef"/>
-                <circle cx="60" cy="60" r="44" fill="#ffffff"/>
-                <path d="M34 70L60 42L86 70V86H66V72H54V86H34Z" fill="#003342"/>
-                <path d="M32 30H88" stroke="#436555" stroke-width="8" stroke-linecap="round"/>
-                <path d="M40 20H80" stroke="#581a01" stroke-width="6" stroke-linecap="round"/>
-            </svg>
-        </a>
-
-        <nav class="hp-header__nav" aria-label="Navigazione principale">
-            <?php
-            wp_nav_menu([
-                'theme_location' => 'primary',
-                'container'      => false,
-                'menu_class'     => 'hp-nav-menu',
-                'fallback_cb'    => false,
-            ]);
-            ?>
-        </nav>
-
-        <div class="hp-header__actions">
-            <a class="btn btn--tertiary" href="<?php echo esc_url(home_url('/contatti/')); ?>">Contattaci</a>
-        </div>
-    </div>
-</header>
-<?php else : ?>
 <header class="site-header" id="top" role="banner">
     <div class="site-branding">
         <p><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></p>
@@ -68,5 +38,4 @@ if (! defined('ABSPATH')) {
         <?php get_search_form(); ?>
     </div>
 </header>
-<?php endif; ?>
 <?php get_template_part('partials/breadcrumb'); ?>

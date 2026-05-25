@@ -1,67 +1,3 @@
-/*
-  CSS RESET ESEGUITO IL 21/05/2026
-  Rimangono solo le regole per trasparenza e pagine legali
-*/
-
-body.post-type-archive-trasparenza .site-section,
-body.post-type-archive-area-famiglie .site-section,
-body.post-type-archive-area-personale .site-section,
-body.single-trasparenza .site-section,
-body.single-area-famiglie .site-section,
-body.single-area-personale .site-section,
-body.tax-contenutiammtrasp .site-section,
-body.tax-annoscolastico .site-section,
-body.page-template-page-amministrazione-trasparente .site-section,
-body.page-amministrazione-trasparente .site-section {
-  background: rgba(8, 12, 18, 0.55);
-}
-
-body.post-type-archive-trasparenza .site-card,
-body.post-type-archive-area-famiglie .site-card,
-body.post-type-archive-area-personale .site-card,
-body.single-trasparenza .site-card,
-body.single-area-famiglie .site-card,
-body.single-area-personale .site-card,
-body.tax-contenutiammtrasp .site-card,
-body.tax-annoscolastico .site-card,
-body.page-template-page-amministrazione-trasparente .site-card,
-body.page-amministrazione-trasparente .site-card {
-  background: rgba(26, 32, 40, 0.92);
-  color: #f3f7fb;
-}
-
-body.post-type-archive-trasparenza .site-header,
-body.post-type-archive-area-famiglie .site-header,
-body.post-type-archive-area-personale .site-header,
-body.single-trasparenza .site-header,
-body.single-area-famiglie .site-header,
-body.single-area-personale .site-header,
-body.tax-contenutiammtrasp .site-header,
-body.tax-annoscolastico .site-header,
-body.page-template-page-amministrazione-trasparente .site-header,
-body.page-amministrazione-trasparente .site-header,
-body.post-type-archive-trasparenza .site-footer,
-body.post-type-archive-area-famiglie .site-footer,
-body.post-type-archive-area-personale .site-footer,
-body.single-trasparenza .site-footer,
-body.single-area-famiglie .site-footer,
-body.single-area-personale .site-footer,
-body.tax-contenutiammtrasp .site-footer,
-body.tax-annoscolastico .site-footer,
-body.page-template-page-amministrazione-trasparente .site-footer,
-body.page-amministrazione-trasparente .site-footer {
-  background: rgba(15, 20, 27, 0.94);
-}
-
-input,
-select,
-textarea,
-button {
-  font: inherit;
-  color: inherit;
-  background: #1a2028;
-}
-
 .attivita-archive__grid {
   display: grid;
   gap: 1rem;
@@ -1303,110 +1239,12 @@ textarea:focus,
   outline: 0.1875rem solid var(--ui-focus);
 }
 
-.site-header,
-.site-footer,
 .site-main,
 .site-section,
 .site-card,
 .site-breadcrumb {
   background: transparent;
   color: inherit;
-}
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  margin: 0;
-  padding: 0.75rem 1.25rem;
-  background: color-mix(in srgb, var(--ui-surface) 92%, transparent);
-  border-bottom: 1px solid var(--ui-border);
-  backdrop-filter: blur(10px);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 1rem;
-}
-
-.site-branding p {
-  margin: 0;
-  line-height: 1.35;
-}
-
-.site-branding p:first-child a {
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.site-branding p:last-child {
-  color: var(--ui-text-muted);
-  font-size: 0.92rem;
-}
-
-.site-navigation .menu {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.site-navigation .menu a {
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--ui-text);
-}
-
-.site-navigation .menu a:hover,
-.site-navigation .menu a:focus {
-  color: var(--ui-primary);
-}
-
-.site-search {
-  min-width: 15rem;
-}
-
-.site-search form {
-  display: flex;
-  gap: 0.4rem;
-}
-
-.site-search input[type="search"] {
-  min-height: 2.5rem;
-  width: 100%;
-  border-radius: 999px;
-  border: 1px solid var(--ui-border);
-  background: var(--ui-surface);
-  color: var(--ui-text);
-  padding: 0 0.9rem;
-}
-
-.site-search input[type="submit"] {
-  border: 0;
-  border-radius: 999px;
-  min-height: 2.5rem;
-  padding: 0 0.95rem;
-  background: var(--ui-primary);
-  color: #fff;
-  font-weight: 700;
-}
-
-.site-footer {
-  margin: 0;
-  padding: 2.75rem 1.25rem;
-  background: var(--ui-primary);
-  color: #f5fafc;
-}
-
-.site-footer a,
-.site-footer a:visited {
-  color: #f5fafc;
-}
-
-.site-footer ul {
-  margin: 1rem 0;
-  padding-left: 1.1rem;
 }
 
 .home-vitrine {
@@ -1570,22 +1408,6 @@ textarea:focus,
 
 .strip-servizi__overlay {
   background: linear-gradient(to top, rgba(0, 28, 40, 0.84) 0%, rgba(0, 28, 40, 0.12) 70%, rgba(0, 28, 40, 0) 100%);
-}
-
-@media (max-width: 75rem) {
-  .site-header {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .site-navigation .menu {
-    flex-wrap: wrap;
-    gap: 0.65rem 1rem;
-  }
-
-  .site-search {
-    min-width: 0;
-  }
 }
 
 @media (max-width: 60rem) {

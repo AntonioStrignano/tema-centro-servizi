@@ -73,7 +73,8 @@ function centro_servizi_is_bureaucratic_context(): bool
     return is_post_type_archive(['trasparenza', 'area-famiglie', 'area-personale'])
         || is_singular(['trasparenza', 'area-famiglie', 'area-personale'])
         || is_tax(['contenutiammtrasp', 'annoscolastico'])
-        || is_page('amministrazione-trasparente');
+        || is_page('amministrazione-trasparente')
+        || centro_servizi_is_legal_page_context();
 }
 
 function centro_servizi_is_legal_page_context(): bool
@@ -546,6 +547,16 @@ function centro_servizi_get_theme_stylesheets(): array
             'path' => get_template_directory() . '/assets/css/site.css',
             'url' => get_template_directory_uri() . '/assets/css/site.css',
         ],
+        [
+            'label' => 'assets/css/site-header.css',
+            'path' => get_template_directory() . '/assets/css/site-header.css',
+            'url' => get_template_directory_uri() . '/assets/css/site-header.css',
+        ],
+        [
+            'label' => 'assets/css/site-footer.css',
+            'path' => get_template_directory() . '/assets/css/site-footer.css',
+            'url' => get_template_directory_uri() . '/assets/css/site-footer.css',
+        ],
     ];
 
     if ($debug_css_enabled) {
@@ -561,14 +572,6 @@ function centro_servizi_get_theme_stylesheets(): array
             'label' => 'assets/css/area-burocratica.css',
             'path' => get_template_directory() . '/assets/css/area-burocratica.css',
             'url' => get_template_directory_uri() . '/assets/css/area-burocratica.css',
-        ];
-    }
-
-    if (centro_servizi_is_legal_page_context()) {
-        $stylesheets[] = [
-            'label' => 'assets/css/legal-pages.css',
-            'path' => get_template_directory() . '/assets/css/legal-pages.css',
-            'url' => get_template_directory_uri() . '/assets/css/legal-pages.css',
         ];
     }
 
