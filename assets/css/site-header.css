@@ -6,13 +6,13 @@
   z-index: 50;
   margin: 0;
   padding: 0;
-  background: #fff;
-  border-bottom: 1px solid var(--stitch-border-subtle, var(--ui-border, #e5e0d8));
-  box-shadow: 0 12px 30px -28px rgba(0, 51, 66, 0.42);
+  background: var(--stitch-surface, var(--ui-surface));
+  border-bottom: 1px solid var(--stitch-border-subtle, var(--ui-border));
+  box-shadow: 0 12px 30px -28px color-mix(in srgb, var(--stitch-primary, var(--ui-primary)) 34%, transparent);
 }
 
 .site-header__top {
-  background: var(--stitch-primary, var(--ui-primary, #003342));
+  background: var(--stitch-primary, var(--ui-primary));
 }
 
 .site-header__top-inner,
@@ -58,8 +58,8 @@
   width: 3.3rem;
   height: 3.3rem;
   border-radius: 1rem;
-  background: #f3f7f8;
-  border: 1px solid rgba(0, 51, 66, 0.1);
+  background: var(--stitch-surface-cream, var(--ui-surface-alt));
+  border: 1px solid color-mix(in srgb, var(--stitch-primary, var(--ui-primary)) 12%, transparent);
   overflow: hidden;
 }
 
@@ -75,7 +75,7 @@
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--stitch-primary, var(--ui-primary, #003342));
+  color: var(--stitch-primary, var(--ui-primary));
   text-decoration: none;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .site-branding__title a {
-  color: var(--stitch-primary, var(--ui-primary, #003342));
+  color: var(--stitch-primary, var(--ui-primary));
   font-family: var(--font-heading-family, var(--font-body-family, Arial, sans-serif));
   font-size: clamp(1.1rem, 1rem + 0.35vw, 1.45rem);
   font-weight: 700;
@@ -99,7 +99,7 @@
 }
 
 .site-branding__description {
-  color: var(--stitch-text-muted, var(--ui-text-muted, #40484c));
+  color: var(--stitch-text-muted, var(--ui-text-muted));
   font-size: 0.88rem;
   line-height: 1.3;
 }
@@ -116,7 +116,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  color: rgba(255, 255, 255, 0.94);
+  color: color-mix(in srgb, var(--stitch-surface) 94%, transparent);
   font-size: 0.88rem;
   font-weight: 500;
   text-decoration: none;
@@ -138,7 +138,7 @@
 
 .site-header__utility-link:hover,
 .site-header__utility-link:focus-visible {
-  color: #fff;
+  color: var(--stitch-surface);
   text-decoration: underline;
 }
 
@@ -167,7 +167,7 @@
   align-items: center;
   min-height: 2.2rem;
   border-bottom: 2px solid transparent;
-  color: var(--stitch-text-muted, var(--ui-text-muted, #40484c));
+  color: var(--stitch-text-muted, var(--ui-text-muted));
   font-family: var(--font-label-family, var(--font-body-family, Arial, sans-serif));
   font-size: 0.82rem;
   font-weight: 700;
@@ -181,8 +181,8 @@
 .site-navigation .menu a:focus-visible,
 .site-navigation .menu .current-menu-item > a,
 .site-navigation .menu .current-page-ancestor > a {
-  color: var(--stitch-primary, var(--ui-primary, #003342));
-  border-bottom-color: var(--stitch-primary, var(--ui-primary, #003342));
+  color: var(--stitch-primary, var(--ui-primary));
+  border-bottom-color: var(--stitch-primary, var(--ui-primary));
   text-decoration: none;
 }
 
@@ -197,8 +197,8 @@
   min-height: 2.8rem;
   padding: 0.7rem 1.1rem;
   border-radius: 999px;
-  background: var(--stitch-primary, var(--ui-primary, #003342));
-  color: #fff;
+  background: var(--stitch-primary, var(--ui-primary));
+  color: var(--stitch-surface);
   font-family: var(--font-label-family, var(--font-body-family, Arial, sans-serif));
   font-size: 0.8rem;
   font-weight: 700;
@@ -210,7 +210,7 @@
 .site-header a:focus-visible,
 .site-header button:focus-visible,
 .site-header input:focus-visible {
-  outline: 2px solid var(--stitch-primary, var(--ui-primary, #003342));
+  outline: 2px solid var(--stitch-primary, var(--ui-primary));
   outline-offset: 3px;
 }
 
