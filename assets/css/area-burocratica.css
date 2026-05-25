@@ -1,29 +1,107 @@
-body.post-type-archive-trasparenza .site-main,
-body.post-type-archive-area-famiglie .site-main,
-body.post-type-archive-area-personale .site-main,
-body.single-trasparenza .site-main,
-body.single-area-famiglie .site-main,
-body.single-area-personale .site-main,
-body.tax-contenutiammtrasp .site-main,
-body.tax-annoscolastico .site-main,
-body.page-template-page-amministrazione-trasparente .site-main,
-body.page-amministrazione-trasparente .site-main {
-  /* Removed max-width: sections now handle full-width */
-  background: transparent;
+/* Bureaucratic area theme layer.
+   The base layout lives in site.css; this file only handles visual theming. */
+
+body.post-type-archive-trasparenza,
+body.post-type-archive-area-famiglie,
+body.post-type-archive-area-personale,
+body.single-trasparenza,
+body.single-area-famiglie,
+body.single-area-personale,
+body.tax-contenutiammtrasp,
+body.tax-annoscolastico,
+body.page-template-page-amministrazione-trasparente,
+body.page-amministrazione-trasparente,
+body.page-privacy-policy,
+body.page-cookie-policy,
+body.page-dichiarazione-accessibilita,
+body.page-whistleblowing,
+body.page-obiettivi-accessibilita,
+body.page-la-nostra-scuola {
+  --bureaucratic-body-font: var(--font-body-family, "Work Sans", Arial, sans-serif);
+  --bureaucratic-heading-font: var(--font-heading-family, "Work Sans", Arial, sans-serif);
+  --bureaucratic-bg: #f4f7f3;
+  --bureaucratic-surface: #ffffff;
+  --bureaucratic-surface-strong: #fbfcfa;
+  --bureaucratic-surface-alt: #e9efe6;
+  --bureaucratic-text: #1d2727;
+  --bureaucratic-text-muted: #5d6a67;
+  --bureaucratic-border: #d7e0d9;
+  --bureaucratic-border-strong: #bccbc1;
+  --bureaucratic-accent: #1f5a6c;
+  --bureaucratic-accent-strong: #174554;
+  --bureaucratic-accent-soft: #d8eaee;
+  --bureaucratic-success: #5b7541;
+  --bureaucratic-warning: #9a6734;
+  --bureaucratic-focus: #0f6a8a;
+  --bureaucratic-shadow: 0 1rem 2.75rem rgba(19, 35, 35, 0.08);
+  --bureaucratic-radius: 1rem;
+  --bureaucratic-radius-sm: 0.75rem;
+  background:
+    radial-gradient(circle at top left, rgba(31, 90, 108, 0.08), transparent 36%),
+    linear-gradient(180deg, #fbfcfb 0%, var(--bureaucratic-bg) 100%);
+  color: var(--bureaucratic-text);
+  color-scheme: light;
+  font-family: var(--bureaucratic-body-font);
 }
 
-body.post-type-archive-trasparenza .site-card,
-body.post-type-archive-area-famiglie .site-card,
-body.post-type-archive-area-personale .site-card,
-body.single-trasparenza .site-card,
-body.single-area-famiglie .site-card,
-body.single-area-personale .site-card,
-body.tax-contenutiammtrasp .site-card,
-body.tax-annoscolastico .site-card,
-body.page-template-page-amministrazione-trasparente .site-card,
-body.page-amministrazione-trasparente .site-card {
-  background: rgba(26, 32, 40, 0.92);
-  color: #f3f7fb;
+body.post-type-archive-trasparenza a,
+body.post-type-archive-area-famiglie a,
+body.post-type-archive-area-personale a,
+body.single-trasparenza a,
+body.single-area-famiglie a,
+body.single-area-personale a,
+body.tax-contenutiammtrasp a,
+body.tax-annoscolastico a,
+body.page-template-page-amministrazione-trasparente a,
+body.page-amministrazione-trasparente a,
+body.page-privacy-policy a,
+body.page-cookie-policy a,
+body.page-dichiarazione-accessibilita a,
+body.page-whistleblowing a,
+body.page-obiettivi-accessibilita a,
+body.page-la-nostra-scuola a {
+  color: var(--bureaucratic-accent);
+  text-underline-offset: 0.14em;
+  text-decoration-thickness: 0.08em;
+}
+
+body.post-type-archive-trasparenza a:hover,
+body.post-type-archive-area-famiglie a:hover,
+body.post-type-archive-area-personale a:hover,
+body.single-trasparenza a:hover,
+body.single-area-famiglie a:hover,
+body.single-area-personale a:hover,
+body.tax-contenutiammtrasp a:hover,
+body.tax-annoscolastico a:hover,
+body.page-template-page-amministrazione-trasparente a:hover,
+body.page-amministrazione-trasparente a:hover,
+body.page-privacy-policy a:hover,
+body.page-cookie-policy a:hover,
+body.page-dichiarazione-accessibilita a:hover,
+body.page-whistleblowing a:hover,
+body.page-obiettivi-accessibilita a:hover,
+body.page-la-nostra-scuola a:hover {
+  color: var(--bureaucratic-accent-strong);
+}
+
+body.post-type-archive-trasparenza :focus,
+body.post-type-archive-area-famiglie :focus,
+body.post-type-archive-area-personale :focus,
+body.single-trasparenza :focus,
+body.single-area-famiglie :focus,
+body.single-area-personale :focus,
+body.tax-contenutiammtrasp :focus,
+body.tax-annoscolastico :focus,
+body.page-template-page-amministrazione-trasparente :focus,
+body.page-amministrazione-trasparente :focus,
+body.page-privacy-policy :focus,
+body.page-cookie-policy :focus,
+body.page-dichiarazione-accessibilita :focus,
+body.page-whistleblowing :focus,
+body.page-obiettivi-accessibilita :focus,
+body.page-la-nostra-scuola :focus {
+  outline: 0.1875rem solid var(--bureaucratic-focus);
+  outline-offset: 0.1875rem;
 }
 
 body.post-type-archive-trasparenza .site-header,
@@ -36,6 +114,18 @@ body.tax-contenutiammtrasp .site-header,
 body.tax-annoscolastico .site-header,
 body.page-template-page-amministrazione-trasparente .site-header,
 body.page-amministrazione-trasparente .site-header,
+body.page-privacy-policy .site-header,
+body.page-cookie-policy .site-header,
+body.page-dichiarazione-accessibilita .site-header,
+body.page-whistleblowing .site-header,
+body.page-obiettivi-accessibilita .site-header,
+body.page-la-nostra-scuola .site-header {
+  background: rgba(251, 252, 250, 0.86);
+  border-bottom-color: var(--bureaucratic-border);
+  box-shadow: 0 0.75rem 1.75rem rgba(18, 33, 33, 0.06);
+  color: var(--bureaucratic-text);
+}
+
 body.post-type-archive-trasparenza .site-footer,
 body.post-type-archive-area-famiglie .site-footer,
 body.post-type-archive-area-personale .site-footer,
@@ -45,33 +135,323 @@ body.single-area-personale .site-footer,
 body.tax-contenutiammtrasp .site-footer,
 body.tax-annoscolastico .site-footer,
 body.page-template-page-amministrazione-trasparente .site-footer,
-body.page-amministrazione-trasparente .site-footer {
-  background: rgba(15, 20, 27, 0.94);
+body.page-amministrazione-trasparente .site-footer,
+body.page-privacy-policy .site-footer,
+body.page-cookie-policy .site-footer,
+body.page-dichiarazione-accessibilita .site-footer,
+body.page-whistleblowing .site-footer,
+body.page-obiettivi-accessibilita .site-footer,
+body.page-la-nostra-scuola .site-footer {
+  background: linear-gradient(180deg, #173644 0%, #0f242b 100%);
+  color: #f5fbf7;
 }
 
-body.post-type-archive-trasparenza,
+body.post-type-archive-trasparenza .site-footer a,
+body.post-type-archive-area-famiglie .site-footer a,
+body.post-type-archive-area-personale .site-footer a,
+body.single-trasparenza .site-footer a,
+body.single-area-famiglie .site-footer a,
+body.single-area-personale .site-footer a,
+body.tax-contenutiammtrasp .site-footer a,
+body.tax-annoscolastico .site-footer a,
+body.page-template-page-amministrazione-trasparente .site-footer a,
+body.page-amministrazione-trasparente .site-footer a,
+body.page-privacy-policy .site-footer a,
+body.page-cookie-policy .site-footer a,
+body.page-dichiarazione-accessibilita .site-footer a,
+body.page-whistleblowing .site-footer a,
+body.page-obiettivi-accessibilita .site-footer a,
+body.page-la-nostra-scuola .site-footer a {
+  color: inherit;
+}
+
 body.post-type-archive-trasparenza .site-main,
-body.post-type-archive-trasparenza .site-section,
-body.post-type-archive-trasparenza .site-header,
-body.post-type-archive-trasparenza .site-footer,
-body.post-type-archive-trasparenza .site-card,
-body.post-type-archive-area-famiglie,
 body.post-type-archive-area-famiglie .site-main,
-body.post-type-archive-area-famiglie .site-section,
-body.post-type-archive-area-famiglie .site-header,
-body.post-type-archive-area-famiglie .site-footer,
-body.post-type-archive-area-famiglie .site-card,
-body.post-type-archive-area-personale,
 body.post-type-archive-area-personale .site-main,
+body.single-trasparenza .site-main,
+body.single-area-famiglie .site-main,
+body.single-area-personale .site-main,
+body.tax-contenutiammtrasp .site-main,
+body.tax-annoscolastico .site-main,
+body.page-template-page-amministrazione-trasparente .site-main,
+body.page-amministrazione-trasparente .site-main,
+body.page-privacy-policy .site-main,
+body.page-cookie-policy .site-main,
+body.page-dichiarazione-accessibilita .site-main,
+body.page-whistleblowing .site-main,
+body.page-obiettivi-accessibilita .site-main,
+body.page-la-nostra-scuola .site-main {
+  background: transparent;
+}
+
+body.post-type-archive-trasparenza .site-section,
+body.post-type-archive-area-famiglie .site-section,
 body.post-type-archive-area-personale .site-section,
-body.post-type-archive-area-personale .site-header,
-body.post-type-archive-area-personale .site-footer,
-body.post-type-archive-area-personale .site-card {
-  background: #fff;
-  color: #1f1f1f;
+body.single-trasparenza .site-section,
+body.single-area-famiglie .site-section,
+body.single-area-personale .site-section,
+body.tax-contenutiammtrasp .site-section,
+body.tax-annoscolastico .site-section,
+body.page-template-page-amministrazione-trasparente .site-section,
+body.page-amministrazione-trasparente .site-section,
+body.page-privacy-policy .site-section,
+body.page-cookie-policy .site-section,
+body.page-dichiarazione-accessibilita .site-section,
+body.page-whistleblowing .site-section,
+body.page-obiettivi-accessibilita .site-section,
+body.page-la-nostra-scuola .site-section {
+  background: transparent;
+}
+
+body.post-type-archive-trasparenza .site-section__inner,
+body.post-type-archive-area-famiglie .site-section__inner,
+body.post-type-archive-area-personale .site-section__inner,
+body.single-trasparenza .site-section__inner,
+body.single-area-famiglie .site-section__inner,
+body.single-area-personale .site-section__inner,
+body.tax-contenutiammtrasp .site-section__inner,
+body.tax-annoscolastico .site-section__inner,
+body.page-template-page-amministrazione-trasparente .site-section__inner,
+body.page-amministrazione-trasparente .site-section__inner,
+body.page-privacy-policy .site-section__inner,
+body.page-cookie-policy .site-section__inner,
+body.page-dichiarazione-accessibilita .site-section__inner,
+body.page-whistleblowing .site-section__inner,
+body.page-obiettivi-accessibilita .site-section__inner,
+body.page-la-nostra-scuola .site-section__inner {
+  max-width: 72rem;
+}
+
+body.post-type-archive-trasparenza .site-card,
+body.post-type-archive-area-famiglie .site-card,
+body.post-type-archive-area-personale .site-card,
+body.single-trasparenza .site-card,
+body.single-area-famiglie .site-card,
+body.single-area-personale .site-card,
+body.tax-contenutiammtrasp .site-card,
+body.tax-annoscolastico .site-card,
+body.page-template-page-amministrazione-trasparente .site-card,
+body.page-amministrazione-trasparente .site-card,
+body.page-privacy-policy .site-card,
+body.page-cookie-policy .site-card,
+body.page-dichiarazione-accessibilita .site-card,
+body.page-whistleblowing .site-card,
+body.page-obiettivi-accessibilita .site-card,
+body.page-la-nostra-scuola .site-card,
+.trasparenza-card,
+.pagina-legale-sober__content {
+  background: var(--bureaucratic-surface);
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: var(--bureaucratic-radius);
+  box-shadow: var(--bureaucratic-shadow);
+  color: var(--bureaucratic-text);
+}
+
+body.post-type-archive-trasparenza .site-card,
+body.post-type-archive-area-famiglie .site-card,
+body.post-type-archive-area-personale .site-card,
+body.single-trasparenza .site-card,
+body.single-area-famiglie .site-card,
+body.single-area-personale .site-card,
+body.tax-contenutiammtrasp .site-card,
+body.tax-annoscolastico .site-card,
+body.page-template-page-amministrazione-trasparente .site-card,
+body.page-amministrazione-trasparente .site-card,
+body.page-privacy-policy .site-card,
+body.page-cookie-policy .site-card,
+body.page-dichiarazione-accessibilita .site-card,
+body.page-whistleblowing .site-card,
+body.page-obiettivi-accessibilita .site-card,
+body.page-la-nostra-scuola .site-card {
+  background: var(--bureaucratic-surface);
+}
+
+body.post-type-archive-trasparenza input,
+body.post-type-archive-area-famiglie input,
+body.post-type-archive-area-personale input,
+body.single-trasparenza input,
+body.single-area-famiglie input,
+body.single-area-personale input,
+body.tax-contenutiammtrasp input,
+body.tax-annoscolastico input,
+body.page-template-page-amministrazione-trasparente input,
+body.page-amministrazione-trasparente input,
+body.page-privacy-policy input,
+body.page-cookie-policy input,
+body.page-dichiarazione-accessibilita input,
+body.page-whistleblowing input,
+body.page-obiettivi-accessibilita input,
+body.page-la-nostra-scuola input,
+body.post-type-archive-trasparenza select,
+body.post-type-archive-area-famiglie select,
+body.post-type-archive-area-personale select,
+body.single-trasparenza select,
+body.single-area-famiglie select,
+body.single-area-personale select,
+body.tax-contenutiammtrasp select,
+body.tax-annoscolastico select,
+body.page-template-page-amministrazione-trasparente select,
+body.page-amministrazione-trasparente select,
+body.page-privacy-policy select,
+body.page-cookie-policy select,
+body.page-dichiarazione-accessibilita select,
+body.page-whistleblowing select,
+body.page-obiettivi-accessibilita select,
+body.page-la-nostra-scuola select,
+body.post-type-archive-trasparenza textarea,
+body.post-type-archive-area-famiglie textarea,
+body.post-type-archive-area-personale textarea,
+body.single-trasparenza textarea,
+body.single-area-famiglie textarea,
+body.single-area-personale textarea,
+body.tax-contenutiammtrasp textarea,
+body.tax-annoscolastico textarea,
+body.page-template-page-amministrazione-trasparente textarea,
+body.page-amministrazione-trasparente textarea,
+body.page-privacy-policy textarea,
+body.page-cookie-policy textarea,
+body.page-dichiarazione-accessibilita textarea,
+body.page-whistleblowing textarea,
+body.page-obiettivi-accessibilita textarea,
+body.page-la-nostra-scuola textarea,
+body.post-type-archive-trasparenza button,
+body.post-type-archive-area-famiglie button,
+body.post-type-archive-area-personale button,
+body.single-trasparenza button,
+body.single-area-famiglie button,
+body.single-area-personale button,
+body.tax-contenutiammtrasp button,
+body.tax-annoscolastico button,
+body.page-template-page-amministrazione-trasparente button,
+body.page-amministrazione-trasparente button,
+body.page-privacy-policy button,
+body.page-cookie-policy button,
+body.page-dichiarazione-accessibilita button,
+body.page-whistleblowing button,
+body.page-obiettivi-accessibilita button,
+body.page-la-nostra-scuola button {
+  font-family: inherit;
+}
+
+body.post-type-archive-trasparenza input,
+body.post-type-archive-area-famiglie input,
+body.post-type-archive-area-personale input,
+body.single-trasparenza input,
+body.single-area-famiglie input,
+body.single-area-personale input,
+body.tax-contenutiammtrasp input,
+body.tax-annoscolastico input,
+body.page-template-page-amministrazione-trasparente input,
+body.page-amministrazione-trasparente input,
+body.page-privacy-policy input,
+body.page-cookie-policy input,
+body.page-dichiarazione-accessibilita input,
+body.page-whistleblowing input,
+body.page-obiettivi-accessibilita input,
+body.page-la-nostra-scuola input,
+body.post-type-archive-trasparenza select,
+body.post-type-archive-area-famiglie select,
+body.post-type-archive-area-personale select,
+body.single-trasparenza select,
+body.single-area-famiglie select,
+body.single-area-personale select,
+body.tax-contenutiammtrasp select,
+body.tax-annoscolastico select,
+body.page-template-page-amministrazione-trasparente select,
+body.page-amministrazione-trasparente select,
+body.page-privacy-policy select,
+body.page-cookie-policy select,
+body.page-dichiarazione-accessibilita select,
+body.page-whistleblowing select,
+body.page-obiettivi-accessibilita select,
+body.page-la-nostra-scuola select,
+body.post-type-archive-trasparenza textarea,
+body.post-type-archive-area-famiglie textarea,
+body.post-type-archive-area-personale textarea,
+body.single-trasparenza textarea,
+body.single-area-famiglie textarea,
+body.single-area-personale textarea,
+body.tax-contenutiammtrasp textarea,
+body.tax-annoscolastico textarea,
+body.page-template-page-amministrazione-trasparente textarea,
+body.page-amministrazione-trasparente textarea,
+body.page-privacy-policy textarea,
+body.page-cookie-policy textarea,
+body.page-dichiarazione-accessibilita textarea,
+body.page-whistleblowing textarea,
+body.page-obiettivi-accessibilita textarea,
+body.page-la-nostra-scuola textarea {
+  background: var(--bureaucratic-surface);
+  border: 1px solid var(--bureaucratic-border-strong);
+  border-radius: var(--bureaucratic-radius-sm);
+  color: var(--bureaucratic-text);
+}
+
+body.post-type-archive-trasparenza input:focus,
+body.post-type-archive-area-famiglie input:focus,
+body.post-type-archive-area-personale input:focus,
+body.single-trasparenza input:focus,
+body.single-area-famiglie input:focus,
+body.single-area-personale input:focus,
+body.tax-contenutiammtrasp input:focus,
+body.tax-annoscolastico input:focus,
+body.page-template-page-amministrazione-trasparente input:focus,
+body.page-amministrazione-trasparente input:focus,
+body.page-privacy-policy input:focus,
+body.page-cookie-policy input:focus,
+body.page-dichiarazione-accessibilita input:focus,
+body.page-whistleblowing input:focus,
+body.page-obiettivi-accessibilita input:focus,
+body.page-la-nostra-scuola input:focus,
+body.post-type-archive-trasparenza select:focus,
+body.post-type-archive-area-famiglie select:focus,
+body.post-type-archive-area-personale select:focus,
+body.single-trasparenza select:focus,
+body.single-area-famiglie select:focus,
+body.single-area-personale select:focus,
+body.tax-contenutiammtrasp select:focus,
+body.tax-annoscolastico select:focus,
+body.page-template-page-amministrazione-trasparente select:focus,
+body.page-amministrazione-trasparente select:focus,
+body.page-privacy-policy select:focus,
+body.page-cookie-policy select:focus,
+body.page-dichiarazione-accessibilita select:focus,
+body.page-whistleblowing select:focus,
+body.page-obiettivi-accessibilita select:focus,
+body.page-la-nostra-scuola select:focus,
+body.post-type-archive-trasparenza textarea:focus,
+body.post-type-archive-area-famiglie textarea:focus,
+body.post-type-archive-area-personale textarea:focus,
+body.single-trasparenza textarea:focus,
+body.single-area-famiglie textarea:focus,
+body.single-area-personale textarea:focus,
+body.tax-contenutiammtrasp textarea:focus,
+body.tax-annoscolastico textarea:focus,
+body.page-template-page-amministrazione-trasparente textarea:focus,
+body.page-amministrazione-trasparente textarea:focus,
+body.page-privacy-policy textarea:focus,
+body.page-cookie-policy textarea:focus,
+body.page-dichiarazione-accessibilita textarea:focus,
+body.page-whistleblowing textarea:focus,
+body.page-obiettivi-accessibilita textarea:focus,
+body.page-la-nostra-scuola textarea:focus {
+  border-color: var(--bureaucratic-accent);
+  box-shadow: 0 0 0 0.1875rem color-mix(in srgb, var(--bureaucratic-focus) 16%, transparent);
+}
+
+body.post-type-archive-trasparenza .trasparenza-archive,
+body.post-type-archive-area-famiglie .trasparenza-archive,
+body.post-type-archive-area-personale .trasparenza-archive,
+body.tax-contenutiammtrasp .trasparenza-archive,
+body.tax-annoscolastico .trasparenza-archive,
+body.page-template-page-amministrazione-trasparente .trasparenza-archive,
+body.page-amministrazione-trasparente .trasparenza-archive {
+  padding-block: clamp(1.25rem, 3vw, 2.5rem);
 }
 
 .trasparenza-archive__header {
+  display: grid;
+  gap: 0.5rem;
   margin-bottom: 1.5rem;
 }
 
@@ -81,12 +461,26 @@ body.post-type-archive-area-personale .site-card {
   margin: 0;
 }
 
-.trasparenza-archive__intro {
-  margin-top: 0.5rem;
+.trasparenza-archive__title,
+.pagina-legale-sober__title {
+  font-family: var(--bureaucratic-heading-font);
+  letter-spacing: -0.02em;
+}
+
+.trasparenza-archive__title {
+  font-size: clamp(2rem, 3vw, 3.1rem);
+  line-height: 1.05;
+  color: var(--bureaucratic-text);
+}
+
+.trasparenza-archive__intro,
+.trasparenza-archive__summary {
+  color: var(--bureaucratic-text-muted);
+  font-size: 1.02rem;
 }
 
 .trasparenza-archive__years-form {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.25rem;
 }
 
 .trasparenza-archive__years {
@@ -111,25 +505,30 @@ body.post-type-archive-area-personale .site-card {
 .trasparenza-archive__year-option span {
   display: inline-flex;
   align-items: center;
-  min-height: 2.5rem;
-  padding: 0.5rem 0.9rem;
-  background: #eceff2;
-  color: #1f1f1f;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: 999px;
+  background: var(--bureaucratic-surface);
+  color: var(--bureaucratic-text);
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
 }
 
 .trasparenza-archive__year-option input:checked + span {
-  background: #ccd3db;
+  background: var(--bureaucratic-accent-soft);
+  border-color: var(--bureaucratic-accent);
+  color: var(--bureaucratic-accent-strong);
   font-weight: 700;
 }
 
 .trasparenza-archive__year-option input:focus + span {
-  outline: 2px solid #1f4f8c;
-  outline-offset: 2px;
+  outline: 0.1875rem solid var(--bureaucratic-focus);
+  outline-offset: 0.125rem;
 }
 
 .trasparenza-archive__layout {
   display: grid;
-  grid-template-columns: minmax(16rem, 20rem) minmax(0, 1fr);
+  grid-template-columns: minmax(18rem, 21rem) minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
 }
@@ -189,7 +588,12 @@ body.post-type-archive-area-personale .site-card {
 .trasparenza-filters {
   display: grid;
   gap: 1rem;
-  color: #3c3c3c;
+  padding: 1.25rem;
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: var(--bureaucratic-radius);
+  background: var(--bureaucratic-surface);
+  box-shadow: var(--bureaucratic-shadow);
+  color: var(--bureaucratic-text);
 }
 
 .trasparenza-filters__search,
@@ -208,16 +612,18 @@ body.post-type-archive-area-personale .site-card {
 
 .trasparenza-filters__search label,
 .trasparenza-filters__fieldset legend {
+  font-family: var(--bureaucratic-heading-font);
   font-weight: 700;
+  color: var(--bureaucratic-text);
 }
 
 .trasparenza-filters__category-parent {
-  color: #6a6a6a;
+  color: var(--bureaucratic-text-muted);
   font-size: 0.96rem;
 }
 
 .trasparenza-filters__search label {
-  color: #6a6a6a;
+  color: var(--bureaucratic-text-muted);
 }
 
 .trasparenza-filters__search input {
@@ -230,20 +636,20 @@ body.post-type-archive-area-personale .site-card {
 }
 
 .trasparenza-filters__search input {
-  color: #3c3c3c;
-  background: #fff;
-  border-color: #cfd5dd;
+  background: var(--bureaucratic-surface-strong);
+  border: 1px solid var(--bureaucratic-border);
+  color: var(--bureaucratic-text);
 }
 
 .trasparenza-filters__search input::placeholder {
-  color: #8a8f98;
+  color: var(--bureaucratic-text-muted);
 }
 
 .trasparenza-filters__fieldset legend,
 .trasparenza-filters__option span,
 .trasparenza-filters__actions a,
 .trasparenza-filters__actions button {
-  color: #3c3c3c;
+  color: var(--bureaucratic-text);
 }
 
 .trasparenza-filters__category-list,
@@ -257,7 +663,7 @@ body.post-type-archive-area-personale .site-card {
 .trasparenza-filters__category-list,
 .trasparenza-archive__list {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .trasparenza-filters__category-children {
@@ -283,18 +689,22 @@ body.post-type-archive-area-personale .site-card {
 .trasparenza-filters__option span {
   display: block;
   width: 100%;
-  padding: 0.45rem 0.6rem;
-  background: #f0f2f5;
-  color: #1f1f1f;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: 0.85rem;
+  background: var(--bureaucratic-surface-strong);
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .trasparenza-filters__option input:checked + span {
-  background: #d2d8df;
+  background: var(--bureaucratic-accent-soft);
+  border-color: var(--bureaucratic-accent);
+  color: var(--bureaucratic-accent-strong);
 }
 
 .trasparenza-filters__option input:focus + span {
-  outline: 2px solid #1f4f8c;
-  outline-offset: 2px;
+  outline: 0.1875rem solid var(--bureaucratic-focus);
+  outline-offset: 0.125rem;
 }
 
 .trasparenza-filters__actions {
@@ -304,17 +714,39 @@ body.post-type-archive-area-personale .site-card {
   align-items: center;
 }
 
-.trasparenza-filters__actions a {
+.trasparenza-filters__actions a,
+.trasparenza-filters__actions button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: 999px;
+  background: var(--bureaucratic-surface-strong);
   text-decoration: none;
 }
 
-.trasparenza-card {
-  background: #fff;
-  color: #1f1f1f;
+.trasparenza-filters__actions a:hover,
+.trasparenza-filters__actions button:hover {
+  border-color: var(--bureaucratic-accent);
+}
+
+.trasparenza-archive__results {
+  display: grid;
+  gap: 1rem;
 }
 
 .trasparenza-archive__summary {
-  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: var(--bureaucratic-radius-sm);
+  background: var(--bureaucratic-surface);
+  box-shadow: var(--bureaucratic-shadow);
+}
+
+.trasparenza-card {
+  padding: 1.1rem 1.1rem 1rem;
+  border-radius: var(--bureaucratic-radius);
 }
 
 .trasparenza-card__title,
@@ -323,6 +755,20 @@ body.post-type-archive-area-personale .site-card {
 .trasparenza-card__file,
 .trasparenza-card__meta p {
   margin: 0;
+}
+
+.trasparenza-card__title {
+  font-family: var(--bureaucratic-heading-font);
+  font-size: 1.2rem;
+  line-height: 1.25;
+  color: var(--bureaucratic-text);
+}
+
+.trasparenza-card__subtitle,
+.trasparenza-card__meta,
+.trasparenza-card__text,
+.trasparenza-card__file {
+  color: var(--bureaucratic-text-muted);
 }
 
 .trasparenza-card__content {
@@ -339,9 +785,78 @@ body.post-type-archive-area-personale .site-card {
 
 .trasparenza-card__meta {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.35rem;
   padding-top: 0.75rem;
-  border-top: 1px solid #cfd6dd;
+  border-top: 1px solid var(--bureaucratic-border);
+}
+
+.pagina-legale-sober {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--bureaucratic-text);
+}
+
+.pagina-legale-sober .site-section__inner {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+}
+
+.pagina-legale-sober__title {
+  margin: 0;
+  font-size: clamp(1.9rem, 2.8vw, 2.7rem);
+  line-height: 1.08;
+  color: var(--bureaucratic-text);
+}
+
+.pagina-legale-sober__content {
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.pagina-legale-sober__content h2,
+.pagina-legale-sober__content h3,
+.pagina-legale-sober__content h4,
+.pagina-legale-sober__content h5,
+.pagina-legale-sober__content h6 {
+  margin-top: 1.35em;
+  margin-bottom: 0.55em;
+  line-height: 1.25;
+  color: var(--bureaucratic-text);
+}
+
+.pagina-legale-sober__content p,
+.pagina-legale-sober__content li,
+.pagina-legale-sober__content dd {
+  font-size: 1rem;
+}
+
+.pagina-legale-sober__content small {
+  color: var(--bureaucratic-text-muted);
+}
+
+.pagina-legale-sober__content iframe,
+.pagina-legale-sober__content embed,
+.pagina-legale-sober__content object,
+.pagina-legale-sober__content video,
+.pagina-legale-sober__content img {
+  max-width: 100%;
+}
+
+.pagina-legale-sober__content iframe {
+  width: 100%;
+}
+
+.pagina-legale-sober__content table,
+.pagina-legale-sober__content .tablepress {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 60rem) {
@@ -354,5 +869,28 @@ body.post-type-archive-area-personale .site-card {
   .trasparenza-archive__results {
     height: auto;
     overflow: visible;
+  }
+
+  .trasparenza-filters {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .trasparenza-archive__title,
+  .pagina-legale-sober__title {
+    font-size: 1.7rem;
+  }
+
+  .trasparenza-card,
+  .pagina-legale-sober__content {
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trasparenza-archive__year-option span,
+  .trasparenza-filters__option span {
+    transition: none;
   }
 }

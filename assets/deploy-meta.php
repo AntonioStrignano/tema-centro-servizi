@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Correggi l'ordine delle chiamate a wp_head nel file header.php',
-    'commit_hash'  => '6d79b18b4',
-    'deployed_at'  => '2026-05-25 10:00:38',
+    'commit_title' => 'Aggiorna lo stile CSS per l'area burocratica: aggiungi variabili CSS per il tema, migliora la struttura visiva e ottimizza l'accessibilità.',
+    'commit_hash'  => 'ed49747f6',
+    'deployed_at'  => '2026-05-25 10:04:05',
 ];
