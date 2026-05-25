@@ -11,6 +11,9 @@ if (! defined('ABSPATH')) {
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Scuola dell'Infanzia | Scuola Aperta</title>
 <?php wp_head(); ?>
+<?php foreach (centro_servizi_get_theme_stylesheets() as $stylesheet) : ?>
+<link rel="stylesheet" id="<?php echo esc_attr(sanitize_title($stylesheet['label'])); ?>-css" href="<?php echo esc_url($stylesheet['href']); ?>" media="all"/>
+<?php endforeach; ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
