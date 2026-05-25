@@ -219,7 +219,30 @@ body.page-dichiarazione-accessibilita .site-section__inner,
 body.page-whistleblowing .site-section__inner,
 body.page-obiettivi-accessibilita .site-section__inner,
 body.page-la-nostra-scuola .site-section__inner {
-  max-width: 72rem;
+  width: min(100%, 84rem);
+  max-width: 84rem;
+  margin-inline: auto;
+}
+
+body.post-type-archive-trasparenza .site-section__inner,
+body.post-type-archive-area-famiglie .site-section__inner,
+body.post-type-archive-area-personale .site-section__inner,
+body.tax-contenutiammtrasp .site-section__inner,
+body.tax-annoscolastico .site-section__inner,
+body.page-template-page-amministrazione-trasparente .site-section__inner,
+body.page-amministrazione-trasparente .site-section__inner {
+  width: min(100%, 88rem);
+  max-width: 88rem;
+}
+
+body.page-privacy-policy .site-section__inner,
+body.page-cookie-policy .site-section__inner,
+body.page-dichiarazione-accessibilita .site-section__inner,
+body.page-whistleblowing .site-section__inner,
+body.page-obiettivi-accessibilita .site-section__inner,
+body.page-la-nostra-scuola .site-section__inner {
+  width: min(100%, 64rem);
+  max-width: 64rem;
 }
 
 body.post-type-archive-trasparenza .site-card,
@@ -801,7 +824,9 @@ body.page-amministrazione-trasparente .trasparenza-archive {
 .pagina-legale-sober .site-section__inner {
   display: grid;
   gap: 1rem;
-  max-width: 52rem;
+  width: min(100%, 64rem);
+  max-width: 64rem;
+  margin-inline: auto;
 }
 
 .pagina-legale-sober__title {
