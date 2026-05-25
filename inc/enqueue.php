@@ -42,16 +42,9 @@ function centro_servizi_enqueue_assets(): void
     );
 
     wp_enqueue_style(
-        'centro-servizi-stitch-header-footer',
-        $theme_uri . '/assets/css/stitch-header-footer.css',
-        ['centro-servizi-stitch-layout'],
-        (string) filemtime($theme_dir . '/assets/css/stitch-header-footer.css')
-    );
-
-    wp_enqueue_style(
         'centro-servizi-stitch-homepage',
         $theme_uri . '/assets/css/stitch-homepage.css',
-        ['centro-servizi-stitch-header-footer'],
+        ['centro-servizi-stitch-layout'],
         (string) filemtime($theme_dir . '/assets/css/stitch-homepage.css')
     );
 

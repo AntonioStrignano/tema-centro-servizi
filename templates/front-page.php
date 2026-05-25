@@ -130,32 +130,7 @@ if (function_exists('centro_servizi_normalize_typography') && function_exists('c
 </style>
 <a class="skip-link" href="#main-content">Salta al contenuto principale</a>
 
-<header class="hp-header">
-  <div class="hp-header__inner">
-    <a class="hp-logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
-      <svg class="hp-logo__svg" viewBox="0 0 120 120" role="img" aria-hidden="true" focusable="false">
-        <circle cx="60" cy="60" r="56" fill="#e8f2ef"/>
-        <circle cx="60" cy="60" r="44" fill="#ffffff"/>
-        <path d="M34 70L60 42L86 70V86H66V72H54V86H34Z" fill="#003342"/>
-        <path d="M32 30H88" stroke="#436555" stroke-width="8" stroke-linecap="round"/>
-        <path d="M40 20H80" stroke="#581a01" stroke-width="6" stroke-linecap="round"/>
-      </svg>
-    </a>
-    <nav class="hp-header__nav" aria-label="Navigazione principale">
-      <?php
-      wp_nav_menu([
-          'theme_location' => 'primary',
-          'container'      => false,
-          'menu_class'     => 'hp-nav-menu',
-          'fallback_cb'    => false,
-      ]);
-      ?>
-    </nav>
-    <div class="hp-header__actions">
-      <button type="button" class="btn btn--tertiary">Contattaci</button>
-    </div>
-  </div>
-</header>
+<?php get_template_part('partials/chrome-header'); ?>
 <main id="main-content">
 
 <!-- Hero -->
@@ -346,66 +321,4 @@ if (function_exists('centro_servizi_normalize_typography') && function_exists('c
     </div>
   </div>
 </section>
-</main>
-
-<footer class="hp-footer">
-  <div class="hp-footer__grid hp-container">
-    <div class="hp-footer__brand">
-      <span class="hp-footer__brand-name"><?php echo esc_html($company_display); ?></span>
-      <?php if ($legal_address !== '') : ?>
-      <p><?php echo nl2br(esc_html($legal_address)); ?></p>
-      <?php endif; ?>
-      <?php if ($footer_text !== '') : ?>
-      <p><?php echo nl2br(esc_html($footer_text)); ?></p>
-      <?php endif; ?>
-      <?php if (! empty($contact_chunks)) : ?>
-      <p><?php echo esc_html(implode(' | ', $contact_chunks)); ?></p>
-      <?php endif; ?>
-      <?php if (! empty($legal_chunks)) : ?>
-      <p><?php echo esc_html(implode(' | ', $legal_chunks)); ?></p>
-      <?php endif; ?>
-    </div>
-    <div class="hp-footer__col">
-      <h4 class="hp-footer__col-title">Navigazione</h4>
-      <?php
-      wp_nav_menu([
-          'theme_location' => 'primary',
-          'container'      => false,
-          'fallback_cb'    => 'wp_page_menu',
-          'menu_class'     => 'hp-footer__nav',
-      ]);
-      ?>
-    </div>
-    <div class="hp-footer__col">
-      <h4 class="hp-footer__col-title">Legale</h4>
-      <ul class="hp-footer__legal">
-        <li>
-          <a href="<?php echo esc_url($feedback_url); ?>" target="_blank" rel="noopener noreferrer">
-            Feedback Accessibilita <span class="sr-only">(apre in nuova finestra)</span>
-          </a>
-        </li>
-        <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy Policy</a></li>
-        <li><a href="<?php echo esc_url(home_url('/cookie-policy/')); ?>">Cookie Policy</a></li>
-        <li><a href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/amministrazione-trasparente/')); ?>">Amministrazione Trasparente</a></li>
-        <?php if ($whistleblowing_url !== '') : ?>
-        <li>
-          <a href="<?php echo esc_url($whistleblowing_url); ?>" target="_blank" rel="noopener noreferrer">
-            Whistleblowing <span class="sr-only">(apre in nuova finestra)</span>
-          </a>
-        </li>
-        <?php endif; ?>
-        <?php if ($accessibility_page instanceof WP_Post) : ?>
-        <li><a href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di Accessibilita</a></li>
-        <?php endif; ?>
-        <?php if ($obiettivi_page instanceof WP_Post) : ?>
-        <li><a href="<?php echo esc_url(get_permalink($obiettivi_page)); ?>">Obiettivi di Accessibilita</a></li>
-        <?php endif; ?>
-      </ul>
-    </div>
-  </div>
-  <div class="hp-footer__bottom hp-container">
-    <p>&copy; <?php echo esc_html((string) gmdate('Y')); ?> <?php echo esc_html($company_display); ?> &mdash; Tutti i diritti riservati</p>
-  </div>
-</footer>
-<?php wp_footer(); ?>
-</body></html>
+<?php get_template_part('partials/footer'); ?>
