@@ -18,14 +18,40 @@ function centro_servizi_get_admin_debug_static_meta(): array
     ];
 }
 
+function centro_servizi_find_git_repository_root(string $start_path): string
+{
+    $path = wp_normalize_path($start_path);
+
+    while ($path !== '' && $path !== '/' && $path !== '.') {
+        if (file_exists($path . '/.git')) {
+            return $path;
+        }
+
+        $parent = dirname($path);
+
+        if ($parent === $path) {
+            break;
+        }
+
+        $path = wp_normalize_path($parent);
+    }
+
+    return '';
+}
+
 function centro_servizi_get_current_git_branch(): string
 {
     if (! function_exists('shell_exec')) {
         return '';
     }
 
-    $theme_dir = get_template_directory();
-    $command = sprintf('git -C %s rev-parse --abbrev-ref HEAD 2>/dev/null', escapeshellarg($theme_dir));
+    $repo_root = centro_servizi_find_git_repository_root(get_template_directory());
+
+    if ($repo_root === '') {
+        return '';
+    }
+
+    $command = sprintf('git -C %s rev-parse --abbrev-ref HEAD 2>/dev/null', escapeshellarg($repo_root));
     $output = shell_exec($command);
 
     if (! is_string($output)) {
@@ -39,6 +65,52 @@ function centro_servizi_get_current_git_branch(): string
     }
 
     return sanitize_text_field($branch);
+}
+
+function centro_servizi_get_latest_git_commit_meta(): array
+{
+    if (! function_exists('shell_exec')) {
+        return [];
+    }
+
+    $repo_root = centro_servizi_find_git_repository_root(get_template_directory());
+
+    if ($repo_root === '') {
+        return [];
+    }
+
+    $subject_command = sprintf('git -C %s log -1 --pretty=%%s 2>/dev/null', escapeshellarg($repo_root));
+    $timestamp_command = sprintf('git -C %s log -1 --pretty=%%ct 2>/dev/null', escapeshellarg($repo_root));
+
+    $subject_output = shell_exec($subject_command);
+    $timestamp_output = shell_exec($timestamp_command);
+
+    if (! is_string($subject_output) || ! is_string($timestamp_output)) {
+        return [];
+    }
+
+    $subject = trim($subject_output);
+    $timestamp = (int) trim($timestamp_output);
+
+    if ($subject === '' || $timestamp <= 0) {
+        return [];
+    }
+
+    $subject_length = function_exists('mb_strlen') ? mb_strlen($subject) : strlen($subject);
+
+    if ($subject_length > 18) {
+        $subject_short = function_exists('mb_substr')
+            ? mb_substr($subject, 0, 18)
+            : substr($subject, 0, 18);
+        $subject_short .= '...';
+    } else {
+        $subject_short = $subject;
+    }
+
+    return [
+        'commit_short' => sanitize_text_field($subject_short),
+        'commit_datetime' => wp_date('Y-m-d H:i', $timestamp),
+    ];
 }
 
 function centro_servizi_get_current_template_label(): string
@@ -71,9 +143,18 @@ function centro_servizi_add_admin_bar_release_info(WP_Admin_Bar $wp_admin_bar): 
 
     $meta = centro_servizi_get_admin_debug_static_meta();
     $runtime_branch = centro_servizi_get_current_git_branch();
+    $runtime_commit_meta = centro_servizi_get_latest_git_commit_meta();
 
     if ($runtime_branch !== '') {
         $meta['branch'] = $runtime_branch;
+    }
+
+    if (isset($runtime_commit_meta['commit_short'])) {
+        $meta['commit_short'] = (string) $runtime_commit_meta['commit_short'];
+    }
+
+    if (isset($runtime_commit_meta['commit_datetime'])) {
+        $meta['commit_datetime'] = (string) $runtime_commit_meta['commit_datetime'];
     }
 
     $template_label = centro_servizi_get_current_template_label();
