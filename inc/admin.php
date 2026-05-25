@@ -5,6 +5,59 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+function centro_servizi_find_git_repository_root(string $start_path): string
+{
+    $path = wp_normalize_path($start_path);
+
+    while ($path !== '' && $path !== '/' && $path !== '.') {
+        if (file_exists($path . '/.git')) {
+            return $path;
+        }
+
+        $parent = dirname($path);
+
+        if ($parent === $path) {
+            break;
+        }
+
+        $path = wp_normalize_path($parent);
+    }
+
+    return '';
+}
+
+function centro_servizi_exec_git_command(string $repo_root, string $command): string
+{
+    if (! function_exists('shell_exec')) {
+        return '';
+    }
+
+    $full_command = sprintf('git -C %s %s 2>/dev/null', escapeshellarg($repo_root), $command);
+    $output = shell_exec($full_command);
+
+    if (! is_string($output)) {
+        return '';
+    }
+
+    return trim($output);
+}
+
+function centro_servizi_shorten_commit_subject(string $subject): string
+{
+    $max_length = 18;
+    $length = function_exists('mb_strlen') ? mb_strlen($subject) : strlen($subject);
+
+    if ($length <= $max_length) {
+        return $subject;
+    }
+
+    $short = function_exists('mb_substr')
+        ? mb_substr($subject, 0, $max_length)
+        : substr($subject, 0, $max_length);
+
+    return $short . '...';
+}
+
 function centro_servizi_get_current_template_label(): string
 {
     if (is_admin()) {
@@ -29,11 +82,35 @@ function centro_servizi_get_current_template_label(): string
 
 function centro_servizi_get_release_info_meta(): array
 {
-    return [
+    $meta = [
         'branch' => 'main',
         'commit_short' => '-',
         'commit_datetime' => '-',
     ];
+
+    $repo_root = centro_servizi_find_git_repository_root(get_template_directory());
+
+    if ($repo_root === '') {
+        return $meta;
+    }
+
+    $branch = centro_servizi_exec_git_command($repo_root, 'rev-parse --abbrev-ref HEAD');
+    if ($branch !== '' && $branch !== 'HEAD') {
+        $meta['branch'] = sanitize_text_field($branch);
+    }
+
+    $subject = centro_servizi_exec_git_command($repo_root, 'log -1 --pretty=%s');
+    if ($subject !== '') {
+        $meta['commit_short'] = sanitize_text_field(centro_servizi_shorten_commit_subject($subject));
+    }
+
+    $timestamp_raw = centro_servizi_exec_git_command($repo_root, 'log -1 --pretty=%ct');
+    $timestamp = (int) $timestamp_raw;
+    if ($timestamp > 0) {
+        $meta['commit_datetime'] = wp_date('Y-m-d H:i', $timestamp);
+    }
+
+    return $meta;
 }
 
 function centro_servizi_add_admin_bar_release_info($wp_admin_bar): void
