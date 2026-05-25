@@ -547,16 +547,6 @@ function centro_servizi_get_theme_stylesheets(): array
             'path' => get_template_directory() . '/assets/css/site.css',
             'url' => get_template_directory_uri() . '/assets/css/site.css',
         ],
-        [
-            'label' => 'assets/css/site-header.css',
-            'path' => get_template_directory() . '/assets/css/site-header.css',
-            'url' => get_template_directory_uri() . '/assets/css/site-header.css',
-        ],
-        [
-            'label' => 'assets/css/site-footer.css',
-            'path' => get_template_directory() . '/assets/css/site-footer.css',
-            'url' => get_template_directory_uri() . '/assets/css/site-footer.css',
-        ],
     ];
 
     if ($debug_css_enabled) {
@@ -574,6 +564,18 @@ function centro_servizi_get_theme_stylesheets(): array
             'url' => get_template_directory_uri() . '/assets/css/area-burocratica.css',
         ];
     }
+
+    $stylesheets[] = [
+        'label' => 'assets/css/site-header.css',
+        'path' => get_template_directory() . '/assets/css/site-header.css',
+        'url' => get_template_directory_uri() . '/assets/css/site-header.css',
+    ];
+
+    $stylesheets[] = [
+        'label' => 'assets/css/site-footer.css',
+        'path' => get_template_directory() . '/assets/css/site-footer.css',
+        'url' => get_template_directory_uri() . '/assets/css/site-footer.css',
+    ];
 
     $resolved = [];
 
