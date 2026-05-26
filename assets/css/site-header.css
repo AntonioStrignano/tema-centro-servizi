@@ -315,8 +315,8 @@
 
   .site-header__brand {
     align-items: center;
-    justify-self: center;
-    grid-column: 2;
+    justify-self: end;
+    grid-column: 3;
   }
 
   .site-branding,
