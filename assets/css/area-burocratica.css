@@ -28,6 +28,17 @@ body.centro-burocratico {
   color: var(--bureaucratic-text);
   color-scheme: light;
   font-family: var(--bureaucratic-body-font);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.centro-burocratico .site-main {
+  flex: 1 0 auto;
+}
+
+body.centro-burocratico .site-footer {
+  margin-top: auto;
 }
 
 body.centro-burocratico .site-main a {
