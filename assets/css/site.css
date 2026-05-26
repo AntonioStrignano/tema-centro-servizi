@@ -1547,7 +1547,7 @@ textarea:focus,
 /* =============================================================================
    HOMEPAGE COMPONENTS — Centro Servizi
    Tutti gli stili specifici della front-page usano classi hp-*.
-   Dipende dalle variabili CSS in stitch-layout.css e dal sistema font dinamico.
+  Dipende dalle variabili CSS globali in questo file e dal sistema font dinamico.
    ============================================================================= */
 
 /* ----------------------------------------

@@ -28,10 +28,6 @@ function centro_servizi_enqueue_assets(): void
         && centro_servizi_is_bureaucratic_context();
 
     if (! is_front_page() || $is_bureaucratic_context) {
-        wp_dequeue_style('centro-servizi-stitch-layout');
-        wp_dequeue_style('centro-servizi-stitch-header-footer');
-        wp_dequeue_style('centro-servizi-stitch-homepage');
-        wp_dequeue_script('centro-servizi-stitch-homepage');
         return;
     }
 
@@ -42,11 +38,4 @@ function centro_servizi_enqueue_assets(): void
         null
     );
 
-    wp_enqueue_script(
-        'centro-servizi-stitch-homepage',
-        $theme_uri . '/assets/js/stitch-homepage.js',
-        [],
-        (string) filemtime($theme_dir . '/assets/js/stitch-homepage.js'),
-        true
-    );
 }
