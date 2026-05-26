@@ -30,17 +30,17 @@ body.centro-burocratico {
   font-family: var(--bureaucratic-body-font);
 }
 
-body.centro-burocratico a {
+body.centro-burocratico .site-main a {
   color: var(--bureaucratic-accent);
   text-underline-offset: 0.14em;
   text-decoration-thickness: 0.08em;
 }
 
-body.centro-burocratico a:hover {
+body.centro-burocratico .site-main a:hover {
   color: var(--bureaucratic-accent-strong);
 }
 
-body.centro-burocratico :focus {
+body.centro-burocratico .site-main :focus {
   outline: 0.1875rem solid var(--bureaucratic-focus);
   outline-offset: 0.1875rem;
 }
@@ -130,62 +130,62 @@ body.page-la-nostra-scuola {
   font-family: var(--bureaucratic-body-font);
 }
 
-body.post-type-archive-trasparenza a,
-body.post-type-archive-area-famiglie a,
-body.post-type-archive-area-personale a,
-body.single-trasparenza a,
-body.single-area-famiglie a,
-body.single-area-personale a,
-body.tax-contenutiammtrasp a,
-body.tax-annoscolastico a,
-body.page-template-page-amministrazione-trasparente a,
-body.page-amministrazione-trasparente a,
-body.page-privacy-policy a,
-body.page-cookie-policy a,
-body.page-dichiarazione-accessibilita a,
-body.page-whistleblowing a,
-body.page-obiettivi-accessibilita a,
-body.page-la-nostra-scuola a {
+body.post-type-archive-trasparenza .site-main a,
+body.post-type-archive-area-famiglie .site-main a,
+body.post-type-archive-area-personale .site-main a,
+body.single-trasparenza .site-main a,
+body.single-area-famiglie .site-main a,
+body.single-area-personale .site-main a,
+body.tax-contenutiammtrasp .site-main a,
+body.tax-annoscolastico .site-main a,
+body.page-template-page-amministrazione-trasparente .site-main a,
+body.page-amministrazione-trasparente .site-main a,
+body.page-privacy-policy .site-main a,
+body.page-cookie-policy .site-main a,
+body.page-dichiarazione-accessibilita .site-main a,
+body.page-whistleblowing .site-main a,
+body.page-obiettivi-accessibilita .site-main a,
+body.page-la-nostra-scuola .site-main a {
   color: var(--bureaucratic-accent);
   text-underline-offset: 0.14em;
   text-decoration-thickness: 0.08em;
 }
 
-body.post-type-archive-trasparenza a:hover,
-body.post-type-archive-area-famiglie a:hover,
-body.post-type-archive-area-personale a:hover,
-body.single-trasparenza a:hover,
-body.single-area-famiglie a:hover,
-body.single-area-personale a:hover,
-body.tax-contenutiammtrasp a:hover,
-body.tax-annoscolastico a:hover,
-body.page-template-page-amministrazione-trasparente a:hover,
-body.page-amministrazione-trasparente a:hover,
-body.page-privacy-policy a:hover,
-body.page-cookie-policy a:hover,
-body.page-dichiarazione-accessibilita a:hover,
-body.page-whistleblowing a:hover,
-body.page-obiettivi-accessibilita a:hover,
-body.page-la-nostra-scuola a:hover {
+body.post-type-archive-trasparenza .site-main a:hover,
+body.post-type-archive-area-famiglie .site-main a:hover,
+body.post-type-archive-area-personale .site-main a:hover,
+body.single-trasparenza .site-main a:hover,
+body.single-area-famiglie .site-main a:hover,
+body.single-area-personale .site-main a:hover,
+body.tax-contenutiammtrasp .site-main a:hover,
+body.tax-annoscolastico .site-main a:hover,
+body.page-template-page-amministrazione-trasparente .site-main a:hover,
+body.page-amministrazione-trasparente .site-main a:hover,
+body.page-privacy-policy .site-main a:hover,
+body.page-cookie-policy .site-main a:hover,
+body.page-dichiarazione-accessibilita .site-main a:hover,
+body.page-whistleblowing .site-main a:hover,
+body.page-obiettivi-accessibilita .site-main a:hover,
+body.page-la-nostra-scuola .site-main a:hover {
   color: var(--bureaucratic-accent-strong);
 }
 
-body.post-type-archive-trasparenza :focus,
-body.post-type-archive-area-famiglie :focus,
-body.post-type-archive-area-personale :focus,
-body.single-trasparenza :focus,
-body.single-area-famiglie :focus,
-body.single-area-personale :focus,
-body.tax-contenutiammtrasp :focus,
-body.tax-annoscolastico :focus,
-body.page-template-page-amministrazione-trasparente :focus,
-body.page-amministrazione-trasparente :focus,
-body.page-privacy-policy :focus,
-body.page-cookie-policy :focus,
-body.page-dichiarazione-accessibilita :focus,
-body.page-whistleblowing :focus,
-body.page-obiettivi-accessibilita :focus,
-body.page-la-nostra-scuola :focus {
+body.post-type-archive-trasparenza .site-main :focus,
+body.post-type-archive-area-famiglie .site-main :focus,
+body.post-type-archive-area-personale .site-main :focus,
+body.single-trasparenza .site-main :focus,
+body.single-area-famiglie .site-main :focus,
+body.single-area-personale .site-main :focus,
+body.tax-contenutiammtrasp .site-main :focus,
+body.tax-annoscolastico .site-main :focus,
+body.page-template-page-amministrazione-trasparente .site-main :focus,
+body.page-amministrazione-trasparente .site-main :focus,
+body.page-privacy-policy .site-main :focus,
+body.page-cookie-policy .site-main :focus,
+body.page-dichiarazione-accessibilita .site-main :focus,
+body.page-whistleblowing .site-main :focus,
+body.page-obiettivi-accessibilita .site-main :focus,
+body.page-la-nostra-scuola .site-main :focus {
   outline: 0.1875rem solid var(--bureaucratic-focus);
   outline-offset: 0.1875rem;
 }

@@ -65,6 +65,12 @@
 - [x] Homepage: riallineati skip links al set completo globale (contenuto, navigazione, footer)
 - [ ] Homepage: sostituire CTA non operative (`button` senza azione) con link reali o azioni JS accessibili
 
+### Normalizzazione header/footer (26/05/2026)
+
+- [x] Header: isolati gli override burocratici al solo `.site-main` per evitare variazioni cromatiche/tipografiche tra homepage e archivi
+- [x] Footer: stesso isolamento (`.site-main`) per impedire che il layer burocratico alteri link/focus del footer globale
+- [x] Skip links: unificati su partial globale + regole in `assets/css/site.css` (rimossa variante locale Stitch)
+
 ### Audit duplicazioni template (26/05/2026)
 
 - [x] Verificata pipeline condivisa header/footer su tutti i template principali (uniformata)
