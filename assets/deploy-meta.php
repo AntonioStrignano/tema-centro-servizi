@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Rimuove il caricamento di CSS obsoleti e migra le variabili globali in site.css per una gestione più efficiente degli stili',
-    'commit_hash'  => 'fd5ceb3c4',
-    'deployed_at'  => '2026-05-26 11:39:43',
+    'commit_title' => 'Migra i componenti homepage da stitch-homepage.css a site.css e disattiva il caricamento di stitch-homepage.css come placeholder temporaneo',
+    'commit_hash'  => '9e262f633',
+    'deployed_at'  => '2026-05-26 11:43:02',
 ];
