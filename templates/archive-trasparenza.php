@@ -535,7 +535,7 @@ $archive_url = get_post_type_archive_link('trasparenza');
 $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selected_search !== '');
 
 ?>
-<main class="site-main trasparenza-archive" id="contenuto-principale" role="main">
+<main class="site-main trasparenza-archive burocratica-archive" id="contenuto-principale" role="main">
     <section class="site-section">
         <div class="site-section__inner">
             <header class="trasparenza-archive__header">
@@ -574,7 +574,7 @@ $has_active_filters = ($selected_anno !== '' || $selected_cat !== '' || $selecte
 
             <div class="trasparenza-archive__layout">
                 <aside class="trasparenza-archive__sidebar" aria-label="Filtri archivio trasparenza">
-                    <form method="get" action="<?php echo esc_url($archive_url); ?>" class="trasparenza-filters">
+                    <form method="get" action="<?php echo esc_url($archive_url); ?>" class="trasparenza-filters burocratica-filters">
                         <?php if ($selected_anno !== '') : ?>
                             <input type="hidden" name="anno" value="<?php echo esc_attr($selected_anno); ?>">
                         <?php endif; ?>

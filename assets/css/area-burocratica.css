@@ -1,6 +1,92 @@
 /* Bureaucratic area theme layer.
    The base layout lives in site.css; this file only handles visual theming. */
 
+/* Shared context classes: canonical selectors for all bureaucratic pages. */
+body.centro-burocratico {
+  --bureaucratic-body-font: var(--font-body-family, "Work Sans", Arial, sans-serif);
+  --bureaucratic-heading-font: var(--font-heading-family, "Work Sans", Arial, sans-serif);
+  --bureaucratic-bg: #f4f7f3;
+  --bureaucratic-surface: #ffffff;
+  --bureaucratic-surface-strong: #fbfcfa;
+  --bureaucratic-surface-alt: #e9efe6;
+  --bureaucratic-text: #1d2727;
+  --bureaucratic-text-muted: #5d6a67;
+  --bureaucratic-border: #d7e0d9;
+  --bureaucratic-border-strong: #bccbc1;
+  --bureaucratic-accent: #1f5a6c;
+  --bureaucratic-accent-strong: #174554;
+  --bureaucratic-accent-soft: #d8eaee;
+  --bureaucratic-success: #5b7541;
+  --bureaucratic-warning: #9a6734;
+  --bureaucratic-focus: #0f6a8a;
+  --bureaucratic-shadow: 0 1rem 2.75rem rgba(19, 35, 35, 0.08);
+  --bureaucratic-radius: 1rem;
+  --bureaucratic-radius-sm: 0.75rem;
+  background:
+    radial-gradient(circle at top left, rgba(31, 90, 108, 0.08), transparent 36%),
+    linear-gradient(180deg, #fbfcfb 0%, var(--bureaucratic-bg) 100%);
+  color: var(--bureaucratic-text);
+  color-scheme: light;
+  font-family: var(--bureaucratic-body-font);
+}
+
+body.centro-burocratico a {
+  color: var(--bureaucratic-accent);
+  text-underline-offset: 0.14em;
+  text-decoration-thickness: 0.08em;
+}
+
+body.centro-burocratico a:hover {
+  color: var(--bureaucratic-accent-strong);
+}
+
+body.centro-burocratico :focus {
+  outline: 0.1875rem solid var(--bureaucratic-focus);
+  outline-offset: 0.1875rem;
+}
+
+body.centro-burocratico .site-main,
+body.centro-burocratico .site-section {
+  background: transparent;
+}
+
+body.centro-burocratico .site-section__inner {
+  width: min(100%, 84rem);
+  max-width: 84rem;
+  margin-inline: auto;
+}
+
+body.centro-burocratico-archive .site-section__inner {
+  width: min(100%, 88rem);
+  max-width: 88rem;
+}
+
+body.centro-burocratico .site-card,
+body.centro-burocratico .trasparenza-card,
+body.centro-burocratico .pagina-legale-sober__content {
+  background: var(--bureaucratic-surface);
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: var(--bureaucratic-radius);
+  box-shadow: var(--bureaucratic-shadow);
+  color: var(--bureaucratic-text);
+}
+
+body.centro-burocratico input,
+body.centro-burocratico select,
+body.centro-burocratico textarea,
+body.centro-burocratico button {
+  font-family: inherit;
+}
+
+.burocratica-archive {
+  width: 100%;
+}
+
+.burocratica-filters {
+  display: grid;
+  gap: 1rem;
+}
+
 body.post-type-archive-trasparenza,
 body.post-type-archive-area-famiglie,
 body.post-type-archive-area-personale,

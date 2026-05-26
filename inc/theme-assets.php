@@ -5,11 +5,35 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+add_filter('body_class', 'centro_servizi_add_context_body_classes');
+
+function centro_servizi_add_context_body_classes(array $classes): array
+{
+    if (! function_exists('centro_servizi_is_bureaucratic_context')) {
+        return $classes;
+    }
+
+    if (! centro_servizi_is_bureaucratic_context()) {
+        return $classes;
+    }
+
+    $classes[] = 'centro-burocratico';
+
+    if (
+        is_post_type_archive(['trasparenza', 'area-famiglie', 'area-personale'])
+        || is_tax(['contenutiammtrasp', 'annoscolastico', 'categoria-area-famiglia', 'categoria-area-personale'])
+    ) {
+        $classes[] = 'centro-burocratico-archive';
+    }
+
+    return array_values(array_unique($classes));
+}
+
 function centro_servizi_is_bureaucratic_context(): bool
 {
     return is_post_type_archive(['trasparenza', 'area-famiglie', 'area-personale'])
         || is_singular(['trasparenza', 'area-famiglie', 'area-personale'])
-        || is_tax(['contenutiammtrasp', 'annoscolastico'])
+        || is_tax(['contenutiammtrasp', 'annoscolastico', 'categoria-area-famiglia', 'categoria-area-personale'])
         || is_page('amministrazione-trasparente')
         || centro_servizi_is_legal_page_context();
 }

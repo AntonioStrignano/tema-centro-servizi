@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Ristruttura la gestione delle informazioni di rilascio nella admin bar',
-    'commit_hash'  => '882e94e7a',
-    'deployed_at'  => '2026-05-25 12:49:47',
+    'commit_title' => 'Enhance bureaucratic area styling and functionality',
+    'commit_hash'  => '706541eaf',
+    'deployed_at'  => '2026-05-26 10:08:22',
 ];
