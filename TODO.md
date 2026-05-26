@@ -54,6 +54,33 @@
 - [ ] Rifinitura UX admin: feedback visuale ancora piu evidente su card selezionata (micro-polish)
 - [ ] QA finale esclusioni tema dinamico su pagine legali e trasparenza
 
+### Audit accessibilita template (26/05/2026)
+
+- [x] Verificata presenza landmark main + target skip link coerente su tutti i template principali
+- [x] Rimossa duplicazione breadcrumb nei template pagina custom (contatti, la-nostra-scuola, attivita-speciali)
+- [ ] Header mobile: introdurre menu hamburger accessibile con bottone (aria-expanded, aria-controls, etichetta chiara)
+- [ ] Header mobile: garantire apertura/chiusura menu senza rompere ordine tab e focus
+- [ ] Archivio burocratico AJAX: aggiungere annuncio accessibile aggiornamento risultati (aria-live + messaggio stato)
+- [ ] Archivio burocratico AJAX: gestire focus dopo aggiornamento filtri per utenti tastiera/screen reader
+- [x] Homepage: riallineati skip links al set completo globale (contenuto, navigazione, footer)
+- [ ] Homepage: sostituire CTA non operative (`button` senza azione) con link reali o azioni JS accessibili
+
+### Audit duplicazioni template (26/05/2026)
+
+- [x] Verificata pipeline condivisa header/footer su tutti i template principali (uniformata)
+- [x] Verificata assenza breadcrumb duplicato nei template pagina custom
+- [x] Verificati wrapper minimi per archivi `area-famiglie` e `area-personale` (riuso corretto di `archive-area-burocratica-common.php`)
+- [x] Dismesso `templates/archive-trasparenza.php` (duplicazione legacy non instradata dal runtime)
+- [ ] Ridurre duplicazione tra `templates/page-la-nostra-scuola.php` e `templates/page-attivita-speciali.php` con partial/template condiviso
+- [x] Ripulite variabili legacy non usate in `templates/front-page.php` (dati footer/legale già gestiti da `partials/footer.php`)
+
+### Bonifica CSS (decommission Stitch) — da pianificare
+
+- [ ] Definire mappa di uscita per `assets/css/stitch-layout.css`, `assets/css/stitch-homepage.css`, `assets/css/stitch-header-footer.css`
+- [ ] Migrare progressivamente regole utili in pochi file target (`assets/css/site.css`, `assets/css/site-header.css`, `assets/css/site-footer.css`)
+- [ ] Ridurre a zero i selettori duplicati tra layer Stitch e layer main
+- [ ] Spegnere enqueue degli asset Stitch in `inc/enqueue.php` quando la migrazione e completata
+
 ---
 
 ## 🚨 URGENTE — Da fare PRIMA del tema (siti già online)

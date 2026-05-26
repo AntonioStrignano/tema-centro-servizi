@@ -25,64 +25,6 @@ $homepage_map_embed_url = centro_servizi_get_homepage_map_embed_url();
 $homepage_orari_document = centro_servizi_get_homepage_latest_trasparenza_document('orari-funz', 'Orari di funzionamento');
 $homepage_calendar_document = centro_servizi_get_homepage_latest_trasparenza_document('calendario', 'Calendario scolastico');
 
-$accessibility_page = get_page_by_path('dichiarazione-accessibilita');
-$obiettivi_page = get_page_by_path('obiettivi-accessibilita');
-$whistleblowing_url = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
-$footer_text = trim((string) get_option('centro_servizi_footer_text', ''));
-$accessibility_feedback_url = trim((string) get_option('centro_servizi_accessibility_feedback_url', ''));
-
-$legal_company_name = trim((string) get_option('centro_servizi_legal_company_name', ''));
-$legal_address = trim((string) get_option('centro_servizi_legal_address', ''));
-$legal_vat = trim((string) get_option('centro_servizi_legal_vat', ''));
-$legal_fiscal_code = trim((string) get_option('centro_servizi_legal_fiscal_code', ''));
-$legal_mecc = trim((string) get_option('centro_servizi_legal_mecc', ''));
-$legal_rea = trim((string) get_option('centro_servizi_legal_rea', ''));
-
-$contacts_raw = centro_servizi_get_contacts();
-$contacts_map = [];
-foreach ($contacts_raw as $contact) {
-    $type = isset($contact['type']) ? (string) $contact['type'] : '';
-    $value = isset($contact['value']) ? trim((string) $contact['value']) : '';
-    if ($type === '' || $value === '' || isset($contacts_map[$type])) {
-        continue;
-    }
-    $contacts_map[$type] = $value;
-}
-
-$company_display = $legal_company_name !== '' ? $legal_company_name : get_bloginfo('name');
-
-$legal_chunks = [];
-if ($legal_vat !== '') {
-    $legal_chunks[] = 'P.IVA ' . $legal_vat;
-}
-if ($legal_fiscal_code !== '') {
-    $legal_chunks[] = 'Cod. Fiscale ' . $legal_fiscal_code;
-}
-if ($legal_mecc !== '') {
-    $legal_chunks[] = 'Cod. Mecc. ' . $legal_mecc;
-}
-if ($legal_rea !== '') {
-    $legal_chunks[] = 'REA ' . $legal_rea;
-}
-
-$contact_chunks = [];
-if (isset($contacts_map['address'])) {
-    $contact_chunks[] = 'Indirizzo: ' . $contacts_map['address'];
-}
-if (isset($contacts_map['phone'])) {
-    $contact_chunks[] = 'Tel: ' . $contacts_map['phone'];
-}
-if (isset($contacts_map['email'])) {
-    $contact_chunks[] = 'Email: ' . antispambot($contacts_map['email']);
-}
-if (isset($contacts_map['pec'])) {
-    $contact_chunks[] = 'PEC: ' . antispambot($contacts_map['pec']);
-}
-
-$feedback_url = $accessibility_feedback_url !== ''
-    ? $accessibility_feedback_url
-    : 'https://example.com/google-form-accessibilita';
-
 $contact_cta_email = '';
 $contact_cta_phone = '';
 foreach ($homepage_contacts as $contact) {
@@ -105,7 +47,7 @@ foreach ($homepage_contacts as $contact) {
     }
 }
 ?>
-<a class="skip-link" href="#contenuto-principale">Salta al contenuto principale</a>
+<?php get_template_part('partials/skip-links'); ?>
 
 <?php get_template_part('partials/chrome-header'); ?>
 <main id="contenuto-principale" role="main">

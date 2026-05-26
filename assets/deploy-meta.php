@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Riorganizza e migliora la gestione dei colori e dei font nel CSS dinamico, aggiornando i template per l'uso di variabili CSS e semplificando il caricamento dei componenti.',
-    'commit_hash'  => '9f607439b',
-    'deployed_at'  => '2026-05-26 10:57:57',
+    'commit_title' => 'Aggiunge audit di accessibilità e bonifica CSS, rimuove template duplicato e migliora la gestione dei skip links',
+    'commit_hash'  => '6763f0a8b',
+    'deployed_at'  => '2026-05-26 11:17:18',
 ];

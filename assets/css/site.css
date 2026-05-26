@@ -98,6 +98,31 @@
   border: 0;
 }
 
+/* Skip links globali: nascosti visivamente finche non ricevono focus. */
+.skip-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skip-links a {
+  position: absolute;
+  top: -9999px;
+  left: 0;
+  z-index: 1000;
+  background: var(--color-main, #0066cc);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+}
+
+.skip-links a:focus,
+.skip-links a:focus-visible {
+  top: 0;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 .home-main {
   display: grid;
   gap: 0;

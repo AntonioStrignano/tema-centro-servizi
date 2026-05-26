@@ -24,21 +24,6 @@
 }
 
 /* ----------------------------------------
-   Skip link
-   ---------------------------------------- */
-.skip-link {
-  position: absolute;
-  top: -9999px;
-  left: 0;
-  background: var(--stitch-primary);
-  color: #fff;
-  padding: 0.5rem 1rem;
-  z-index: 100;
-  text-decoration: none;
-}
-.skip-link:focus { top: 0; }
-
-/* ----------------------------------------
    Kicker (eyebrow)
    ---------------------------------------- */
 .hp-kicker {
