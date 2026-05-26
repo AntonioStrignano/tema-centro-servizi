@@ -2383,7 +2383,8 @@ function centro_servizi_is_excluded_from_dynamic_theme(): bool
         return true;
     }
 
-    if (is_post_type_archive('trasparenza') || is_singular('trasparenza') || is_tax('contenutiammtrasp')) {
+    // Keep bureaucratic pages isolated from the global dynamic selectors.
+    if (function_exists('centro_servizi_is_bureaucratic_context') && centro_servizi_is_bureaucratic_context()) {
         return true;
     }
 
@@ -2406,7 +2407,7 @@ function centro_servizi_is_excluded_from_dynamic_theme(): bool
 add_action('wp_enqueue_scripts', 'centro_servizi_enqueue_google_fonts', 20);
 function centro_servizi_enqueue_google_fonts(): void
 {
-    if (centro_servizi_is_excluded_from_dynamic_theme()) {
+    if (is_admin()) {
         return;
     }
 
@@ -2468,9 +2469,11 @@ function centro_servizi_enqueue_google_fonts(): void
 add_action('wp_head', 'centro_servizi_print_dynamic_css', 30);
 function centro_servizi_print_dynamic_css(): void
 {
-    if (centro_servizi_is_excluded_from_dynamic_theme()) {
+    if (is_admin()) {
         return;
     }
+
+    $is_excluded_from_dynamic_theme = centro_servizi_is_excluded_from_dynamic_theme();
 
     $color_main = (string) get_option('centro_servizi_color_main', '#007acc');
     $color_secondary = (string) get_option('centro_servizi_color_secondary', '#f0f0f0');
@@ -2523,6 +2526,11 @@ function centro_servizi_print_dynamic_css(): void
     echo "  --stitch-text-muted: " . esc_html($stitch_text_muted) . ";\n";
     echo "  --stitch-border-subtle: " . esc_html($stitch_border_subtle) . ";\n";
     echo "}\n\n";
+
+    if ($is_excluded_from_dynamic_theme) {
+        echo "</style>\n";
+        return;
+    }
 
     $selector_map = [
         'body' => 'body',
