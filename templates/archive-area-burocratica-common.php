@@ -844,6 +844,7 @@ document.addEventListener('DOMContentLoaded', function () {
         activeRequestId += 1;
         var requestId        = activeRequestId;
         var url              = buildUrl();
+        var archiveHeader    = document.querySelector('.trasparenza-archive__header');
 
         fetch(url.toString(), {
             credentials: 'same-origin',
@@ -858,6 +859,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!newResults) { return; }
                 resultsContainer.innerHTML  = newResults.innerHTML;
                 history.replaceState({}, '', url.pathname + url.search);
+                if (archiveHeader && typeof archiveHeader.scrollIntoView === 'function') {
+                    archiveHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             })
             .catch(function () {
                 if (requestId !== activeRequestId) { return; }
