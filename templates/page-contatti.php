@@ -5,51 +5,24 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-// ============================================================================
-// DATI CONTATTI E MAPPA
-// ============================================================================
+$contacts = function_exists('centro_servizi_get_homepage_contacts')
+    ? centro_servizi_get_homepage_contacts()
+    : [];
 
-$contacts_json = get_option('centro_servizi_contacts', '[]');
-$contacts_raw  = json_decode($contacts_json, true);
-$contacts_raw  = is_array($contacts_raw) ? $contacts_raw : [];
+$maps_embed_url = function_exists('centro_servizi_get_homepage_map_embed_url')
+    ? centro_servizi_get_homepage_map_embed_url()
+    : '';
 
-$maps_embed_url = (string) get_option('centro_servizi_maps_embed_url', '');
-
-// Fallback: costruisci URL embed dall'indirizzo se non c'è un URL personalizzato
-if ($maps_embed_url === '') {
-    $address_value = '';
-    foreach ($contacts_raw as $contact) {
-        if (($contact['type'] ?? '') === 'address' && ! empty($contact['value'])) {
-            $address_value = (string) $contact['value'];
-            break;
-        }
-    }
-    if ($address_value !== '') {
-        $maps_embed_url = 'https://www.google.com/maps?q=' . rawurlencode($address_value) . '&z=15&output=embed';
-    }
-}
-
-// Etichette per tipo contatto
-$contact_labels = [
-    'address' => 'Sede',
-    'phone'   => 'Telefono',
-    'email'   => 'Email',
-    'pec'     => 'PEC',
-    'fax'     => 'Fax',
-    'website' => 'Sito web',
-    'social'  => 'Social',
-];
-
-// ============================================================================
-// TEMPLATE
-// ============================================================================
+$page_id = get_queried_object_id();
+$page_title = $page_id > 0 ? get_the_title($page_id) : (string) __('Contatti', 'centro-servizi');
+$page_content = $page_id > 0 ? (string) get_post_field('post_content', $page_id) : '';
 
 get_template_part('partials/header');
 ?>
 <main class="site-main" id="contenuto-principale" role="main">
     <div class="site-section">
         <div class="site-section__inner">
-        <h1><?php the_title(); ?></h1>
+        <h1><?php echo esc_html($page_title); ?></h1>
 
         <?php if ($maps_embed_url !== '') : ?>
         <div class="contatti-mappa">
@@ -66,41 +39,42 @@ get_template_part('partials/header');
         </div>
         <?php endif; ?>
 
-        <?php if (! empty($contacts_raw)) : ?>
+        <?php if ($contacts !== []) : ?>
         <div class="contatti-lista">
             <h2>Recapiti</h2>
             <dl class="contatti-dl">
-                <?php foreach ($contacts_raw as $contact) :
-                    $type  = (string) ($contact['type']  ?? '');
-                    $label = (string) ($contact['label'] ?? ($contact_labels[$type] ?? ucfirst($type)));
-                    $value = (string) ($contact['value'] ?? '');
-                    if ($value === '') continue;
-
-                    // Costruisci href per i tipi cliccabili
-                    $href = '';
-                    if ($type === 'email' || $type === 'pec') {
-                        $href = 'mailto:' . antispambot($value);
-                    } elseif ($type === 'phone' || $type === 'fax') {
-                        $href = 'tel:' . preg_replace('/[^+\d]/', '', $value);
-                    } elseif ($type === 'website' || $type === 'social') {
-                        $href = $value;
+                <?php foreach ($contacts as $contact) :
+                    if (! is_array($contact)) {
+                        continue;
                     }
+
+                    $type  = trim((string) ($contact['type'] ?? ''));
+                    $label = trim((string) ($contact['label'] ?? ''));
+                    $value = trim((string) ($contact['value'] ?? ''));
+                    $href  = trim((string) ($contact['href'] ?? ''));
+
+                    if ($value === '') {
+                        continue;
+                    }
+
+                    if ($label === '') {
+                        $label = ucfirst($type !== '' ? $type : 'Contatto');
+                    }
+
+                    $is_external = ! empty($contact['external']);
+                    $display_value = ($type === 'email' || $type === 'pec')
+                        ? antispambot($value)
+                        : $value;
                 ?>
                     <dt><?php echo esc_html($label); ?></dt>
                     <dd>
                         <?php if ($href !== '') : ?>
-                            <?php if ($type === 'email' || $type === 'pec') : ?>
-                                <a href="<?php echo esc_attr($href); ?>"><?php echo esc_html(antispambot($value)); ?></a>
-                            <?php elseif ($type === 'website' || $type === 'social') : ?>
-                                <a href="<?php echo esc_url($href); ?>" rel="noopener noreferrer" target="_blank">
-                                    <?php echo esc_html($value); ?>
-                                    <span class="screen-reader-text"><?php esc_html_e('(apre in nuova finestra)', 'centro-servizi'); ?></span>
-                                </a>
-                            <?php else : ?>
-                                <a href="<?php echo esc_attr($href); ?>"><?php echo esc_html($value); ?></a>
-                            <?php endif; ?>
+                            <a href="<?php echo esc_url($href); ?>"<?php echo $is_external ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
+                                <?php echo esc_html($display_value); ?>
+                                <?php if ($is_external) : ?><span class="sr-only"><?php esc_html_e('(apre in nuova finestra)', 'centro-servizi'); ?></span><?php endif; ?>
+                            </a>
                         <?php else : ?>
-                            <?php echo nl2br(esc_html($value)); ?>
+                            <?php echo nl2br(esc_html($display_value)); ?>
                         <?php endif; ?>
                     </dd>
                 <?php endforeach; ?>
@@ -108,20 +82,11 @@ get_template_part('partials/header');
         </div>
         <?php endif; ?>
 
-        <?php
-        // Contenuto eventuale della pagina WP (es. orari, note aggiuntive)
-        while (have_posts()) :
-            the_post();
-            $content = get_the_content();
-            if (trim($content) !== '') :
-        ?>
+        <?php if (trim($page_content) !== '') : ?>
         <div class="contatti-contenuto entry-content">
-            <?php the_content(); ?>
+            <?php echo apply_filters('the_content', $page_content); ?>
         </div>
-        <?php
-            endif;
-        endwhile;
-        ?>
+        <?php endif; ?>
         </div>
     </div>
 </main>
