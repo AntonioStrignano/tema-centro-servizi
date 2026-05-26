@@ -6,7 +6,21 @@ if (! defined('ABSPATH')) {
 }
 
 if (! isset($centro_post_type, $centro_taxonomy, $centro_card_partial, $centro_sidebar_aria_label, $centro_search_input_id)) {
-    return;
+    if (is_post_type_archive('area-famiglie')) {
+        $centro_post_type = 'area-famiglie';
+        $centro_taxonomy = 'categoria-area-famiglia';
+        $centro_card_partial = 'partials/card-area-famiglie';
+        $centro_sidebar_aria_label = 'Filtri archivio area famiglie';
+        $centro_search_input_id = 'area-famiglie-q';
+    } elseif (is_post_type_archive('area-personale')) {
+        $centro_post_type = 'area-personale';
+        $centro_taxonomy = 'categoria-area-personale';
+        $centro_card_partial = 'partials/card-area-personale';
+        $centro_sidebar_aria_label = 'Filtri archivio area personale';
+        $centro_search_input_id = 'area-personale-q';
+    } else {
+        return;
+    }
 }
 
 if (! is_string($centro_post_type) || $centro_post_type === '') {

@@ -80,7 +80,7 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
     }
 
     if (is_post_type_archive('area-famiglie')) {
-        $archive_template = get_template_directory() . '/templates/archive-area-famiglie.php';
+        $archive_template = get_template_directory() . '/templates/archive-area-burocratica-common.php';
 
         if (file_exists($archive_template)) {
             return $archive_template;
@@ -88,7 +88,7 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
     }
 
     if (is_post_type_archive('area-personale')) {
-        $archive_template = get_template_directory() . '/templates/archive-area-personale.php';
+        $archive_template = get_template_directory() . '/templates/archive-area-burocratica-common.php';
 
         if (file_exists($archive_template)) {
             return $archive_template;
