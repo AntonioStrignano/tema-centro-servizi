@@ -809,7 +809,6 @@ $has_active_filters = ($selected_cat !== '' || $selected_search !== '' || ($cent
 document.addEventListener('DOMContentLoaded', function () {
     var yearForm = document.querySelector('.trasparenza-archive__years-form');
     var filterForm       = document.querySelector('.trasparenza-filters');
-    var sidebarContainer = document.querySelector('.trasparenza-archive__sidebar');
     var resultsContainer = document.querySelector('.trasparenza-archive__results');
 
     if (!filterForm || !resultsContainer) {
@@ -841,21 +840,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return url;
     }
 
-    function updateScrollHintState(container) {
-        if (!container) { return; }
-        var scrollableDistance = container.scrollHeight - container.clientHeight;
-        var hasOverflow  = scrollableDistance > 2;
-        var isAtBottom   = !hasOverflow || (container.scrollTop >= scrollableDistance - 2);
-        container.classList.toggle('has-scroll-hint', hasOverflow);
-        container.classList.toggle('is-at-bottom', isAtBottom);
-        if (!hasOverflow) { container.classList.remove('is-at-bottom'); }
-    }
-
     function refreshResults() {
         activeRequestId += 1;
         var requestId        = activeRequestId;
         var url              = buildUrl();
-        var previousScrollTop = resultsContainer.scrollTop;
 
         fetch(url.toString(), {
             credentials: 'same-origin',
@@ -869,9 +857,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var newResults = doc.querySelector('.trasparenza-archive__results');
                 if (!newResults) { return; }
                 resultsContainer.innerHTML  = newResults.innerHTML;
-                resultsContainer.scrollTop  = previousScrollTop;
                 history.replaceState({}, '', url.pathname + url.search);
-                updateScrollHintState(resultsContainer);
             })
             .catch(function () {
                 if (requestId !== activeRequestId) { return; }
@@ -917,17 +903,6 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         refreshResults();
     });
-
-    if (sidebarContainer) {
-        sidebarContainer.addEventListener('scroll', function () { updateScrollHintState(sidebarContainer); });
-    }
-    resultsContainer.addEventListener('scroll', function () { updateScrollHintState(resultsContainer); });
-    window.addEventListener('resize', function () {
-        updateScrollHintState(sidebarContainer);
-        updateScrollHintState(resultsContainer);
-    });
-    updateScrollHintState(sidebarContainer);
-    updateScrollHintState(resultsContainer);
 });
 </script>
 

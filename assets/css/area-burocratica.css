@@ -600,44 +600,7 @@ body.page-amministrazione-trasparente .trasparenza-archive {
 @media (min-width: 60.01rem) {
   .trasparenza-archive__sidebar,
   .trasparenza-archive__results {
-    max-height: calc(100vh - 12rem);
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .trasparenza-archive__sidebar {
-    position: sticky;
-    top: 1rem;
-    padding-right: 0.25rem;
-  }
-
-  .trasparenza-archive__results {
-    padding-right: 0.25rem;
-  }
-
-  .trasparenza-archive__sidebar.has-scroll-hint,
-  .trasparenza-archive__results.has-scroll-hint {
-    --scroll-fade-size: 2.25rem;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 0,
-      #000 calc(100% - var(--scroll-fade-size)),
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      #000 0,
-      #000 calc(100% - var(--scroll-fade-size)),
-      transparent 100%
-    );
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-  }
-
-  .trasparenza-archive__sidebar.has-scroll-hint.is-at-bottom,
-  .trasparenza-archive__results.has-scroll-hint.is-at-bottom {
-    -webkit-mask-image: none;
-    mask-image: none;
+    overflow: visible;
   }
 }
 
