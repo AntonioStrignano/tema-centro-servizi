@@ -83,7 +83,9 @@
 
 ### Bonifica CSS (decommission Stitch) — da pianificare
 
-- [ ] Definire mappa di uscita per `assets/css/stitch-layout.css`, `assets/css/stitch-homepage.css`, `assets/css/stitch-header-footer.css`
+- [x] Definire mappa di uscita per `assets/css/stitch-layout.css`, `assets/css/stitch-homepage.css`, `assets/css/stitch-header-footer.css`
+- [x] Migrato baseline globale da `stitch-layout.css` a `site.css` (token, reset, utility accessibilita base)
+- [x] Disattivato enqueue di `stitch-layout.css` (resta transitorio solo `stitch-homepage.css` in home)
 - [ ] Migrare progressivamente regole utili in pochi file target (`assets/css/site.css`, `assets/css/site-header.css`, `assets/css/site-footer.css`)
 - [ ] Ridurre a zero i selettori duplicati tra layer Stitch e layer main
 - [ ] Spegnere enqueue degli asset Stitch in `inc/enqueue.php` quando la migrazione e completata

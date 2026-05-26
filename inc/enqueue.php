@@ -34,20 +34,6 @@ function centro_servizi_enqueue_assets(): void
         null
     );
 
-    wp_enqueue_style(
-        'centro-servizi-stitch-layout',
-        $theme_uri . '/assets/css/stitch-layout.css',
-        ['centro-servizi-material-symbols'],
-        (string) filemtime($theme_dir . '/assets/css/stitch-layout.css')
-    );
-
-    wp_enqueue_style(
-        'centro-servizi-stitch-homepage',
-        $theme_uri . '/assets/css/stitch-homepage.css',
-        ['centro-servizi-stitch-layout'],
-        (string) filemtime($theme_dir . '/assets/css/stitch-homepage.css')
-    );
-
     wp_enqueue_script(
         'centro-servizi-stitch-homepage',
         $theme_uri . '/assets/js/stitch-homepage.js',

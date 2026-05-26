@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Limita la tipografia di links e buttons all'area contenuto per mantenere stabile header e footer in contesti diversi',
-    'commit_hash'  => '4b8bcc24a',
-    'deployed_at'  => '2026-05-26 11:28:48',
+    'commit_title' => 'Rimuove il caricamento di CSS obsoleti e migra le variabili globali in site.css per una gestione più efficiente degli stili',
+    'commit_hash'  => 'fd5ceb3c4',
+    'deployed_at'  => '2026-05-26 11:39:43',
 ];
