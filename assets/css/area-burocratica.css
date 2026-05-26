@@ -598,14 +598,11 @@ body.page-amministrazione-trasparente .trasparenza-archive {
 }
 
 @media (min-width: 60.01rem) {
-  .trasparenza-archive__layout {
-    height: calc(100vh - 12rem);
-  }
-
   .trasparenza-archive__sidebar,
   .trasparenza-archive__results {
-    height: 100%;
-    overflow: auto;
+    max-height: calc(100vh - 12rem);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .trasparenza-archive__sidebar {
