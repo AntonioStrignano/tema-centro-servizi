@@ -663,6 +663,8 @@ $has_active_filters = ($selected_cat !== '' || $selected_search !== '' || ($cent
             </form>
             <?php endif; ?>
 
+            <p class="sr-only" id="burocratica-archive-live" role="status" aria-live="polite" aria-atomic="true"></p>
+
             <div class="trasparenza-archive__layout">
                 <aside class="trasparenza-archive__sidebar" aria-label="<?php echo esc_attr($centro_sidebar_aria_label); ?>">
                     <form method="get" action="<?php echo esc_url((string) $archive_url); ?>" class="trasparenza-filters burocratica-filters">
@@ -810,6 +812,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var yearForm = document.querySelector('.trasparenza-archive__years-form');
     var filterForm       = document.querySelector('.trasparenza-filters');
     var resultsContainer = document.querySelector('.trasparenza-archive__results');
+    var liveRegion       = document.getElementById('burocratica-archive-live');
 
     if (!filterForm || !resultsContainer) {
         return;
@@ -846,6 +849,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var url              = buildUrl();
         var archiveHeader    = document.querySelector('.trasparenza-archive__header');
 
+        if (liveRegion) {
+            liveRegion.textContent = 'Aggiornamento risultati in corso.';
+        }
+
         fetch(url.toString(), {
             credentials: 'same-origin',
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
@@ -859,13 +866,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!newResults) { return; }
                 resultsContainer.innerHTML  = newResults.innerHTML;
                 history.replaceState({}, '', url.pathname + url.search);
+
+                var summary = resultsContainer.querySelector('.trasparenza-archive__summary');
+                var focusTarget = summary || resultsContainer;
+                var statusText = summary ? summary.textContent.trim() : '';
+
+                if (liveRegion) {
+                    liveRegion.textContent = statusText !== ''
+                        ? 'Risultati aggiornati: ' + statusText + '.'
+                        : 'Risultati aggiornati.';
+                }
+
                 if (archiveHeader && typeof archiveHeader.scrollIntoView === 'function') {
                     var targetTop = Math.max(0, window.scrollY + archiveHeader.getBoundingClientRect().top - 24);
                     window.scrollTo({ top: targetTop, behavior: 'smooth' });
                 }
+
+                if (focusTarget && typeof focusTarget.focus === 'function') {
+                    if (!focusTarget.hasAttribute('tabindex')) {
+                        focusTarget.setAttribute('tabindex', '-1');
+                    }
+
+                    try {
+                        focusTarget.focus({ preventScroll: true });
+                    } catch (error) {
+                        focusTarget.focus();
+                    }
+                }
             })
             .catch(function () {
                 if (requestId !== activeRequestId) { return; }
+
+                if (liveRegion) {
+                    liveRegion.textContent = 'Aggiornamento non riuscito. Ricarico la pagina.';
+                }
+
                 window.location.href = url.toString();
             });
     }

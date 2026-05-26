@@ -58,10 +58,10 @@
 
 - [x] Verificata presenza landmark main + target skip link coerente su tutti i template principali
 - [x] Rimossa duplicazione breadcrumb nei template pagina custom (contatti, la-nostra-scuola, attivita-speciali)
-- [ ] Header mobile: introdurre menu hamburger accessibile con bottone (aria-expanded, aria-controls, etichetta chiara)
-- [ ] Header mobile: garantire apertura/chiusura menu senza rompere ordine tab e focus
-- [ ] Archivio burocratico AJAX: aggiungere annuncio accessibile aggiornamento risultati (aria-live + messaggio stato)
-- [ ] Archivio burocratico AJAX: gestire focus dopo aggiornamento filtri per utenti tastiera/screen reader
+- [x] Header mobile: introdurre menu hamburger accessibile con bottone (aria-expanded, aria-controls, etichetta chiara)
+- [x] Header mobile: garantire apertura/chiusura menu senza rompere ordine tab e focus
+- [x] Archivio burocratico AJAX: aggiungere annuncio accessibile aggiornamento risultati (aria-live + messaggio stato)
+- [x] Archivio burocratico AJAX: gestire focus dopo aggiornamento filtri per utenti tastiera/screen reader
 - [x] Archivio burocratico AJAX: dopo refresh filtro, scroll smooth verso l'intestazione dell'archivio
 - [x] Homepage: riallineati skip links al set completo globale (contenuto, navigazione, footer)
 - [ ] Homepage: sostituire CTA non operative (`button` senza azione) con link reali o azioni JS accessibili
