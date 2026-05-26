@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiunge annunci accessibili per aggiornamenti risultati nell'archivio burocratico AJAX e gestisce il focus dopo l'aggiornamento dei filtri',
-    'commit_hash'  => '6c8bb1904',
-    'deployed_at'  => '2026-05-26 12:32:12',
+    'commit_title' => 'Aggiorna il TODO e modifica i link di contatto nella homepage per utilizzare URL accessibili',
+    'commit_hash'  => 'a308b2bd6',
+    'deployed_at'  => '2026-05-26 12:36:11',
 ];

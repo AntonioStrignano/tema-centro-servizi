@@ -64,7 +64,7 @@
 - [x] Archivio burocratico AJAX: gestire focus dopo aggiornamento filtri per utenti tastiera/screen reader
 - [x] Archivio burocratico AJAX: dopo refresh filtro, scroll smooth verso l'intestazione dell'archivio
 - [x] Homepage: riallineati skip links al set completo globale (contenuto, navigazione, footer)
-- [ ] Homepage: sostituire CTA non operative (`button` senza azione) con link reali o azioni JS accessibili
+- [x] Homepage: sostituire CTA non operative (`button` senza azione) con link reali o azioni JS accessibili
 
 ### Normalizzazione header/footer (26/05/2026)
 

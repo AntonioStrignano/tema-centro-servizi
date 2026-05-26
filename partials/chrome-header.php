@@ -29,15 +29,9 @@ $email_value = is_array($email_contact) ? trim((string) ($email_contact['value']
 $email_href = $email_value !== '' ? 'mailto:' . antispambot($email_value) : '';
 
 $contacts_page = get_page_by_path('contatti');
-$contact_cta_url = '';
-
-if ($contacts_page instanceof WP_Post) {
-    $contact_cta_url = (string) get_permalink($contacts_page);
-} elseif ($email_href !== '') {
-    $contact_cta_url = $email_href;
-} elseif ($phone_href !== '') {
-    $contact_cta_url = $phone_href;
-}
+$contact_cta_url = $contacts_page instanceof WP_Post
+    ? (string) get_permalink($contacts_page)
+    : (string) home_url('/contatti/');
 
 $initials = '';
 $brand_tokens = preg_split('/\s+/', wp_strip_all_tags($brand_name)) ?: [];
@@ -143,7 +137,7 @@ $render_brand_mark = static function () use ($brand_name, $initials): void {
             <div class="site-header__actions">
                 <?php if ($contact_cta_url !== '') : ?>
                     <a class="site-header__cta" href="<?php echo esc_url($contact_cta_url); ?>">
-                        Contatti
+                        Contattaci
                     </a>
                 <?php endif; ?>
             </div>

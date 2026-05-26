@@ -24,28 +24,10 @@ $homepage_contacts = centro_servizi_get_homepage_contacts();
 $homepage_map_embed_url = centro_servizi_get_homepage_map_embed_url();
 $homepage_orari_document = centro_servizi_get_homepage_latest_trasparenza_document('orari-funz', 'Orari di funzionamento');
 $homepage_calendar_document = centro_servizi_get_homepage_latest_trasparenza_document('calendario', 'Calendario scolastico');
-
-$contact_cta_email = '';
-$contact_cta_phone = '';
-foreach ($homepage_contacts as $contact) {
-    if (! is_array($contact)) {
-        continue;
-    }
-
-    $type = (string) ($contact['type'] ?? '');
-    $href = (string) ($contact['href'] ?? '');
-    if ($href === '') {
-        continue;
-    }
-
-    if ($contact_cta_email === '' && ($type === 'email' || $type === 'pec')) {
-        $contact_cta_email = $href;
-    }
-
-    if ($contact_cta_phone === '' && ($type === 'phone' || $type === 'fax')) {
-        $contact_cta_phone = $href;
-    }
-}
+$contacts_page = get_page_by_path('contatti');
+$contact_page_url = $contacts_page instanceof WP_Post
+  ? (string) get_permalink($contacts_page)
+  : (string) home_url('/contatti/');
 ?>
 <?php get_template_part('partials/skip-links'); ?>
 
@@ -90,10 +72,10 @@ foreach ($homepage_contacts as $contact) {
         <h2 class="hp-highlights__title">Esperienze uniche che ci distinguono.</h2>
         <p class="hp-highlights__quote">"Non semplici lezioni, ma percorsi di scoperta pensati per nutrire il talento innato di ogni bambino."</p>
         <p class="hp-highlights__body">Nella nostra scuola, la didattica supera i confini tradizionali. Integriamo l'educazione all'aperto, i linguaggi artistici e la sperimentazione tecnologica in un curriculum vivo, capace di adattarsi alle domande e alle curiosità di ogni piccolo esploratore.</p>
-        <button type="button" class="btn btn--tertiary btn--lg">
-          Scopri tutte le attività speciali
+        <a href="<?php echo esc_url($contact_page_url); ?>" class="btn btn--tertiary btn--lg">
+          Contattaci
           <span class="material-symbols-outlined" aria-hidden="true">arrow_outward</span>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -143,21 +125,9 @@ foreach ($homepage_contacts as $contact) {
       <h2 class="hp-servizi__title">Tutto a portata di clic.</h2>
     </header>
     <div class="hp-servizi__grid">
-      <a class="hp-servizi__card" href="#">
-        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">description</span>
-        <h4 class="hp-servizi__label">Modulistica</h4>
-      </a>
-      <a class="hp-servizi__card" href="#">
-        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">notifications</span>
-        <h4 class="hp-servizi__label">Archivio Modulistica</h4>
-      </a>
-      <a class="hp-servizi__card" href="#">
-        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">assignment_ind</span>
-        <h4 class="hp-servizi__label">Archivio Comunicazioni</h4>
-      </a>
-      <a class="hp-servizi__card" href="#">
-        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">diversity_1</span>
-        <h4 class="hp-servizi__label">Archivio Iscrizioni</h4>
+      <a class="hp-servizi__card" href="<?php echo esc_url($contact_page_url); ?>">
+        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">contact_support</span>
+        <h4 class="hp-servizi__label">Contattaci</h4>
       </a>
     </div>
   </div>
@@ -196,12 +166,7 @@ foreach ($homepage_contacts as $contact) {
         <p class="hp-contatti__empty">I contatti saranno pubblicati a breve.</p>
         <?php endif; ?>
         <div class="hp-contatti__ctas">
-          <?php if ($contact_cta_email !== '') : ?>
-          <a href="<?php echo esc_url($contact_cta_email); ?>" class="btn btn--primary">Scrivici</a>
-          <?php endif; ?>
-          <?php if ($contact_cta_phone !== '') : ?>
-          <a href="<?php echo esc_url($contact_cta_phone); ?>" class="btn btn--outline-primary">Chiama ora</a>
-          <?php endif; ?>
+          <a href="<?php echo esc_url($contact_page_url); ?>" class="btn btn--primary">Contattaci</a>
         </div>
       </div>
       <div class="hp-contatti__map">
@@ -235,7 +200,7 @@ foreach ($homepage_contacts as $contact) {
         <span class="hp-partner__tag hp-partner__tag--n">Comunicazione</span>
       </div>
       <div class="hp-partner__ctas">
-        <button type="button" class="btn btn--primary btn--lg">Visita il sito aziendale</button>
+        <a href="<?php echo esc_url($contact_page_url); ?>" class="btn btn--primary btn--lg">Contattaci</a>
       </div>
     </div>
   </div>
