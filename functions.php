@@ -72,7 +72,7 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
     }
 
     if (is_post_type_archive('trasparenza')) {
-        $archive_template = get_template_directory() . '/templates/archive-trasparenza.php';
+        $archive_template = get_template_directory() . '/templates/archive-area-burocratica-common.php';
 
         if (file_exists($archive_template)) {
             return $archive_template;
