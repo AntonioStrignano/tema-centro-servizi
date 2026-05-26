@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Riorganizza la pagina contatti: sposta la logica in un nuovo file parziale e migliora la struttura del layout',
-    'commit_hash'  => 'db2353d01',
-    'deployed_at'  => '2026-05-26 12:46:17',
+    'commit_title' => 'Riorganizza la pagina contatti: unifica il template in `page.php` e sposta il blocco recapiti in un partial dedicato',
+    'commit_hash'  => '81b6e59d0',
+    'deployed_at'  => '2026-05-26 12:52:30',
 ];

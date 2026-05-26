@@ -82,6 +82,19 @@
 - [ ] Ridurre duplicazione tra `templates/page-la-nostra-scuola.php` e `templates/page-attivita-speciali.php` con partial/template condiviso
 - [x] Ripulite variabili legacy non usate in `templates/front-page.php` (dati footer/legale già gestiti da `partials/footer.php`)
 
+### Aggiornamento sessione (26/05/2026) — Template pagine contenuto + contatti
+
+### Completato
+
+- [x] Consolidato template pagine standard in `templates/page.php` con layout base pulito (`page-basic`) e contenuto centrato
+- [x] Rimossa pagina slug-specifica `templates/page-contatti.php` per usare il fallback unico del routing
+- [x] Estratto blocco recapiti in partial dedicata `partials/page-contatti-recapiti.php`
+- [x] Render condizionale recapiti solo su pagina `contatti` dentro `templates/page.php`
+
+### Da rifinire
+
+- [ ] Ritocco estetico lista recapiti (spaziature, gerarchia visiva label/valore, micro-polish responsive)
+
 ### Bonifica CSS (decommission Stitch) — da pianificare
 
 - [x] Definire mappa di uscita per `assets/css/stitch-layout.css`, `assets/css/stitch-homepage.css`, `assets/css/stitch-header-footer.css`
@@ -149,7 +162,7 @@
 - [x] `partials/card-trasparenza.php` — card con heading composto, allegato, contenuto, date
 - [x] `templates/archive-trasparenza.php` — archivio filtrato per tassonomia
 - [x] Template pagine legali condiviso (`templates/page-legale.php`) per: `amministrazione-trasparente`, `dichiarazione-accessibilita`, `privacy-policy`, `cookie-policy`, `whistleblowing`, `obiettivi-accessibilita`
-- [x] `templates/page-contatti.php` — dati ACF in `<dl>` + mappa
+- [x] Pagina `contatti` riallineata a template base: recapiti/mappa in partial `partials/page-contatti-recapiti.php` renderizzata da `templates/page.php`
 - [x] `templates/front-page.php` — hero, chi siamo, attività recenti, contatti, servizi (versione dinamica attiva)
 - [ ] Homepage: sostituire placeholder `Chi siamo` (Lorem ipsum) con copy definitivo cliente
 - [x] Homepage: palette/font da `Impostazioni Sito > Stile Tema` applicati alle sezioni tramite preset e CSS dinamico

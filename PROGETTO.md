@@ -95,9 +95,8 @@ tema-centro-servizi/
 │   ├── archive-trasparenza.php        # Archivio documenti amm. trasparente
 │   ├── archive-area-famiglie.php      # Archivio area famiglie
 │   ├── archive-area-personale.php     # Archivio area personale
-│   ├── page.php                       # Pagina generica
+│   ├── page.php                       # Pagina generica (include recapiti se slug = contatti)
 │   ├── page-amministrazione-trasparente.php  # Landing amm. trasparente
-│   ├── page-contatti.php              # Pagina contatti dedicata
 │   ├── page-dichiarazione-accessibilita.php  # Dichiarazione accessibilità
 │   ├── search.php                     # Risultati ricerca
 │   └── 404.php                        # Pagina errore
@@ -112,6 +111,7 @@ tema-centro-servizi/
 │   ├── card-trasparenza.php           # Card documento amm. trasparente
 │   ├── card-area-famiglie.php         # Card contenuto area famiglie
 │   ├── card-area-personale.php        # Card contenuto area personale
+│   ├── page-contatti-recapiti.php     # Blocco recapiti/mappa per pagina contatti
 │   └── pagination.php                 # Paginazione accessibile
 │
 ├── inc/                               # Logica PHP modulare
@@ -378,33 +378,20 @@ Struttura dall'alto verso il basso:
 
 ---
 
-## 8bis. Pagina Contatti (`page-contatti.php`)
+## 8bis. Pagina Contatti (slug `contatti`, render da `page.php`)
 
-Dati gestiti tramite **campi ACF sulla pagina** con slug `contatti`.
+La pagina Contatti non usa piu un template dedicato: passa dal template base `templates/page.php`.
 
-**Campi ACF:**
+Quando la pagina corrente ha slug `contatti`, `page.php` include la partial `partials/page-contatti-recapiti.php`.
 
-| Campo                   | Tipo ACF | Note                        |
-|-------------------------|----------|-----------------------------|
-| Indirizzo sede          | text     | Via, numero civico          |
-| CAP / Città / Provincia | text     | —                           |
-| Telefono                | text     | Con link `tel:` accessibile |
-| Email                   | email    | Con link `mailto:`          |
-| PEC                     | email    | Con link `mailto:`          |
-| Codice fiscale / P.IVA  | text     | —                           |
-| Codice meccanografico   | text     | —                           |
-| Google Maps embed URL   | url      | URL iframe di Google Maps   |
+I recapiti (lista + mappa) arrivano dagli helper condivisi:
+- `centro_servizi_get_homepage_contacts()`
+- `centro_servizi_get_homepage_map_embed_url()`
 
-**Struttura template:**
-1. Intestazione `<h1>Contatti</h1>`
-2. Blocco dati strutturati (indirizzo, telefono, email, PEC, CF/P.IVA, cod. meccanografico) in `<dl>` accessibile
-3. Mappa Google Maps (iframe con `title` accessibile, `loading="lazy"`)
-4. Nessun form contatto nel sito — se in futuro servisse, valutare link a Google Form esterno
-
-**Note accessibilità mappa:**
-- L'iframe ha `title="Mappa della sede"` 
-- Testo alternativo prima della mappa: "Indirizzo: [indirizzo completo]"
-- La mappa è supplementare, non veicola informazioni non disponibili in testo
+Vantaggi:
+1. Coerenza visiva con tutte le pagine contenuto
+2. Un solo punto di manutenzione per il layout pagina
+3. Blocco recapiti riusabile e isolato
 
 ---
 
@@ -570,7 +557,7 @@ Queste pagine/sezioni **devono esistere** sul sito per evitare sanzioni:
 10. `templates/page-amministrazione-trasparente.php` — indice navigabile
 11. `partials/card-trasparenza.php` + `templates/archive-trasparenza.php`
 12. `templates/page-dichiarazione-accessibilita.php`
-13. `templates/page-contatti.php`
+13. `templates/page.php` + `partials/page-contatti-recapiti.php` (pagina `contatti`)
 14. `templates/front-page.php`
 
 ### Fase 3 — Template contenuti (priorità: funzionalità)
@@ -664,47 +651,49 @@ add_action('wp_enqueue_scripts', function() {
 
 ## 17. Decisioni Chiuse
 
-| #   | Domanda                              | Decisione                                                                     |
-|-----|--------------------------------------|-------------------------------------------------------------------------------|
-| D1  | CPT struttura                        | ✅ 4 CPT: `attivita`, `trasparenza`, `area-famiglie`, `area-personale`         |
-| D2  | Galleria Attività                    | ✅ Gallery nativa editor classico (shortcode `[gallery]`)                      |
-| D3  | Allegati Amm. Trasparente            | ✅ 1 campo ACF File (return Array) — accesso a url/filename/filesize/mime_type |
-| D4  | I "servizi" in homepage              | ✅ Hardcoded nel template                                                      |
-| D5  | Pagina contatti                      | ✅ Pagina dedicata `page-contatti.php` (match per slug)                        |
-| D6  | ANAC: struttura tassonomia           | ✅ 12 sezioni dalla struttura operativa utente (non ANAC PA completa)          |
-| D7  | CSS fase attuale                     | ✅ Debug puro: bordi 1px dashed, padding 5px, zero estetica                    |
-| D8  | JS fase attuale                      | ✅ Nessun JS                                                                   |
-| D9  | Calendario/eventi                    | ⏳ Rimandato a fase futura lontana                                             |
-| D10 | Area Famiglie/Personale unificazione | ⏳ Per ora separati (compatibilità siti esistenti)                             |
-| D11 | Form contatto                        | ✅ Nessun form contatto attivo. CF7 installato per uso futuro (whistleblowing) |
-| D12 | Feedback accessibilità               | ✅ Link a Google Form esterno (no form nel sito)                               |
-| D13 | Trasparenza pagina singola           | ✅ Nessuna — tutto in card archivio, `publicly_queryable => false`             |
-| D14 | Dati footer                          | ✅ Hardcoded nel template                                                      |
-| D15 | Struttura ANAC obbligatoria?         | ✅ No per paritarie — basta pubblicare contenuti in modo comprensibile         |
-| D16 | ACF File return format               | ✅ Array (non URL) — per avere peso e formato file negli allegati              |
-| D17 | Whistleblowing                       | 🔴 OBBLIGATORIO — GlobaLeaks self-hosted raccomandato. NO form semplice       |
-| D18 | Image optimization                   | ✅ WP gestisce resize + srcset nativo. Upload in webp dal client               |
-| D19 | Modale tabelle TablePress            | ⏳ Fase futura (richiede JS) — per ora tabelle inline nella card               |
-| D20 | Contenuto editor nei CPT             | ✅ Tutti i CPT hanno WP editor per testo/shortcode. Attività: tutto lì dentro  |
-| D21 | Date in ogni card                    | ✅ Data pubblicazione + data ultima modifica obbligatorie su tutte le card     |
-| D22 | DPO                                  | 🔴 DA DEFINIRE — presumibilmente Centro Servizi come DPO esterno              |
-| D23 | Contributi L. 124/2017               | ✅ Già pubblicati con TablePress — verificare tutti i campi obbligatori        |
-| D24 | Obiettivi accessibilità              | ❌ Da aggiungere — pagina/sezione dedicata, pubblicazione annuale entro 31/3   |
-| D25 | Responsabile Trasparenza             | ✅ Già definito in organigramma (sezione Amm. Trasparente)                     |
-| D26 | 5x1000 rendiconto                    | ✅ Pubblicato con TablePress in tassonomia 08 Aiuti Economici                  |
+| #   | Domanda                              | Decisione                                                                         |
+|-----|--------------------------------------|-----------------------------------------------------------------------------------|
+| D1  | CPT struttura                        | ✅ 4 CPT: `attivita`, `trasparenza`, `area-famiglie`, `area-personale`             |
+| D2  | Galleria Attività                    | ✅ Gallery nativa editor classico (shortcode `[gallery]`)                          |
+| D3  | Allegati Amm. Trasparente            | ✅ 1 campo ACF File (return Array) — accesso a url/filename/filesize/mime_type     |
+| D4  | I "servizi" in homepage              | ✅ Hardcoded nel template                                                          |
+| D5  | Pagina contatti                      | ✅ Pagina base `page.php` + partial `page-contatti-recapiti.php` (slug `contatti`) |
+| D6  | ANAC: struttura tassonomia           | ✅ 12 sezioni dalla struttura operativa utente (non ANAC PA completa)              |
+| D7  | CSS fase attuale                     | ✅ Debug puro: bordi 1px dashed, padding 5px, zero estetica                        |
+| D8  | JS fase attuale                      | ✅ Nessun JS                                                                       |
+| D9  | Calendario/eventi                    | ⏳ Rimandato a fase futura lontana                                                 |
+| D10 | Area Famiglie/Personale unificazione | ⏳ Per ora separati (compatibilità siti esistenti)                                 |
+| D11 | Form contatto                        | ✅ Nessun form contatto attivo. CF7 installato per uso futuro (whistleblowing)     |
+| D12 | Feedback accessibilità               | ✅ Link a Google Form esterno (no form nel sito)                                   |
+| D13 | Trasparenza pagina singola           | ✅ Nessuna — tutto in card archivio, `publicly_queryable => false`                 |
+| D14 | Dati footer                          | ✅ Hardcoded nel template                                                          |
+| D15 | Struttura ANAC obbligatoria?         | ✅ No per paritarie — basta pubblicare contenuti in modo comprensibile             |
+| D16 | ACF File return format               | ✅ Array (non URL) — per avere peso e formato file negli allegati                  |
+| D17 | Whistleblowing                       | 🔴 OBBLIGATORIO — GlobaLeaks self-hosted raccomandato. NO form semplice           |
+| D18 | Image optimization                   | ✅ WP gestisce resize + srcset nativo. Upload in webp dal client                   |
+| D19 | Modale tabelle TablePress            | ⏳ Fase futura (richiede JS) — per ora tabelle inline nella card                   |
+| D20 | Contenuto editor nei CPT             | ✅ Tutti i CPT hanno WP editor per testo/shortcode. Attività: tutto lì dentro      |
+| D21 | Date in ogni card                    | ✅ Data pubblicazione + data ultima modifica obbligatorie su tutte le card         |
+| D22 | DPO                                  | 🔴 DA DEFINIRE — presumibilmente Centro Servizi come DPO esterno                  |
+| D23 | Contributi L. 124/2017               | ✅ Già pubblicati con TablePress — verificare tutti i campi obbligatori            |
+| D24 | Obiettivi accessibilità              | ❌ Da aggiungere — pagina/sezione dedicata, pubblicazione annuale entro 31/3       |
+| D25 | Responsabile Trasparenza             | ✅ Già definito in organigramma (sezione Amm. Trasparente)                         |
+| D26 | 5x1000 rendiconto                    | ✅ Pubblicato con TablePress in tassonomia 08 Aiuti Economici                      |
 
 ---
 
 ## 18. Note su Template per Slug
 
-Per le pagine speciali (Contatti, Amm. Trasparente, Area Famiglie, ecc.) usiamo la **template hierarchy nativa di WP per slug**: se esiste una pagina con slug `contatti`, WP cerca automaticamente `page-contatti.php`. Il nostro filtro `template_include` in `functions.php` lo mappa a `templates/page-contatti.php`.
+Per le pagine speciali usiamo mapping da `functions.php` verso `templates/`: prima prova `templates/page-{slug}.php`, poi fallback unico `templates/page.php`.
+
+Per `contatti` ora non esiste piu `page-contatti.php`: entra nel fallback `templates/page.php`, che include la partial recapiti solo quando lo slug e `contatti`.
 
 Nessun custom field flag necessario — basta creare la pagina WP con lo slug corretto. Nella documentazione admin del tema indicheremo gli slug riservati:
 
 | Slug pagina                   | Template applicato                     |
 |-------------------------------|----------------------------------------|
 | `amministrazione-trasparente` | `page-amministrazione-trasparente.php` |
-| `contatti`                    | `page-contatti.php`                    |
+| `contatti`                    | `page.php` + partial recapiti          |
 | `dichiarazione-accessibilita` | `page-dichiarazione-accessibilita.php` |
 
 ---
