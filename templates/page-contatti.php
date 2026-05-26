@@ -47,8 +47,6 @@ $contact_labels = [
 get_template_part('partials/header');
 ?>
 <main class="site-main" id="contenuto-principale" role="main">
-    <?php get_template_part('partials/breadcrumb'); ?>
-
     <div class="site-section">
         <div class="site-section__inner">
         <h1><?php the_title(); ?></h1>

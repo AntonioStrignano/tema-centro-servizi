@@ -5,7 +5,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-get_header();
+get_template_part('partials/header');
 
 if (have_posts()) {
     the_post();
@@ -13,8 +13,6 @@ if (have_posts()) {
     ?>
 
 	<main id="contenuto-principale" class="site-main" role="main">
-
-		<?php get_template_part('partials/breadcrumb'); ?>
 
 		<article <?php post_class('site-section'); ?>>
 			<div class="site-section__inner">
@@ -78,4 +76,4 @@ if (have_posts()) {
     get_template_part('templates/404');
 }
 
-get_footer();
+get_template_part('partials/footer');

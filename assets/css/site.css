@@ -294,14 +294,10 @@
 /* ─── HOMEPAGE PROFESSIONALE ─────────────────────────────────────── */
 
 :root {
-  /* Variabili colore (sovrascrivibili da settings) */
-  --color-main: #0066cc;
-  --color-secondary: #f5f5f5;
-  --color-body: #333333;
-  --color-accent: #ff6b35;
-  --color-light-bg: #fafafa;
-  --color-border: #e0e0e0;
-  --color-text-muted: #666666;
+  /* Token derivati: i token base colore/font arrivano dal CSS dinamico in settings.php */
+  --color-light-bg: var(--color-secondary-light, #fafafa);
+  --color-border: var(--color-secondary-dark, #e0e0e0);
+  --color-text-muted: var(--color-body-light, #666666);
   
   /* Spacing standardizzato */
   --spacing-xs: 0.5rem;
@@ -320,7 +316,7 @@
 .home-hero {
   position: relative;
   min-height: clamp(30rem, 70vh, 50rem);
-  background: linear-gradient(135deg, var(--color-main) 0%, #0052a3 100%);
+  background: linear-gradient(135deg, var(--color-main, #0066cc) 0%, var(--color-main-dark, #0052a3) 100%);
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -345,7 +341,8 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 102, 204, 0.85) 0%, rgba(0, 82, 163, 0.85) 100%);
+  background: linear-gradient(180deg, var(--color-main, #0066cc) 0%, var(--color-main-dark, #0052a3) 100%);
+  opacity: 0.85;
   z-index: 1;
 }
 

@@ -2516,6 +2516,13 @@ function centro_servizi_print_dynamic_css(): void
     echo "  --font-body-family: " . $body_stack . ";\n";
     echo "  --font-heading-family: " . $h1_stack . ";\n";
     echo "  --font-label-family: " . $label_stack . ";\n";
+    echo "  --theme-color-primary: var(--color-main);\n";
+    echo "  --theme-color-secondary: var(--color-secondary);\n";
+    echo "  --theme-color-text: var(--color-body);\n";
+    echo "  --theme-color-accent: var(--color-accent);\n";
+    echo "  --theme-font-body: var(--font-body-family);\n";
+    echo "  --theme-font-heading: var(--font-heading-family);\n";
+    echo "  --theme-font-label: var(--font-label-family);\n";
     echo "  --stitch-primary: var(--color-main, #003342);\n";
     echo "  --stitch-secondary: var(--color-main-dark, #436555);\n";
     echo "  --stitch-tertiary: var(--color-accent-dark, #581a01);\n";
