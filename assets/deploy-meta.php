@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Normalizza header e footer per le pagine burocratiche, isolando gli override e unificando gli skip links nel CSS globale',
-    'commit_hash'  => '84d5a4833',
-    'deployed_at'  => '2026-05-26 11:25:24',
+    'commit_title' => 'Limita la tipografia di links e buttons all'area contenuto per mantenere stabile header e footer in contesti diversi',
+    'commit_hash'  => '4b8bcc24a',
+    'deployed_at'  => '2026-05-26 11:28:48',
 ];

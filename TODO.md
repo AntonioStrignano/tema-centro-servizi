@@ -70,6 +70,7 @@
 - [x] Header: isolati gli override burocratici al solo `.site-main` per evitare variazioni cromatiche/tipografiche tra homepage e archivi
 - [x] Footer: stesso isolamento (`.site-main`) per impedire che il layer burocratico alteri link/focus del footer globale
 - [x] Skip links: unificati su partial globale + regole in `assets/css/site.css` (rimossa variante locale Stitch)
+- [x] CSS dinamico tipografico: profili `links/buttons` limitati a `.site-main` in `inc/settings.php` per evitare override su header/footer solo in homepage
 
 ### Audit duplicazioni template (26/05/2026)
 

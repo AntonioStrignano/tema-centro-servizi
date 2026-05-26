@@ -2547,8 +2547,9 @@ function centro_servizi_print_dynamic_css(): void
         'h4' => 'h4',
         'h5' => 'h5',
         'h6' => 'h6',
-        'links' => 'a',
-        'buttons' => 'button, .button, input[type="button"], input[type="submit"], .wp-element-button, .wp-block-button__link',
+        // Limit links/buttons typography to content area to keep header/footer stable across contexts.
+        'links' => '.site-main a',
+        'buttons' => '.site-main button, .site-main .button, .site-main input[type="button"], .site-main input[type="submit"], .site-main .wp-element-button, .site-main .wp-block-button__link',
     ];
 
     foreach ($selector_map as $profile => $selector) {
