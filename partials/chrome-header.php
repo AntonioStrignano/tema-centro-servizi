@@ -60,6 +60,19 @@ foreach ($brand_tokens as $brand_token) {
 if ($initials === '') {
     $initials = 'CS';
 }
+
+$render_brand_mark = static function () use ($brand_name, $initials): void {
+    if (has_custom_logo()) {
+        the_custom_logo();
+        return;
+    }
+
+    ?>
+    <a class="site-header__logo-mark" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr($brand_name); ?>">
+        <span aria-hidden="true"><?php echo esc_html($initials); ?></span>
+    </a>
+    <?php
+};
 ?>
 <header class="site-header" id="top" role="banner">
     <div class="site-header__top">
@@ -92,15 +105,18 @@ if ($initials === '') {
 
     <div class="site-header__main">
         <div class="site-header__main-inner">
+            <button class="site-header__menu-toggle" type="button" aria-controls="site-header-navigation-panel" aria-expanded="false" data-site-header-toggle>
+                <span class="site-header__menu-toggle-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+                <span class="site-header__menu-toggle-label">Menu</span>
+            </button>
+
             <div class="site-header__brand">
                 <div class="site-header__logo">
-                    <?php if (has_custom_logo()) : ?>
-                        <?php the_custom_logo(); ?>
-                    <?php else : ?>
-                        <a class="site-header__logo-mark" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr($brand_name); ?>">
-                            <span aria-hidden="true"><?php echo esc_html($initials); ?></span>
-                        </a>
-                    <?php endif; ?>
+                    <?php $render_brand_mark(); ?>
                 </div>
 
                 <div class="site-branding">
@@ -111,16 +127,18 @@ if ($initials === '') {
                 </div>
             </div>
 
-            <nav class="site-navigation" id="navigazione-principale" role="navigation" aria-label="Menu principale">
-                <?php
-                wp_nav_menu([
-                    'theme_location' => 'primary',
-                    'container'      => false,
-                    'fallback_cb'    => 'wp_page_menu',
-                    'menu_class'     => 'menu',
-                ]);
-                ?>
-            </nav>
+            <div class="site-header__panel" id="site-header-navigation-panel" data-site-header-panel>
+                <nav class="site-navigation" id="navigazione-principale" role="navigation" aria-label="Menu principale">
+                    <?php
+                    wp_nav_menu([
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'fallback_cb'    => 'wp_page_menu',
+                        'menu_class'     => 'menu',
+                    ]);
+                    ?>
+                </nav>
+            </div>
 
             <div class="site-header__actions">
                 <?php if ($contact_cta_url !== '') : ?>

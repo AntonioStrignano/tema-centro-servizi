@@ -39,6 +39,46 @@
   padding-block: 0.7rem;
 }
 
+.site-header__menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-width: 2.9rem;
+  min-height: 2.9rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--stitch-primary, var(--ui-primary)) 18%, transparent);
+  border-radius: 999px;
+  background: var(--stitch-surface, var(--ui-surface));
+  color: var(--stitch-primary, var(--ui-primary));
+  cursor: pointer;
+}
+
+.site-header__menu-toggle-icon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.22rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.site-header__menu-toggle-icon span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.site-header__menu-toggle-label {
+  font-family: var(--font-label-family, var(--font-body-family, Arial, sans-serif));
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .site-header__brand {
   display: flex;
   align-items: center;
@@ -147,6 +187,11 @@
   justify-self: center;
 }
 
+.site-header__panel {
+  min-width: 0;
+  justify-self: center;
+}
+
 .site-navigation .menu {
   display: flex;
   align-items: center;
@@ -243,8 +288,23 @@
     padding-inline: 1rem;
   }
 
+  .site-header__top {
+    display: none;
+  }
+
   .site-header__top-inner {
     justify-content: flex-start;
+  }
+
+  .site-header__main-inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    min-height: 4.5rem;
+    padding-block: 0.8rem;
+  }
+
+  .site-header__menu-toggle {
+    display: inline-flex;
   }
 
   .site-header__logo .custom-logo-link,
@@ -255,33 +315,47 @@
 
   .site-header__brand {
     align-items: center;
+    justify-self: center;
+    grid-column: 2;
   }
 
-  .site-navigation .menu {
-    gap: 0.65rem 1rem;
-    justify-content: flex-start;
-  }
-
-  .site-navigation .menu a {
-    font-size: 0.78rem;
-  }
-
-  .site-branding__description {
+  .site-branding,
+  .site-header__actions {
     display: none;
   }
 
-  .site-header__utility {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.4rem;
+  .site-header__panel {
+    display: none;
+    grid-column: 1 / -1;
+    width: 100%;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--stitch-border-subtle, var(--ui-border));
   }
 
-  .site-header__actions,
-  .site-header__cta {
+  .site-header.is-menu-open .site-header__panel {
+    display: block;
+  }
+
+  .site-navigation {
     width: 100%;
   }
 
-  .site-header__cta {
-    justify-content: center;
+  .site-navigation .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    justify-content: flex-start;
+  }
+
+  .site-header__utility {
+    display: none;
+  }
+
+  .site-navigation .menu a {
+    width: 100%;
+    min-height: 2.8rem;
+    padding-block: 0.35rem;
+    font-size: 0.78rem;
   }
 }

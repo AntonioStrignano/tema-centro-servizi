@@ -18,4 +18,6 @@ if (! defined('ABSPATH')) {
 <?php wp_body_open(); ?>
 <?php get_template_part('partials/skip-links'); ?>
 <?php get_template_part('partials/chrome-header'); ?>
-<?php get_template_part('partials/breadcrumb'); ?>
+<?php if (! is_front_page()) : ?>
+    <?php get_template_part('partials/breadcrumb'); ?>
+<?php endif; ?>

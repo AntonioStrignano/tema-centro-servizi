@@ -16,6 +16,14 @@ function centro_servizi_enqueue_assets(): void
     $theme_dir = get_template_directory();
     $theme_uri = get_template_directory_uri();
 
+    wp_enqueue_script(
+        'centro-servizi-site-header',
+        $theme_uri . '/assets/js/site-header.js',
+        [],
+        (string) filemtime($theme_dir . '/assets/js/site-header.js'),
+        true
+    );
+
     $is_bureaucratic_context = function_exists('centro_servizi_is_bureaucratic_context')
         && centro_servizi_is_bureaucratic_context();
 
