@@ -2014,3 +2014,133 @@ textarea:focus,
 .hp-partner__tag--b { background: #c2e8d4; color: var(--stitch-secondary); }
 .hp-partner__tag--c { background: #ffdbcf; color: var(--stitch-tertiary); }
 .hp-partner__tag--n { background: #e1e2e4; color: #444; }
+
+/* ----------------------------------------
+   Basic content pages
+   ---------------------------------------- */
+.page-basic__section {
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+}
+
+.page-basic__inner {
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+.page-basic__article {
+  background: color-mix(in srgb, var(--ui-surface) 92%, transparent);
+  border: 1px solid var(--ui-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--ui-shadow-soft);
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+}
+
+.page-basic__header {
+  margin-bottom: 1.25rem;
+}
+
+.page-basic__title {
+  margin: 0;
+  color: var(--ui-primary);
+  line-height: 1.15;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+}
+
+.page-basic__content {
+  max-width: 72ch;
+}
+
+.page-basic__content > *:first-child {
+  margin-top: 0;
+}
+
+.page-basic__content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ----------------------------------------
+   Contacts recapiti (content pages)
+   ---------------------------------------- */
+.contatti-recapiti {
+  margin-bottom: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.contatti-recapiti__title {
+  margin: 0 0 1rem;
+  color: var(--ui-primary);
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+}
+
+.contatti-recapiti__panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.contatti-recapiti__list {
+  margin: 0;
+  padding: 1rem;
+  background: var(--ui-panel);
+  border: 1px solid var(--ui-border);
+  border-radius: 0.9rem;
+}
+
+.contatti-recapiti__row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 11rem) 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding-block: 0.6rem;
+}
+
+.contatti-recapiti__row + .contatti-recapiti__row {
+  border-top: 1px solid var(--ui-border);
+}
+
+.contatti-recapiti__row dt {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ui-primary-strong);
+}
+
+.contatti-recapiti__row dd {
+  margin: 0;
+  color: var(--ui-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.contatti-recapiti__row a {
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+}
+
+.contatti-recapiti__map {
+  border-radius: 0.9rem;
+  overflow: hidden;
+  border: 1px solid var(--ui-border);
+  min-height: 21rem;
+}
+
+.contatti-recapiti__map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 21rem;
+  border: 0;
+  display: block;
+}
+
+@media (min-width: 62rem) {
+  .contatti-recapiti__panel {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 30rem);
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 40rem) {
+  .contatti-recapiti__row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
