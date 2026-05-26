@@ -38,6 +38,15 @@
 - [x] Aggiunte anteprime font nei mood (titolo/corpo/label) con caricamento font per preview affidabile
 - [x] Tokenizzati gli stili Stitch in `assets/css/stitch-layout.css`, `assets/css/stitch-header-footer.css`, `assets/css/stitch-homepage.css`
 
+## Aggiornamento sessione (26/05/2026) — Bonifica CSS contesto burocratico
+
+### Completato
+
+- [x] Uniformato il comportamento tipografico nelle pagine burocratiche (Trasparenza, Area Famiglie, Area Personale) eliminando la divergenza font su H1
+- [x] Separati i token dinamici (`:root` con variabili colore/font) dagli override globali: in area burocratica restano attivi i token, non gli override globali
+- [x] Mantenuto il caricamento Google Fonts anche in contesto burocratico per evitare fallback inattesi
+- [x] Confermata separazione strutturale dei CSS per contesto senza toccare header/footer globali
+
 ### Intenzioni prossime
 
 - [ ] Validazione end-to-end in admin: click card preset -> salva -> verifica persistenza e resa frontend
