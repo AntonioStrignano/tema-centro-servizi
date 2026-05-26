@@ -860,7 +860,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 resultsContainer.innerHTML  = newResults.innerHTML;
                 history.replaceState({}, '', url.pathname + url.search);
                 if (archiveHeader && typeof archiveHeader.scrollIntoView === 'function') {
-                    archiveHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    var targetTop = Math.max(0, window.scrollY + archiveHeader.getBoundingClientRect().top - 24);
+                    window.scrollTo({ top: targetTop, behavior: 'smooth' });
                 }
             })
             .catch(function () {
