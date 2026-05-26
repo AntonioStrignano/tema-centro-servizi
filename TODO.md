@@ -62,6 +62,7 @@
 - [ ] Header mobile: garantire apertura/chiusura menu senza rompere ordine tab e focus
 - [ ] Archivio burocratico AJAX: aggiungere annuncio accessibile aggiornamento risultati (aria-live + messaggio stato)
 - [ ] Archivio burocratico AJAX: gestire focus dopo aggiornamento filtri per utenti tastiera/screen reader
+- [x] Archivio burocratico AJAX: dopo refresh filtro, scroll smooth verso l'intestazione dell'archivio
 - [x] Homepage: riallineati skip links al set completo globale (contenuto, navigazione, footer)
 - [ ] Homepage: sostituire CTA non operative (`button` senza azione) con link reali o azioni JS accessibili
 
@@ -88,6 +89,7 @@
 - [x] Disattivato enqueue di `stitch-layout.css` (resta transitorio solo `stitch-homepage.css` in home)
 - [x] Migrati componenti homepage `hp-*` da `stitch-homepage.css` a `site.css`
 - [x] Disattivato enqueue di `stitch-homepage.css` (file lasciato come placeholder temporaneo)
+- [x] Rimosso scroll interno desktop dagli archivi burocratici: flusso pagina tornato naturale
 - [ ] Migrare progressivamente regole utili in pochi file target (`assets/css/site.css`, `assets/css/site-header.css`, `assets/css/site-footer.css`)
 - [ ] Ridurre a zero i selettori duplicati tra layer Stitch e layer main
 - [ ] Spegnere enqueue degli asset Stitch in `inc/enqueue.php` quando la migrazione e completata
