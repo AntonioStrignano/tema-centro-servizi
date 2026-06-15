@@ -197,15 +197,15 @@
 - [x] `partials/card-area-famiglie.php`
 - [x] `templates/archive-area-personale.php`
 - [x] `partials/card-area-personale.php`
-- [ ] `partials/pagination.php` — paginazione accessibile
-- [ ] `inc/admin.php` — colonne admin personalizzate per CPT
+- [x] `partials/pagination.php` — paginazione accessibile
+- [x] `inc/admin.php` — colonne admin personalizzate per CPT
 - [x] Definire e implementare componente accessibilita riusabile per filtri/risultati dinamici:
   - [x] helper PHP per live region (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`)
   - [x] target focus post-refresh (`tabindex="-1"` + focus sicuro)
   - [x] micro-copy standardizzato (caricamento, aggiornato, errore fallback)
-- [ ] `inc/search.php` — filtri ricerca per tipo contenuto
-- [ ] `partials/search-form.php` — form con checkboxes tipo contenuto
-- [ ] `templates/search.php` — risultati raggruppati per tipo
+- [x] `inc/search.php` — filtri ricerca per tipo contenuto
+- [x] `partials/search-form.php` — form con checkboxes tipo contenuto
+- [x] `templates/search.php` — risultati raggruppati per tipo
 
 ### Colonne admin CPT da aggiungere (scope minimo)
 

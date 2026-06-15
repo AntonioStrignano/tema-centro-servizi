@@ -132,6 +132,8 @@ $render_brand_mark = static function () use ($brand_name, $initials): void {
                     ]);
                     ?>
                 </nav>
+
+                <?php get_template_part('partials/search-form', null, ['context' => 'header', 'show_filters' => false, 'form_id_prefix' => 'header-search']); ?>
             </div>
 
             <div class="site-header__actions">

@@ -20,6 +20,7 @@ $centro_servizi_includes = [
     '/inc/meta-boxes.php',
     '/inc/accessibility.php',
     '/inc/admin.php',
+    '/inc/search.php',
 ];
 
 foreach ($centro_servizi_includes as $centro_servizi_file) {

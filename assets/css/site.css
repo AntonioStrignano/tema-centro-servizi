@@ -148,6 +148,144 @@ button {
   font-weight: 700;
 }
 
+.search-page__inner {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.search-page__header > *:last-child {
+  margin-bottom: 0;
+}
+
+.search-page__title {
+  margin-bottom: 0.35rem;
+}
+
+.search-page__summary {
+  margin-top: 0;
+  color: var(--stitch-text-muted);
+}
+
+.search-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.search-form__bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+}
+
+.search-form__input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--stitch-border-subtle);
+  border-radius: 1rem;
+  background: #fff;
+  color: var(--stitch-text);
+}
+
+.search-form__submit {
+  min-height: 3rem;
+  padding: 0.8rem 1.15rem;
+  border-radius: 999px;
+  background: var(--stitch-primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.search-form__filters {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--stitch-border-subtle);
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.search-form__filters legend {
+  padding: 0 0.35rem;
+  font-weight: 700;
+}
+
+.search-form__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+.search-form__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-results {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.search-results__group {
+  display: grid;
+  gap: 1rem;
+}
+
+.search-results__group-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.search-results__group-title,
+.search-result-card__title {
+  margin: 0;
+}
+
+.search-results__group-count,
+.search-result-card__type,
+.search-result-card__date {
+  margin: 0;
+  color: var(--stitch-text-muted);
+}
+
+.search-results__list {
+  display: grid;
+  gap: 1rem;
+}
+
+.search-result-card__type {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.search-result-card__date {
+  margin-top: 0.35rem;
+}
+
+.search-result-card__excerpt {
+  margin-bottom: 0;
+}
+
+.search-page__empty {
+  padding: 1.25rem;
+}
+
+@media (max-width: 48rem) {
+  .search-form__bar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search-results__group-header {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
 .attivita-card {
   overflow: hidden;
 }
