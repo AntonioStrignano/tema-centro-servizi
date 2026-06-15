@@ -6,6 +6,7 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('pre_get_posts', 'centro_servizi_filter_search_post_types');
+add_filter('posts_search', 'centro_servizi_extend_search_with_taxonomy_terms', 20, 2);
 
 function centro_servizi_get_search_post_type_map(): array
 {
@@ -48,6 +49,110 @@ function centro_servizi_filter_search_post_types(WP_Query $query): void
     }
 
     $query->set('post_type', centro_servizi_get_search_selected_post_types());
+}
+
+function centro_servizi_get_search_taxonomies(): array
+{
+    return [
+        'anno-scol-attivita',
+        'sezioni',
+        'contenutiammtrasp',
+        'annoscolastico',
+        'categoria-area-famiglia',
+        'categoria-area-personale',
+    ];
+}
+
+function centro_servizi_extend_search_with_taxonomy_terms(string $search, WP_Query $query): string
+{
+    if (is_admin() || ! $query->is_main_query() || ! $query->is_search()) {
+        return $search;
+    }
+
+    global $wpdb;
+
+    $raw_search = (string) $query->get('s');
+
+    if ($raw_search === '') {
+        return $search;
+    }
+
+    $search_terms = $query->get('search_terms');
+
+    if (! is_array($search_terms) || $search_terms === []) {
+        $search_terms = [trim($raw_search)];
+    }
+
+    $search_terms = array_values(array_filter(array_map(
+        static fn($term): string => trim((string) $term),
+        $search_terms
+    )));
+
+    if ($search_terms === []) {
+        return $search;
+    }
+
+    $taxonomies = array_values(array_filter(
+        centro_servizi_get_search_taxonomies(),
+        static fn(string $taxonomy): bool => taxonomy_exists($taxonomy)
+    ));
+
+    if ($taxonomies === []) {
+        return $search;
+    }
+
+    $escaped_taxonomies = array_map(
+        static fn(string $taxonomy): string => "'" . esc_sql($taxonomy) . "'",
+        $taxonomies
+    );
+
+    $taxonomy_sql = implode(', ', $escaped_taxonomies);
+    $clauses = [];
+
+    foreach ($search_terms as $term) {
+        $like = '%' . $wpdb->esc_like($term) . '%';
+
+        $clauses[] = $wpdb->prepare(
+            "(
+                {$wpdb->posts}.post_title LIKE %s
+                OR {$wpdb->posts}.post_excerpt LIKE %s
+                OR {$wpdb->posts}.post_content LIKE %s
+                OR EXISTS (
+                    SELECT 1
+                    FROM {$wpdb->term_relationships} tr
+                    INNER JOIN {$wpdb->term_taxonomy} tt
+                        ON tt.term_taxonomy_id = tr.term_taxonomy_id
+                    INNER JOIN {$wpdb->terms} t
+                        ON t.term_id = tt.term_id
+                    WHERE tr.object_id = {$wpdb->posts}.ID
+                        AND tt.taxonomy IN ({$taxonomy_sql})
+                        AND (
+                            t.name LIKE %s
+                            OR t.slug LIKE %s
+                            OR tt.description LIKE %s
+                        )
+                )
+            )",
+            $like,
+            $like,
+            $like,
+            $like,
+            $like,
+            $like
+        );
+    }
+
+    if ($clauses === []) {
+        return $search;
+    }
+
+    $search = ' AND (' . implode(' AND ', $clauses) . ')';
+
+    if (! is_user_logged_in()) {
+        $search .= " AND ({$wpdb->posts}.post_password = '')";
+    }
+
+    return $search;
 }
 
 function centro_servizi_get_search_type_label(string $post_type): string
