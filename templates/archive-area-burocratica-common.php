@@ -353,8 +353,9 @@ if (! isset($centro_post_type, $centro_taxonomy, $centro_card_partial, $centro_s
         $centro_taxonomy = 'contenutiammtrasp';
         $centro_card_partial = 'partials/card-trasparenza';
         $centro_sidebar_aria_label = 'Filtri archivio trasparenza';
-        $centro_search_input_id = 'trasparenza-q';
+        $centro_search_input_id = '';
         $centro_enable_year_filter = true;
+        $centro_enable_search = false;
         $centro_category_mode = 'grouped';
     } elseif (is_post_type_archive('area-famiglie')) {
         $centro_post_type = 'area-famiglie';
@@ -363,6 +364,7 @@ if (! isset($centro_post_type, $centro_taxonomy, $centro_card_partial, $centro_s
         $centro_sidebar_aria_label = 'Filtri archivio area famiglie';
         $centro_search_input_id = 'area-famiglie-q';
         $centro_enable_year_filter = false;
+        $centro_enable_search = true;
         $centro_category_mode = 'flat';
     } elseif (is_post_type_archive('area-personale')) {
         $centro_post_type = 'area-personale';
@@ -371,6 +373,7 @@ if (! isset($centro_post_type, $centro_taxonomy, $centro_card_partial, $centro_s
         $centro_sidebar_aria_label = 'Filtri archivio area personale';
         $centro_search_input_id = 'area-personale-q';
         $centro_enable_year_filter = false;
+        $centro_enable_search = true;
         $centro_category_mode = 'flat';
     } else {
         return;
@@ -381,11 +384,16 @@ if (! isset($centro_enable_year_filter)) {
     $centro_enable_year_filter = false;
 }
 
+if (! isset($centro_enable_search)) {
+    $centro_enable_search = true;
+}
+
 if (! isset($centro_category_mode) || ! is_string($centro_category_mode)) {
     $centro_category_mode = 'flat';
 }
 
 $centro_enable_year_filter = (bool) $centro_enable_year_filter;
+$centro_enable_search = (bool) $centro_enable_search;
 $centro_is_grouped_category = ($centro_category_mode === 'grouped');
 $centro_uses_anno = $centro_enable_year_filter && taxonomy_exists('annoscolastico');
 
@@ -405,7 +413,7 @@ if (! is_string($centro_sidebar_aria_label) || $centro_sidebar_aria_label === ''
     return;
 }
 
-if (! is_string($centro_search_input_id) || $centro_search_input_id === '') {
+if ($centro_enable_search && (! is_string($centro_search_input_id) || $centro_search_input_id === '')) {
     return;
 }
 
@@ -423,7 +431,7 @@ function centro_servizi_archive_burocratica_selected_slug(string $key): string
 get_template_part('partials/header');
 
 $selected_cat    = centro_servizi_archive_burocratica_selected_slug('cat');
-$selected_search = centro_servizi_archive_burocratica_selected_slug('q');
+$selected_search = $centro_enable_search ? centro_servizi_archive_burocratica_selected_slug('q') : '';
 $selected_anno   = $centro_uses_anno ? centro_servizi_archive_burocratica_selected_slug('anno') : '';
 
 $anni = [];
@@ -484,11 +492,11 @@ if (! empty($tax_query)) {
     $query_args['tax_query'] = $tax_query;
 }
 
-if ($selected_search !== '') {
+if ($centro_enable_search && $selected_search !== '') {
     $query_args['s'] = $selected_search;
 }
 
-if ($selected_search !== '') {
+if ($centro_enable_search && $selected_search !== '') {
     $term_post_ids = [];
 
     if ($centro_post_type === 'trasparenza') {
@@ -619,7 +627,7 @@ if ($selected_search !== '') {
 
 $contenuti          = new WP_Query($query_args);
 $archive_url        = get_post_type_archive_link($centro_post_type);
-$has_active_filters = ($selected_cat !== '' || $selected_search !== '' || ($centro_uses_anno && $selected_anno !== ''));
+$has_active_filters = ($selected_cat !== '' || ($centro_enable_search && $selected_search !== '') || ($centro_uses_anno && $selected_anno !== ''));
 
 ?>
 <main class="site-main trasparenza-archive burocratica-archive" id="contenuto-principale" role="main">
@@ -635,7 +643,7 @@ $has_active_filters = ($selected_cat !== '' || $selected_search !== '' || ($cent
                 <?php if ($selected_cat !== '') : ?>
                     <input type="hidden" name="cat" value="<?php echo esc_attr($selected_cat); ?>">
                 <?php endif; ?>
-                <?php if ($selected_search !== '') : ?>
+                <?php if ($centro_enable_search && $selected_search !== '') : ?>
                     <input type="hidden" name="q" value="<?php echo esc_attr($selected_search); ?>">
                 <?php endif; ?>
 
@@ -667,15 +675,17 @@ $has_active_filters = ($selected_cat !== '' || $selected_search !== '' || ($cent
 
             <div class="trasparenza-archive__layout">
                 <aside class="trasparenza-archive__sidebar" aria-label="<?php echo esc_attr($centro_sidebar_aria_label); ?>">
-                    <form method="get" action="<?php echo esc_url((string) $archive_url); ?>" class="trasparenza-filters burocratica-filters">
+                    <form method="get" action="<?php echo esc_url((string) $archive_url); ?>" class="trasparenza-filters burocratica-filters" data-enable-search="<?php echo $centro_enable_search ? '1' : '0'; ?>">
                         <?php if ($centro_uses_anno && $selected_anno !== '') : ?>
                             <input type="hidden" name="anno" value="<?php echo esc_attr($selected_anno); ?>">
                         <?php endif; ?>
 
+                        <?php if ($centro_enable_search) : ?>
                         <div class="trasparenza-filters__search">
                             <label for="<?php echo esc_attr($centro_search_input_id); ?>"><?php echo esc_html($centro_uses_anno ? 'Cerca nei documenti' : 'Cerca'); ?></label>
                             <input type="search" id="<?php echo esc_attr($centro_search_input_id); ?>" name="q" value="<?php echo esc_attr($selected_search); ?>" placeholder="Cerca documento...">
                         </div>
+                        <?php endif; ?>
 
                         <fieldset class="trasparenza-filters__fieldset">
                             <legend>Categoria</legend>
@@ -829,7 +839,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var url         = new URL(window.location.href);
         var anno        = getSelectedValue('input[name="anno"]');
         var cat         = getSelectedValue('input[name="cat"]');
-        var searchInput = filterForm.querySelector('input[name="q"]');
+        var enableSearch = filterForm.dataset.enableSearch === '1';
+        var searchInput = enableSearch ? filterForm.querySelector('input[name="q"]') : null;
         var q           = searchInput ? searchInput.value.trim() : '';
 
         url.searchParams.delete('anno');

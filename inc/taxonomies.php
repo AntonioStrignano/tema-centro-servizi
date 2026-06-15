@@ -85,7 +85,7 @@ function centro_servizi_seed_taxonomy_terms(): void
 
     $structure = [
         [
-            'name' => '01 Documentazione Trasparente',
+            'name' => '01 Documentazione Trasparenza',
             'slug' => '01-documentaz-trasp',
             'children' => [
                 ['name' => 'Circolari MIM', 'slug' => 'circolari-mim'],

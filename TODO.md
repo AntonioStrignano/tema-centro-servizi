@@ -184,10 +184,26 @@
 - [x] `templates/archive-area-personale.php`
 - [x] `partials/card-area-personale.php`
 - [ ] `partials/pagination.php` — paginazione accessibile
-- [ ] `inc/admin.php` — colonne admin personalizzate per CPT (attuale: solo notice ACF)
+- [ ] `inc/admin.php` — colonne admin personalizzate per CPT
+- [ ] Definire e implementare componente accessibilita riusabile per filtri/risultati dinamici:
+  - [ ] helper PHP per live region (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`)
+  - [ ] target focus post-refresh (`tabindex="-1"` + focus sicuro)
+  - [ ] micro-copy standardizzato (caricamento, aggiornato, errore fallback)
 - [ ] `inc/search.php` — filtri ricerca per tipo contenuto
 - [ ] `partials/search-form.php` — form con checkboxes tipo contenuto
 - [ ] `templates/search.php` — risultati raggruppati per tipo
+
+### Colonne admin CPT da aggiungere (scope minimo)
+
+- [x] `attivita`: Anno scolastico, Data, Sezione
+- [x] `trasparenza`: Categoria, Anno scolastico, Nome allegato, Data, Ultima modifica
+- [x] `area-famiglie`: Categoria, Nome allegato, Data, Ultima modifica
+- [x] `area-personale`: Categoria, Nome allegato, Data, Ultima modifica
+
+### Decisioni strutturali confermate
+
+- [x] Archivio `trasparenza`: disattivata ricerca testuale (`q`) per ridurre complessita e incompatibilita con la struttura attuale dei filtri
+- [x] Tassonomia `contenutiammtrasp`: rinomina sezione in "01 Documentazione Trasparenza"
 
 ---
 

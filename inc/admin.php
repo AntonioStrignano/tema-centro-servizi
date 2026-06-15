@@ -149,3 +149,206 @@ function centro_servizi_add_admin_bar_release_info($wp_admin_bar): void
 }
 
 add_action('admin_bar_menu', 'centro_servizi_add_admin_bar_release_info', 999);
+
+function centro_servizi_admin_get_terms_csv(int $post_id, string $taxonomy): string
+{
+    $terms = get_the_terms($post_id, $taxonomy);
+
+    if (is_wp_error($terms) || empty($terms)) {
+        return '—';
+    }
+
+    $names = array_map(
+        static function ($term): string {
+            return ($term instanceof WP_Term) ? $term->name : '';
+        },
+        $terms
+    );
+
+    $names = array_values(array_filter($names, static fn(string $name): bool => $name !== ''));
+
+    return $names !== [] ? esc_html(implode(', ', $names)) : '—';
+}
+
+function centro_servizi_admin_resolve_attachment_filename($raw): string
+{
+    if (is_array($raw)) {
+        if (isset($raw['filename']) && is_string($raw['filename']) && $raw['filename'] !== '') {
+            return $raw['filename'];
+        }
+
+        if (isset($raw['url']) && is_string($raw['url']) && $raw['url'] !== '') {
+            $path = (string) parse_url($raw['url'], PHP_URL_PATH);
+            return $path !== '' ? wp_basename($path) : '—';
+        }
+    }
+
+    if (is_numeric($raw)) {
+        $file_path = get_attached_file((int) $raw);
+
+        if (is_string($file_path) && $file_path !== '') {
+            return wp_basename($file_path);
+        }
+
+        $url = wp_get_attachment_url((int) $raw);
+
+        if (is_string($url) && $url !== '') {
+            $path = (string) parse_url($url, PHP_URL_PATH);
+            return $path !== '' ? wp_basename($path) : '—';
+        }
+    }
+
+    if (is_string($raw) && $raw !== '') {
+        $decoded = maybe_unserialize($raw);
+
+        if (is_array($decoded)) {
+            return centro_servizi_admin_resolve_attachment_filename($decoded);
+        }
+
+        if (is_numeric($decoded)) {
+            return centro_servizi_admin_resolve_attachment_filename((int) $decoded);
+        }
+
+        if (filter_var($raw, FILTER_VALIDATE_URL)) {
+            $path = (string) parse_url($raw, PHP_URL_PATH);
+            return $path !== '' ? wp_basename($path) : '—';
+        }
+
+        return $raw;
+    }
+
+    return '—';
+}
+
+function centro_servizi_admin_get_file_name_for_post(int $post_id, array $meta_keys): string
+{
+    foreach ($meta_keys as $meta_key) {
+        $raw = get_post_meta($post_id, $meta_key, true);
+
+        if ($raw === '' || $raw === null) {
+            continue;
+        }
+
+        $resolved = centro_servizi_admin_resolve_attachment_filename($raw);
+
+        if ($resolved !== '—' && $resolved !== '') {
+            return esc_html($resolved);
+        }
+    }
+
+    return '—';
+}
+
+function centro_servizi_admin_columns_attivita(array $columns): array
+{
+    return [
+        'cb' => $columns['cb'] ?? '<input type="checkbox" />',
+        'title' => $columns['title'] ?? 'Titolo',
+        'anno_scolastico' => 'Anno scolastico',
+        'date' => $columns['date'] ?? 'Data',
+        'sezione' => 'Sezione',
+    ];
+}
+
+function centro_servizi_admin_columns_trasparenza(array $columns): array
+{
+    return [
+        'cb' => $columns['cb'] ?? '<input type="checkbox" />',
+        'title' => $columns['title'] ?? 'Titolo',
+        'categoria' => 'Categoria',
+        'anno_scolastico' => 'Anno scolastico',
+        'nome_allegato' => 'Nome allegato',
+        'date' => $columns['date'] ?? 'Data',
+        'ultima_modifica' => 'Ultima modifica',
+    ];
+}
+
+function centro_servizi_admin_columns_area_common(array $columns): array
+{
+    return [
+        'cb' => $columns['cb'] ?? '<input type="checkbox" />',
+        'title' => $columns['title'] ?? 'Titolo',
+        'categoria' => 'Categoria',
+        'nome_allegato' => 'Nome allegato',
+        'date' => $columns['date'] ?? 'Data',
+        'ultima_modifica' => 'Ultima modifica',
+    ];
+}
+
+function centro_servizi_admin_render_column_attivita(string $column, int $post_id): void
+{
+    if ($column === 'anno_scolastico') {
+        echo centro_servizi_admin_get_terms_csv($post_id, 'anno-scol-attivita');
+        return;
+    }
+
+    if ($column === 'sezione') {
+        echo centro_servizi_admin_get_terms_csv($post_id, 'sezioni');
+    }
+}
+
+function centro_servizi_admin_render_column_trasparenza(string $column, int $post_id): void
+{
+    if ($column === 'categoria') {
+        echo centro_servizi_admin_get_terms_csv($post_id, 'contenutiammtrasp');
+        return;
+    }
+
+    if ($column === 'anno_scolastico') {
+        echo centro_servizi_admin_get_terms_csv($post_id, 'annoscolastico');
+        return;
+    }
+
+    if ($column === 'nome_allegato') {
+        echo centro_servizi_admin_get_file_name_for_post($post_id, ['documento', 'allegato']);
+        return;
+    }
+
+    if ($column === 'ultima_modifica') {
+        echo esc_html(get_the_modified_date('d/m/Y H:i', $post_id));
+    }
+}
+
+function centro_servizi_admin_render_column_area_famiglie(string $column, int $post_id): void
+{
+    if ($column === 'categoria') {
+        echo centro_servizi_admin_get_terms_csv($post_id, 'categoria-area-famiglia');
+        return;
+    }
+
+    if ($column === 'nome_allegato') {
+        echo centro_servizi_admin_get_file_name_for_post($post_id, ['allegato']);
+        return;
+    }
+
+    if ($column === 'ultima_modifica') {
+        echo esc_html(get_the_modified_date('d/m/Y H:i', $post_id));
+    }
+}
+
+function centro_servizi_admin_render_column_area_personale(string $column, int $post_id): void
+{
+    if ($column === 'categoria') {
+        echo centro_servizi_admin_get_terms_csv($post_id, 'categoria-area-personale');
+        return;
+    }
+
+    if ($column === 'nome_allegato') {
+        echo centro_servizi_admin_get_file_name_for_post($post_id, ['allegato']);
+        return;
+    }
+
+    if ($column === 'ultima_modifica') {
+        echo esc_html(get_the_modified_date('d/m/Y H:i', $post_id));
+    }
+}
+
+add_filter('manage_attivita_posts_columns', 'centro_servizi_admin_columns_attivita');
+add_filter('manage_trasparenza_posts_columns', 'centro_servizi_admin_columns_trasparenza');
+add_filter('manage_area-famiglie_posts_columns', 'centro_servizi_admin_columns_area_common');
+add_filter('manage_area-personale_posts_columns', 'centro_servizi_admin_columns_area_common');
+
+add_action('manage_attivita_posts_custom_column', 'centro_servizi_admin_render_column_attivita', 10, 2);
+add_action('manage_trasparenza_posts_custom_column', 'centro_servizi_admin_render_column_trasparenza', 10, 2);
+add_action('manage_area-famiglie_posts_custom_column', 'centro_servizi_admin_render_column_area_famiglie', 10, 2);
+add_action('manage_area-personale_posts_custom_column', 'centro_servizi_admin_render_column_area_personale', 10, 2);

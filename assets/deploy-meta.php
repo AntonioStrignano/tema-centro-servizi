@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Rimuove file CSS e JS obsoleti e aggiorna la logica di enqueue per semplificare la gestione degli asset',
-    'commit_hash'  => '5ab79b667',
-    'deployed_at'  => '2026-05-26 12:59:31',
+    'commit_title' => 'Aggiorna il TODO e migliora la gestione delle colonne admin per i CPT, implementando nuove funzioni per il recupero dei termini e dei nomi dei file',
+    'commit_hash'  => '328289149',
+    'deployed_at'  => '2026-06-15 11:02:38',
 ];
