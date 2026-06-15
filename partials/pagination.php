@@ -5,26 +5,38 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-global $wp_query;
+$pagination_query = $args['query'] ?? null;
 
-if ($wp_query->max_num_pages <= 1) {
+if (! $pagination_query instanceof WP_Query) {
+    global $wp_query;
+    $pagination_query = $wp_query;
+}
+
+if (! $pagination_query instanceof WP_Query || $pagination_query->max_num_pages <= 1) {
     return;
 }
 
-$current = max(1, get_query_var('paged'));
-$total = $wp_query->max_num_pages;
-$base = get_pagenum_link(1);
-$format = (strpos($base, '?') ? '&' : '?') . 'paged=%#%';
+$current = max(
+    1,
+    (int) $pagination_query->get('paged'),
+    (int) get_query_var('paged'),
+    (int) get_query_var('page')
+);
+$total = (int) $pagination_query->max_num_pages;
+$request_uri = isset($_SERVER['REQUEST_URI']) ? wp_unslash((string) $_SERVER['REQUEST_URI']) : '/';
+$current_url = home_url($request_uri);
+$base = remove_query_arg('paged', $current_url);
+$base = add_query_arg('paged', '%#%', $base);
 
 $paginate_args = [
     'base' => $base,
-    'format' => $format,
+    'format' => '',
     'current' => $current,
     'total' => $total,
     'type' => 'array',
     'prev_text' => '← Precedente',
     'next_text' => 'Successiva →',
-    'before_page_number' => '<span class="screen-reader-text">Pagina </span>',
+    'before_page_number' => '<span class="sr-only">Pagina </span>',
 ];
 
 $pages = paginate_links($paginate_args);

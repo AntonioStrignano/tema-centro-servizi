@@ -763,6 +763,27 @@ body.page-amministrazione-trasparente .trasparenza-archive {
   box-shadow: var(--bureaucratic-shadow);
 }
 
+.burocratica-archive .pagination-nav {
+  margin-top: 0.25rem;
+}
+
+.burocratica-archive .pagination .page-numbers {
+  border-color: var(--bureaucratic-border);
+  background: var(--bureaucratic-surface);
+  color: var(--bureaucratic-text);
+}
+
+.burocratica-archive .pagination .page-numbers:hover,
+.burocratica-archive .pagination .page-numbers:focus-visible {
+  border-color: var(--bureaucratic-accent);
+}
+
+.burocratica-archive .pagination .page-numbers.current {
+  border-color: var(--bureaucratic-accent);
+  background: var(--bureaucratic-accent-soft);
+  color: var(--bureaucratic-accent-strong);
+}
+
 .trasparenza-card {
   padding: 1.1rem 1.1rem 1rem;
   border-radius: var(--bureaucratic-radius);

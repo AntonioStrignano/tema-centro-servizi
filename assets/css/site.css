@@ -103,6 +103,51 @@ button {
   display: block;
 }
 
+.pagination-nav {
+  margin-top: 1.25rem;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination li {
+  margin: 0;
+}
+
+.pagination .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--stitch-border-subtle);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--stitch-text);
+  text-decoration: none;
+}
+
+.pagination .page-numbers:hover,
+.pagination .page-numbers:focus-visible {
+  border-color: var(--stitch-primary);
+  text-decoration: none;
+}
+
+.pagination .page-numbers.current {
+  border-color: var(--stitch-primary);
+  background: var(--stitch-primary);
+  color: #fff;
+  font-weight: 700;
+}
+
 .attivita-card {
   overflow: hidden;
 }

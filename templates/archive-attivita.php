@@ -59,12 +59,15 @@ if (count($tax_query) > 1) {
     $tax_query['relation'] = 'AND';
 }
 
+$current_page = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+
 $query_args = [
     'post_type'      => 'attivita',
     'posts_per_page' => 10,
     'orderby'        => 'date',
     'order'          => 'DESC',
     'no_found_rows'  => false,
+    'paged'          => $current_page,
 ];
 
 if ($tax_query !== []) {
@@ -132,7 +135,7 @@ $has_active_filters = ($selected_year !== '' || $selected_section !== '');
                     <?php get_template_part('partials/card-attivita', null, ['post_id' => (int) $attivita_post->ID]); ?>
                 <?php endforeach; ?>
             </div>
-            <?php get_template_part('partials/pagination'); ?>
+            <?php get_template_part('partials/pagination', null, ['query' => $attivita]); ?>
         <?php else : ?>
             <p>Nessuna attivita disponibile con i filtri correnti.</p>
             <?php if ($has_active_filters) : ?>

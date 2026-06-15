@@ -476,12 +476,15 @@ if ($selected_cat !== '') {
     ];
 }
 
+$current_page = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+
 $query_args = [
     'post_type'      => $centro_post_type,
     'posts_per_page' => 10,
     'orderby'        => 'date',
     'order'          => 'DESC',
     'no_found_rows'  => false,
+    'paged'          => $current_page,
 ];
 
 if (! empty($tax_query)) {
@@ -607,6 +610,9 @@ if ($centro_enable_search && $selected_search !== '') {
     if (! empty($term_post_ids)) {
         $text_args           = $query_args;
         $text_args['fields'] = 'ids';
+        $text_args['posts_per_page'] = -1;
+        $text_args['no_found_rows'] = true;
+        unset($text_args['paged']);
         $text_post_ids       = get_posts($text_args);
 
         $merged_ids = array_values(array_unique(array_merge(
@@ -616,16 +622,18 @@ if ($centro_enable_search && $selected_search !== '') {
 
         $query_args = [
             'post_type'      => $centro_post_type,
-            'posts_per_page' => -1,
+            'posts_per_page' => 10,
             'orderby'        => 'date',
             'order'          => 'DESC',
-            'no_found_rows'  => true,
+            'no_found_rows'  => false,
+            'paged'          => $current_page,
             'post__in'       => ! empty($merged_ids) ? $merged_ids : [0],
         ];
     }
 }
 
 $contenuti          = new WP_Query($query_args);
+$total_results      = (int) $contenuti->found_posts;
 $archive_url        = get_post_type_archive_link($centro_post_type);
 $has_active_filters = ($selected_cat !== '' || ($centro_enable_search && $selected_search !== '') || ($centro_uses_anno && $selected_anno !== ''));
 
@@ -757,7 +765,7 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
                 </aside>
 
                 <div class="trasparenza-archive__results" data-focus-target-selector=".trasparenza-archive__summary">
-                    <p class="trasparenza-archive__summary" tabindex="-1"><?php echo esc_html(sprintf(_n('%d documento trovato', '%d documenti trovati', $contenuti->post_count, 'tema-centro-servizi'), $contenuti->post_count)); ?></p>
+                    <p class="trasparenza-archive__summary" tabindex="-1"><?php echo esc_html(sprintf(_n('%d documento trovato', '%d documenti trovati', $total_results, 'tema-centro-servizi'), $total_results)); ?></p>
 
     <?php if ($contenuti->post_count > 0) : ?>
     <ul class="trasparenza-archive__list">
@@ -765,6 +773,10 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
         <?php
         setup_postdata($contenuto_post);
         $post_id     = (int) $contenuto_post->ID;
+
+    <?php if ($contenuti->max_num_pages > 1) : ?>
+    <?php get_template_part('partials/pagination', null, ['query' => $contenuti]); ?>
+    <?php endif; ?>
 
         if ($centro_post_type === 'trasparenza') {
             $titolo_custom = centro_servizi_get_post_meta_string($post_id, 'titolo');
@@ -810,8 +822,6 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
     <p><a href="<?php echo esc_url((string) $archive_url); ?>">Reset filtri</a></p>
     <?php endif; ?>
     <?php endif; ?>
-
-    <?php get_template_part('partials/pagination'); ?>
 
                 </div>
             </div>
