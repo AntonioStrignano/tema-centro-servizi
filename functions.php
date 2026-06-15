@@ -64,6 +64,14 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
         }
     }
 
+    if (is_search()) {
+        $search_template = get_template_directory() . '/templates/search.php';
+
+        if (file_exists($search_template)) {
+            return $search_template;
+        }
+    }
+
     if (is_post_type_archive('attivita')) {
         $archive_template = get_template_directory() . '/templates/archive-attivita.php';
 
