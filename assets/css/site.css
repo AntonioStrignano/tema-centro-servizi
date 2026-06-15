@@ -391,6 +391,34 @@ button {
   text-decoration: underline;
 }
 
+.search-result-card__context {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--stitch-surface-cream) 72%, #fff);
+}
+
+.search-result-card__context-row {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.search-result-card__context dt {
+  margin: 0;
+  color: var(--stitch-primary);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.search-result-card__context dd {
+  margin: 0;
+  color: var(--stitch-text);
+}
+
 .search-result-card__excerpt {
   margin: 0;
   color: var(--stitch-text-muted);

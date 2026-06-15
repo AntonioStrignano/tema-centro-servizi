@@ -217,3 +217,104 @@ function centro_servizi_get_search_result_excerpt(int $post_id): string
 
     return wp_trim_words($content, 28, '...');
 }
+
+function centro_servizi_search_clean_term_name(string $name): string
+{
+    $clean = preg_replace('/^\d+[\s._-]*/u', '', trim($name));
+
+    if (! is_string($clean)) {
+        return trim($name);
+    }
+
+    $clean = trim($clean);
+
+    return $clean !== '' ? $clean : trim($name);
+}
+
+function centro_servizi_search_get_term_display_name(WP_Term $term): string
+{
+    if ($term->taxonomy === 'contenutiammtrasp') {
+        $aliases = [
+            'immobili' => 'Contratti fitto',
+            'immobile' => 'Contratti fitto',
+            'organizzazione' => 'Direzione e segreteria',
+            'autorizzazioni' => 'Permessi e autorizzazioni',
+        ];
+
+        if (isset($aliases[$term->slug])) {
+            return $aliases[$term->slug];
+        }
+    }
+
+    return centro_servizi_search_clean_term_name($term->name);
+}
+
+function centro_servizi_search_get_terms_labels(int $post_id, string $taxonomy): array
+{
+    $terms = get_the_terms($post_id, $taxonomy);
+
+    if (is_wp_error($terms) || empty($terms)) {
+        return [];
+    }
+
+    $labels = array_values(array_filter(array_map(
+        static function ($term): string {
+            return $term instanceof WP_Term
+                ? centro_servizi_search_get_term_display_name($term)
+                : '';
+        },
+        $terms
+    )));
+
+    $labels = array_values(array_unique($labels));
+
+    natcasesort($labels);
+
+    return array_values($labels);
+}
+
+function centro_servizi_get_search_result_context(int $post_id): array
+{
+    $post_type = get_post_type($post_id);
+
+    if (! is_string($post_type) || $post_type === '') {
+        return [];
+    }
+
+    $context_map = [];
+
+    if ($post_type === 'trasparenza') {
+        $context_map = [
+            'Categoria' => centro_servizi_search_get_terms_labels($post_id, 'contenutiammtrasp'),
+            'Anno scolastico' => centro_servizi_search_get_terms_labels($post_id, 'annoscolastico'),
+        ];
+    } elseif ($post_type === 'attivita') {
+        $context_map = [
+            'Sezione' => centro_servizi_search_get_terms_labels($post_id, 'sezioni'),
+            'Anno scolastico' => centro_servizi_search_get_terms_labels($post_id, 'anno-scol-attivita'),
+        ];
+    } elseif ($post_type === 'area-famiglie') {
+        $context_map = [
+            'Categoria' => centro_servizi_search_get_terms_labels($post_id, 'categoria-area-famiglia'),
+        ];
+    } elseif ($post_type === 'area-personale') {
+        $context_map = [
+            'Categoria' => centro_servizi_search_get_terms_labels($post_id, 'categoria-area-personale'),
+        ];
+    }
+
+    $items = [];
+
+    foreach ($context_map as $label => $values) {
+        if ($values === []) {
+            continue;
+        }
+
+        $items[] = [
+            'label' => $label,
+            'values' => $values,
+        ];
+    }
+
+    return $items;
+}

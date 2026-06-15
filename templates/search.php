@@ -88,6 +88,7 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                             <?php
                                             $post_id = (int) $post->ID;
                                             $excerpt = centro_servizi_get_search_result_excerpt($post_id);
+                                            $context_items = centro_servizi_get_search_result_context($post_id);
                                             ?>
                                             <article class="site-card search-result-card">
                                                 <div class="search-result-card__meta-row">
@@ -99,6 +100,16 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                                 <h3 class="search-result-card__title">
                                                     <a href="<?php echo esc_url(get_permalink($post_id)); ?>"><?php echo esc_html(get_the_title($post_id)); ?></a>
                                                 </h3>
+                                                <?php if ($context_items !== []) : ?>
+                                                    <dl class="search-result-card__context" aria-label="Contesto contenuto">
+                                                        <?php foreach ($context_items as $context_item) : ?>
+                                                            <div class="search-result-card__context-row">
+                                                                <dt><?php echo esc_html((string) $context_item['label']); ?></dt>
+                                                                <dd><?php echo esc_html(implode(', ', (array) $context_item['values'])); ?></dd>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </dl>
+                                                <?php endif; ?>
                                                 <?php if ($excerpt !== '') : ?>
                                                     <p class="search-result-card__excerpt"><?php echo esc_html($excerpt); ?></p>
                                                 <?php endif; ?>
