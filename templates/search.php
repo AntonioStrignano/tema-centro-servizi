@@ -88,6 +88,8 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                             <?php
                                             $post_id = (int) $post->ID;
                                             $excerpt = centro_servizi_get_search_result_excerpt($post_id);
+                                            $result_title = centro_servizi_get_search_result_title($post_id);
+                                            $result_url = centro_servizi_get_search_result_url($post_id);
                                             $context_items = centro_servizi_get_search_result_context($post_id);
                                             ?>
                                             <article class="site-card search-result-card">
@@ -98,7 +100,7 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                                     </p>
                                                 </div>
                                                 <h3 class="search-result-card__title">
-                                                    <a href="<?php echo esc_url(get_permalink($post_id)); ?>"><?php echo esc_html(get_the_title($post_id)); ?></a>
+                                                    <a href="<?php echo esc_url($result_url); ?>"><?php echo esc_html($result_title); ?></a>
                                                 </h3>
                                                 <?php if ($context_items !== []) : ?>
                                                     <dl class="search-result-card__context" aria-label="Contesto contenuto">
@@ -114,7 +116,7 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                                     <p class="search-result-card__excerpt"><?php echo esc_html($excerpt); ?></p>
                                                 <?php endif; ?>
                                                 <p class="search-result-card__cta-wrap">
-                                                    <a class="search-result-card__cta" href="<?php echo esc_url(get_permalink($post_id)); ?>">Apri contenuto</a>
+                                                    <a class="search-result-card__cta" href="<?php echo esc_url($result_url); ?>"><?php echo $post_type === 'trasparenza' ? 'Apri archivio filtrato' : 'Apri contenuto'; ?></a>
                                                 </p>
                                             </article>
                                         <?php endforeach; ?>

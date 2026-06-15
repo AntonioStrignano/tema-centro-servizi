@@ -280,6 +280,129 @@ function centro_servizi_search_get_terms_labels(int $post_id, string $taxonomy):
     return array_values($labels);
 }
 
+function centro_servizi_search_get_first_term_slug(int $post_id, string $taxonomy): string
+{
+    $terms = get_the_terms($post_id, $taxonomy);
+
+    if (is_wp_error($terms) || empty($terms)) {
+        return '';
+    }
+
+    usort($terms, static function (WP_Term $left, WP_Term $right): int {
+        return strcmp($left->slug, $right->slug);
+    });
+
+    return $terms[0] instanceof WP_Term ? (string) $terms[0]->slug : '';
+}
+
+function centro_servizi_search_get_trasparenza_assigned_terms(int $post_id): array
+{
+    $terms = get_the_terms($post_id, 'contenutiammtrasp');
+
+    if (is_wp_error($terms) || empty($terms)) {
+        return [];
+    }
+
+    return $terms;
+}
+
+function centro_servizi_search_get_trasparenza_display_term(int $post_id): ?WP_Term
+{
+    $terms = centro_servizi_search_get_trasparenza_assigned_terms($post_id);
+
+    if ($terms === []) {
+        return null;
+    }
+
+    usort($terms, static function (WP_Term $left, WP_Term $right): int {
+        $left_depth = count(get_ancestors($left->term_id, 'contenutiammtrasp', 'taxonomy'));
+        $right_depth = count(get_ancestors($right->term_id, 'contenutiammtrasp', 'taxonomy'));
+
+        if ($left_depth !== $right_depth) {
+            return $right_depth <=> $left_depth;
+        }
+
+        return strcmp($left->slug, $right->slug);
+    });
+
+    return $terms[0] instanceof WP_Term ? $terms[0] : null;
+}
+
+function centro_servizi_search_get_trasparenza_term_label(?WP_Term $term): string
+{
+    if (! $term instanceof WP_Term) {
+        return '';
+    }
+
+    if ($term->parent === 0) {
+        return centro_servizi_search_clean_term_name($term->name);
+    }
+
+    $parents = get_ancestors($term->term_id, 'contenutiammtrasp', 'taxonomy');
+    $labels = [];
+
+    foreach (array_reverse($parents) as $parent_id) {
+        $parent_term = get_term($parent_id, 'contenutiammtrasp');
+
+        if ($parent_term instanceof WP_Term) {
+            $labels[] = centro_servizi_search_get_term_display_name($parent_term);
+        }
+    }
+
+    $labels[] = centro_servizi_search_get_term_display_name($term);
+
+    return implode(' / ', $labels);
+}
+
+function centro_servizi_get_search_result_title(int $post_id): string
+{
+    $post_type = get_post_type($post_id);
+    $fallback = get_the_title($post_id);
+
+    if ($post_type !== 'trasparenza') {
+        return $fallback;
+    }
+
+    $display_term = centro_servizi_search_get_trasparenza_display_term($post_id);
+    $tag_anno = trim(centro_servizi_get_post_meta_string($post_id, 'tag_anno'));
+    $parts = array_filter([
+        centro_servizi_search_get_trasparenza_term_label($display_term),
+        $tag_anno,
+    ]);
+
+    return $parts !== [] ? implode(' - ', $parts) : $fallback;
+}
+
+function centro_servizi_get_search_result_url(int $post_id): string
+{
+    $post_type = get_post_type($post_id);
+
+    if ($post_type !== 'trasparenza') {
+        return (string) get_permalink($post_id);
+    }
+
+    $archive_url = get_post_type_archive_link('trasparenza');
+
+    if (! is_string($archive_url) || $archive_url === '') {
+        return (string) home_url('/trasparenza/');
+    }
+
+    $display_term = centro_servizi_search_get_trasparenza_display_term($post_id);
+    $selected_cat = $display_term instanceof WP_Term ? (string) $display_term->slug : '';
+    $selected_year = centro_servizi_search_get_first_term_slug($post_id, 'annoscolastico');
+    $query_args = [];
+
+    if ($selected_cat !== '') {
+        $query_args['cat'] = $selected_cat;
+    }
+
+    if ($selected_year !== '') {
+        $query_args['anno'] = $selected_year;
+    }
+
+    return $query_args !== [] ? (string) add_query_arg($query_args, $archive_url) : $archive_url;
+}
+
 function centro_servizi_get_search_result_context(int $post_id): array
 {
     $post_type = get_post_type($post_id);
@@ -290,12 +413,7 @@ function centro_servizi_get_search_result_context(int $post_id): array
 
     $context_map = [];
 
-    if ($post_type === 'trasparenza') {
-        $context_map = [
-            'Categoria' => centro_servizi_search_get_terms_labels($post_id, 'contenutiammtrasp'),
-            'Anno scolastico' => centro_servizi_search_get_terms_labels($post_id, 'annoscolastico'),
-        ];
-    } elseif ($post_type === 'attivita') {
+    if ($post_type === 'attivita') {
         $context_map = [
             'Sezione' => centro_servizi_search_get_terms_labels($post_id, 'sezioni'),
             'Anno scolastico' => centro_servizi_search_get_terms_labels($post_id, 'anno-scol-attivita'),
