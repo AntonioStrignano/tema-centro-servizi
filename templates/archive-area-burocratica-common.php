@@ -774,10 +774,6 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
         setup_postdata($contenuto_post);
         $post_id     = (int) $contenuto_post->ID;
 
-    <?php if ($contenuti->max_num_pages > 1) : ?>
-    <?php get_template_part('partials/pagination', null, ['query' => $contenuti]); ?>
-    <?php endif; ?>
-
         if ($centro_post_type === 'trasparenza') {
             $titolo_custom = centro_servizi_get_post_meta_string($post_id, 'titolo');
             $testo = centro_servizi_get_post_meta_string($post_id, 'testo');
@@ -814,6 +810,10 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
         </li>
         <?php endforeach; ?>
     </ul>
+
+    <?php if ($contenuti->max_num_pages > 1) : ?>
+    <?php get_template_part('partials/pagination', null, ['query' => $contenuti]); ?>
+    <?php endif; ?>
     <?php endif; ?>
 
     <?php if ($contenuti->post_count === 0) : ?>
