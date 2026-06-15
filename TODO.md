@@ -207,6 +207,15 @@
 - [x] `partials/search-form.php` — form con checkboxes tipo contenuto
 - [x] `templates/search.php` — risultati raggruppati per tipo
 
+### QA rapido ricerca (15/06/2026)
+
+- [x] Query combinata verificata (`calendario 2025`) con match su contenuto + tassonomie
+- [x] Risultati `trasparenza`: titolo coerente con archivio + link ad archivio prefiltrato
+- [x] Risultati `area-famiglie` e `area-personale`: apertura su pagina singola dedicata
+- [x] Stato empty results verificato
+
+Nota: check manuale mobile header/search rimandato come rifinitura non bloccante.
+
 ### Colonne admin CPT da aggiungere (scope minimo)
 
 - [x] `attivita`: Anno scolastico, Data, Sezione
