@@ -220,15 +220,22 @@ function centro_servizi_get_search_result_excerpt(int $post_id): string
 
 function centro_servizi_search_clean_term_name(string $name): string
 {
-    $clean = preg_replace('/^\d+[\s._-]*/u', '', trim($name));
+    $trimmed_name = trim($name);
+
+    // Preserva etichette di anni scolastici come 2025/2026 o 2025-2026.
+    if (preg_match('/^\d{4}\s*[\/-]\s*\d{4}$/u', $trimmed_name) === 1) {
+        return $trimmed_name;
+    }
+
+    $clean = preg_replace('/^\d+[\s._-]*/u', '', $trimmed_name);
 
     if (! is_string($clean)) {
-        return trim($name);
+        return $trimmed_name;
     }
 
     $clean = trim($clean);
 
-    return $clean !== '' ? $clean : trim($name);
+    return $clean !== '' ? $clean : $trimmed_name;
 }
 
 function centro_servizi_search_get_term_display_name(WP_Term $term): string
