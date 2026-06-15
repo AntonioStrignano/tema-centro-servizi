@@ -91,6 +91,7 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                             $result_title = centro_servizi_get_search_result_title($post_id);
                                             $result_url = centro_servizi_get_search_result_url($post_id);
                                             $context_items = centro_servizi_get_search_result_context($post_id);
+                                            $uses_filtered_archive = in_array((string) $post_type, ['trasparenza', 'area-famiglie', 'area-personale'], true);
                                             ?>
                                             <article class="site-card search-result-card">
                                                 <div class="search-result-card__meta-row">
@@ -116,7 +117,7 @@ $has_custom_type_filter = $available_post_types !== [] && count($selected_post_t
                                                     <p class="search-result-card__excerpt"><?php echo esc_html($excerpt); ?></p>
                                                 <?php endif; ?>
                                                 <p class="search-result-card__cta-wrap">
-                                                    <a class="search-result-card__cta" href="<?php echo esc_url($result_url); ?>"><?php echo $post_type === 'trasparenza' ? 'Apri archivio filtrato' : 'Apri contenuto'; ?></a>
+                                                    <a class="search-result-card__cta" href="<?php echo esc_url($result_url); ?>"><?php echo $uses_filtered_archive ? 'Apri archivio filtrato' : 'Apri contenuto'; ?></a>
                                                 </p>
                                             </article>
                                         <?php endforeach; ?>
