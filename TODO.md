@@ -91,6 +91,7 @@
 - [x] Aggiornato `templates/archive-area-burocratica-common.php`: stessi cambiamenti (vale per trasparenza, area-famiglie, area-personale)
 - [x] Aggiunto `get_template_part('partials/pagination')` negli archivi post-grid/post-list
 - [x] Corretto il conteggio risultati su archivi burocratici: usa il totale query (`found_posts`) invece dei soli elementi della pagina corrente
+- [x] Aggiornato il riepilogo risultati in formato range: `Documenti x-y su totale` coerente con la pagina corrente
 - [x] Corretta la paginazione per query custom: passaggio esplicito della query al partial + supporto `paged` su archivi e risultati filtrati/ricerca
 - [x] Corretta la generazione href della paginazione: i link `pagina 2` / `Successiva` ora preservano i filtri correnti e puntano a URL distinti via query arg `paged`
 - [x] Aggiunto styling base della navigazione paginata in `assets/css/site.css` e override coerente in `assets/css/area-burocratica.css`

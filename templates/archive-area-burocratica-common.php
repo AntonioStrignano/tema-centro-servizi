@@ -634,6 +634,9 @@ if ($centro_enable_search && $selected_search !== '') {
 
 $contenuti          = new WP_Query($query_args);
 $total_results      = (int) $contenuti->found_posts;
+$results_per_page   = max(1, (int) $contenuti->get('posts_per_page'));
+$results_first_item = $total_results > 0 ? (((int) $contenuti->get('paged') - 1) * $results_per_page) + 1 : 0;
+$results_last_item  = $total_results > 0 ? min($total_results, $results_first_item + $contenuti->post_count - 1) : 0;
 $archive_url        = get_post_type_archive_link($centro_post_type);
 $has_active_filters = ($selected_cat !== '' || ($centro_enable_search && $selected_search !== '') || ($centro_uses_anno && $selected_anno !== ''));
 
@@ -765,7 +768,7 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
                 </aside>
 
                 <div class="trasparenza-archive__results" data-focus-target-selector=".trasparenza-archive__summary">
-                    <p class="trasparenza-archive__summary" tabindex="-1"><?php echo esc_html(sprintf(_n('%d documento trovato', '%d documenti trovati', $total_results, 'tema-centro-servizi'), $total_results)); ?></p>
+                    <p class="trasparenza-archive__summary" tabindex="-1"><?php echo esc_html(sprintf('Documenti %1$d-%2$d su %3$d', $results_first_item, $results_last_item, $total_results)); ?></p>
 
     <?php if ($contenuti->post_count > 0) : ?>
     <ul class="trasparenza-archive__list">
