@@ -646,6 +646,7 @@ function centro_servizi_get_profile_color_css(array $config): string
 // ============================================================================
 add_action('admin_post_centro_servizi_seed_pages',   'centro_servizi_handle_seed_pages');
 add_action('admin_post_centro_servizi_update_pages', 'centro_servizi_handle_update_pages');
+add_action('admin_init', 'centro_servizi_migrate_legal_pages_to_dynamic_content', 20);
 
 function centro_servizi_handle_seed_pages(): void
 {
@@ -655,6 +656,92 @@ function centro_servizi_handle_seed_pages(): void
 function centro_servizi_handle_update_pages(): void
 {
     centro_servizi_do_seed_pages(true);
+}
+
+function centro_servizi_migrate_legal_pages_to_dynamic_content(): void
+{
+    if (! current_user_can('manage_options')) {
+        return;
+    }
+
+    if (get_option('centro_servizi_legal_pages_migrated_v2', '') === '1') {
+        return;
+    }
+
+    $site_name = get_bloginfo('name');
+    $site_url  = get_site_url();
+    $seed_pages = centro_servizi_get_seed_pages($site_name, $site_url);
+
+    foreach ($seed_pages as $page) {
+        $slug = isset($page['slug']) ? (string) $page['slug'] : '';
+        if ($slug === '') {
+            continue;
+        }
+
+        $existing = get_page_by_path($slug);
+        if (! $existing instanceof WP_Post) {
+            continue;
+        }
+
+        centro_servizi_sync_legal_page_meta($existing->ID, $slug);
+
+        $content = (string) ($existing->post_content ?? '');
+        if (strpos($content, '[centro_servizi_') !== false) {
+            continue;
+        }
+
+        $id = wp_update_post([
+            'ID'           => $existing->ID,
+            'post_content' => (string) ($page['content'] ?? ''),
+        ], true);
+
+        if (is_wp_error($id)) {
+            return;
+        }
+    }
+
+    update_option('centro_servizi_legal_pages_migrated_v2', '1', false);
+}
+
+function centro_servizi_sync_legal_page_meta(int $post_id, string $slug): void
+{
+    $contacts = centro_servizi_seed_load_contacts();
+    $address  = isset($contacts['address']) ? (string) $contacts['address'] : '';
+    $email    = isset($contacts['email']) ? (string) $contacts['email'] : '';
+
+    $set_meta = static function (int $post_id, string $key, string $value): void {
+        $value = trim($value);
+
+        if ($value === '') {
+            delete_post_meta($post_id, $key);
+            return;
+        }
+
+        update_post_meta($post_id, $key, $value);
+    };
+
+    if ($slug === 'privacy-policy') {
+        $set_meta($post_id, 'legal_address', (string) get_option('centro_servizi_legal_address', $address));
+        $set_meta($post_id, 'email_privacy', (string) get_option('centro_servizi_email_privacy', $email));
+        $set_meta($post_id, 'referente_privacy', (string) get_option('centro_servizi_referente_privacy', ''));
+        $set_meta($post_id, 'dpo_nome', (string) get_option('centro_servizi_dpo_nome', ''));
+        $set_meta($post_id, 'email_dpo', (string) get_option('centro_servizi_email_dpo', ''));
+        return;
+    }
+
+    if ($slug === 'dichiarazione-accessibilita') {
+        $set_meta($post_id, 'dpo_nome', (string) get_option('centro_servizi_dpo_nome', ''));
+        $set_meta($post_id, 'email_dpo', (string) get_option('centro_servizi_email_dpo', $email));
+        $set_meta($post_id, 'email_privacy', (string) get_option('centro_servizi_email_privacy', $email));
+        $set_meta($post_id, 'referente_privacy', (string) get_option('centro_servizi_referente_privacy', ''));
+        $set_meta($post_id, 'url_dichiarazione_agid', (string) get_option('centro_servizi_url_dichiarazione_agid', ''));
+        return;
+    }
+
+    if ($slug === 'whistleblowing') {
+        $set_meta($post_id, 'url_whistleblowing', (string) get_option('centro_servizi_url_whistleblowing', ''));
+        $set_meta($post_id, 'whistleblowing_responsabile', (string) get_option('centro_servizi_whistleblowing_responsabile', ''));
+    }
 }
 
 function centro_servizi_do_seed_pages(bool $overwrite): void
@@ -818,24 +905,17 @@ function centro_servizi_seed_content_privacy(string $site_name, string $site_url
     $email   = isset($contacts['email'])   ? $contacts['email']             : '';
 
     $dpo_display = $dpo_nome !== '' ? esc_html($dpo_nome) . ' — ' : '';
-    $dpo_li = $email_dpo
-        ? '<li><strong>Responsabile della Protezione dei Dati (DPO):</strong> ' . $dpo_display . '<a href="mailto:' . esc_attr($email_dpo) . '">' . esc_html($email_dpo) . '</a></li>'
-        : '<li><strong>Referente privacy:</strong> [da completare]</li>';
-
-    $email_display = $email ? esc_html($email) : '[email contatto]';
-    $email_href    = $email ? 'mailto:' . esc_attr($email) : '#';
-    $dpo_revoca    = $email_dpo ? ' oppure al DPO: <a href="mailto:' . esc_attr($email_dpo) . '">' . esc_html($email_dpo) . '</a>' : '';
 
     return '<p><em>Informativa ai sensi dell\'art. 13 del Regolamento UE 2016/679 (GDPR) — ' . esc_html($site_name) . ' — aggiornata al ' . esc_html($year) . '</em></p>
 
 <h2>Titolare del trattamento</h2>
 <p>' . esc_html($site_name) . '<br />
-' . $address . '<br />
-Email: <a href="' . $email_href . '">' . $email_display . '</a></p>
+' . '[centro_servizi_privacy_address]' . '<br />
+Email: [centro_servizi_privacy_email]</p>
 
 <h2>Responsabile della Protezione dei Dati</h2>
 <ul>
-' . $dpo_li . '
+[centro_servizi_privacy_dpo]
 </ul>
 
 <h2>Quali dati raccogliamo e perché</h2>
@@ -861,7 +941,7 @@ Email: <a href="' . $email_href . '">' . $email_display . '</a></p>
 
 <h2>I tuoi diritti</h2>
 <p>Hai il diritto di: accedere ai tuoi dati personali; chiederne la rettifica o la cancellazione; opporti al trattamento; richiedere la limitazione; revocare il consenso in qualsiasi momento (senza pregiudicare la liceità del trattamento precedente); presentare reclamo al <a href="https://www.garanteprivacy.it" rel="noopener noreferrer">Garante per la protezione dei dati personali</a>.</p>
-<p>Per esercitare i tuoi diritti: <a href="' . $email_href . '">' . $email_display . '</a>' . $dpo_revoca . '.</p>
+<p>Per esercitare i tuoi diritti: [centro_servizi_privacy_email]</p>
 
 <h2>Modifiche all\'informativa</h2>
 <p>Il titolare si riserva di aggiornare questa informativa. La versione vigente è sempre disponibile a questa pagina con la data di ultima modifica indicata in apertura.</p>';
@@ -933,22 +1013,11 @@ function centro_servizi_seed_content_contatti(string $site_name, array $contacts
 function centro_servizi_seed_content_accessibilita(string $site_name, string $site_url, array $contacts = [], string $dpo_nome = '', string $email_dpo = '', string $url_dichiarazione_agid = ''): string
 {
     $email       = $contacts['email'] ?? '';
-    $contact_ref = $email_dpo ?: $email;
-    $contact_li  = $contact_ref
-        ? '<li>Email: <a href="mailto:' . esc_attr($contact_ref) . '">' . esc_html($contact_ref) . '</a></li>'
-        : '<li>Email: [da completare]</li>';
-    $dpo_li = $dpo_nome !== ''
-        ? '<li>DPO: <strong>' . esc_html($dpo_nome) . '</strong></li>'
-        : '';
-    $agid_link = trim($url_dichiarazione_agid) !== ''
-        ? '<strong><a href="' . esc_url($url_dichiarazione_agid) . '" rel="noopener noreferrer">Vai alla dichiarazione di accessibilità pubblicata su AGID →</a></strong>'
-        : '<strong><a href="[da completare: incollare qui il link ottenuto da form.agid.gov.it]" rel="noopener noreferrer">Vai alla dichiarazione di accessibilità pubblicata su AGID →</a></strong>';
-
-    return '<p>Questa pagina descrive lo stato di conformità di <strong>' . esc_html($site_name) . '</strong> (' . esc_html($site_url) . ') rispetto ai requisiti di accessibilità previsti dalla Direttiva UE 2016/2102 e dal D.Lgs. 10 agosto 2018, n. 111.</p>
+    return '<p>Questa pagina descrive lo stato di conformità di <strong>' . esc_html($site_name) . '</strong> (' . esc_html($site_url) . ') rispetto ai requisiti di accessibilità previsti dalla Direttiva UE 2016/2102, dalla L. 4/2004 e dal D.Lgs. 106/2018.</p>
 
 <h2>Dichiarazione ufficiale su AGID</h2>
 <p>La dichiarazione di accessibilità ufficiale è compilata e pubblicata sul portale dell\'Agenzia per l\'Italia Digitale (AGID):</p>
-<p>' . $agid_link . '</p>
+<p>[centro_servizi_accessibilita_agid_link]</p>
 <p><small>Per compilare o aggiornare la dichiarazione accedere a <a href="https://form.agid.gov.it" rel="noopener noreferrer">form.agid.gov.it</a> con SPID o CIE.</small></p>
 
 <h2>Stato di conformità</h2>
@@ -958,8 +1027,8 @@ function centro_servizi_seed_content_accessibilita(string $site_name, string $si
 <p>Hai riscontrato un problema di accessibilità o hai bisogno di un contenuto in formato alternativo?</p>
 <ul>
 <li>Soggetto responsabile: <strong>' . esc_html($site_name) . '</strong></li>
-' . $dpo_li . '
-' . $contact_li . '
+[centro_servizi_privacy_dpo]
+[centro_servizi_accessibilita_contact]
 </ul>
 
 <h2>Procedura di attuazione</h2>
@@ -968,18 +1037,11 @@ function centro_servizi_seed_content_accessibilita(string $site_name, string $si
 
 function centro_servizi_seed_content_whistleblowing(string $site_name, string $url_whistleblowing = '', string $responsabile_canale = ''): string
 {
-    $portal_link = $url_whistleblowing
-        ? '<a href="' . esc_url($url_whistleblowing) . '" rel="noopener noreferrer" target="_blank">Accedi al portale di segnalazione →</a>'
-        : '<strong>[da completare: inserire URL piattaforma GlobaLeaks nelle impostazioni sito]</strong>';
-    $responsabile_label = trim($responsabile_canale) !== ''
-        ? esc_html($responsabile_canale)
-        : '[da completare: nome o ufficio del responsabile del canale di segnalazione interna]';
-
     return '<p>' . esc_html($site_name) . ' garantisce canali sicuri e riservati per la segnalazione di condotte illecite, in conformità al D.Lgs. 10 marzo 2023, n. 24, che ha recepito la Direttiva UE 2019/1937.</p>
 
 <h2>Come effettuare una segnalazione</h2>
 <p>Le segnalazioni possono essere effettuate in forma <strong>riservata o anonima</strong> tramite la piattaforma sicura dedicata:</p>
-<p>' . $portal_link . '</p>
+<p>[centro_servizi_whistleblowing_link]</p>
 <p>La piattaforma utilizza cifratura end-to-end e non registra dati identificativi del segnalante salvo quelli che sceglie volontariamente di fornire.</p>
 
 <h2>Chi può segnalare</h2>
@@ -995,7 +1057,7 @@ function centro_servizi_seed_content_whistleblowing(string $site_name, string $u
 <p>I dati personali eventualmente presenti nella segnalazione sono trattati nel rispetto del GDPR (Reg. UE 2016/679). Base giuridica: obbligo legale (art. 6 par. 1 lett. c GDPR). Conservazione: non oltre 5 anni dalla comunicazione dell\'esito della segnalazione.</p>
 
 <h2>Responsabile del canale interno</h2>
-<p>' . $responsabile_label . '</p>';
+<p>[centro_servizi_whistleblowing_responsabile]</p>';
 }
 
 function centro_servizi_seed_content_obiettivi(string $site_name): string
@@ -1586,7 +1648,7 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                 <li><strong>Privacy Policy</strong> — GDPR art. 13</li>
                 <li><strong>Cookie Policy</strong> — Provvedimento Garante 2021 + tabella CookieYes automatica</li>
                 <li><strong>Contatti</strong></li>
-                <li><strong>Dichiarazione di Accessibilità</strong> — D.Lgs. 111/2018 (link a form.agid.gov.it)</li>
+                <li><strong>Dichiarazione di Accessibilità</strong> — L. 4/2004 + D.Lgs. 106/2018 (link a form.agid.gov.it)</li>
                 <li><strong>Segnalazioni Whistleblowing</strong> — D.Lgs. 24/2023</li>
                 <li><strong>Obiettivi di Accessibilità</strong> — CAD art. 9-ter</li>
             </ul>

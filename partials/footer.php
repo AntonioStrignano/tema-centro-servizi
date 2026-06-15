@@ -76,7 +76,9 @@ if (isset($contacts_map['pec'])) {
 
 $feedback_url = $accessibility_feedback_url !== ''
     ? $accessibility_feedback_url
-    : 'https://example.com/google-form-accessibilita';
+    : ($accessibility_page instanceof WP_Post
+        ? get_permalink($accessibility_page)
+        : home_url('/dichiarazione-accessibilita/'));
 ?>
 <footer class="site-footer" id="footer-sito" role="contentinfo">
     <div class="site-footer__inner">
@@ -97,7 +99,7 @@ $feedback_url = $accessibility_feedback_url !== ''
 
                 <p class="site-footer__feedback">
                     <a href="<?php echo esc_url($feedback_url); ?>" rel="noopener noreferrer" target="_blank">
-                        Segnala un problema di accessibilita <span class="sr-only">(apre in nuova finestra)</span>
+                        Segnala un problema di accessibilità <span class="sr-only">(apre in nuova finestra)</span>
                     </a>
                 </p>
             </section>
@@ -148,10 +150,10 @@ $feedback_url = $accessibility_feedback_url !== ''
                         </li>
                     <?php endif; ?>
                     <?php if ($accessibility_page instanceof WP_Post) : ?>
-                        <li><a href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di Accessibilita</a></li>
+                        <li><a href="<?php echo esc_url(get_permalink($accessibility_page)); ?>">Dichiarazione di accessibilità</a></li>
                     <?php endif; ?>
                     <?php if ($obiettivi_page instanceof WP_Post) : ?>
-                        <li><a href="<?php echo esc_url(get_permalink($obiettivi_page)); ?>">Obiettivi di Accessibilita</a></li>
+                        <li><a href="<?php echo esc_url(get_permalink($obiettivi_page)); ?>">Obiettivi di accessibilità</a></li>
                     <?php endif; ?>
                 </ul>
             </section>

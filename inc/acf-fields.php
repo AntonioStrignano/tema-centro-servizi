@@ -268,4 +268,98 @@ function centro_servizi_register_acf_fields(): void
             ],
         ],
     ]);
+
+    acf_add_local_field_group([
+        'key' => 'group_centro_servizi_pagine_legali',
+        'title' => 'Dati pagine legali',
+        'fields' => [
+            [
+                'key' => 'field_centro_servizi_legal_address',
+                'label' => 'Indirizzo sede legale',
+                'name' => 'legal_address',
+                'type' => 'textarea',
+                'rows' => 3,
+            ],
+            [
+                'key' => 'field_centro_servizi_email_privacy',
+                'label' => 'Email privacy',
+                'name' => 'email_privacy',
+                'type' => 'email',
+            ],
+            [
+                'key' => 'field_centro_servizi_referente_privacy',
+                'label' => 'Referente privacy',
+                'name' => 'referente_privacy',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'field_centro_servizi_dpo_nome',
+                'label' => 'Nome DPO',
+                'name' => 'dpo_nome',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'field_centro_servizi_email_dpo',
+                'label' => 'Email DPO',
+                'name' => 'email_dpo',
+                'type' => 'email',
+            ],
+            [
+                'key' => 'field_centro_servizi_url_dichiarazione_agid',
+                'label' => 'URL dichiarazione AGID',
+                'name' => 'url_dichiarazione_agid',
+                'type' => 'url',
+            ],
+            [
+                'key' => 'field_centro_servizi_url_whistleblowing',
+                'label' => 'URL piattaforma Whistleblowing',
+                'name' => 'url_whistleblowing',
+                'type' => 'url',
+            ],
+            [
+                'key' => 'field_centro_servizi_whistleblowing_responsabile',
+                'label' => 'Responsabile canale Whistleblowing',
+                'name' => 'whistleblowing_responsabile',
+                'type' => 'text',
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'page',
+                ],
+                [
+                    'param' => 'post_name',
+                    'operator' => '==',
+                    'value' => 'privacy-policy',
+                ],
+            ],
+            [
+                [
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'page',
+                ],
+                [
+                    'param' => 'post_name',
+                    'operator' => '==',
+                    'value' => 'dichiarazione-accessibilita',
+                ],
+            ],
+            [
+                [
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'page',
+                ],
+                [
+                    'param' => 'post_name',
+                    'operator' => '==',
+                    'value' => 'whistleblowing',
+                ],
+            ],
+        ],
+    ]);
 }

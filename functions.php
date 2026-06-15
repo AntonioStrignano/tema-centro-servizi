@@ -10,6 +10,7 @@ $centro_servizi_includes = [
     '/inc/theme-assets.php',
     '/inc/enqueue.php',
     '/inc/settings.php',
+    '/inc/legal-shortcodes.php',
     '/inc/homepage.php',
     '/inc/cpt-attivita.php',
     '/inc/cpt-trasparenza.php',
