@@ -693,11 +693,11 @@ Per `contatti` ora non esiste piu `page-contatti.php`: entra nel fallback `templ
 
 Nessun custom field flag necessario — basta creare la pagina WP con lo slug corretto. Nella documentazione admin del tema indicheremo gli slug riservati:
 
-| Slug pagina                   | Template applicato                     |
-|-------------------------------|----------------------------------------|
-| `amministrazione-trasparente` | `page-legale.php`                      |
-| `contatti`                    | `page.php` + partial recapiti          |
-| `dichiarazione-accessibilita` | `page-legale.php`                      |
+| Slug pagina                   | Template applicato            |
+|-------------------------------|-------------------------------|
+| `amministrazione-trasparente` | `page-legale.php`             |
+| `contatti`                    | `page.php` + partial recapiti |
+| `dichiarazione-accessibilita` | `page-legale.php`             |
 
 ---
 
