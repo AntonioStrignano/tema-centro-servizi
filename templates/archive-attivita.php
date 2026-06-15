@@ -61,10 +61,10 @@ if (count($tax_query) > 1) {
 
 $query_args = [
     'post_type'      => 'attivita',
-    'posts_per_page' => -1,
+    'posts_per_page' => 10,
     'orderby'        => 'date',
     'order'          => 'DESC',
-    'no_found_rows'  => true,
+    'no_found_rows'  => false,
 ];
 
 if ($tax_query !== []) {
@@ -132,6 +132,7 @@ $has_active_filters = ($selected_year !== '' || $selected_section !== '');
                     <?php get_template_part('partials/card-attivita', null, ['post_id' => (int) $attivita_post->ID]); ?>
                 <?php endforeach; ?>
             </div>
+            <?php get_template_part('partials/pagination'); ?>
         <?php else : ?>
             <p>Nessuna attivita disponibile con i filtri correnti.</p>
             <?php if ($has_active_filters) : ?>

@@ -478,10 +478,10 @@ if ($selected_cat !== '') {
 
 $query_args = [
     'post_type'      => $centro_post_type,
-    'posts_per_page' => -1,
+    'posts_per_page' => 10,
     'orderby'        => 'date',
     'order'          => 'DESC',
-    'no_found_rows'  => true,
+    'no_found_rows'  => false,
 ];
 
 if (! empty($tax_query)) {
@@ -810,6 +810,8 @@ $a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
     <p><a href="<?php echo esc_url((string) $archive_url); ?>">Reset filtri</a></p>
     <?php endif; ?>
     <?php endif; ?>
+
+    <?php get_template_part('partials/pagination'); ?>
 
                 </div>
             </div>

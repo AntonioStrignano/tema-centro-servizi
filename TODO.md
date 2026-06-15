@@ -82,6 +82,15 @@
 - [ ] Ridurre duplicazione tra `templates/page-la-nostra-scuola.php` e `templates/page-attivita-speciali.php` con partial/template condiviso
 - [x] Ripulite variabili legacy non usate in `templates/front-page.php` (dati footer/legale già gestiti da `partials/footer.php`)
 
+### Aggiornamento sessione (15/06/2026) — Paginazione accessibile
+
+### Completato
+
+- [x] Creato `partials/pagination.php` con markup ARIA (`aria-label="Navigazione pagine"`)
+- [x] Aggiornato `templates/archive-attivita.php`: `posts_per_page` -1 → 10, `no_found_rows` true → false
+- [x] Aggiornato `templates/archive-area-burocratica-common.php`: stessi cambiamenti (vale per trasparenza, area-famiglie, area-personale)
+- [x] Aggiunto `get_template_part('partials/pagination')` negli archivi post-grid/post-list
+
 ### Aggiornamento sessione (26/05/2026) — Template pagine contenuto + contatti
 
 ### Completato
