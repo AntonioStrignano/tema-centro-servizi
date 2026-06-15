@@ -381,32 +381,6 @@ function centro_servizi_get_search_result_url(int $post_id): string
         return (string) get_permalink($post_id);
     }
 
-    if ($post_type === 'area-famiglie') {
-        $archive_url = get_post_type_archive_link('area-famiglie');
-        $selected_cat = centro_servizi_search_get_first_term_slug($post_id, 'categoria-area-famiglia');
-
-        if (! is_string($archive_url) || $archive_url === '') {
-            return (string) home_url('/area-famiglie/');
-        }
-
-        return $selected_cat !== ''
-            ? (string) add_query_arg(['cat' => $selected_cat], $archive_url)
-            : $archive_url;
-    }
-
-    if ($post_type === 'area-personale') {
-        $archive_url = get_post_type_archive_link('area-personale');
-        $selected_cat = centro_servizi_search_get_first_term_slug($post_id, 'categoria-area-personale');
-
-        if (! is_string($archive_url) || $archive_url === '') {
-            return (string) home_url('/area-personale/');
-        }
-
-        return $selected_cat !== ''
-            ? (string) add_query_arg(['cat' => $selected_cat], $archive_url)
-            : $archive_url;
-    }
-
     if ($post_type !== 'trasparenza') {
         return (string) get_permalink($post_id);
     }

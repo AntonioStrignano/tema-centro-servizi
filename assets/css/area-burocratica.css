@@ -901,6 +901,108 @@ body.page-amministrazione-trasparente .trasparenza-archive {
   -webkit-overflow-scrolling: touch;
 }
 
+.burocratica-singola {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--bureaucratic-text);
+}
+
+.burocratica-singola .site-section__inner {
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 64rem);
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.burocratica-singola__article,
+.burocratica-singola__header,
+.burocratica-singola__meta {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.burocratica-singola__eyebrow {
+  margin: 0;
+  color: var(--bureaucratic-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.burocratica-singola__title {
+  margin: 0;
+  font-size: clamp(1.9rem, 2.8vw, 2.7rem);
+  line-height: 1.08;
+  color: var(--bureaucratic-text);
+}
+
+.burocratica-singola__subtitle,
+.burocratica-singola__intro,
+.burocratica-singola__file,
+.burocratica-singola__meta p {
+  margin: 0;
+  color: var(--bureaucratic-text-muted);
+}
+
+.burocratica-singola__card {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  background: var(--bureaucratic-surface);
+  border: 1px solid var(--bureaucratic-border);
+  border-radius: var(--bureaucratic-radius);
+  box-shadow: var(--bureaucratic-shadow);
+}
+
+.burocratica-singola__content {
+  min-width: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.burocratica-singola__content > *:first-child {
+  margin-top: 0;
+}
+
+.burocratica-singola__content h2,
+.burocratica-singola__content h3,
+.burocratica-singola__content h4,
+.burocratica-singola__content h5,
+.burocratica-singola__content h6 {
+  margin-top: 1.35em;
+  margin-bottom: 0.55em;
+  line-height: 1.25;
+  color: var(--bureaucratic-text);
+}
+
+.burocratica-singola__content p,
+.burocratica-singola__content li,
+.burocratica-singola__content dd {
+  font-size: 1rem;
+}
+
+.burocratica-singola__content table,
+.burocratica-singola__content .tablepress,
+.burocratica-singola__content iframe,
+.burocratica-singola__content embed,
+.burocratica-singola__content object,
+.burocratica-singola__content video,
+.burocratica-singola__content img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.burocratica-singola__meta {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--bureaucratic-border);
+}
+
 @media (max-width: 60rem) {
   .trasparenza-archive__layout {
     grid-template-columns: 1fr;
@@ -925,8 +1027,13 @@ body.page-amministrazione-trasparente .trasparenza-archive {
   }
 
   .trasparenza-card,
-  .pagina-legale-sober__content {
+  .pagina-legale-sober__content,
+  .burocratica-singola__card {
     padding: 1rem;
+  }
+
+  .burocratica-singola__title {
+    font-size: 1.7rem;
   }
 }
 

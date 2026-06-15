@@ -112,6 +112,14 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
         }
     }
 
+    if (is_singular(['area-famiglie', 'area-personale'])) {
+        $single_template = get_template_directory() . '/templates/single-area-burocratica.php';
+
+        if (file_exists($single_template)) {
+            return $single_template;
+        }
+    }
+
     // Pagine legali: template unico pulito
     if (is_page()) {
         $slug            = (string) get_post_field('post_name', get_queried_object_id());
