@@ -94,6 +94,10 @@ $render_brand_mark = static function () use ($brand_name, $initials): void {
                     </a>
                 <?php endif; ?>
             </div>
+
+            <div class="site-header__top-search">
+                <?php get_template_part('partials/search-form', null, ['context' => 'header-top', 'show_filters' => false, 'form_id_prefix' => 'header-top-search']); ?>
+            </div>
         </div>
     </div>
 
@@ -133,7 +137,9 @@ $render_brand_mark = static function () use ($brand_name, $initials): void {
                     ?>
                 </nav>
 
-                <?php get_template_part('partials/search-form', null, ['context' => 'header', 'show_filters' => false, 'form_id_prefix' => 'header-search']); ?>
+                <div class="site-header__mobile-search">
+                    <?php get_template_part('partials/search-form', null, ['context' => 'header-mobile', 'show_filters' => false, 'form_id_prefix' => 'header-mobile-search']); ?>
+                </div>
             </div>
 
             <div class="site-header__actions">
