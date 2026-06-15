@@ -9,7 +9,7 @@
 - [x] Aggiunto landmark principale coerente nei template archivio (`<main ... role="main">`)
 - [x] Rimossa duplicazione breadcrumb nei template archivio (evita doppio annuncio ai lettori di schermo)
 - [x] Aggiunto avviso accessibile "apre in nuova finestra" sui link allegati negli archivi
-- [ ] Restano mancanti i template legali prioritari: `page-amministrazione-trasparente.php` e `page-dichiarazione-accessibilita.php`
+- [x] Routing pagine legali consolidato su template unico `templates/page-legale.php` (copre anche gli slug prioritari)
 - [ ] `screenshot.png` rinviato (non bloccante in questa fase)
 - [x] Blocco Attivita completato lato template (archive + single + card + filtri)
 
@@ -233,6 +233,10 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 ## ✅ TEMA — Fase 4: Verifica
 
 - [x] Creare e mantenere registro componenti accessibilita per supporto autocertificazione (`docs/REGISTRO-COMPONENTI-ACCESSIBILITA.md`)
+- [ ] **Checkpoint coerenza documentazione progetto**
+  - [ ] Riallineare `README.md` allo stato reale (evitare note placeholder)
+  - [ ] Verificare coerenza tra `TODO.md`, `PROGETTO.md` e implementazione corrente (template legali, paginazione, seed pagine)
+  - [ ] Aggiornare data ultimo allineamento documentale e log breve delle discrepanze risolte
 - [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, DPA Google, shortcode CookieYes, link AGID)
 - [ ] Audit accessibilità con axe-core
 - [ ] Audit Lighthouse (performance + accessibility)
