@@ -233,10 +233,12 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 ## ✅ TEMA — Fase 4: Verifica
 
 - [x] Creare e mantenere registro componenti accessibilita per supporto autocertificazione (`docs/REGISTRO-COMPONENTI-ACCESSIBILITA.md`)
-- [ ] **Checkpoint coerenza documentazione progetto**
-  - [ ] Riallineare `README.md` allo stato reale (evitare note placeholder)
-  - [ ] Verificare coerenza tra `TODO.md`, `PROGETTO.md` e implementazione corrente (template legali, paginazione, seed pagine)
-  - [ ] Aggiornare data ultimo allineamento documentale e log breve delle discrepanze risolte
+- [x] **Checkpoint coerenza documentazione progetto**
+  - [x] Riallineare `README.md` allo stato reale (evitare note placeholder)
+  - [x] Verificare coerenza tra `TODO.md`, `PROGETTO.md` e implementazione corrente (template legali, paginazione, seed pagine)
+  - [x] Aggiornare data ultimo allineamento documentale e log breve delle discrepanze risolte
+  - [x] Data allineamento: 15/06/2026
+  - [x] Log discrepanze risolte: template legali unificati su `templates/page-legale.php`; archivio trasparenza riallineato a `archive-area-burocratica-common.php`; riferimento JS header corretto a `assets/js/site-header.js`; rimosse note placeholder da `README.md`
 - [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, DPA Google, shortcode CookieYes, link AGID)
 - [ ] Audit accessibilità con axe-core
 - [ ] Audit Lighthouse (performance + accessibility)

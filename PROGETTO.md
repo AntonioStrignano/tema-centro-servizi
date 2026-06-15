@@ -1,5 +1,7 @@
 # Tema WordPress "Centro Servizi" — Documento di Progetto
 
+> Ultimo allineamento documentale: 15/06/2026
+
 ## 1. Overview
 
 Tema WordPress classico per siti web di **scuole paritarie d'infanzia**. Leggero, zero dipendenze esterne, pienamente accessibile secondo normativa italiana.
@@ -9,7 +11,7 @@ Tema WordPress classico per siti web di **scuole paritarie d'infanzia**. Leggero
 - **Lingua**: Solo italiano (no i18n)
 - **Build system**: Nessuno — file CSS/JS diretti, organizzati in cartelle
 - **CSS framework**: Nessuno — CSS debug minimale (bordi, padding, basta)
-- **JS**: Nessuno nella fase attuale
+- **JS**: Presente solo JS minimale in `assets/js/site-header.js` (menu mobile accessibile)
 - **Sistema metabox**: ACF Free
 
 ---
@@ -68,7 +70,7 @@ Le scuole paritarie rientrano tra i soggetti obbligati dal D.Lgs 106/2018.
 La **Dichiarazione di Accessibilità** è un documento obbligatorio per tutti i soggetti sottoposti alla normativa (incluse scuole paritarie). Va compilata e pubblicata sul portale AgID, e il sito deve contenere un link nel footer che rimanda a questa dichiarazione.
 
 **Cosa facciamo nel tema:**
-- Template dedicato `page-dichiarazione-accessibilita.php` con struttura base precompilata
+- Template legale condiviso `templates/page-legale.php` applicato agli slug legali riservati
 - Link automatico nel footer alla pagina (se esiste una pagina con slug `dichiarazione-accessibilita`)
 - **Meccanismo di feedback accessibilità**: link nel footer a un Google Form esterno (soddisfa il requisito AgID senza introdurre form nel sito)
 - È possibile dichiarare **"parzialmente conforme"** su form.agid.gov.it specificando le non conformità note e le azioni correttive previste con tempistiche
@@ -88,16 +90,16 @@ tema-centro-servizi/
 │
 ├── templates/                         # Template gerarchici WP
 │   ├── front-page.php                 # Homepage
-│   ├── single.php                     # Singolo post generico
 │   ├── single-attivita.php            # Singola attività
-│   ├── archive.php                    # Archivio generico
 │   ├── archive-attivita.php           # Archivio attività
-│   ├── archive-trasparenza.php        # Archivio documenti amm. trasparente
+│   ├── archive-area-burocratica-common.php # Archivio comune: trasparenza/famiglie/personale
 │   ├── archive-area-famiglie.php      # Archivio area famiglie
 │   ├── archive-area-personale.php     # Archivio area personale
+│   ├── single-area-burocratica.php    # Singolo area famiglie/personale
 │   ├── page.php                       # Pagina generica (include recapiti se slug = contatti)
-│   ├── page-amministrazione-trasparente.php  # Landing amm. trasparente
-│   ├── page-dichiarazione-accessibilita.php  # Dichiarazione accessibilità
+│   ├── page-legale.php                # Template legale condiviso per slug riservati
+│   ├── page-la-nostra-scuola.php      # Pagina custom scuola
+│   ├── page-attivita-speciali.php     # Pagina custom attivita speciali
 │   ├── search.php                     # Risultati ricerca
 │   └── 404.php                        # Pagina errore
 │
@@ -127,7 +129,9 @@ tema-centro-servizi/
 │   ├── accessibility.php              # Helpers accessibilità
 │   └── admin.php                      # Personalizzazioni admin
 │
-└── assets/                            # (vuoto per ora — JS e CSS extra verranno dopo)
+└── assets/
+   ├── css/                           # site.css + layer header/footer/legale/area-burocratica
+   └── js/site-header.js              # Toggle menu mobile accessibile
 ```
 
 ### 4.2 Approccio template
@@ -346,9 +350,9 @@ Slug parent → Slug figli:
 12. **12 Controlli e Rilievi** (`12-controlli-e-rilievi`)
     - Verifiche Periodiche (`verifiche-periodiche`)
 
-La pagina `page-amministrazione-trasparente.php` mostra l'albero completo come indice navigabile con filtri. Cliccando una sezione si vedono i documenti filtrati per quella categoria.
+La sezione Amministrazione Trasparente usa l'archivio del CPT `trasparenza` con template condiviso `archive-area-burocratica-common.php`; la pagina con slug `amministrazione-trasparente` viene renderizzata dal template legale condiviso `page-legale.php`.
 
-> I filtri in archivio saranno da implementare in fase di scrittura template. Logica di filtraggio da definire strada facendo.
+> I filtri archivio sono attivi; restano possibili solo rifiniture UX e tuning dei micro-copy.
 
 ---
 
@@ -412,7 +416,7 @@ Vantaggi:
 [Breadcrumb]
 ```
 
-Menu responsive: hamburger accessibile sotto breakpoint tablet (JS minimale in `navigation.js`).
+Menu responsive: hamburger accessibile sotto breakpoint tablet (JS minimale in `assets/js/site-header.js`).
 
 ### 9.3 Footer
 
@@ -554,11 +558,10 @@ Queste pagine/sezioni **devono esistere** sul sito per evitare sanzioni:
 9. `templates/page.php` + `templates/index.php` + `templates/404.php`
 
 ### Fase 2 — Pagine legali e funzionali (priorità: compliance)
-10. `templates/page-amministrazione-trasparente.php` — indice navigabile
-11. `partials/card-trasparenza.php` + `templates/archive-trasparenza.php`
-12. `templates/page-dichiarazione-accessibilita.php`
-13. `templates/page.php` + `partials/page-contatti-recapiti.php` (pagina `contatti`)
-14. `templates/front-page.php`
+10. `templates/page-legale.php` — template condiviso per tutte le pagine legali a slug riservato
+11. `partials/card-trasparenza.php` + `templates/archive-area-burocratica-common.php`
+12. `templates/page.php` + `partials/page-contatti-recapiti.php` (pagina `contatti`)
+13. `templates/front-page.php`
 
 ### Fase 3 — Template contenuti (priorità: funzionalità)
 15. `templates/single-attivita.php` + `partials/card-attivita.php`
@@ -692,16 +695,16 @@ Nessun custom field flag necessario — basta creare la pagina WP con lo slug co
 
 | Slug pagina                   | Template applicato                     |
 |-------------------------------|----------------------------------------|
-| `amministrazione-trasparente` | `page-amministrazione-trasparente.php` |
+| `amministrazione-trasparente` | `page-legale.php`                      |
 | `contatti`                    | `page.php` + partial recapiti          |
-| `dichiarazione-accessibilita` | `page-dichiarazione-accessibilita.php` |
+| `dichiarazione-accessibilita` | `page-legale.php`                      |
 
 ---
 
 ## 19. Scelte Globali del Tema
 
 ### 19.1 Post nativi WordPress
-I post nativi (`post`) restano abilitati ma il tema non li tratta in modo speciale. Usano `single.php` e `archive.php` generici. Non sono nel menu di default.
+I post nativi (`post`) restano abilitati ma il tema non li tratta in modo speciale. In assenza di template dedicati usano il fallback della gerarchia tema (template base `templates/index.php`). Non sono nel menu di default.
 
 ### 19.2 Commenti
 Disabilitati globalmente tramite `remove_post_type_support('post', 'comments')` e `remove_post_type_support('page', 'comments')` in `inc/setup.php`. Nessun CPT custom li supporta.
