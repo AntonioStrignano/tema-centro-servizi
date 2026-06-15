@@ -185,10 +185,10 @@
 - [x] `partials/card-area-personale.php`
 - [ ] `partials/pagination.php` — paginazione accessibile
 - [ ] `inc/admin.php` — colonne admin personalizzate per CPT
-- [ ] Definire e implementare componente accessibilita riusabile per filtri/risultati dinamici:
-  - [ ] helper PHP per live region (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`)
-  - [ ] target focus post-refresh (`tabindex="-1"` + focus sicuro)
-  - [ ] micro-copy standardizzato (caricamento, aggiornato, errore fallback)
+- [x] Definire e implementare componente accessibilita riusabile per filtri/risultati dinamici:
+  - [x] helper PHP per live region (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`)
+  - [x] target focus post-refresh (`tabindex="-1"` + focus sicuro)
+  - [x] micro-copy standardizzato (caricamento, aggiornato, errore fallback)
 - [ ] `inc/search.php` — filtri ricerca per tipo contenuto
 - [ ] `partials/search-form.php` — form con checkboxes tipo contenuto
 - [ ] `templates/search.php` — risultati raggruppati per tipo
@@ -209,6 +209,7 @@
 
 ## ✅ TEMA — Fase 4: Verifica
 
+- [x] Creare e mantenere registro componenti accessibilita per supporto autocertificazione (`docs/REGISTRO-COMPONENTI-ACCESSIBILITA.md`)
 - [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, DPA Google, shortcode CookieYes, link AGID)
 - [ ] Audit accessibilità con axe-core
 - [ ] Audit Lighthouse (performance + accessibility)

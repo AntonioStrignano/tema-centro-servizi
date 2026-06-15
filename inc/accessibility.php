@@ -195,3 +195,36 @@ function centro_servizi_render_custom_fields_preview(?int $post_id = null): stri
 
     return implode('', $rows);
 }
+
+function centro_servizi_get_dynamic_filters_a11y_messages(array $overrides = []): array
+{
+    $defaults = [
+        'loading' => 'Aggiornamento risultati in corso.',
+        'updated_prefix' => 'Risultati aggiornati:',
+        'updated_fallback' => 'Risultati aggiornati.',
+        'error' => 'Aggiornamento non riuscito. Ricarico la pagina.',
+    ];
+
+    $messages = array_merge($defaults, $overrides);
+
+    return [
+        'loading' => sanitize_text_field((string) $messages['loading']),
+        'updated_prefix' => sanitize_text_field((string) $messages['updated_prefix']),
+        'updated_fallback' => sanitize_text_field((string) $messages['updated_fallback']),
+        'error' => sanitize_text_field((string) $messages['error']),
+    ];
+}
+
+function centro_servizi_render_dynamic_filters_live_region(string $id, array $messages = []): void
+{
+    $messages = centro_servizi_get_dynamic_filters_a11y_messages($messages);
+
+    printf(
+        '<p class="sr-only" id="%1$s" role="status" aria-live="polite" aria-atomic="true" data-msg-loading="%2$s" data-msg-updated-prefix="%3$s" data-msg-updated-fallback="%4$s" data-msg-error="%5$s"></p>',
+        esc_attr($id),
+        esc_attr($messages['loading']),
+        esc_attr($messages['updated_prefix']),
+        esc_attr($messages['updated_fallback']),
+        esc_attr($messages['error'])
+    );
+}

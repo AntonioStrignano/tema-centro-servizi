@@ -629,6 +629,9 @@ $contenuti          = new WP_Query($query_args);
 $archive_url        = get_post_type_archive_link($centro_post_type);
 $has_active_filters = ($selected_cat !== '' || ($centro_enable_search && $selected_search !== '') || ($centro_uses_anno && $selected_anno !== ''));
 
+$live_region_id = 'burocratica-archive-live';
+$a11y_messages = centro_servizi_get_dynamic_filters_a11y_messages();
+
 ?>
 <main class="site-main trasparenza-archive burocratica-archive" id="contenuto-principale" role="main">
     <section class="site-section">
@@ -671,7 +674,7 @@ $has_active_filters = ($selected_cat !== '' || ($centro_enable_search && $select
             </form>
             <?php endif; ?>
 
-            <p class="sr-only" id="burocratica-archive-live" role="status" aria-live="polite" aria-atomic="true"></p>
+            <?php centro_servizi_render_dynamic_filters_live_region($live_region_id, $a11y_messages); ?>
 
             <div class="trasparenza-archive__layout">
                 <aside class="trasparenza-archive__sidebar" aria-label="<?php echo esc_attr($centro_sidebar_aria_label); ?>">
@@ -753,8 +756,8 @@ $has_active_filters = ($selected_cat !== '' || ($centro_enable_search && $select
                     </form>
                 </aside>
 
-                <div class="trasparenza-archive__results">
-                    <p class="trasparenza-archive__summary"><?php echo esc_html(sprintf(_n('%d documento trovato', '%d documenti trovati', $contenuti->post_count, 'tema-centro-servizi'), $contenuti->post_count)); ?></p>
+                <div class="trasparenza-archive__results" data-focus-target-selector=".trasparenza-archive__summary">
+                    <p class="trasparenza-archive__summary" tabindex="-1"><?php echo esc_html(sprintf(_n('%d documento trovato', '%d documenti trovati', $contenuti->post_count, 'tema-centro-servizi'), $contenuti->post_count)); ?></p>
 
     <?php if ($contenuti->post_count > 0) : ?>
     <ul class="trasparenza-archive__list">
@@ -822,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var yearForm = document.querySelector('.trasparenza-archive__years-form');
     var filterForm       = document.querySelector('.trasparenza-filters');
     var resultsContainer = document.querySelector('.trasparenza-archive__results');
-    var liveRegion       = document.getElementById('burocratica-archive-live');
+    var liveRegion       = document.getElementById('<?php echo esc_js($live_region_id); ?>');
 
     if (!filterForm || !resultsContainer) {
         return;
@@ -861,7 +864,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var archiveHeader    = document.querySelector('.trasparenza-archive__header');
 
         if (liveRegion) {
-            liveRegion.textContent = 'Aggiornamento risultati in corso.';
+            liveRegion.textContent = liveRegion.dataset.msgLoading || 'Aggiornamento risultati in corso.';
         }
 
         fetch(url.toString(), {
@@ -878,14 +881,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 resultsContainer.innerHTML  = newResults.innerHTML;
                 history.replaceState({}, '', url.pathname + url.search);
 
+                var focusSelector = resultsContainer.dataset.focusTargetSelector || '.trasparenza-archive__summary';
                 var summary = resultsContainer.querySelector('.trasparenza-archive__summary');
-                var focusTarget = summary || resultsContainer;
+                var focusTarget = resultsContainer.querySelector(focusSelector) || summary || resultsContainer;
                 var statusText = summary ? summary.textContent.trim() : '';
 
                 if (liveRegion) {
+                    var updatedPrefix = liveRegion.dataset.msgUpdatedPrefix || 'Risultati aggiornati:';
+                    var updatedFallback = liveRegion.dataset.msgUpdatedFallback || 'Risultati aggiornati.';
+
                     liveRegion.textContent = statusText !== ''
-                        ? 'Risultati aggiornati: ' + statusText + '.'
-                        : 'Risultati aggiornati.';
+                        ? (updatedPrefix + ' ' + statusText + '.')
+                        : updatedFallback;
                 }
 
                 if (archiveHeader && typeof archiveHeader.scrollIntoView === 'function') {
@@ -909,7 +916,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (requestId !== activeRequestId) { return; }
 
                 if (liveRegion) {
-                    liveRegion.textContent = 'Aggiornamento non riuscito. Ricarico la pagina.';
+                    liveRegion.textContent = liveRegion.dataset.msgError || 'Aggiornamento non riuscito. Ricarico la pagina.';
                 }
 
                 window.location.href = url.toString();
