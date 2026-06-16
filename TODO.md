@@ -228,6 +228,12 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 - [x] Archivio `trasparenza`: disattivata ricerca testuale (`q`) per ridurre complessita e incompatibilita con la struttura attuale dei filtri
 - [x] Tassonomia `contenutiammtrasp`: rinomina sezione in "01 Documentazione Trasparenza"
 
+### Stato attività
+
+- [ ] Riprendere il blocco homepage/attivita': la vetrina `Attivita in evidenza` non è ancora stata rifinita in questa sessione
+- [ ] Definire fonte editoriale unica per la vetrina attività (`pagina attivita-speciali` + repeater ACF)
+- [ ] Consolidare la sezione `Attivita in evidenza` come vetrina esperienze distintive, non archivio completo
+
 ---
 
 ## ✅ TEMA — Fase 4: Verifica
