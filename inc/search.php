@@ -12,7 +12,6 @@ function centro_servizi_get_search_post_type_map(): array
 {
     return [
         'page'           => 'Pagine',
-        'attivita'       => 'Attivita',
         'trasparenza'    => 'Amministrazione Trasparente',
         'area-famiglie'  => 'Area Famiglie',
         'area-personale' => 'Area Personale',
@@ -54,8 +53,6 @@ function centro_servizi_filter_search_post_types(WP_Query $query): void
 function centro_servizi_get_search_taxonomies(): array
 {
     return [
-        'anno-scol-attivita',
-        'sezioni',
         'contenutiammtrasp',
         'annoscolastico',
         'categoria-area-famiglia',
@@ -417,12 +414,7 @@ function centro_servizi_get_search_result_context(int $post_id): array
 
     $context_map = [];
 
-    if ($post_type === 'attivita') {
-        $context_map = [
-            'Sezione' => centro_servizi_search_get_terms_labels($post_id, 'sezioni'),
-            'Anno scolastico' => centro_servizi_search_get_terms_labels($post_id, 'anno-scol-attivita'),
-        ];
-    } elseif ($post_type === 'area-famiglie') {
+    if ($post_type === 'area-famiglie') {
         $context_map = [
             'Categoria' => centro_servizi_search_get_terms_labels($post_id, 'categoria-area-famiglia'),
         ];

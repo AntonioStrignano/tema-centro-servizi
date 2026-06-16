@@ -230,9 +230,11 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 
 ### Stato attività
 
-- [ ] Riprendere il blocco homepage/attivita': la vetrina `Attivita in evidenza` non è ancora stata rifinita in questa sessione
-- [ ] Definire fonte editoriale unica per la vetrina attività (`pagina attivita-speciali` + repeater ACF)
-- [ ] Consolidare la sezione `Attivita in evidenza` come vetrina esperienze distintive, non archivio completo
+- [x] Dismesso il post type `attivita` e relativi template/archivi: la gestione passa a una pagina dedicata
+- [x] Creato menu admin dedicato `Attività` che porta all'editor della pagina omonima
+- [x] Introdotto repeater ACF per sezioni attività con titolo, didascalia e gallery immagini
+- [x] Aggiunto fallback alt immagini: `bambini che fanno attività scolastica: [titolo sezione]`
+- [ ] Popolare la nuova pagina `Attività` con i primi contenuti reali e verificare resa frontend
 
 ---
 

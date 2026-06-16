@@ -14,12 +14,11 @@ $form_id_prefix = isset($args['form_id_prefix']) && is_string($args['form_id_pre
 $query = trim((string) get_search_query());
 $selected_post_types = function_exists('centro_servizi_get_search_selected_post_types')
     ? centro_servizi_get_search_selected_post_types()
-    : ['page', 'attivita', 'trasparenza', 'area-famiglie', 'area-personale'];
+    : ['page', 'trasparenza', 'area-famiglie', 'area-personale'];
 $available_post_types = function_exists('centro_servizi_get_search_post_type_map')
     ? centro_servizi_get_search_post_type_map()
     : [
         'page'           => 'Pagine',
-        'attivita'       => 'Attivita',
         'trasparenza'    => 'Amministrazione Trasparente',
         'area-famiglie'  => 'Area Famiglie',
         'area-personale' => 'Area Personale',

@@ -239,17 +239,6 @@ function centro_servizi_admin_get_file_name_for_post(int $post_id, array $meta_k
     return '—';
 }
 
-function centro_servizi_admin_columns_attivita(array $columns): array
-{
-    return [
-        'cb' => $columns['cb'] ?? '<input type="checkbox" />',
-        'title' => $columns['title'] ?? 'Titolo',
-        'anno_scolastico' => 'Anno scolastico',
-        'date' => $columns['date'] ?? 'Data',
-        'sezione' => 'Sezione',
-    ];
-}
-
 function centro_servizi_admin_columns_trasparenza(array $columns): array
 {
     return [
@@ -273,18 +262,6 @@ function centro_servizi_admin_columns_area_common(array $columns): array
         'date' => $columns['date'] ?? 'Data',
         'ultima_modifica' => 'Ultima modifica',
     ];
-}
-
-function centro_servizi_admin_render_column_attivita(string $column, int $post_id): void
-{
-    if ($column === 'anno_scolastico') {
-        echo centro_servizi_admin_get_terms_csv($post_id, 'anno-scol-attivita');
-        return;
-    }
-
-    if ($column === 'sezione') {
-        echo centro_servizi_admin_get_terms_csv($post_id, 'sezioni');
-    }
 }
 
 function centro_servizi_admin_render_column_trasparenza(string $column, int $post_id): void
@@ -343,12 +320,10 @@ function centro_servizi_admin_render_column_area_personale(string $column, int $
     }
 }
 
-add_filter('manage_attivita_posts_columns', 'centro_servizi_admin_columns_attivita');
 add_filter('manage_trasparenza_posts_columns', 'centro_servizi_admin_columns_trasparenza');
 add_filter('manage_area-famiglie_posts_columns', 'centro_servizi_admin_columns_area_common');
 add_filter('manage_area-personale_posts_columns', 'centro_servizi_admin_columns_area_common');
 
-add_action('manage_attivita_posts_custom_column', 'centro_servizi_admin_render_column_attivita', 10, 2);
 add_action('manage_trasparenza_posts_custom_column', 'centro_servizi_admin_render_column_trasparenza', 10, 2);
 add_action('manage_area-famiglie_posts_custom_column', 'centro_servizi_admin_render_column_area_famiglie', 10, 2);
 add_action('manage_area-personale_posts_custom_column', 'centro_servizi_admin_render_column_area_personale', 10, 2);

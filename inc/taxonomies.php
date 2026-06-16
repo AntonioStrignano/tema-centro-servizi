@@ -10,28 +10,6 @@ add_action('init', 'centro_servizi_seed_taxonomy_terms', 20);
 
 function centro_servizi_register_taxonomies(): void
 {
-    register_taxonomy('anno-scol-attivita', ['attivita'], [
-        'labels'            => [
-            'name'          => 'Anno scolastico attivita',
-            'singular_name' => 'Anno scolastico attivita',
-        ],
-        'public'            => true,
-        'hierarchical'      => true,
-        'show_admin_column' => true,
-        'rewrite'           => ['slug' => 'anno-scol-attivita'],
-    ]);
-
-    register_taxonomy('sezioni', ['attivita'], [
-        'labels'            => [
-            'name'          => 'Sezioni',
-            'singular_name' => 'Sezione',
-        ],
-        'public'            => true,
-        'hierarchical'      => true,
-        'show_admin_column' => true,
-        'rewrite'           => ['slug' => 'sezioni'],
-    ]);
-
     register_taxonomy('contenutiammtrasp', ['trasparenza'], [
         'labels'            => [
             'name'          => 'Contenuti Amm. Trasparente',

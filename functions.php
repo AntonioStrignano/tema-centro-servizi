@@ -12,7 +12,7 @@ $centro_servizi_includes = [
     '/inc/settings.php',
     '/inc/legal-shortcodes.php',
     '/inc/homepage.php',
-    '/inc/cpt-attivita.php',
+    '/inc/activity.php',
     '/inc/cpt-trasparenza.php',
     '/inc/cpt-area-famiglie.php',
     '/inc/cpt-area-personale.php',
@@ -73,14 +73,6 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
         }
     }
 
-    if (is_post_type_archive('attivita')) {
-        $archive_template = get_template_directory() . '/templates/archive-attivita.php';
-
-        if (file_exists($archive_template)) {
-            return $archive_template;
-        }
-    }
-
     if (is_post_type_archive('trasparenza')) {
         $archive_template = get_template_directory() . '/templates/archive-area-burocratica-common.php';
 
@@ -102,14 +94,6 @@ function centro_servizi_map_template_from_subdirectory(string $template): string
 
         if (file_exists($archive_template)) {
             return $archive_template;
-        }
-    }
-
-    if (is_singular('attivita')) {
-        $single_template = get_template_directory() . '/templates/single-attivita.php';
-
-        if (file_exists($single_template)) {
-            return $single_template;
         }
     }
 
