@@ -664,7 +664,7 @@ function centro_servizi_migrate_legal_pages_to_dynamic_content(): void
         return;
     }
 
-    if (get_option('centro_servizi_legal_pages_migrated_v2', '') === '1') {
+    if (get_option('centro_servizi_legal_pages_migrated_v3', '') === '1') {
         return;
     }
 
@@ -700,7 +700,7 @@ function centro_servizi_migrate_legal_pages_to_dynamic_content(): void
         }
     }
 
-    update_option('centro_servizi_legal_pages_migrated_v2', '1', false);
+    update_option('centro_servizi_legal_pages_migrated_v3', '1', false);
 }
 
 function centro_servizi_sync_legal_page_meta(int $post_id, string $slug): void
@@ -722,6 +722,8 @@ function centro_servizi_sync_legal_page_meta(int $post_id, string $slug): void
 
     if ($slug === 'privacy-policy') {
         $set_meta($post_id, 'legal_address', (string) get_option('centro_servizi_legal_address', $address));
+        $set_meta($post_id, 'legale_rappresentante', (string) get_option('centro_servizi_legale_rappresentante', ''));
+        $set_meta($post_id, 'email_legale_rappresentante', (string) get_option('centro_servizi_email_legale_rappresentante', ''));
         $set_meta($post_id, 'email_privacy', (string) get_option('centro_servizi_email_privacy', $email));
         $set_meta($post_id, 'referente_privacy', (string) get_option('centro_servizi_referente_privacy', ''));
         $set_meta($post_id, 'dpo_nome', (string) get_option('centro_servizi_dpo_nome', ''));
@@ -730,6 +732,8 @@ function centro_servizi_sync_legal_page_meta(int $post_id, string $slug): void
     }
 
     if ($slug === 'dichiarazione-accessibilita') {
+        $set_meta($post_id, 'legale_rappresentante', (string) get_option('centro_servizi_legale_rappresentante', ''));
+        $set_meta($post_id, 'email_legale_rappresentante', (string) get_option('centro_servizi_email_legale_rappresentante', ''));
         $set_meta($post_id, 'dpo_nome', (string) get_option('centro_servizi_dpo_nome', ''));
         $set_meta($post_id, 'email_dpo', (string) get_option('centro_servizi_email_dpo', $email));
         $set_meta($post_id, 'email_privacy', (string) get_option('centro_servizi_email_privacy', $email));
@@ -904,8 +908,6 @@ function centro_servizi_seed_content_privacy(string $site_name, string $site_url
     $address = isset($contacts['address']) ? esc_html($contacts['address']) : '[indirizzo sede legale]';
     $email   = isset($contacts['email'])   ? $contacts['email']             : '';
 
-    $dpo_display = $dpo_nome !== '' ? esc_html($dpo_nome) . ' — ' : '';
-
     return '<p><em>Informativa ai sensi dell\'art. 13 del Regolamento UE 2016/679 (GDPR) — ' . esc_html($site_name) . ' — aggiornata al ' . esc_html($year) . '</em></p>
 
 <h2>Titolare del trattamento</h2>
@@ -913,7 +915,7 @@ function centro_servizi_seed_content_privacy(string $site_name, string $site_url
 ' . '[centro_servizi_privacy_address]' . '<br />
 Email: [centro_servizi_privacy_email]</p>
 
-<h2>Responsabile della Protezione dei Dati</h2>
+<h2>Contatto privacy</h2>
 <ul>
 [centro_servizi_privacy_dpo]
 </ul>
@@ -1179,6 +1181,7 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
 
         // PRIVACY & GDPR
         update_option('centro_servizi_legale_rappresentante', sanitize_text_field($_post['legale_rappresentante'] ?? ''));
+        update_option('centro_servizi_email_legale_rappresentante', sanitize_email($_post['email_legale_rappresentante'] ?? ''));
         update_option('centro_servizi_dpo_nome', sanitize_text_field($_post['dpo_nome'] ?? ''));
         update_option('centro_servizi_email_dpo', sanitize_email($_post['email_dpo'] ?? ''));
         update_option('centro_servizi_email_privacy', sanitize_email($_post['email_privacy'] ?? ''));
@@ -1229,6 +1232,7 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
     $contacts = json_decode($contacts_json, true) ?: [];
     $footer_text = get_option('centro_servizi_footer_text', '');
     $legale_rappresentante = get_option('centro_servizi_legale_rappresentante', '');
+    $email_legale_rappresentante = get_option('centro_servizi_email_legale_rappresentante', '');
     $dpo_nome = get_option('centro_servizi_dpo_nome', '');
     $email_dpo = get_option('centro_servizi_email_dpo', '');
     $email_privacy = get_option('centro_servizi_email_privacy', '');
@@ -1487,6 +1491,13 @@ function centro_servizi_render_settings_page(string $active_section = 'style'): 
                         <th scope="row"><label for="legale_rappresentante">Legale rappresentante:</label></th>
                         <td>
                             <input type="text" id="legale_rappresentante" name="legale_rappresentante" value="<?php echo esc_attr($legale_rappresentante); ?>" class="regular-text" placeholder="Nome e cognome" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><label for="email_legale_rappresentante">Mail legale rappresentante:</label></th>
+                        <td>
+                            <input type="email" id="email_legale_rappresentante" name="email_legale_rappresentante" value="<?php echo esc_attr($email_legale_rappresentante); ?>" class="regular-text" />
+                            <p class="description">Usata come fallback se il campo DPO è vuoto.</p>
                         </td>
                     </tr>
                     <tr>

@@ -274,6 +274,18 @@ function centro_servizi_register_acf_fields(): void
         'title' => 'Dati pagine legali',
         'fields' => [
             [
+                'key' => 'field_centro_servizi_legale_rappresentante',
+                'label' => 'Legale rappresentante',
+                'name' => 'legale_rappresentante',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'field_centro_servizi_email_legale_rappresentante',
+                'label' => 'Email legale rappresentante',
+                'name' => 'email_legale_rappresentante',
+                'type' => 'email',
+            ],
+            [
                 'key' => 'field_centro_servizi_legal_address',
                 'label' => 'Indirizzo sede legale',
                 'name' => 'legal_address',

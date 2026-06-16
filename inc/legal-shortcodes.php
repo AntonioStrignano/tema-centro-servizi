@@ -18,6 +18,53 @@ function centro_servizi_register_legal_shortcodes(): void
     add_shortcode('centro_servizi_whistleblowing_responsabile', 'centro_servizi_shortcode_whistleblowing_responsabile');
 }
 
+function centro_servizi_get_legal_contact_chain(): array
+{
+    $dpo_name = centro_servizi_get_legal_override(
+        'dpo_nome',
+        ['centro_servizi_dpo_nome'],
+        ''
+    );
+    $dpo_email = centro_servizi_get_legal_override(
+        'email_dpo',
+        ['centro_servizi_email_dpo'],
+        ''
+    );
+
+    $legal_name = centro_servizi_get_legal_override(
+        'legale_rappresentante',
+        ['centro_servizi_legale_rappresentante'],
+        ''
+    );
+    $legal_email = centro_servizi_get_legal_override(
+        'email_legale_rappresentante',
+        ['centro_servizi_email_legale_rappresentante'],
+        ''
+    );
+
+    if ($dpo_name !== '' || $dpo_email !== '') {
+        return [
+            'label' => 'Responsabile della Protezione dei Dati (DPO)',
+            'name' => $dpo_name,
+            'email' => $dpo_email,
+        ];
+    }
+
+    if ($legal_name !== '' || $legal_email !== '') {
+        return [
+            'label' => 'Legale rappresentante',
+            'name' => $legal_name,
+            'email' => $legal_email,
+        ];
+    }
+
+    return [
+        'label' => 'Referente privacy',
+        'name' => 'Centro Servizi Scuole In Rete s.r.l.',
+        'email' => 'direzione@scuoleinrete.it',
+    ];
+}
+
 function centro_servizi_get_legal_override(string $meta_key, array $option_keys = [], string $fallback = ''): string
 {
     $post_id = (int) get_queried_object_id();
@@ -76,36 +123,24 @@ function centro_servizi_shortcode_privacy_email(): string
 
 function centro_servizi_shortcode_privacy_dpo(): string
 {
-    $dpo_name = centro_servizi_get_legal_override(
-        'dpo_nome',
-        ['centro_servizi_dpo_nome'],
-        ''
-    );
-    $dpo_email = centro_servizi_get_legal_override(
-        'email_dpo',
-        ['centro_servizi_email_dpo'],
-        ''
-    );
-    $referente_privacy = centro_servizi_get_legal_override(
-        'referente_privacy',
-        ['centro_servizi_referente_privacy'],
-        ''
-    );
+    $contact = centro_servizi_get_legal_contact_chain();
+    $name = trim((string) ($contact['name'] ?? ''));
+    $email = trim((string) ($contact['email'] ?? ''));
+    $label = (string) ($contact['label'] ?? 'Referente privacy');
 
-    if ($dpo_email !== '') {
-        $label = $dpo_name !== '' ? esc_html($dpo_name) . ' — ' : '';
-        return '<li><strong>Responsabile della Protezione dei Dati (DPO):</strong> ' . $label . '<a href="mailto:' . esc_attr($dpo_email) . '">' . esc_html($dpo_email) . '</a></li>';
+    if ($email !== '' && $name !== '') {
+        return '<li><strong>' . esc_html($label) . ':</strong> ' . esc_html($name) . ' — <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></li>';
     }
 
-    if ($referente_privacy !== '') {
-        return '<li><strong>Referente privacy:</strong> ' . esc_html($referente_privacy) . '</li>';
+    if ($email !== '') {
+        return '<li><strong>' . esc_html($label) . ':</strong> <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></li>';
     }
 
-    if ($dpo_name !== '') {
-        return '<li><strong>Responsabile della Protezione dei Dati (DPO):</strong> ' . esc_html($dpo_name) . '</li>';
+    if ($name !== '') {
+        return '<li><strong>' . esc_html($label) . ':</strong> ' . esc_html($name) . '</li>';
     }
 
-    return '<li><strong>Referente privacy:</strong> [da completare]</li>';
+    return '<li><strong>Referente privacy:</strong> Centro Servizi Scuole In Rete s.r.l. — <a href="mailto:direzione@scuoleinrete.it">direzione@scuoleinrete.it</a></li>';
 }
 
 function centro_servizi_shortcode_accessibilita_agid_link(): string
@@ -121,24 +156,24 @@ function centro_servizi_shortcode_accessibilita_agid_link(): string
 
 function centro_servizi_shortcode_accessibilita_contact(): string
 {
-    $email = centro_servizi_get_legal_override(
-        'email_dpo',
-        ['centro_servizi_email_dpo', 'centro_servizi_email_privacy'],
-        ''
-    );
+    $contact = centro_servizi_get_legal_contact_chain();
+    $name = trim((string) ($contact['name'] ?? ''));
+    $email = trim((string) ($contact['email'] ?? ''));
+    $label = (string) ($contact['label'] ?? 'Referente privacy');
 
-    if ($email === '') {
-        $contact = centro_servizi_get_contact_by_type('email');
-        if (is_array($contact) && isset($contact['value'])) {
-            $email = trim((string) $contact['value']);
-        }
+    if ($email !== '' && $name !== '') {
+        return '<li><strong>' . esc_html($label) . ':</strong> ' . esc_html($name) . ' — <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></li>';
     }
 
-    if ($email === '') {
-        return '<li>Email: [da completare]</li>';
+    if ($email !== '') {
+        return '<li><strong>' . esc_html($label) . ':</strong> <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></li>';
     }
 
-    return '<li>Email: <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></li>';
+    if ($name !== '') {
+        return '<li><strong>' . esc_html($label) . ':</strong> ' . esc_html($name) . '</li>';
+    }
+
+    return '<li><strong>Referente privacy:</strong> Centro Servizi Scuole In Rete s.r.l. — <a href="mailto:direzione@scuoleinrete.it">direzione@scuoleinrete.it</a></li>';
 }
 
 function centro_servizi_shortcode_whistleblowing_link(): string
