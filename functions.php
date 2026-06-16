@@ -49,6 +49,14 @@ function centro_servizi_get_legal_page_slugs(): array
 
 function centro_servizi_map_template_from_subdirectory(string $template): string
 {
+    if (is_page('attivita')) {
+        $attivita_template = get_template_directory() . '/templates/page-attivita.php';
+
+        if (file_exists($attivita_template)) {
+            return $attivita_template;
+        }
+    }
+
     if (is_front_page()) {
         $front_page_template = get_template_directory() . '/templates/front-page.php';
 
