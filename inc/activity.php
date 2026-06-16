@@ -237,16 +237,18 @@ function centro_servizi_render_attivita_admin_page(): void
                     <section class="centro-servizi-attivita-item" data-section-index="<?php echo esc_attr((string) $index); ?>">
                         <?php $section_label = $title !== '' ? $title : 'Nuova attività'; ?>
                         <div class="centro-servizi-attivita-item__header">
-                            <h2 data-activity-label><?php echo esc_html($section_label); ?></h2>
-                            <div class="centro-servizi-attivita-item__actions">
-                                <button type="button" class="button-link centro-servizi-attivita-toggle" aria-expanded="true">Comprimi</button>
-                                <button type="button" class="button-link centro-servizi-attivita-move-up">Su</button>
-                                <button type="button" class="button-link centro-servizi-attivita-move-down">Giù</button>
-                                <button type="button" class="button-link-delete centro-servizi-attivita-remove">Rimuovi</button>
-                            </div>
+                            <button type="button" class="centro-servizi-attivita-toggle" aria-expanded="true">
+                                <span class="centro-servizi-attivita-item__title" data-activity-label><?php echo esc_html($section_label); ?></span>
+                                <span class="centro-servizi-attivita-item__chevron" aria-hidden="true">▾</span>
+                            </button>
                         </div>
 
                         <div class="centro-servizi-attivita-item__body">
+                        <div class="centro-servizi-attivita-item__actions">
+                            <button type="button" class="button-link centro-servizi-attivita-move-up">Su</button>
+                            <button type="button" class="button-link centro-servizi-attivita-move-down">Giù</button>
+                            <button type="button" class="button-link-delete centro-servizi-attivita-remove">Rimuovi</button>
+                        </div>
 
                         <p>
                             <label>Titolo attività<br>
@@ -281,16 +283,18 @@ function centro_servizi_render_attivita_admin_page(): void
             <template id="centro-servizi-attivita-template">
                 <section class="centro-servizi-attivita-item" data-section-index="__INDEX__">
                     <div class="centro-servizi-attivita-item__header">
-                        <h2 data-activity-label>Nuova attività</h2>
-                        <div class="centro-servizi-attivita-item__actions">
-                            <button type="button" class="button-link centro-servizi-attivita-toggle" aria-expanded="true">Comprimi</button>
-                            <button type="button" class="button-link centro-servizi-attivita-move-up">Su</button>
-                            <button type="button" class="button-link centro-servizi-attivita-move-down">Giù</button>
-                            <button type="button" class="button-link-delete centro-servizi-attivita-remove">Rimuovi</button>
-                        </div>
+                        <button type="button" class="centro-servizi-attivita-toggle" aria-expanded="true">
+                            <span class="centro-servizi-attivita-item__title" data-activity-label>Nuova attività</span>
+                            <span class="centro-servizi-attivita-item__chevron" aria-hidden="true">▾</span>
+                        </button>
                     </div>
 
                     <div class="centro-servizi-attivita-item__body">
+                    <div class="centro-servizi-attivita-item__actions">
+                        <button type="button" class="button-link centro-servizi-attivita-move-up">Su</button>
+                        <button type="button" class="button-link centro-servizi-attivita-move-down">Giù</button>
+                        <button type="button" class="button-link-delete centro-servizi-attivita-remove">Rimuovi</button>
+                    </div>
 
                     <p>
                         <label>Titolo attività<br>
@@ -433,6 +437,40 @@ function centro_servizi_render_attivita_admin_page(): void
             });
         };
 
+        const collapseSection = (section) => {
+            const toggle = section.querySelector('.centro-servizi-attivita-toggle');
+            const body = section.querySelector('.centro-servizi-attivita-item__body');
+            if (!toggle || !body) {
+                return;
+            }
+
+            body.setAttribute('hidden', 'hidden');
+            toggle.setAttribute('aria-expanded', 'false');
+            section.classList.add('is-collapsed');
+        };
+
+        const expandSection = (section) => {
+            const toggle = section.querySelector('.centro-servizi-attivita-toggle');
+            const body = section.querySelector('.centro-servizi-attivita-item__body');
+            if (!toggle || !body) {
+                return;
+            }
+
+            body.removeAttribute('hidden');
+            toggle.setAttribute('aria-expanded', 'true');
+            section.classList.remove('is-collapsed');
+        };
+
+        const expandOnlyThis = (section) => {
+            list.querySelectorAll('.centro-servizi-attivita-item').forEach((item) => {
+                if (item === section) {
+                    expandSection(item);
+                } else {
+                    collapseSection(item);
+                }
+            });
+        };
+
         const bindSection = (section) => {
             const titleInput = section.querySelector('[data-activity-title]');
             const label = section.querySelector('[data-activity-label]');
@@ -446,22 +484,12 @@ function centro_servizi_render_attivita_admin_page(): void
                 label.textContent = value !== '' ? value : 'Nuova attività';
             });
 
-            const toggle = section.querySelector('.centro-servizi-attivita-toggle');
-            const body = section.querySelector('.centro-servizi-attivita-item__body');
-
             toggle?.addEventListener('click', () => {
-                if (!body) {
-                    return;
-                }
-                const isHidden = body.hasAttribute('hidden');
-                if (isHidden) {
-                    body.removeAttribute('hidden');
-                    toggle.textContent = 'Comprimi';
-                    toggle.setAttribute('aria-expanded', 'true');
+                const isCollapsed = section.classList.contains('is-collapsed');
+                if (isCollapsed) {
+                    expandOnlyThis(section);
                 } else {
-                    body.setAttribute('hidden', 'hidden');
-                    toggle.textContent = 'Espandi';
-                    toggle.setAttribute('aria-expanded', 'false');
+                    collapseSection(section);
                 }
             });
 
@@ -475,6 +503,7 @@ function centro_servizi_render_attivita_admin_page(): void
                 if (previous) {
                     list.insertBefore(section, previous);
                     updateSectionOrderNames();
+                    expandOnlyThis(section);
                 }
             });
 
@@ -483,6 +512,7 @@ function centro_servizi_render_attivita_admin_page(): void
                 if (next) {
                     list.insertBefore(next, section);
                     updateSectionOrderNames();
+                    expandOnlyThis(section);
                 }
             });
 
@@ -516,9 +546,14 @@ function centro_servizi_render_attivita_admin_page(): void
             list.appendChild(section);
             nextIndex += 1;
             updateSectionOrderNames();
+            expandOnlyThis(section);
         });
 
         updateSectionOrderNames();
+        const initialItems = list.querySelectorAll('.centro-servizi-attivita-item');
+        if (initialItems.length > 0) {
+            expandOnlyThis(initialItems[0]);
+        }
     })();
     </script>
     <?php

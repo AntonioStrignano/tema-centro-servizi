@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Migliora lo stile e la funzionalità della pagina admin 'Attività': aggiorna i bordi e aggiunge ombre agli elementi, modifica il titolo delle sezioni per riflettere il valore dell'input e implementa l'aggiornamento dinamico del titolo.',
-    'commit_hash'  => '993623ec0',
-    'deployed_at'  => '2026-06-16 10:44:52',
+    'commit_title' => 'Ristruttura la pagina admin 'Attività': aggiorna il layout delle sezioni con un nuovo design per il toggle, migliora l'interazione con le sezioni espandibili e collassabili, e ottimizza la gestione delle azioni per ogni sezione.',
+    'commit_hash'  => 'c42ad341f',
+    'deployed_at'  => '2026-06-16 10:46:43',
 ];
