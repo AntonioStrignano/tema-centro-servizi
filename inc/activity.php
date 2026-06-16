@@ -535,7 +535,7 @@ function centro_servizi_render_attivita_admin_page(): void
         });
 
         updateSectionOrderNames();
-        list.querySelectorAll('.centro-servizi-attivita-item').forEach(expandSection);
+        list.querySelectorAll('.centro-servizi-attivita-item').forEach(collapseSection);
     })();
     </script>
     <?php
