@@ -2510,9 +2510,19 @@ textarea:focus,
   gap: 1rem;
 }
 
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__header h2 {
   margin: 0;
   font-size: 1rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__body {
+  margin-top: 0.75rem;
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-gallery__preview {
