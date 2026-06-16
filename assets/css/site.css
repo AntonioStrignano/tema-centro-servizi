@@ -2492,7 +2492,7 @@ textarea:focus,
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-list {
   display: grid;
-  gap: 1rem;
+  gap: 1.15rem;
   margin: 1.25rem 0;
 }
 
@@ -2508,22 +2508,17 @@ textarea:focus,
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__header {
   margin: 0;
-  border-bottom: 1px solid #dcdcde;
-  background: #f7f7f7;
-}
-
-.centro-servizi-attivita-admin .centro-servizi-attivita-toggle {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  padding: 0.9rem 1rem;
-  background: transparent;
-  border: 0;
-  text-align: left;
-  font: inherit;
-  color: inherit;
+  gap: 0.75rem;
+  border-bottom: 1px solid #dcdcde;
+  background: linear-gradient(180deg, #f8f9fa 0%, #f2f3f5 100%);
+  padding: 0.8rem 1rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-toggle {
+  min-width: 84px;
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-toggle:focus-visible {
@@ -2531,39 +2526,36 @@ textarea:focus,
   outline-offset: -2px;
 }
 
-.centro-servizi-attivita-admin .centro-servizi-attivita-item__header h2 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--stitch-primary);
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__actions-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__actions-header .button {
+  border-radius: 0.45rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__actions-header .button-link-delete {
+  color: #b32d2e;
+  border-color: #f2d4d5;
+  background: #fff;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__actions-header .button-link-delete:hover {
+  background: #fff6f6;
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__title {
-  font-weight: 600;
-  color: var(--stitch-primary);
-}
-
-.centro-servizi-attivita-admin .centro-servizi-attivita-item__chevron {
+  margin: 0;
   font-size: 1rem;
-  line-height: 1;
-  transition: transform 0.16s ease;
-}
-
-.centro-servizi-attivita-admin .centro-servizi-attivita-item.is-collapsed .centro-servizi-attivita-item__chevron {
-  transform: rotate(-90deg);
+  color: var(--stitch-primary);
+  font-weight: 600;
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__body {
   padding: 1rem;
   background: #fff;
-}
-
-.centro-servizi-attivita-admin .centro-servizi-attivita-item__actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px dashed #dcdcde;
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-gallery__preview {
