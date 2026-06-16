@@ -7,8 +7,9 @@ if (! defined('ABSPATH')) {
 
 get_template_part('partials/header');
 
-$sections = get_field('attivita_sezioni');
-$sections = is_array($sections) ? $sections : [];
+$sections = function_exists('centro_servizi_get_attivita_sections')
+    ? centro_servizi_get_attivita_sections()
+    : [];
 ?>
 <main class="site-main page-basic page-attivita" id="contenuto-principale" role="main">
     <section class="site-section page-basic__section page-attivita__section">

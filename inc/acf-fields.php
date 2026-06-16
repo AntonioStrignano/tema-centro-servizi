@@ -270,65 +270,6 @@ function centro_servizi_register_acf_fields(): void
     ]);
 
     acf_add_local_field_group([
-        'key' => 'group_centro_servizi_attivita_page',
-        'title' => 'Attività',
-        'fields' => [
-            [
-                'key' => 'field_centro_servizi_attivita_page_sections',
-                'label' => 'Sezioni attività',
-                'name' => 'attivita_sezioni',
-                'type' => 'repeater',
-                'button_label' => 'Aggiungi sezione',
-                'min' => 0,
-                'max' => 0,
-                'collapsed' => 'field_centro_servizi_attivita_page_section_title',
-                'layout' => 'row',
-                'sub_fields' => [
-                    [
-                        'key' => 'field_centro_servizi_attivita_page_section_title',
-                        'label' => 'Titolo sezione',
-                        'name' => 'titolo',
-                        'type' => 'text',
-                    ],
-                    [
-                        'key' => 'field_centro_servizi_attivita_page_section_caption',
-                        'label' => 'Didascalia',
-                        'name' => 'didascalia',
-                        'type' => 'textarea',
-                        'rows' => 3,
-                    ],
-                    [
-                        'key' => 'field_centro_servizi_attivita_page_section_images',
-                        'label' => 'Immagini',
-                        'name' => 'immagini',
-                        'type' => 'gallery',
-                        'return_format' => 'array',
-                        'library' => 'all',
-                        'preview_size' => 'medium',
-                        'insert' => 'append',
-                        'min' => 0,
-                        'max' => 0,
-                    ],
-                ],
-            ],
-        ],
-        'location' => [
-            [
-                [
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'page',
-                ],
-                [
-                    'param' => 'post_name',
-                    'operator' => '==',
-                    'value' => 'attivita',
-                ],
-            ],
-        ],
-    ]);
-
-    acf_add_local_field_group([
         'key' => 'group_centro_servizi_pagine_legali',
         'title' => 'Dati pagine legali',
         'fields' => [

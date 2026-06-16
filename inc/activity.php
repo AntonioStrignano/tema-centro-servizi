@@ -7,6 +7,7 @@ if (! defined('ABSPATH')) {
 
 add_action('admin_init', 'centro_servizi_ensure_attivita_page');
 add_action('admin_menu', 'centro_servizi_register_attivita_admin_menu');
+add_action('admin_post_centro_servizi_save_attivita', 'centro_servizi_handle_attivita_save');
 
 function centro_servizi_get_attivita_page(): ?WP_Post
 {
@@ -15,13 +16,29 @@ function centro_servizi_get_attivita_page(): ?WP_Post
     return $page instanceof WP_Post ? $page : null;
 }
 
+function centro_servizi_get_attivita_page_id(): int
+{
+    $page = centro_servizi_get_attivita_page();
+
+    return $page instanceof WP_Post ? (int) $page->ID : 0;
+}
+
 function centro_servizi_ensure_attivita_page(): void
 {
     if (! current_user_can('manage_options')) {
         return;
     }
 
-    if (centro_servizi_get_attivita_page() instanceof WP_Post) {
+    $page = centro_servizi_get_attivita_page();
+
+    if ($page instanceof WP_Post) {
+        if ($page->post_status !== 'publish') {
+            wp_update_post([
+                'ID'          => $page->ID,
+                'post_status' => 'publish',
+            ]);
+        }
+
         return;
     }
 
@@ -34,14 +51,10 @@ function centro_servizi_ensure_attivita_page(): void
         'post_title'   => 'Attività',
         'post_name'    => 'attivita',
         'post_content' => '',
-        'post_status'  => 'draft',
+        'post_status'  => 'publish',
         'post_type'    => 'page',
         'post_author'  => $author_id,
     ], true);
-
-    if (! is_wp_error($page_id) && (int) $page_id > 0) {
-        update_post_meta((int) $page_id, '_wp_page_template', '');
-    }
 }
 
 function centro_servizi_get_attivita_edit_url(): string
@@ -65,24 +78,317 @@ function centro_servizi_register_attivita_admin_menu(): void
         'Attività',
         'edit_pages',
         'centro-servizi-attivita',
-        'centro_servizi_render_attivita_admin_redirect',
+        'centro_servizi_render_attivita_admin_page',
         'dashicons-format-gallery',
         22
     );
 }
 
-function centro_servizi_render_attivita_admin_redirect(): void
+function centro_servizi_get_attivita_sections(): array
+{
+    $page_id = centro_servizi_get_attivita_page_id();
+
+    if ($page_id <= 0) {
+        return [];
+    }
+
+    $sections = get_post_meta($page_id, 'centro_servizi_attivita_sections', true);
+
+    if (is_array($sections) && $sections !== []) {
+        return $sections;
+    }
+
+    if (function_exists('get_field')) {
+        $acf_sections = get_field('attivita_sezioni', $page_id);
+
+        if (is_array($acf_sections) && $acf_sections !== []) {
+            return $acf_sections;
+        }
+    }
+
+    return [];
+}
+
+function centro_servizi_sanitize_attivita_sections(array $raw_sections): array
+{
+    $sections = [];
+
+    foreach ($raw_sections as $raw_section) {
+        if (! is_array($raw_section)) {
+            continue;
+        }
+
+        $title = sanitize_text_field((string) ($raw_section['titolo'] ?? $raw_section['title'] ?? ''));
+        $caption = sanitize_textarea_field((string) ($raw_section['didascalia'] ?? $raw_section['caption'] ?? ''));
+        $raw_images = $raw_section['immagini'] ?? $raw_section['images'] ?? '';
+
+        $image_ids = [];
+        if (is_array($raw_images)) {
+            foreach ($raw_images as $raw_image) {
+                $image_id = 0;
+                if (is_array($raw_image)) {
+                    $image_id = (int) ($raw_image['ID'] ?? $raw_image['id'] ?? 0);
+                } else {
+                    $image_id = absint($raw_image);
+                }
+
+                if ($image_id > 0) {
+                    $image_ids[] = $image_id;
+                }
+            }
+        } else {
+            $image_ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', trim((string) $raw_images)) ?: [])));
+        }
+
+        $image_ids = array_values(array_unique(array_filter($image_ids)));
+
+        if ($title === '' || $image_ids === []) {
+            continue;
+        }
+
+        $sections[] = [
+            'titolo' => $title,
+            'didascalia' => $caption,
+            'immagini' => $image_ids,
+        ];
+    }
+
+    return $sections;
+}
+
+function centro_servizi_handle_attivita_save(): void
 {
     if (! current_user_can('edit_pages')) {
         wp_die('Accesso negato.');
     }
 
-    $edit_url = centro_servizi_get_attivita_edit_url();
-
-    if (is_admin()) {
-        wp_safe_redirect($edit_url);
-        exit;
+    if (
+        ! isset($_POST['centro_servizi_attivita_nonce']) ||
+        ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['centro_servizi_attivita_nonce'])), 'centro_servizi_save_attivita')
+    ) {
+        wp_die('Verifica di sicurezza fallita.');
     }
+
+    $page_id = centro_servizi_get_attivita_page_id();
+
+    if ($page_id <= 0) {
+        wp_die('Pagina Attività non trovata.');
+    }
+
+    $raw_sections = isset($_POST['centro_servizi_attivita_sections']) && is_array($_POST['centro_servizi_attivita_sections'])
+        ? wp_unslash($_POST['centro_servizi_attivita_sections'])
+        : [];
+
+    $sections = centro_servizi_sanitize_attivita_sections($raw_sections);
+    update_post_meta($page_id, 'centro_servizi_attivita_sections', $sections);
+
+    wp_safe_redirect(add_query_arg([
+        'page' => 'centro-servizi-attivita',
+        'updated' => '1',
+    ], admin_url('admin.php')));
+    exit;
+}
+
+function centro_servizi_render_attivita_admin_page(): void
+{
+    if (! current_user_can('edit_pages')) {
+        wp_die('Accesso negato.');
+    }
+
+    wp_enqueue_media();
+
+    $page = centro_servizi_get_attivita_page();
+    $page_id = $page instanceof WP_Post ? (int) $page->ID : 0;
+    $sections = centro_servizi_get_attivita_sections();
+    $public_url = $page_id > 0 ? get_permalink($page_id) : home_url('/attivita/');
+    ?>
+    <div class="wrap centro-servizi-attivita-admin">
+        <h1>Attività</h1>
+        <p>Questa schermata gestisce la pagina Attività del sito come vetrina editoriale: aggiungi sezioni, imposta un titolo, una didascalia opzionale e seleziona le immagini.</p>
+
+        <p>
+            <a class="button button-secondary" href="<?php echo esc_url($public_url); ?>" target="_blank" rel="noopener noreferrer">Apri pagina pubblica</a>
+            <?php if ($page instanceof WP_Post) : ?>
+                <a class="button button-secondary" href="<?php echo esc_url(get_edit_post_link($page->ID)); ?>">Apri editor pagina</a>
+            <?php endif; ?>
+        </p>
+
+        <?php if (! empty($_GET['updated'])) : ?>
+            <div class="notice notice-success is-dismissible"><p>Attività salvate.</p></div>
+        <?php endif; ?>
+
+        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" id="centro-servizi-attivita-form">
+            <?php wp_nonce_field('centro_servizi_save_attivita', 'centro_servizi_attivita_nonce'); ?>
+            <input type="hidden" name="action" value="centro_servizi_save_attivita" />
+
+            <div class="centro-servizi-attivita-list" id="centro-servizi-attivita-list">
+                <?php foreach ($sections as $index => $section) : ?>
+                    <?php
+                    $title = isset($section['titolo']) ? (string) $section['titolo'] : '';
+                    $caption = isset($section['didascalia']) ? (string) $section['didascalia'] : '';
+                    $images = isset($section['immagini']) ? $section['immagini'] : [];
+                    if (! is_array($images)) {
+                        $images = [];
+                    }
+                    $image_ids = array_values(array_filter(array_map('absint', $images)));
+                    ?>
+                    <section class="centro-servizi-attivita-item" data-section-index="<?php echo esc_attr((string) $index); ?>">
+                        <div class="centro-servizi-attivita-item__header">
+                            <h2>Sezione attività</h2>
+                            <button type="button" class="button-link-delete centro-servizi-attivita-remove">Rimuovi sezione</button>
+                        </div>
+
+                        <p>
+                            <label>Titolo sezione<br>
+                                <input type="text" name="centro_servizi_attivita_sections[<?php echo esc_attr((string) $index); ?>][titolo]" value="<?php echo esc_attr($title); ?>" class="regular-text" />
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>Didascalia opzionale<br>
+                                <textarea name="centro_servizi_attivita_sections[<?php echo esc_attr((string) $index); ?>][didascalia]" rows="3" class="large-text"><?php echo esc_textarea($caption); ?></textarea>
+                            </label>
+                        </p>
+
+                        <div class="centro-servizi-attivita-gallery" data-gallery-wrapper>
+                            <input type="hidden" name="centro_servizi_attivita_sections[<?php echo esc_attr((string) $index); ?>][immagini]" data-gallery-input value="<?php echo esc_attr(implode(',', $image_ids)); ?>" />
+                            <div class="centro-servizi-attivita-gallery__preview" data-gallery-preview>
+                                <?php foreach ($image_ids as $image_id) : ?>
+                                    <?php echo wp_get_attachment_image($image_id, 'thumbnail'); ?>
+                                <?php endforeach; ?>
+                            </div>
+                            <p>
+                                <button type="button" class="button centro-servizi-attivita-select">Seleziona immagini</button>
+                                <button type="button" class="button centro-servizi-attivita-clear">Svuota immagini</button>
+                            </p>
+                        </div>
+                    </section>
+                <?php endforeach; ?>
+            </div>
+
+            <template id="centro-servizi-attivita-template">
+                <section class="centro-servizi-attivita-item" data-section-index="__INDEX__">
+                    <div class="centro-servizi-attivita-item__header">
+                        <h2>Sezione attività</h2>
+                        <button type="button" class="button-link-delete centro-servizi-attivita-remove">Rimuovi sezione</button>
+                    </div>
+
+                    <p>
+                        <label>Titolo sezione<br>
+                            <input type="text" name="centro_servizi_attivita_sections[__INDEX__][titolo]" class="regular-text" />
+                        </label>
+                    </p>
+
+                    <p>
+                        <label>Didascalia opzionale<br>
+                            <textarea name="centro_servizi_attivita_sections[__INDEX__][didascalia]" rows="3" class="large-text"></textarea>
+                        </label>
+                    </p>
+
+                    <div class="centro-servizi-attivita-gallery" data-gallery-wrapper>
+                        <input type="hidden" name="centro_servizi_attivita_sections[__INDEX__][immagini]" data-gallery-input value="" />
+                        <div class="centro-servizi-attivita-gallery__preview" data-gallery-preview></div>
+                        <p>
+                            <button type="button" class="button centro-servizi-attivita-select">Seleziona immagini</button>
+                            <button type="button" class="button centro-servizi-attivita-clear">Svuota immagini</button>
+                        </p>
+                    </div>
+                </section>
+            </template>
+
+            <p>
+                <button type="button" class="button button-primary" id="centro-servizi-attivita-add">Aggiungi attività</button>
+            </p>
+
+            <?php submit_button('Salva attività', 'primary', 'submit', false); ?>
+        </form>
+    </div>
+
+    <script>
+    (function() {
+        const list = document.getElementById('centro-servizi-attivita-list');
+        const template = document.getElementById('centro-servizi-attivita-template');
+        const addButton = document.getElementById('centro-servizi-attivita-add');
+        let nextIndex = list ? list.querySelectorAll('.centro-servizi-attivita-item').length : 0;
+
+        if (!list || !template || !addButton) {
+            return;
+        }
+
+        const openMedia = (section) => {
+            const input = section.querySelector('[data-gallery-input]');
+            const preview = section.querySelector('[data-gallery-preview]');
+
+            const frame = wp.media({
+                title: 'Seleziona immagini attività',
+                library: { type: 'image' },
+                button: { text: 'Usa immagini selezionate' },
+                multiple: true
+            });
+
+            frame.on('open', () => {
+                const ids = (input.value || '').split(',').map((value) => parseInt(value, 10)).filter(Boolean);
+                const selection = frame.state().get('selection');
+                selection.reset();
+                ids.forEach((id) => {
+                    const attachment = wp.media.attachment(id);
+                    attachment.fetch();
+                    selection.add(attachment);
+                });
+            });
+
+            frame.on('select', () => {
+                const selection = frame.state().get('selection');
+                const ids = [];
+                const thumbnails = [];
+
+                selection.each((attachment) => {
+                    const data = attachment.toJSON();
+                    ids.push(data.id);
+                    thumbnails.push(`<img src="${data.sizes && data.sizes.thumbnail ? data.sizes.thumbnail.url : data.url}" alt="" />`);
+                });
+
+                input.value = ids.join(',');
+                preview.innerHTML = thumbnails.join('');
+            });
+
+            frame.open();
+        };
+
+        const bindSection = (section) => {
+            section.querySelector('.centro-servizi-attivita-remove')?.addEventListener('click', () => {
+                section.remove();
+            });
+
+            section.querySelector('.centro-servizi-attivita-clear')?.addEventListener('click', () => {
+                const input = section.querySelector('[data-gallery-input]');
+                const preview = section.querySelector('[data-gallery-preview]');
+                if (input) input.value = '';
+                if (preview) preview.innerHTML = '';
+            });
+
+            section.querySelector('.centro-servizi-attivita-select')?.addEventListener('click', () => {
+                openMedia(section);
+            });
+        };
+
+        list.querySelectorAll('.centro-servizi-attivita-item').forEach(bindSection);
+
+        addButton.addEventListener('click', () => {
+            const html = template.innerHTML.replaceAll('__INDEX__', String(nextIndex));
+            const holder = document.createElement('div');
+            holder.innerHTML = html.trim();
+            const section = holder.firstElementChild;
+            if (!section) {
+                return;
+            }
+            bindSection(section);
+            list.appendChild(section);
+            nextIndex += 1;
+        });
+    })();
+    </script>
+    <?php
 }
 
 function centro_servizi_get_attivita_image_alt(array $image, string $section_title, int $index = 0): string

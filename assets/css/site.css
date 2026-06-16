@@ -2490,6 +2490,46 @@ textarea:focus,
   margin-bottom: 0;
 }
 
+.centro-servizi-attivita-admin .centro-servizi-attivita-list {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item {
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item__header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-gallery__preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-gallery__preview img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 0.45rem;
+  border: 1px solid #dcdcde;
+}
+
 /* ----------------------------------------
    Contacts recapiti (content pages)
    ---------------------------------------- */
