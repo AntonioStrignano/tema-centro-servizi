@@ -2496,6 +2496,19 @@ textarea:focus,
   margin: 1.25rem 0;
 }
 
+.centro-servizi-attivita-admin .centro-servizi-attivita-item + .centro-servizi-attivita-item {
+  position: relative;
+}
+
+.centro-servizi-attivita-admin .centro-servizi-attivita-item + .centro-servizi-attivita-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.62rem;
+  border-top: 2px solid #dcdcde;
+}
+
 .centro-servizi-attivita-admin .centro-servizi-attivita-item {
   background: #fff;
   border: 2px solid #c3c4c7;
