@@ -1029,7 +1029,6 @@ function centro_servizi_seed_content_accessibilita(string $site_name, string $si
 <p>Hai riscontrato un problema di accessibilità o hai bisogno di un contenuto in formato alternativo?</p>
 <ul>
 <li>Soggetto responsabile: <strong>' . esc_html($site_name) . '</strong></li>
-[centro_servizi_privacy_dpo]
 [centro_servizi_accessibilita_contact]
 </ul>
 

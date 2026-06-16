@@ -280,6 +280,43 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 
 ---
 
+---
+
+## Aggiornamento sessione (16/06/2026) — Audit QA e pulizia pagine legali
+
+### Completato
+
+- [x] Verificata navigazione da tastiera (skip links, tab order, focus): **OK**
+- [x] Verificata struttura HTML base (skip links, main landmark, headings, viewport, lang): **OK**
+- [x] Pagine legali seedate verificate in admin:
+  - [x] Privacy Policy: fallback DPO attivo (Centro Servizi) ✅
+  - [x] Cookie Policy: shortcodes presenti (`[cookie_declaration]`, `[cky-preference-link]`) ✅
+  - [x] Dichiarazione Accessibilità: **rimosso duplicato "Referente privacy"** (linea seed in `inc/settings.php`)
+  - [x] Whistleblowing: struttura ok (completamento link/responsabile dipende da setup GlobaLeaks cliente)
+- [x] Corretto fallback link footer "Amministrazione Trasparente": `/amministrazione-trasparente/` → `/trasparenza/`
+- [x] Verificate immagini senza alt:
+  - Hero: bg aria-hidden (ok), logo SVG con aria-label (ok)
+  - Sezione highlights: alt presente ("Insegnante con bambini...")
+  - Header logo: custom logo di WP (non toccare per ora — placeholder)
+
+### Da fare prima di go-live
+
+- [ ] **Audit contrasti WCAG AA** su pagine legali e burocratiche (area-famiglie, area-personale, trasparenza)
+- [ ] **Completamento pagine obbligatorie lato cliente**:
+  - [ ] Whistleblowing: link piattaforma GlobaLeaks + responsabile canale interno
+  - [ ] Dichiarazione Accessibilità: compilare su form.agid.gov.it (link generico)
+  - [ ] Obiettivi Accessibilità: compilare obiettivi annuali 2026
+- [ ] **Alt immagini**: sistemare logo header (per ora placeholder)
+- [ ] **Rifiniture non bloccanti**: copy "Chi siamo", micro-polish contatti, vetrina attività
+
+### Note
+
+- Fallback DPO nella privacy policy funziona correttamente (Centro Servizi Scuole In Rete)
+- Cookie Policy usa shortcodes — verificare attivazione banner CookieYes su istanze reali
+- Whistleblowing URL fallback attualmente vuoto: compilare nelle impostazioni sito quando GlobaLeaks è pronto
+
+---
+
 ## 🔮 FASE FUTURA — Dopo il lancio
 
 - [ ] CSS vero (variabili, componenti, responsive, colori, tipografia)

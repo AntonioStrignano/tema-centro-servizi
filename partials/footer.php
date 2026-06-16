@@ -141,7 +141,7 @@ $feedback_url = $accessibility_feedback_url !== ''
                 <ul class="site-footer__list">
                     <li><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Privacy</a></li>
                     <li><a href="<?php echo esc_url(home_url('/cookie-policy/')); ?>">Cookie</a></li>
-                    <li><a href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/amministrazione-trasparente/')); ?>">Amministrazione Trasparente</a></li>
+                    <li><a href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/trasparenza/')); ?>">Amministrazione Trasparente</a></li>
                     <?php if ($whistleblowing_url !== '') : ?>
                         <li>
                             <a href="<?php echo esc_url($whistleblowing_url); ?>" target="_blank" rel="noopener noreferrer">
