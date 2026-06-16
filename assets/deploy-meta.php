@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiunge il supporto per un template personalizzato nella pagina 'Attività' se esiste.',
-    'commit_hash'  => '9c960f8ce',
-    'deployed_at'  => '2026-06-16 11:01:21',
+    'commit_title' => 'Migliora la logica di inclusione del template per la pagina 'Attività' verificando il tipo di post e il nome dello slug.',
+    'commit_hash'  => '610c3c28d',
+    'deployed_at'  => '2026-06-16 11:03:29',
 ];
