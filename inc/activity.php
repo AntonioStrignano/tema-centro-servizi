@@ -481,6 +481,11 @@ function centro_servizi_render_attivita_admin_page(): void
             });
 
             section.querySelector('.centro-servizi-attivita-remove')?.addEventListener('click', () => {
+                const ok = window.confirm('Eliminare questa attività? L\'azione non può essere annullata.');
+                if (!ok) {
+                    return;
+                }
+
                 section.remove();
                 updateSectionOrderNames();
             });
