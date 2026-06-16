@@ -2498,9 +2498,11 @@ textarea:focus,
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-item {
   background: #fff;
-  border: 1px solid #dcdcde;
+  border: 2px solid #c3c4c7;
+  border-left: 6px solid var(--stitch-primary);
   border-radius: 0.75rem;
   padding: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__header {
@@ -2519,6 +2521,7 @@ textarea:focus,
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__header h2 {
   margin: 0;
   font-size: 1rem;
+  color: var(--stitch-primary);
 }
 
 .centro-servizi-attivita-admin .centro-servizi-attivita-item__body {

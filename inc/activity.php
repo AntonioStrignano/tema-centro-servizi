@@ -235,8 +235,9 @@ function centro_servizi_render_attivita_admin_page(): void
                     $image_ids = array_values(array_filter(array_map('absint', $images)));
                     ?>
                     <section class="centro-servizi-attivita-item" data-section-index="<?php echo esc_attr((string) $index); ?>">
+                        <?php $section_label = $title !== '' ? $title : 'Nuova attività'; ?>
                         <div class="centro-servizi-attivita-item__header">
-                            <h2>Attività</h2>
+                            <h2 data-activity-label><?php echo esc_html($section_label); ?></h2>
                             <div class="centro-servizi-attivita-item__actions">
                                 <button type="button" class="button-link centro-servizi-attivita-toggle" aria-expanded="true">Comprimi</button>
                                 <button type="button" class="button-link centro-servizi-attivita-move-up">Su</button>
@@ -249,7 +250,7 @@ function centro_servizi_render_attivita_admin_page(): void
 
                         <p>
                             <label>Titolo attività<br>
-                                <input type="text" name="centro_servizi_attivita_sections[<?php echo esc_attr((string) $index); ?>][titolo]" value="<?php echo esc_attr($title); ?>" class="regular-text" />
+                                <input type="text" name="centro_servizi_attivita_sections[<?php echo esc_attr((string) $index); ?>][titolo]" value="<?php echo esc_attr($title); ?>" class="regular-text" data-activity-title />
                             </label>
                         </p>
 
@@ -280,7 +281,7 @@ function centro_servizi_render_attivita_admin_page(): void
             <template id="centro-servizi-attivita-template">
                 <section class="centro-servizi-attivita-item" data-section-index="__INDEX__">
                     <div class="centro-servizi-attivita-item__header">
-                        <h2>Attività</h2>
+                        <h2 data-activity-label>Nuova attività</h2>
                         <div class="centro-servizi-attivita-item__actions">
                             <button type="button" class="button-link centro-servizi-attivita-toggle" aria-expanded="true">Comprimi</button>
                             <button type="button" class="button-link centro-servizi-attivita-move-up">Su</button>
@@ -293,7 +294,7 @@ function centro_servizi_render_attivita_admin_page(): void
 
                     <p>
                         <label>Titolo attività<br>
-                            <input type="text" name="centro_servizi_attivita_sections[__INDEX__][titolo]" class="regular-text" />
+                            <input type="text" name="centro_servizi_attivita_sections[__INDEX__][titolo]" class="regular-text" data-activity-title />
                         </label>
                     </p>
 
@@ -433,6 +434,18 @@ function centro_servizi_render_attivita_admin_page(): void
         };
 
         const bindSection = (section) => {
+            const titleInput = section.querySelector('[data-activity-title]');
+            const label = section.querySelector('[data-activity-label]');
+
+            titleInput?.addEventListener('input', () => {
+                if (!label) {
+                    return;
+                }
+
+                const value = (titleInput.value || '').trim();
+                label.textContent = value !== '' ? value : 'Nuova attività';
+            });
+
             const toggle = section.querySelector('.centro-servizi-attivita-toggle');
             const body = section.querySelector('.centro-servizi-attivita-item__body');
 
