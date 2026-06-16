@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiunge campi per il legale rappresentante e la sua email, e aggiorna la logica di gestione delle pagine legali per la migrazione dei contenuti dinamici.',
-    'commit_hash'  => '80c114da0',
-    'deployed_at'  => '2026-06-16 09:32:45',
+    'commit_title' => 'Aggiunge gestione dinamica dei contatti privacy e fallback per il legale rappresentante nel tema, aggiornando la documentazione e le note di revisione.',
+    'commit_hash'  => 'cc16bf314',
+    'deployed_at'  => '2026-06-16 09:57:00',
 ];

@@ -6,7 +6,7 @@ Tema WordPress classico per scuole paritarie, con focus su compliance italiana (
 
 - Ultimo allineamento documentale: 15/06/2026
 - Tema attivo con struttura templates/partials/inc consolidata
-- Pagine legali gestite da template unico `templates/page-legale.php` su slug riservati
+- Pagine legali gestite da template unico `templates/page-legale.php` su slug riservati, con seed dinamico e fallback contatti privacy amministrabili
 - Archivi burocratici unificati in `templates/archive-area-burocratica-common.php`
 - Paginazione accessibile attiva negli archivi principali (`partials/pagination.php`)
 
@@ -37,5 +37,6 @@ Tema WordPress classico per scuole paritarie, con focus su compliance italiana (
 ## Prossime priorita
 
 - Revisione testi pagine seed obbligatorie (Privacy, Cookie, Dichiarazione Accessibilita, Whistleblowing)
+- Verifica manuale migrazione v3 per aggiornare le pagine legali gia' online
 - Audit finale accessibilita (axe, Lighthouse, tastiera, VoiceOver)
 - Rifiniture homepage (copy definitivo e vetrina attivita in evidenza)

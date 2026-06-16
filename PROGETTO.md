@@ -75,6 +75,14 @@ La **Dichiarazione di Accessibilità** è un documento obbligatorio per tutti i 
 - **Meccanismo di feedback accessibilità**: link nel footer a un Google Form esterno (soddisfa il requisito AgID senza introdurre form nel sito)
 - È possibile dichiarare **"parzialmente conforme"** su form.agid.gov.it specificando le non conformità note e le azioni correttive previste con tempistiche
 
+### 3.4 Contatti privacy e fallback operativi
+
+- Il tema gestisce i contenuti privacy in modo dinamico con shortcode e campi amministrabili
+- Se il DPO e' presente, viene mostrato il suo contatto
+- Se il DPO non e' compilato, il tema mostra il legale rappresentante
+- Se anche il legale rappresentante non e' disponibile, viene mostrato il contatto Centro Servizi configurato
+- Questa e' una scelta operativa di template; la validazione giuridica del caso concreto resta esterna al codice
+
 ---
 
 ## 4. Architettura del Tema

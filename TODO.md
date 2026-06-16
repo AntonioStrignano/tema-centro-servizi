@@ -239,7 +239,8 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
   - [x] Aggiornare data ultimo allineamento documentale e log breve delle discrepanze risolte
   - [x] Data allineamento: 15/06/2026
   - [x] Log discrepanze risolte: template legali unificati su `templates/page-legale.php`; archivio trasparenza riallineato a `archive-area-burocratica-common.php`; riferimento JS header corretto a `assets/js/site-header.js`; rimosse note placeholder da `README.md`
-- [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, DPA Google, shortcode CookieYes, link AGID)
+- [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, fallback contatto privacy, DPA Google, shortcode CookieYes, link AGID)
+- [ ] Verifica manuale migrazione v3 pagine legali gia' seedate nel pannello admin
 - [ ] Audit accessibilità con axe-core
 - [ ] Audit Lighthouse (performance + accessibility)
 - [ ] Navigazione completa da tastiera (tab, enter, escape)
