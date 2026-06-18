@@ -49,19 +49,6 @@ function centro_servizi_get_legal_page_slugs(): array
 
 function centro_servizi_map_template_from_subdirectory(string $template): string
 {
-    $queried_object = get_queried_object();
-    $is_attivita_page = $queried_object instanceof WP_Post
-        && $queried_object->post_type === 'page'
-        && $queried_object->post_name === 'attivita';
-
-    if ($is_attivita_page || is_page('attivita')) {
-        $attivita_template = get_template_directory() . '/templates/page-attivita.php';
-
-        if (file_exists($attivita_template)) {
-            return $attivita_template;
-        }
-    }
-
     if (is_front_page()) {
         $front_page_template = get_template_directory() . '/templates/front-page.php';
 
