@@ -2594,53 +2594,94 @@ textarea:focus,
   background: rgba(14, 36, 50, 0.88);
   font-size: 1.1rem;
   font-weight: 700;
+  line-height: 1;
   text-decoration: none;
+  text-indent: 0;
+}
+
+#TB_closeWindowButton .tb-close-icon {
+  display: none;
+}
+
+#TB_closeWindowButton::before {
+  content: "\00D7";
+  font-size: 1.2rem;
 }
 
 #TB_prev,
 #TB_next {
-  display: none !important;
-}
-
-#TB_closeWindowButton:hover,
-#TB_closeWindowButton:focus-visible {
-  background: #0b6fbf;
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-.cs-attivita-lightbox-nav {
-  position: fixed;
-  z-index: 10006;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 50%;
+  z-index: 10004;
   width: 2.75rem;
   height: 2.75rem;
+  margin-top: -1.375rem;
   border-radius: 999px;
   border: 2px solid rgba(255, 255, 255, 0.9);
   background: rgba(14, 36, 50, 0.9);
-  color: #fff;
-  cursor: pointer;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
 }
 
-.cs-attivita-lightbox-nav span {
+#TB_prev {
+  left: -3.3rem;
+}
+
+#TB_next {
+  right: -3.3rem;
+}
+
+#TB_prev a,
+#TB_next a {
+  position: relative;
   display: block;
-  line-height: 1;
-  font-size: 1.7rem;
-  font-weight: 700;
+  width: 100%;
+  height: 100%;
+  color: transparent !important;
+  text-indent: -9999px;
+  text-decoration: none;
 }
 
-.cs-attivita-lightbox-nav:hover,
-.cs-attivita-lightbox-nav:focus-visible {
+#TB_prev a::before,
+#TB_next a::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+  text-indent: 0;
+}
+
+#TB_prev a::before {
+  content: "\2039";
+}
+
+#TB_next a::before {
+  content: "\203A";
+}
+
+#TB_closeWindowButton:hover,
+#TB_closeWindowButton:focus-visible,
+#TB_prev:hover,
+#TB_next:hover,
+#TB_prev:focus-within,
+#TB_next:focus-within {
   background: #0b6fbf;
   outline: 2px solid #fff;
   outline-offset: 2px;
 }
 
-.cs-attivita-lightbox-nav[hidden] {
-  display: none !important;
+@media (max-width: 56rem) {
+  #TB_prev {
+    left: 0.4rem;
+  }
+
+  #TB_next {
+    right: 0.4rem;
+  }
 }
 
 .page-attivita__image {
