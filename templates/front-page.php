@@ -29,6 +29,17 @@ if ($homepage_trasparenza_archive_url === '') {
 
 $homepage_orari_archive_url = (string) add_query_arg('cat', 'orari-funz', $homepage_trasparenza_archive_url);
 $homepage_calendar_archive_url = (string) add_query_arg('cat', 'calendario', $homepage_trasparenza_archive_url);
+$homepage_area_famiglie_archive_url = (string) get_post_type_archive_link('area-famiglie');
+if ($homepage_area_famiglie_archive_url === '') {
+  $homepage_area_famiglie_archive_url = (string) home_url('/area-famiglie/');
+}
+
+$homepage_moduli_iscrizione_url = (string) add_query_arg('cat', 'moduli-iscrizione', $homepage_area_famiglie_archive_url);
+$homepage_attivita_archive_url = (string) get_post_type_archive_link('attivita');
+if ($homepage_attivita_archive_url === '') {
+  $homepage_attivita_archive_url = (string) home_url('/attivita/');
+}
+
 $contacts_page = get_page_by_path('contatti');
 $contact_page_url = $contacts_page instanceof WP_Post
   ? (string) get_permalink($contacts_page)
@@ -126,9 +137,17 @@ $contact_page_url = $contacts_page instanceof WP_Post
       <h2 class="hp-servizi__title">Tutto a portata di clic.</h2>
     </header>
     <div class="hp-servizi__grid">
-      <a class="hp-servizi__card" href="<?php echo esc_url($contact_page_url); ?>">
-        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">contact_support</span>
-        <h4 class="hp-servizi__label">Contattaci</h4>
+      <a class="hp-servizi__card" href="<?php echo esc_url($homepage_moduli_iscrizione_url); ?>">
+        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">assignment</span>
+        <h4 class="hp-servizi__label">Moduli iscrizione</h4>
+      </a>
+      <a class="hp-servizi__card" href="<?php echo esc_url($homepage_area_famiglie_archive_url); ?>">
+        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">groups</span>
+        <h4 class="hp-servizi__label">Area famiglie</h4>
+      </a>
+      <a class="hp-servizi__card" href="<?php echo esc_url($homepage_attivita_archive_url); ?>">
+        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">celebration</span>
+        <h4 class="hp-servizi__label">Attivita</h4>
       </a>
     </div>
   </div>
