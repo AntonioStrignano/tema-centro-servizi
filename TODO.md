@@ -217,6 +217,17 @@
 
 Nota: check manuale mobile header/search rimandato come rifinitura non bloccante.
 
+### Aggiornamento sessione (18/06/2026) — Contrasto CTA e link visited
+
+### Completato
+
+- [x] Eseguito audit contrasto completo WCAG AA e tracciato in `docs/CONTRASTO-AUDIT-2026-06-18.md`
+- [x] Applicati fix contrasto su contesto burocratico (`assets/css/area-burocratica.css`): muted text + border strong
+- [x] Applicati fix contrasto su header/footer (`assets/css/site-header.css`, `assets/css/site-footer.css`): menu header, eyebrow/lead/label footer
+- [x] Hardening link visited su CTA/header e bottoni colorati (`assets/css/site-header.css`, `assets/css/site.css`)
+- [x] Uniformato comportamento visited per bottoni con sfondo colorato: testo bianco persistente anche dopo click (`.site-header__cta`, `.btn--primary`, `.btn--tertiary`, `.hp-docs__link`, `.pagination .page-numbers.current`)
+- [x] Corretto visited globale in `assets/css/site.css` per evitare regressioni di contrasto sui link-bottone
+
 ### Colonne admin CPT da aggiungere (scope minimo)
 
 - [x] `attivita`: Anno scolastico, Data, Sezione
@@ -249,8 +260,8 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
   - [x] Riallineare `README.md` allo stato reale (evitare note placeholder)
   - [x] Verificare coerenza tra `TODO.md`, `PROGETTO.md` e implementazione corrente (template legali, paginazione, seed pagine)
   - [x] Aggiornare data ultimo allineamento documentale e log breve delle discrepanze risolte
-  - [x] Data allineamento: 15/06/2026
-  - [x] Log discrepanze risolte: template legali unificati su `templates/page-legale.php`; archivio trasparenza riallineato a `archive-area-burocratica-common.php`; riferimento JS header corretto a `assets/js/site-header.js`; rimosse note placeholder da `README.md`
+  - [x] Data allineamento: 18/06/2026
+  - [x] Log discrepanze risolte: template legali unificati su `templates/page-legale.php`; archivio trasparenza riallineato a `archive-area-burocratica-common.php`; riferimento JS header corretto a `assets/js/site-header.js`; rimosse note placeholder da `README.md`; audit contrasto e hardening visited CTA/bottoni colorati allineati in tutta la documentazione.
 - [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, fallback contatto privacy, DPA Google, shortcode CookieYes, link AGID)
 - [ ] Verifica manuale migrazione v3 pagine legali gia' seedate nel pannello admin
 - [ ] Audit accessibilità con axe-core

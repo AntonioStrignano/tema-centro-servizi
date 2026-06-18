@@ -1,6 +1,6 @@
 # Tema WordPress "Centro Servizi" — Documento di Progetto
 
-> Ultimo allineamento documentale: 15/06/2026
+> Ultimo allineamento documentale: 18/06/2026
 
 ## 1. Overview
 
@@ -52,7 +52,7 @@ Le scuole paritarie rientrano tra i soggetti obbligati dal D.Lgs 106/2018.
 | A2  | **Landmark ARIA**           | `<header role="banner">`, `<nav role="navigation">`, `<main role="main">`, `<footer role="contentinfo">`   |
 | A3  | **Heading gerarchici**      | Un solo `<h1>` per pagina, gerarchia sequenziale senza salti                                               |
 | A4  | **Focus visibile**          | Outline visibile su tutti gli elementi interattivi, mai `outline: none` senza alternativa                  |
-| A5  | **Contrasto colore**        | Minimo 4.5:1 testo normale, 3:1 testo grande (verrà verificato nella fase estetica)                        |
+| A5  | **Contrasto colore**        | Minimo 4.5:1 testo normale, 3:1 testo grande (verificato con audit dedicato del 18/06/2026)                |
 | A6  | **Testo ridimensionabile**  | Layout in `rem`/`em`, nessun testo in px fissi, funzionale fino a 200% zoom                                |
 | A7  | **Alt text immagini**       | Campo alt obbligatorio su tutte le immagini; decorative → `alt=""` + `role="presentation"`                 |
 | A8  | **Navigazione da tastiera** | Tab order logico, tutti i controlli raggiungibili da tastiera, nessun keyboard trap                        |
@@ -64,6 +64,8 @@ Le scuole paritarie rientrano tra i soggetti obbligati dal D.Lgs 106/2018.
 | A14 | **Breadcrumb**              | Custom nel tema con `<nav aria-label="Breadcrumb">` e `<ol>` strutturato con `aria-current="page"`         |
 | A15 | **Responsive**              | Mobile-first, usabile con screen reader su mobile                                                          |
 | A16 | **Riduzione movimento**     | Rispettare `prefers-reduced-motion` per animazioni/carosello                                               |
+
+Stato A5 aggiornato (18/06/2026): audit contrasto eseguito e fix principali applicati. Tracciamento operativo in `docs/CONTRASTO-AUDIT-2026-06-18.md` e `TODO.md`.
 
 ### 3.3 Dichiarazione di Accessibilità (obbligatoria)
 

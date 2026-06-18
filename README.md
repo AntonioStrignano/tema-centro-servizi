@@ -4,11 +4,12 @@ Tema WordPress classico per scuole paritarie, con focus su compliance italiana (
 
 ## Stato progetto
 
-- Ultimo allineamento documentale: 15/06/2026
+- Ultimo allineamento documentale: 18/06/2026
 - Tema attivo con struttura templates/partials/inc consolidata
 - Pagine legali gestite da template unico `templates/page-legale.php` su slug riservati, con seed dinamico e fallback contatti privacy amministrabili
 - Archivi burocratici unificati in `templates/archive-area-burocratica-common.php`
 - Paginazione accessibile attiva negli archivi principali (`partials/pagination.php`)
+- Audit contrasto WCAG AA eseguito con fix applicati su header/footer/contesto burocratico e hardening stato `:visited` per CTA e bottoni colorati
 
 ## Struttura principale
 
@@ -33,6 +34,7 @@ Tema WordPress classico per scuole paritarie, con focus su compliance italiana (
 - `PROGETTO.md`: specifica funzionale/tecnica estesa
 - `DESIGN.md`: linee visual e design system
 - `docs/`: audit, normativa, handoff, registri compliance
+- `docs/CONTRASTO-AUDIT-2026-06-18.md`: audit contrasto completo + stato esecuzione fix
 
 ## Prossime priorita
 
