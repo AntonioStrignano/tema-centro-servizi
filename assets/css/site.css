@@ -1734,7 +1734,7 @@ a {
 }
 
 a:visited {
-  color: var(--ui-primary-strong);
+  color: var(--ui-primary);
 }
 
 a:focus,

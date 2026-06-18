@@ -305,6 +305,10 @@
   text-decoration: none;
 }
 
+.site-header__cta:visited {
+  color: #ffffff;
+}
+
 .site-header a:focus-visible,
 .site-header button:focus-visible,
 .site-header input:focus-visible {

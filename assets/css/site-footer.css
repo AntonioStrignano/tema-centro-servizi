@@ -137,7 +137,7 @@
 
 .site-footer a,
 .site-footer a:visited {
-  color: color-mix(in srgb, var(--stitch-surface) 84%, transparent);
+  color: color-mix(in srgb, var(--stitch-surface) 92%, transparent);
   text-decoration: none;
 }
 
