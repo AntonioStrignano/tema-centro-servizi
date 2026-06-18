@@ -149,6 +149,10 @@ $contact_page_url = $contacts_page instanceof WP_Post
         <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">celebration</span>
         <h4 class="hp-servizi__label">Attivita</h4>
       </a>
+      <a class="hp-servizi__card" href="<?php echo esc_url($contact_page_url); ?>">
+        <span class="material-symbols-outlined hp-servizi__icon" aria-hidden="true">contact_support</span>
+        <h4 class="hp-servizi__label">Contattaci</h4>
+      </a>
     </div>
   </div>
 </section>

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiunge link per l'area famiglie e i moduli di iscrizione nella homepage',
-    'commit_hash'  => 'ee08a4950',
-    'deployed_at'  => '2026-06-18 11:54:56',
+    'commit_title' => 'add contatti in home',
+    'commit_hash'  => '950cb1a7e',
+    'deployed_at'  => '2026-06-18 11:56:30',
 ];
