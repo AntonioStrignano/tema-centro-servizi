@@ -47,11 +47,13 @@ $sections = function_exists('centro_servizi_get_attivita_sections')
                                     <div class="page-attivita__gallery" role="list" aria-label="Galleria <?php echo esc_attr($section_title); ?>">
                                         <?php foreach ($section_images as $index => $image) : ?>
                                             <?php
-                                            if (! is_array($image)) {
-                                                continue;
+                                            $attachment_id = 0;
+                                            if (is_array($image)) {
+                                                $attachment_id = (int) ($image['ID'] ?? $image['id'] ?? 0);
+                                            } else {
+                                                $attachment_id = absint($image);
                                             }
 
-                                            $attachment_id = (int) ($image['ID'] ?? $image['id'] ?? 0);
                                             if ($attachment_id <= 0) {
                                                 continue;
                                             }

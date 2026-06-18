@@ -546,9 +546,24 @@ function centro_servizi_render_attivita_admin_page(): void
     <?php
 }
 
-function centro_servizi_get_attivita_image_alt(array $image, string $section_title, int $index = 0): string
+function centro_servizi_get_attivita_image_alt($image, string $section_title, int $index = 0): string
 {
-    $alt = trim((string) ($image['alt'] ?? ''));
+    $attachment_id = 0;
+    $alt = '';
+
+    if (is_array($image)) {
+        $attachment_id = (int) ($image['ID'] ?? $image['id'] ?? 0);
+        $alt = trim((string) ($image['alt'] ?? ''));
+    } else {
+        $attachment_id = absint($image);
+    }
+
+    if ($alt === '' && $attachment_id > 0) {
+        $stored_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+        if (is_string($stored_alt)) {
+            $alt = trim($stored_alt);
+        }
+    }
 
     if ($alt !== '') {
         return $alt;
