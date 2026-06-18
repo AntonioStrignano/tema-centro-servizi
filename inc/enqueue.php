@@ -9,7 +9,9 @@ add_action('wp_enqueue_scripts', 'centro_servizi_enqueue_assets');
 
 function centro_servizi_enqueue_assets(): void
 {
-    if (! is_admin()) {
+    $is_attivita_page = is_page('attivita');
+
+    if (! is_admin() && ! $is_attivita_page) {
         wp_deregister_script('jquery');
     }
 
@@ -23,6 +25,11 @@ function centro_servizi_enqueue_assets(): void
         (string) filemtime($theme_dir . '/assets/js/site-header.js'),
         true
     );
+
+    if ($is_attivita_page) {
+        wp_enqueue_style('thickbox');
+        wp_enqueue_script('thickbox');
+    }
 
     $is_bureaucratic_context = function_exists('centro_servizi_is_bureaucratic_context')
         && centro_servizi_is_bureaucratic_context();

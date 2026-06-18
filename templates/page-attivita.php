@@ -26,7 +26,7 @@ $sections = function_exists('centro_servizi_get_attivita_sections')
 
                     <?php if ($sections !== []) : ?>
                         <div class="page-attivita__sections">
-                            <?php foreach ($sections as $section) : ?>
+                            <?php foreach ($sections as $section_index => $section) : ?>
                                 <?php
                                 $section_title = isset($section['titolo']) ? trim((string) $section['titolo']) : '';
                                 $section_caption = isset($section['didascalia']) ? trim((string) $section['didascalia']) : '';
@@ -61,13 +61,33 @@ $sections = function_exists('centro_servizi_get_attivita_sections')
                                             $alt_text = function_exists('centro_servizi_get_attivita_image_alt')
                                                 ? centro_servizi_get_attivita_image_alt($image, $section_title, (int) $index)
                                                 : 'bambini che fanno attività scolastica: ' . $section_title;
+                                            $full_image_url = wp_get_attachment_image_url($attachment_id, 'full');
+                                            $link_title = $section_title;
+                                            if ($section_caption !== '') {
+                                                $link_title .= ' - ' . $section_caption;
+                                            }
                                             ?>
                                             <figure class="page-attivita__figure" role="listitem">
-                                                <?php echo wp_get_attachment_image($attachment_id, 'gallery-medium', false, [
-                                                    'class' => 'page-attivita__image',
-                                                    'alt' => $alt_text,
-                                                    'loading' => 'lazy',
-                                                ]); ?>
+                                                <?php if (is_string($full_image_url) && $full_image_url !== '') : ?>
+                                                    <a
+                                                        class="page-attivita__lightbox thickbox"
+                                                        href="<?php echo esc_url($full_image_url); ?>"
+                                                        title="<?php echo esc_attr($link_title); ?>"
+                                                        rel="attivita-gallery-<?php echo esc_attr((string) $section_index); ?>"
+                                                    >
+                                                        <?php echo wp_get_attachment_image($attachment_id, 'gallery-medium', false, [
+                                                            'class' => 'page-attivita__image',
+                                                            'alt' => $alt_text,
+                                                            'loading' => 'lazy',
+                                                        ]); ?>
+                                                    </a>
+                                                <?php else : ?>
+                                                    <?php echo wp_get_attachment_image($attachment_id, 'gallery-medium', false, [
+                                                        'class' => 'page-attivita__image',
+                                                        'alt' => $alt_text,
+                                                        'loading' => 'lazy',
+                                                    ]); ?>
+                                                <?php endif; ?>
                                             </figure>
                                         <?php endforeach; ?>
                                     </div>
