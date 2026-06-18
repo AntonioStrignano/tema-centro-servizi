@@ -148,6 +148,10 @@ button {
   font-weight: 700;
 }
 
+.pagination .page-numbers.current:visited {
+  color: #fff;
+}
+
 .search-page__inner {
   display: grid;
   gap: 1.5rem;
@@ -2054,10 +2058,12 @@ textarea:focus,
 }
 .btn:hover { text-decoration: none; }
 
-.btn--primary { background: var(--stitch-primary); color: #fff; border-color: var(--stitch-primary); }
+.btn--primary,
+.btn--primary:visited { background: var(--stitch-primary); color: #fff; border-color: var(--stitch-primary); }
 .btn--primary:hover { opacity: 0.9; }
 
-.btn--tertiary { background: var(--stitch-tertiary); color: #fff; border-color: var(--stitch-tertiary); }
+.btn--tertiary,
+.btn--tertiary:visited { background: var(--stitch-tertiary); color: #fff; border-color: var(--stitch-tertiary); }
 .btn--tertiary:hover { opacity: 0.9; }
 
 .btn--outline-primary { background: transparent; color: var(--stitch-primary); border-color: var(--stitch-primary); }
@@ -2278,6 +2284,10 @@ textarea:focus,
 .hp-docs__link:hover { background: rgba(255, 255, 255, 0.22); text-decoration: none; }
 .hp-docs__link .material-symbols-outlined { transition: transform 0.2s; }
 .hp-docs__link:hover .material-symbols-outlined { transform: translateX(3px); }
+
+.hp-docs__link:visited {
+  color: #fff;
+}
 
 .hp-docs__summary {
   font-family: var(--font-body-family, Arial, sans-serif);
