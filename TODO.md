@@ -249,7 +249,7 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 - [x] Attivata gallery frontend con modale (Thickbox), navigazione tastiera (`←`, `→`, `Esc`) e controlli accessibili
 - [x] Rifinita UI modale gallery: barra titolo/chiusura sopra immagine, frecce visibili ad alto contrasto
 - [x] Breadcrumb portata in orizzontale e ridotto gap verticale tra header e contenuto
-- [ ] Popolare la nuova pagina `Attività` con i primi contenuti reali e verificare resa frontend
+- [x] Popolata la nuova pagina `Attività` con i primi contenuti reali e verificata resa frontend
 
 ---
 
@@ -263,11 +263,11 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
   - [x] Data allineamento: 18/06/2026
   - [x] Log discrepanze risolte: template legali unificati su `templates/page-legale.php`; archivio trasparenza riallineato a `archive-area-burocratica-common.php`; riferimento JS header corretto a `assets/js/site-header.js`; rimosse note placeholder da `README.md`; audit contrasto e hardening visited CTA/bottoni colorati allineati in tutta la documentazione.
 - [ ] **Revisione pagine obbligatorie generate dal seed** — rileggere i testi di Privacy Policy, Cookie Policy, Dichiarazione Accessibilità, Whistleblowing e aggiornare se necessario (normativa, fallback contatto privacy, DPA Google, shortcode CookieYes, link AGID)
-- [ ] Verifica manuale migrazione v3 pagine legali gia' seedate nel pannello admin
+- [x] Verifica manuale migrazione v3 pagine legali gia' seedate nel pannello admin (base completata)
 - [ ] Audit accessibilità con axe-core
 - [ ] Audit Lighthouse (performance + accessibility)
-- [ ] Navigazione completa da tastiera (tab, enter, escape)
-- [ ] Verifica HTML valido (W3C validator)
+- [ ] Navigazione completa da tastiera — passata finale end-to-end go-live (tab, enter, escape, modali e filtri)
+- [ ] Verifica HTML valido — passata finale W3C sulle pagine chiave
 - [ ] Test screen reader (VoiceOver su macOS)
 - [ ] Preparare e pubblicare dichiarazione di accessibilità finale quando struttura, contenuti e feedback channel sono stabili
 - [ ] Verifica tutti i link obbligatori nel footer
@@ -324,7 +324,7 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 
 ### Da fare prima di go-live
 
-- [ ] **Audit contrasti WCAG AA** su pagine legali e burocratiche (area-famiglie, area-personale, trasparenza)
+- [x] **Audit contrasti WCAG AA** su pagine legali e burocratiche (area-famiglie, area-personale, trasparenza)
 - [ ] **Completamento pagine obbligatorie lato cliente**:
   - [ ] Whistleblowing: link piattaforma GlobaLeaks + responsabile canale interno
   - [ ] Dichiarazione Accessibilità: compilare su form.agid.gov.it (link generico)
