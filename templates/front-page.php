@@ -22,8 +22,13 @@ $homepage_title = centro_servizi_get_homepage_title();
 $homepage_subtitle = centro_servizi_get_homepage_subtitle();
 $homepage_contacts = centro_servizi_get_homepage_contacts();
 $homepage_map_embed_url = centro_servizi_get_homepage_map_embed_url();
-$homepage_orari_document = centro_servizi_get_homepage_latest_trasparenza_document('orari-funz', 'Orari di funzionamento');
-$homepage_calendar_document = centro_servizi_get_homepage_latest_trasparenza_document('calendario', 'Calendario scolastico');
+$homepage_trasparenza_archive_url = (string) get_post_type_archive_link('trasparenza');
+if ($homepage_trasparenza_archive_url === '') {
+  $homepage_trasparenza_archive_url = (string) home_url('/trasparenza/');
+}
+
+$homepage_orari_archive_url = (string) add_query_arg('cat', 'orari-funz', $homepage_trasparenza_archive_url);
+$homepage_calendar_archive_url = (string) add_query_arg('cat', 'calendario', $homepage_trasparenza_archive_url);
 $contacts_page = get_page_by_path('contatti');
 $contact_page_url = $contacts_page instanceof WP_Post
   ? (string) get_permalink($contacts_page)
@@ -90,28 +95,24 @@ $contact_page_url = $contacts_page instanceof WP_Post
           <span class="material-symbols-outlined hp-docs__icon" aria-hidden="true">schedule</span>
           <h2 class="hp-docs__title">Orari di funzionamento</h2>
         </div>
-        <p class="hp-docs__desc">Apri l'ultimo documento pubblicato sugli orari di funzionamento.</p>
-        <a class="hp-docs__link" href="<?php echo esc_url($homepage_orari_document['url']); ?>">
-          <span><?php echo esc_html($homepage_orari_document['title']); ?></span>
+        <p class="hp-docs__desc">Apri l'archivio Amministrazione Trasparente filtrato sugli orari di funzionamento.</p>
+        <a class="hp-docs__link" href="<?php echo esc_url($homepage_orari_archive_url); ?>">
+          <span>Vai alla sezione Orari di funzionamento</span>
           <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
         </a>
-        <?php if ($homepage_orari_document['summary'] !== '') : ?>
-        <p class="hp-docs__summary"><?php echo esc_html($homepage_orari_document['summary']); ?></p>
-        <?php endif; ?>
+        <p class="hp-docs__summary">Trovi tutti i documenti pubblicati nella categoria dedicata.</p>
       </div>
       <div class="hp-docs__card hp-docs__card--secondary">
         <div class="hp-docs__card-header">
           <span class="material-symbols-outlined hp-docs__icon" aria-hidden="true">calendar_month</span>
           <h2 class="hp-docs__title">Calendario scolastico</h2>
         </div>
-        <p class="hp-docs__desc">Consulta l'ultimo documento pubblicato sul calendario scolastico.</p>
-        <a class="hp-docs__link" href="<?php echo esc_url($homepage_calendar_document['url']); ?>">
-          <span><?php echo esc_html($homepage_calendar_document['title']); ?></span>
+        <p class="hp-docs__desc">Apri l'archivio Amministrazione Trasparente filtrato sul calendario scolastico.</p>
+        <a class="hp-docs__link" href="<?php echo esc_url($homepage_calendar_archive_url); ?>">
+          <span>Vai alla sezione Calendario scolastico</span>
           <span class="material-symbols-outlined" aria-hidden="true">event_note</span>
         </a>
-        <?php if ($homepage_calendar_document['summary'] !== '') : ?>
-        <p class="hp-docs__summary"><?php echo esc_html($homepage_calendar_document['summary']); ?></p>
-        <?php endif; ?>
+        <p class="hp-docs__summary">Trovi tutti i documenti pubblicati nella categoria dedicata.</p>
       </div>
     </div>
   </div>
