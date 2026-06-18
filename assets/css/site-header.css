@@ -296,7 +296,7 @@
   padding: 0.7rem 1.1rem;
   border-radius: 999px;
   background: var(--stitch-primary, var(--ui-primary));
-  color: var(--stitch-surface);
+  color: #ffffff;
   font-family: var(--font-label-family, var(--font-body-family, Arial, sans-serif));
   font-size: 0.8rem;
   font-weight: 700;
