@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'Aggiunge stili per migliorare la larghezza e il padding della sezione di ricerca',
-    'commit_hash'  => '29d6975ad',
-    'deployed_at'  => '2026-06-18 11:26:43',
+    'commit_title' => 'Rifinisce il layout della pagina di ricerca e aggiorna i colori nel footer e nell'intestazione',
+    'commit_hash'  => '40443a686',
+    'deployed_at'  => '2026-06-18 11:34:20',
 ];

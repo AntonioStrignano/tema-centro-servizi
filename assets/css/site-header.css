@@ -227,7 +227,7 @@
   align-items: center;
   min-height: 2.2rem;
   border-bottom: 2px solid transparent;
-  color: var(--stitch-text-muted, var(--ui-text-muted));
+  color: #2e3436;
   font-family: var(--font-label-family, var(--font-body-family, Arial, sans-serif));
   font-size: 0.82rem;
   font-weight: 700;

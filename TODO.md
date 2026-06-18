@@ -213,6 +213,7 @@
 - [x] Risultati `trasparenza`: titolo coerente con archivio + link ad archivio prefiltrato
 - [x] Risultati `area-famiglie` e `area-personale`: apertura su pagina singola dedicata
 - [x] Stato empty results verificato
+- [x] Rifinito layout `templates/search.php`: contenuto centrato con margini laterali (non piu attaccato a sinistra) e breadcrumb normalizzati sempre a sinistra (18/06/2026)
 
 Nota: check manuale mobile header/search rimandato come rifinitura non bloccante.
 
