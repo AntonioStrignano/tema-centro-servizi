@@ -27,44 +27,16 @@ if (have_posts()) {
 				<?php endif; ?>
 
 				<?php if (! empty($la_nostra_scuola) && is_array($la_nostra_scuola)) : ?>
-				<div class="la-nostra-scuola-grid">
-					<?php foreach ($la_nostra_scuola as $sezione) :
-						$titolo = isset($sezione['titolo']) ? (string) $sezione['titolo'] : '';
-						$immagine = isset($sezione['immagine']) && is_array($sezione['immagine'])
-							? $sezione['immagine']
-							: null;
-						$paragrafo = isset($sezione['paragrafo']) ? (string) $sezione['paragrafo'] : '';
-
-						if ($titolo === '') {
-							continue;
-						}
-						?>
-					<div class="la-nostra-scuola__item">
-						<?php if ($immagine !== null) : ?>
-						<figure class="la-nostra-scuola__figure">
-							<img
-								src="<?php echo esc_url((string) $immagine['url']); ?>"
-								alt="<?php echo esc_attr($titolo); ?>"
-								class="la-nostra-scuola__img"
-								loading="lazy"
-							/>
-						</figure>
-						<?php endif; ?>
-
-						<div class="la-nostra-scuola__content">
-							<h2 class="la-nostra-scuola__titolo"><?php echo esc_html($titolo); ?></h2>
-
-							<?php if ($paragrafo !== '') : ?>
-							<div class="la-nostra-scuola__paragrafo">
-								<?php echo wp_kses_post(wpautop($paragrafo)); ?>
-							</div>
-							<?php endif; ?>
-						</div>
-					</div>
-					<?php
-					endforeach;
-					?>
-				</div>
+					<?php get_template_part('partials/page-sezioni-grid', null, [
+						'items' => $la_nostra_scuola,
+						'grid_class' => 'la-nostra-scuola-grid',
+						'item_class' => 'la-nostra-scuola__item',
+						'figure_class' => 'la-nostra-scuola__figure',
+						'image_class' => 'la-nostra-scuola__img',
+						'content_class' => 'la-nostra-scuola__content',
+						'title_class' => 'la-nostra-scuola__titolo',
+						'paragraph_class' => 'la-nostra-scuola__paragrafo',
+					]); ?>
 				<?php endif; ?>
 			</div>
 		</article>

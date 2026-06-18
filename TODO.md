@@ -79,7 +79,7 @@
 - [x] Verificata assenza breadcrumb duplicato nei template pagina custom
 - [x] Verificati wrapper minimi per archivi `area-famiglie` e `area-personale` (riuso corretto di `archive-area-burocratica-common.php`)
 - [x] Dismesso `templates/archive-trasparenza.php` (duplicazione legacy non instradata dal runtime)
-- [ ] Ridurre duplicazione tra `templates/page-la-nostra-scuola.php` e `templates/page-attivita-speciali.php` con partial/template condiviso
+- [x] Ridurre duplicazione tra `templates/page-la-nostra-scuola.php` e `templates/page-attivita-speciali.php` con partial/template condiviso
 - [x] Ripulite variabili legacy non usate in `templates/front-page.php` (dati footer/legale già gestiti da `partials/footer.php`)
 
 ### Aggiornamento sessione (15/06/2026) — Paginazione accessibile
@@ -232,8 +232,11 @@ Nota: check manuale mobile header/search rimandato come rifinitura non bloccante
 
 - [x] Dismesso il post type `attivita` e relativi template/archivi: la gestione passa a una pagina dedicata
 - [x] Creato menu admin dedicato `Attività` che porta all'editor della pagina omonima
-- [x] Introdotto repeater ACF per sezioni attività con titolo, didascalia e gallery immagini
-- [x] Aggiunto fallback alt immagini: `bambini che fanno attività scolastica: [titolo sezione]`
+- [x] Introdotta gestione custom tema per sezioni attività (titolo, didascalia opzionale, gallery immagini ordinate)
+- [x] Aggiunto fallback alt immagini generico: `bambini che fanno attività didattiche`
+- [x] Attivata gallery frontend con modale (Thickbox), navigazione tastiera (`←`, `→`, `Esc`) e controlli accessibili
+- [x] Rifinita UI modale gallery: barra titolo/chiusura sopra immagine, frecce visibili ad alto contrasto
+- [x] Breadcrumb portata in orizzontale e ridotto gap verticale tra header e contenuto
 - [ ] Popolare la nuova pagina `Attività` con i primi contenuti reali e verificare resa frontend
 
 ---

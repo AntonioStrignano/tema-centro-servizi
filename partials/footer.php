@@ -5,10 +5,11 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-$accessibility_page  = get_page_by_path('dichiarazione-accessibilita');
-$obiettivi_page      = get_page_by_path('obiettivi-accessibilita');
-$whistleblowing_url  = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
-$footer_text         = trim((string) get_option('centro_servizi_footer_text', ''));
+$accessibility_page   = get_page_by_path('dichiarazione-accessibilita');
+$obiettivi_page       = get_page_by_path('obiettivi-accessibilita');
+$whistleblowing_page  = get_page_by_path('whistleblowing');
+$whistleblowing_url   = trim((string) get_option('centro_servizi_url_whistleblowing', ''));
+$footer_text          = trim((string) get_option('centro_servizi_footer_text', ''));
 
 $legal_company_name  = trim((string) get_option('centro_servizi_legal_company_name', ''));
 $legal_address       = trim((string) get_option('centro_servizi_legal_address', ''));
@@ -79,6 +80,20 @@ $feedback_url = $accessibility_feedback_url !== ''
     : ($accessibility_page instanceof WP_Post
         ? get_permalink($accessibility_page)
         : home_url('/dichiarazione-accessibilita/'));
+
+if ($whistleblowing_url !== '' && ! preg_match('#^https?://#i', $whistleblowing_url)) {
+    $whistleblowing_url = 'https://' . ltrim($whistleblowing_url, '/');
+}
+
+$home_base = untrailingslashit(home_url('/'));
+$has_external_whistleblowing = $whistleblowing_url !== ''
+    && untrailingslashit($whistleblowing_url) !== $home_base;
+
+if (! $has_external_whistleblowing) {
+    $whistleblowing_url = $whistleblowing_page instanceof WP_Post
+        ? get_permalink($whistleblowing_page)
+        : home_url('/whistleblowing/');
+}
 ?>
 <footer class="site-footer" id="footer-sito" role="contentinfo">
     <div class="site-footer__inner">
@@ -144,8 +159,8 @@ $feedback_url = $accessibility_feedback_url !== ''
                     <li><a href="<?php echo esc_url(get_post_type_archive_link('trasparenza') ?: home_url('/trasparenza/')); ?>">Amministrazione Trasparente</a></li>
                     <?php if ($whistleblowing_url !== '') : ?>
                         <li>
-                            <a href="<?php echo esc_url($whistleblowing_url); ?>" target="_blank" rel="noopener noreferrer">
-                                Whistleblowing <span class="sr-only">(apre in nuova finestra)</span>
+                            <a href="<?php echo esc_url($whistleblowing_url); ?>"<?php echo $has_external_whistleblowing ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>>
+                                Whistleblowing<?php if ($has_external_whistleblowing) : ?> <span class="sr-only">(apre in nuova finestra)</span><?php endif; ?>
                             </a>
                         </li>
                     <?php endif; ?>

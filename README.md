@@ -16,7 +16,7 @@ Tema WordPress classico per scuole paritarie, con focus su compliance italiana (
 - `inc/`: setup tema, CPT/tassonomie, settings admin, accessibility/search
 - `templates/`: page/front/search/archive/single
 - `partials/`: header/footer, card contenuti, breadcrumb, skip links, pagination
-- `assets/css/`: `site.css`, `site-header.css`, `site-footer.css`, `area-burocratica.css`, `legal-pages.css`
+- `assets/css/`: `site.css`, `site-header.css`, `site-footer.css`, `area-burocratica.css`
 - `assets/js/site-header.js`: hamburger menu accessibile + gestione stato pannello nav
 
 ## Routing attuale (sintesi)

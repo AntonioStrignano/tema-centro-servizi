@@ -27,44 +27,16 @@ if (have_posts()) {
 				<?php endif; ?>
 
 				<?php if (! empty($attivita_speciali) && is_array($attivita_speciali)) : ?>
-				<div class="attivita-speciali-grid">
-					<?php foreach ($attivita_speciali as $attivita) :
-						$titolo = isset($attivita['titolo']) ? (string) $attivita['titolo'] : '';
-						$immagine = isset($attivita['immagine']) && is_array($attivita['immagine'])
-							? $attivita['immagine']
-							: null;
-						$paragrafo = isset($attivita['paragrafo']) ? (string) $attivita['paragrafo'] : '';
-
-						if ($titolo === '') {
-							continue;
-						}
-						?>
-					<div class="attivita-speciali__item">
-						<?php if ($immagine !== null) : ?>
-						<figure class="attivita-speciali__figure">
-							<img
-								src="<?php echo esc_url((string) $immagine['url']); ?>"
-								alt="<?php echo esc_attr($titolo); ?>"
-								class="attivita-speciali__img"
-								loading="lazy"
-							/>
-						</figure>
-						<?php endif; ?>
-
-						<div class="attivita-speciali__content">
-							<h2 class="attivita-speciali__titolo"><?php echo esc_html($titolo); ?></h2>
-
-							<?php if ($paragrafo !== '') : ?>
-							<div class="attivita-speciali__paragrafo">
-								<?php echo wp_kses_post(wpautop($paragrafo)); ?>
-							</div>
-							<?php endif; ?>
-						</div>
-					</div>
-					<?php
-					endforeach;
-					?>
-				</div>
+					<?php get_template_part('partials/page-sezioni-grid', null, [
+						'items' => $attivita_speciali,
+						'grid_class' => 'attivita-speciali-grid',
+						'item_class' => 'attivita-speciali__item',
+						'figure_class' => 'attivita-speciali__figure',
+						'image_class' => 'attivita-speciali__img',
+						'content_class' => 'attivita-speciali__content',
+						'title_class' => 'attivita-speciali__titolo',
+						'paragraph_class' => 'attivita-speciali__paragrafo',
+					]); ?>
 				<?php endif; ?>
 			</div>
 		</article>
