@@ -151,6 +151,10 @@ button {
 .search-page__inner {
   display: grid;
   gap: 1.5rem;
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2rem);
 }
 
 .search-page__layout {
@@ -476,6 +480,10 @@ button {
 }
 
 @media (max-width: 48rem) {
+  .search-page__inner {
+    padding-inline: 1rem;
+  }
+
   .search-form__bar {
     grid-template-columns: minmax(0, 1fr);
   }
