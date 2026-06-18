@@ -2612,7 +2612,7 @@ textarea:focus,
 #TB_next {
   position: absolute;
   top: 50%;
-  z-index: 10004;
+  z-index: 100120;
   width: 2.75rem;
   height: 2.75rem;
   margin-top: -1.375rem;
@@ -2621,6 +2621,7 @@ textarea:focus,
   background: rgba(14, 36, 50, 0.9);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
   overflow: hidden;
+  display: block !important;
 }
 
 #TB_prev {
@@ -2642,8 +2643,11 @@ textarea:focus,
   text-decoration: none;
 }
 
+#TB_prev::before,
+#TB_next::before,
 #TB_prev a::before,
 #TB_next a::before {
+  content: "";
   position: absolute;
   left: 50%;
   top: 50%;
@@ -2655,10 +2659,12 @@ textarea:focus,
   text-indent: 0;
 }
 
+#TB_prev::before,
 #TB_prev a::before {
   content: "\2039";
 }
 
+#TB_next::before,
 #TB_next a::before {
   content: "\203A";
 }
