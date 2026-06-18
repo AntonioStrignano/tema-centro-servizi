@@ -39,9 +39,6 @@ $sections = function_exists('centro_servizi_get_attivita_sections')
                                 <section class="page-attivita__block">
                                     <header class="page-attivita__block-header">
                                         <h2 class="page-attivita__block-title"><?php echo esc_html($section_title); ?></h2>
-                                        <?php if ($section_caption !== '') : ?>
-                                            <p class="page-attivita__block-caption"><?php echo esc_html($section_caption); ?></p>
-                                        <?php endif; ?>
                                     </header>
 
                                     <div class="page-attivita__gallery" role="list" aria-label="Galleria <?php echo esc_attr($section_title); ?>">
@@ -63,9 +60,6 @@ $sections = function_exists('centro_servizi_get_attivita_sections')
                                                 : 'bambini che fanno attività scolastica: ' . $section_title;
                                             $full_image_url = wp_get_attachment_image_url($attachment_id, 'full');
                                             $link_title = $section_title;
-                                            if ($section_caption !== '') {
-                                                $link_title .= ' - ' . $section_caption;
-                                            }
                                             ?>
                                             <figure class="page-attivita__figure" role="listitem">
                                                 <?php if (is_string($full_image_url) && $full_image_url !== '') : ?>

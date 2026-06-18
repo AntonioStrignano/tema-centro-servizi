@@ -569,11 +569,5 @@ function centro_servizi_get_attivita_image_alt($image, string $section_title, in
         return $alt;
     }
 
-    $section_title = trim(wp_strip_all_tags($section_title));
-
-    if ($section_title !== '') {
-        return 'bambini che fanno attività scolastica: ' . $section_title;
-    }
-
-    return 'bambini che fanno attività scolastica';
+    return 'bambini che fanno attività didattiche';
 }

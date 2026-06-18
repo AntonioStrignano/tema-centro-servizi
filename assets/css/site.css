@@ -1730,6 +1730,55 @@ textarea:focus,
   color: inherit;
 }
 
+.site-breadcrumb {
+  max-width: 76rem;
+  margin: 0.85rem auto 0;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+.site-breadcrumb .breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ui-text-muted);
+  font-size: 0.92rem;
+}
+
+.site-breadcrumb .breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.8rem;
+}
+
+.site-breadcrumb .breadcrumb li + li::before {
+  content: "/";
+  margin-right: 0.55rem;
+  color: color-mix(in srgb, var(--ui-text-muted) 70%, #ffffff 30%);
+}
+
+.site-breadcrumb .breadcrumb a {
+  color: var(--ui-primary);
+  text-decoration: none;
+}
+
+.site-breadcrumb .breadcrumb a:hover,
+.site-breadcrumb .breadcrumb a:focus-visible {
+  text-decoration: underline;
+}
+
+.site-breadcrumb .breadcrumb [aria-current="page"] {
+  color: var(--ui-text);
+  font-weight: 600;
+}
+
+.site-breadcrumb + .site-main .page-basic__section {
+  padding-top: clamp(1.1rem, 2.6vw, 2rem);
+}
+
 .home-vitrine {
   --vitrine-brand: var(--ui-primary);
   --vitrine-brand-light: var(--color-main-light, #9cc1cf);
@@ -2487,6 +2536,80 @@ textarea:focus,
 .page-attivita__lightbox:hover,
 .page-attivita__lightbox:focus-visible {
   text-decoration: none;
+}
+
+#TB_overlay {
+  background: rgba(10, 18, 26, 0.88) !important;
+}
+
+#TB_window {
+  color: #132531;
+}
+
+#TB_caption {
+  color: #10202b;
+  font-weight: 600;
+}
+
+#TB_closeWindowButton {
+  color: #fff !important;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#TB_prev,
+#TB_next {
+  position: absolute;
+  top: 50%;
+  z-index: 10002;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-top: -1.3rem;
+  border-radius: 999px;
+  background: rgba(18, 35, 48, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  color: transparent !important;
+  overflow: hidden;
+}
+
+#TB_prev {
+  left: 0.75rem;
+}
+
+#TB_next {
+  right: 0.75rem;
+}
+
+#TB_prev::before,
+#TB_next::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+#TB_prev::before {
+  content: "\2039";
+}
+
+#TB_next::before {
+  content: "\203A";
+}
+
+#TB_prev:hover,
+#TB_next:hover,
+#TB_prev:focus-visible,
+#TB_next:focus-visible,
+#TB_closeWindowButton:hover,
+#TB_closeWindowButton:focus-visible {
+  background: #0b6fbf;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .page-attivita__image {

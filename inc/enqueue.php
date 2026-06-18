@@ -29,6 +29,13 @@ function centro_servizi_enqueue_assets(): void
     if ($is_attivita_page) {
         wp_enqueue_style('thickbox');
         wp_enqueue_script('thickbox');
+        wp_enqueue_script(
+            'centro-servizi-attivita-lightbox',
+            $theme_uri . '/assets/js/attivita-lightbox.js',
+            ['jquery', 'thickbox'],
+            (string) filemtime($theme_dir . '/assets/js/attivita-lightbox.js'),
+            true
+        );
     }
 
     $is_bureaucratic_context = function_exists('centro_servizi_is_bureaucratic_context')
