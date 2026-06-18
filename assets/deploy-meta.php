@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'add contatti in home',
-    'commit_hash'  => '950cb1a7e',
-    'deployed_at'  => '2026-06-18 11:56:30',
+    'commit_title' => 'Aggiunge stili per la lista di navigazione nel footer',
+    'commit_hash'  => '96c85fe57',
+    'deployed_at'  => '2026-06-18 12:00:18',
 ];

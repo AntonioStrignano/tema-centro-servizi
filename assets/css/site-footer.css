@@ -85,6 +85,9 @@
 }
 
 .site-footer nav .menu,
+.site-footer nav .menu ul,
+.site-footer nav .menu .sub-menu,
+.site-footer nav .menu .children,
 .site-footer__list {
   list-style: none;
   margin: 0;
@@ -92,6 +95,9 @@
 }
 
 .site-footer nav .menu,
+.site-footer nav .menu ul,
+.site-footer nav .menu .sub-menu,
+.site-footer nav .menu .children,
 .site-footer__list {
   display: flex;
   flex-direction: column;
@@ -100,7 +106,13 @@
 
 .site-footer nav .menu li,
 .site-footer__list li {
+  list-style: none;
   position: relative;
+}
+
+.site-footer nav .menu li::marker,
+.site-footer__list li::marker {
+  content: "";
 }
 
 .site-footer nav .menu li::before,
