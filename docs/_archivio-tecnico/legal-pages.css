@@ -1,0 +1,163 @@
+body.page-privacy-policy,
+body.page-cookie-policy,
+body.page-dichiarazione-accessibilita,
+body.page-whistleblowing,
+body.page-obiettivi-accessibilita,
+body.page-amministrazione-trasparente {
+  background: #ffffff;
+  color: #3c3c3c;
+  font-family: "Roboto", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+}
+
+body.page-privacy-policy a,
+body.page-cookie-policy a,
+body.page-dichiarazione-accessibilita a,
+body.page-whistleblowing a,
+body.page-obiettivi-accessibilita a,
+body.page-amministrazione-trasparente a {
+  color: #1f4f8c;
+}
+
+body.page-privacy-policy a:focus,
+body.page-cookie-policy a:focus,
+body.page-dichiarazione-accessibilita a:focus,
+body.page-whistleblowing a:focus,
+body.page-obiettivi-accessibilita a:focus,
+body.page-amministrazione-trasparente a:focus,
+body.page-privacy-policy button:focus,
+body.page-cookie-policy button:focus,
+body.page-dichiarazione-accessibilita button:focus,
+body.page-whistleblowing button:focus,
+body.page-obiettivi-accessibilita button:focus,
+body.page-amministrazione-trasparente button:focus,
+body.page-privacy-policy input:focus,
+body.page-cookie-policy input:focus,
+body.page-dichiarazione-accessibilita input:focus,
+body.page-whistleblowing input:focus,
+body.page-obiettivi-accessibilita input:focus,
+body.page-amministrazione-trasparente input:focus,
+body.page-privacy-policy select:focus,
+body.page-cookie-policy select:focus,
+body.page-dichiarazione-accessibilita select:focus,
+body.page-whistleblowing select:focus,
+body.page-obiettivi-accessibilita select:focus,
+body.page-amministrazione-trasparente select:focus,
+body.page-privacy-policy textarea:focus,
+body.page-cookie-policy textarea:focus,
+body.page-dichiarazione-accessibilita textarea:focus,
+body.page-whistleblowing textarea:focus,
+body.page-obiettivi-accessibilita textarea:focus,
+body.page-amministrazione-trasparente textarea:focus,
+body.page-privacy-policy [tabindex]:focus,
+body.page-cookie-policy [tabindex]:focus,
+body.page-dichiarazione-accessibilita [tabindex]:focus,
+body.page-whistleblowing [tabindex]:focus,
+body.page-obiettivi-accessibilita [tabindex]:focus,
+body.page-amministrazione-trasparente [tabindex]:focus {
+  outline: 3px solid #1f4f8c;
+  outline-offset: 2px;
+}
+
+.pagina-legale-sober {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #3c3c3c;
+  font-family: "Roboto", "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+}
+
+.pagina-legale-sober .site-section__inner {
+  max-width: var(--site-content-max-width, 93.75rem);
+}
+
+.pagina-legale-sober__title {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #2f2f2f;
+}
+
+.pagina-legale-sober__meta {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #4a4a4a;
+}
+
+.pagina-legale-sober__meta time {
+  font-weight: 400;
+}
+
+.pagina-legale-sober__content {
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #3c3c3c;
+  overflow-wrap: anywhere;
+}
+
+.pagina-legale-sober__content h2,
+.pagina-legale-sober__content h3,
+.pagina-legale-sober__content h4,
+.pagina-legale-sober__content h5,
+.pagina-legale-sober__content h6 {
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+  color: #2f2f2f;
+}
+
+.pagina-legale-sober__content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.pagina-legale-sober__content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.pagina-legale-sober__content p,
+.pagina-legale-sober__content li,
+.pagina-legale-sober__content dd {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.pagina-legale-sober__content small {
+  font-size: 0.9rem;
+  color: #5b5b5b;
+}
+
+.pagina-legale-sober__content iframe,
+.pagina-legale-sober__content embed,
+.pagina-legale-sober__content object,
+.pagina-legale-sober__content video,
+.pagina-legale-sober__content img {
+  max-width: 100%;
+}
+
+.pagina-legale-sober__content iframe {
+  width: 100%;
+}
+
+.pagina-legale-sober__content table,
+.pagina-legale-sober__content .tablepress {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 48rem) {
+  .pagina-legale-sober {
+    padding: 0;
+  }
+
+  .pagina-legale-sober__title {
+    font-size: 1.6rem;
+  }
+}

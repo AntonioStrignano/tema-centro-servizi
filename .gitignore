@@ -13,8 +13,8 @@ Thumbs.db
 *.swo
 
 # Documentazione interna (non va nel repo)
-docs/
-*.md
+# docs/
+# *.md
 
 # Sample locali per analisi/layout (non vanno nel repo)
 samples/

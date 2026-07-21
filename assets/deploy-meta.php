@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 return [
     'channel'      => 'git-push',
-    'commit_title' => 'pulziia todo',
-    'commit_hash'  => '33001111c',
-    'deployed_at'  => '2026-06-18 12:09:13',
+    'commit_title' => 'push doc',
+    'commit_hash'  => 'a57830598',
+    'deployed_at'  => '2026-07-21 09:40:08',
 ];
